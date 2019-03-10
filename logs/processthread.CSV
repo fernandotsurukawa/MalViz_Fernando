@@ -1,0 +1,662 @@
+﻿"Time of Day","Process Name","PID","Operation","Path","Result","Detail"
+"23:07:15.3791404","System","4","Thread Create","","SUCCESS","Thread ID: 460"
+"23:07:15.3799392","lsass.exe","704","Thread Create","","SUCCESS","Thread ID: 6776"
+"23:07:15.5328424","chrome.exe","4840","Thread Exit","","SUCCESS","Thread ID: 11748, User Time: 0.1093750, Kernel Time: 0.0000000"
+"23:07:16.0991615","svchost.exe","3604","Thread Exit","","SUCCESS","Thread ID: 11716, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:16.4099400","chrome.exe","10296","Thread Create","","SUCCESS","Thread ID: 6720"
+"23:07:16.4206664","chrome.exe","10852","Thread Exit","","SUCCESS","Thread ID: 4960, User Time: 0.3281250, Kernel Time: 0.0468750"
+"23:07:16.4614789","chrome.exe","10296","Thread Create","","SUCCESS","Thread ID: 11284"
+"23:07:19.2883183","SkypeApp.exe","428","Thread Exit","","SUCCESS","Thread ID: 7060, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:19.5420824","chrome.exe","10852","Thread Create","","SUCCESS","Thread ID: 9980"
+"23:07:19.7795379","chrome.exe","8724","Thread Exit","","SUCCESS","Thread ID: 6952, User Time: 0.0000000, Kernel Time: 0.0156250"
+"23:07:20.0850766","MsMpEng.exe","3984","Thread Create","","SUCCESS","Thread ID: 4956"
+"23:07:20.3010328","chrome.exe","8724","Thread Exit","","SUCCESS","Thread ID: 10620, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:20.4217776","sihost.exe","3468","Thread Create","","SUCCESS","Thread ID: 5308"
+"23:07:20.7638826","svchost.exe","5324","Thread Exit","","SUCCESS","Thread ID: 11988, User Time: 0.0000000, Kernel Time: 0.0156250"
+"23:07:21.9855374","svchost.exe","1732","Thread Create","","SUCCESS","Thread ID: 5108"
+"23:07:22.2711083","svchost.exe","2076","Thread Create","","SUCCESS","Thread ID: 9524"
+"23:07:22.2714345","svchost.exe","2076","Thread Create","","SUCCESS","Thread ID: 10364"
+"23:07:23.2403944","svchost.exe","2076","Thread Create","","SUCCESS","Thread ID: 5776"
+"23:07:23.7600895","chrome.exe","8724","Thread Create","","SUCCESS","Thread ID: 9232"
+"23:07:24.2206944","chrome.exe","4840","Thread Create","","SUCCESS","Thread ID: 8884"
+"23:07:24.4624397","svchost.exe","2456","Thread Create","","SUCCESS","Thread ID: 5132"
+"23:07:25.0415487","chrome.exe","8724","Process Create","C:\Program Files (x86)\Google\Chrome\Application\chrome.exe","SUCCESS","PID: 4252, Command line: ""C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"" --type=renderer --field-trial-handle=1612,8794005255836107264,1022765379407270454,131072 --service-pipe-token=745873454358728730 --lang=en-US --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --device-scale-factor=1 --num-raster-threads=2 --enable-main-frame-before-activation --service-request-channel-token=745873454358728730 --renderer-client-id=627 --no-v8-untrusted-code-mitigations --mojo-platform-channel-handle=13352 /prefetch:1"
+"23:07:25.0415625","chrome.exe","4252","Process Start","","SUCCESS","Parent PID: 8724, Command line: ""C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"" --type=renderer --field-trial-handle=1612,8794005255836107264,1022765379407270454,131072 --service-pipe-token=745873454358728730 --lang=en-US --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --device-scale-factor=1 --num-raster-threads=2 --enable-main-frame-before-activation --service-request-channel-token=745873454358728730 --renderer-client-id=627 --no-v8-untrusted-code-mitigations --mojo-platform-channel-handle=13352 /prefetch:1, Current directory: C:\Program Files (x86)\Google\Chrome\Application\71.0.3578.98\, Environment: ;	=::=::\;	ALLUSERSPROFILE=C:\ProgramData;	APPDATA=C:\Users\USER\AppData\Roaming;	asl.log=Destination=file;	CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_8724_MJJUPWLFYMMYZABW;	CHROME_RESTART=Google Chrome|Whoa! Google Chrome has crashed. Relaunch now?|LEFT_TO_RIGHT;	CommonProgramFiles=C:\Program Files\Common Files;	CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files;	CommonProgramW6432=C:\Program Files\Common Files;	COMPUTERNAME=TETRIMINO;	ComSpec=C:\WINDOWS\system32\cmd.exe;	C_EM64T_REDIST11=C:\Program Files (x86)\Common Files\Intel\Shared Files\cpp\;	HOMEDRIVE=C:;	HOMEPATH=\Users\USER;	JAVA_HOME=C:\Program Files\Java\jdk1.8.0_91;	LOCALAPPDATA=C:\Users\USER\AppData\Local;	LOGONSERVER=\\TETRIMINO;	MOZ_PLUGIN_PATH=C:\Program Files (x86)\Foxit Software\Foxit Reader\plugins\;	MTPPKROOT=C:\WMSDK\MTPPK12\Responder;	NUMBER_OF_PROCESSORS=4;	OneDrive=C:\Users\USER\OneDrive - Texas Tech University;	OneDriveCommercial=C:\Users\USER\OneDrive - Texas Tech University;	OS=Windows_NT;	Path=C:\Program Files (x86)\Google\Chrome\Application;C:\Program Files\Java\jdk1.8.0_91\bin;C:\Program Files\Java\jdk1.8.0_91\include;D:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Python27\;D:\Setup\OpenCV\opencv\build\x64\vc14\bin;C:\ffmpeg\bin;C:\Program Files\CMake\bin;C:\Program Files\MATLAB\R2017a\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\Users\USER\Anaconda3;C:\Users\USER\Anaconda3\Scripts;C:\Program Files\PuTTY\;C:\Program Files\Java\jdk1.8.0_91\bin;C:\Program Files\Java\jdk1.8.0_91\include;D:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Python27\;D:\Setup\OpenCV\opencv\build\x64\vc14\bin;C:\ffmpeg\bin;C:\Program Files\CMake\bin;C:\Program Files\MATLAB\R2017a\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\Git\cmd;C:\Users\USER\Anaconda3\bin;C:\Program Files\Java\jdk1.8.0_91\bin;C:\Program Files\Java\jdk1.8.0_91\include;D:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Python27\;D:\Setup\OpenCV\opencv\build\x64\vc14\bin;C:\ffmpeg\bin;C:\Program Files\CMake\bin;C:\Program Files\MATLAB\R2017a\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\Git\cmd;\bin;C:\Users\USER\AppData\Local\Microsoft\WindowsApps;C:\Users\USER\AppData\Roaming\Composer\vendor\bin;C:\Us;C:\Users\USER\Anaconda3\Scripts;C:\Users\USER\Anaconda3;;	PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;	PROCESSOR_ARCHITECTURE=AMD64;	PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 69 Stepping 1, GenuineIntel;	PROCESSOR_LEVEL=6;	PROCESSOR_REVISION=4501;	ProgramData=C:\ProgramData;	ProgramFiles=C:\Program Files;	ProgramFiles(x86)=C:\Program Files (x86);	ProgramW6432=C:\Program Files;	PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules;	PUBLIC=C:\Users\Public;	SESSIONNAME=Console;	SystemDrive=C:;	SystemRoot=C:\WINDOWS;	TEMP=C:\Users\USER\AppData\Local\Temp;	TMP=C:\Users\USER\AppData\Local\Temp;	USERDOMAIN=TETRIMINO;	USERDOMAIN_ROAMINGPROFILE=TETRIMINO;	USERNAME=USER;	USERPROFILE=C:\Users\USER;	windir=C:\WINDOWS"
+"23:07:25.0415768","chrome.exe","4252","Thread Create","","SUCCESS","Thread ID: 11304"
+"23:07:25.0552101","chrome.exe","4252","Load Image","C:\Program Files (x86)\Google\Chrome\Application\chrome.exe","SUCCESS","Image Base: 0x7ff76f4a0000, Image Size: 0x18e000"
+"23:07:25.0559933","chrome.exe","4252","Load Image","C:\Windows\System32\ntdll.dll","SUCCESS","Image Base: 0x7ff9e4a80000, Image Size: 0x1e0000"
+"23:07:25.0628833","chrome.exe","4252","Load Image","C:\Windows\System32\kernel32.dll","SUCCESS","Image Base: 0x7ff9e3f80000, Image Size: 0xae000"
+"23:07:25.0669428","chrome.exe","4252","Load Image","C:\Windows\System32\KernelBase.dll","SUCCESS","Image Base: 0x7ff9e1220000, Image Size: 0x266000"
+"23:07:25.0669705","chrome.exe","8724","Process Create","C:\Program Files (x86)\Google\Chrome\Application\chrome.exe","SUCCESS","PID: 5172, Command line: ""C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"" --type=renderer --field-trial-handle=1612,8794005255836107264,1022765379407270454,131072 --service-pipe-token=1740661253383005662 --lang=en-US --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --device-scale-factor=1 --num-raster-threads=2 --enable-main-frame-before-activation --service-request-channel-token=1740661253383005662 --renderer-client-id=628 --no-v8-untrusted-code-mitigations --mojo-platform-channel-handle=9560 /prefetch:1"
+"23:07:25.0669848","chrome.exe","5172","Process Start","","SUCCESS","Parent PID: 8724, Command line: ""C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"" --type=renderer --field-trial-handle=1612,8794005255836107264,1022765379407270454,131072 --service-pipe-token=1740661253383005662 --lang=en-US --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --device-scale-factor=1 --num-raster-threads=2 --enable-main-frame-before-activation --service-request-channel-token=1740661253383005662 --renderer-client-id=628 --no-v8-untrusted-code-mitigations --mojo-platform-channel-handle=9560 /prefetch:1, Current directory: C:\Program Files (x86)\Google\Chrome\Application\71.0.3578.98\, Environment: ;	=::=::\;	ALLUSERSPROFILE=C:\ProgramData;	APPDATA=C:\Users\USER\AppData\Roaming;	asl.log=Destination=file;	CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_8724_MJJUPWLFYMMYZABW;	CHROME_RESTART=Google Chrome|Whoa! Google Chrome has crashed. Relaunch now?|LEFT_TO_RIGHT;	CommonProgramFiles=C:\Program Files\Common Files;	CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files;	CommonProgramW6432=C:\Program Files\Common Files;	COMPUTERNAME=TETRIMINO;	ComSpec=C:\WINDOWS\system32\cmd.exe;	C_EM64T_REDIST11=C:\Program Files (x86)\Common Files\Intel\Shared Files\cpp\;	HOMEDRIVE=C:;	HOMEPATH=\Users\USER;	JAVA_HOME=C:\Program Files\Java\jdk1.8.0_91;	LOCALAPPDATA=C:\Users\USER\AppData\Local;	LOGONSERVER=\\TETRIMINO;	MOZ_PLUGIN_PATH=C:\Program Files (x86)\Foxit Software\Foxit Reader\plugins\;	MTPPKROOT=C:\WMSDK\MTPPK12\Responder;	NUMBER_OF_PROCESSORS=4;	OneDrive=C:\Users\USER\OneDrive - Texas Tech University;	OneDriveCommercial=C:\Users\USER\OneDrive - Texas Tech University;	OS=Windows_NT;	Path=C:\Program Files (x86)\Google\Chrome\Application;C:\Program Files\Java\jdk1.8.0_91\bin;C:\Program Files\Java\jdk1.8.0_91\include;D:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Python27\;D:\Setup\OpenCV\opencv\build\x64\vc14\bin;C:\ffmpeg\bin;C:\Program Files\CMake\bin;C:\Program Files\MATLAB\R2017a\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\Users\USER\Anaconda3;C:\Users\USER\Anaconda3\Scripts;C:\Program Files\PuTTY\;C:\Program Files\Java\jdk1.8.0_91\bin;C:\Program Files\Java\jdk1.8.0_91\include;D:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Python27\;D:\Setup\OpenCV\opencv\build\x64\vc14\bin;C:\ffmpeg\bin;C:\Program Files\CMake\bin;C:\Program Files\MATLAB\R2017a\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\Git\cmd;C:\Users\USER\Anaconda3\bin;C:\Program Files\Java\jdk1.8.0_91\bin;C:\Program Files\Java\jdk1.8.0_91\include;D:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Python27\;D:\Setup\OpenCV\opencv\build\x64\vc14\bin;C:\ffmpeg\bin;C:\Program Files\CMake\bin;C:\Program Files\MATLAB\R2017a\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\Git\cmd;\bin;C:\Users\USER\AppData\Local\Microsoft\WindowsApps;C:\Users\USER\AppData\Roaming\Composer\vendor\bin;C:\Us;C:\Users\USER\Anaconda3\Scripts;C:\Users\USER\Anaconda3;;	PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;	PROCESSOR_ARCHITECTURE=AMD64;	PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 69 Stepping 1, GenuineIntel;	PROCESSOR_LEVEL=6;	PROCESSOR_REVISION=4501;	ProgramData=C:\ProgramData;	ProgramFiles=C:\Program Files;	ProgramFiles(x86)=C:\Program Files (x86);	ProgramW6432=C:\Program Files;	PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules;	PUBLIC=C:\Users\Public;	SESSIONNAME=Console;	SystemDrive=C:;	SystemRoot=C:\WINDOWS;	TEMP=C:\Users\USER\AppData\Local\Temp;	TMP=C:\Users\USER\AppData\Local\Temp;	USERDOMAIN=TETRIMINO;	USERDOMAIN_ROAMINGPROFILE=TETRIMINO;	USERNAME=USER;	USERPROFILE=C:\Users\USER;	windir=C:\WINDOWS"
+"23:07:25.0669977","chrome.exe","5172","Thread Create","","SUCCESS","Thread ID: 11396"
+"23:07:25.0707944","chrome.exe","4252","Load Image","C:\Windows\System32\apphelp.dll","SUCCESS","Image Base: 0x7ff9de520000, Image Size: 0x88000"
+"23:07:25.0855951","chrome.exe","4252","Load Image","C:\Windows\System32\shell32.dll","SUCCESS","Image Base: 0x7ff9e26e0000, Image Size: 0x1436000"
+"23:07:25.0859418","chrome.exe","4252","Load Image","C:\Windows\System32\msvcrt.dll","SUCCESS","Image Base: 0x7ff9e2440000, Image Size: 0x9d000"
+"23:07:25.0862814","chrome.exe","4252","Load Image","C:\Windows\System32\cfgmgr32.dll","SUCCESS","Image Base: 0x7ff9e0e80000, Image Size: 0x4a000"
+"23:07:25.0865719","chrome.exe","4252","Load Image","C:\Windows\System32\ucrtbase.dll","SUCCESS","Image Base: 0x7ff9e0f30000, Image Size: 0xf6000"
+"23:07:25.0869142","chrome.exe","4252","Load Image","C:\Windows\System32\SHCore.dll","SUCCESS","Image Base: 0x7ff9e4500000, Image Size: 0xa6000"
+"23:07:25.0872025","chrome.exe","4252","Load Image","C:\Windows\System32\rpcrt4.dll","SUCCESS","Image Base: 0x7ff9e43e0000, Image Size: 0x11f000"
+"23:07:25.0877255","chrome.exe","4252","Load Image","C:\Windows\System32\combase.dll","SUCCESS","Image Base: 0x7ff9e3c70000, Image Size: 0x308000"
+"23:07:25.0880834","chrome.exe","4252","Load Image","C:\Windows\System32\bcryptprimitives.dll","SUCCESS","Image Base: 0x7ff9e1ed0000, Image Size: 0x72000"
+"23:07:25.0898831","chrome.exe","4252","Load Image","C:\Windows\System32\windows.storage.dll","SUCCESS","Image Base: 0x7ff9e1780000, Image Size: 0x747000"
+"23:07:25.0902914","chrome.exe","4252","Load Image","C:\Windows\System32\advapi32.dll","SUCCESS","Image Base: 0x7ff9e48b0000, Image Size: 0xa1000"
+"23:07:25.0906600","chrome.exe","4252","Load Image","C:\Windows\System32\sechost.dll","SUCCESS","Image Base: 0x7ff9e24e0000, Image Size: 0x5b000"
+"23:07:25.0910148","chrome.exe","4252","Load Image","C:\Windows\System32\shlwapi.dll","SUCCESS","Image Base: 0x7ff9e4140000, Image Size: 0x51000"
+"23:07:25.0913039","chrome.exe","4252","Load Image","C:\Windows\System32\gdi32.dll","SUCCESS","Image Base: 0x7ff9e49d0000, Image Size: 0x28000"
+"23:07:25.0918011","chrome.exe","4252","Load Image","C:\Windows\System32\gdi32full.dll","SUCCESS","Image Base: 0x7ff9e1490000, Image Size: 0x193000"
+"23:07:25.0921112","chrome.exe","4252","Load Image","C:\Windows\System32\msvcp_win.dll","SUCCESS","Image Base: 0x7ff9e16e0000, Image Size: 0x9b000"
+"23:07:25.0953514","chrome.exe","4252","Load Image","C:\Windows\System32\user32.dll","SUCCESS","Image Base: 0x7ff9e4630000, Image Size: 0x18f000"
+"23:07:25.0962796","chrome.exe","4252","Load Image","C:\Windows\System32\win32u.dll","SUCCESS","Image Base: 0x7ff9e1200000, Image Size: 0x20000"
+"23:07:25.0966460","chrome.exe","4252","Load Image","C:\Windows\System32\kernel.appcore.dll","SUCCESS","Image Base: 0x7ff9e0dd0000, Image Size: 0x11000"
+"23:07:25.0970021","chrome.exe","4252","Load Image","C:\Windows\System32\powrprof.dll","SUCCESS","Image Base: 0x7ff9e0e10000, Image Size: 0x4c000"
+"23:07:25.0973091","chrome.exe","4252","Load Image","C:\Windows\System32\profapi.dll","SUCCESS","Image Base: 0x7ff9e0e60000, Image Size: 0x1b000"
+"23:07:25.0976063","chrome.exe","4252","Load Image","C:\Windows\System32\psapi.dll","SUCCESS","Image Base: 0x7ff9e4a40000, Image Size: 0x8000"
+"23:07:25.0987291","chrome.exe","4252","Load Image","C:\Program Files (x86)\Google\Chrome\Application\71.0.3578.98\chrome_elf.dll","SUCCESS","Image Base: 0x7ff9c2560000, Image Size: 0x98000"
+"23:07:25.1076063","chrome.exe","4252","Load Image","C:\Windows\System32\version.dll","SUCCESS","Image Base: 0x7ff9dae10000, Image Size: 0xa000"
+"23:07:25.1093457","chrome.exe","4252","Load Image","C:\Windows\System32\winmm.dll","SUCCESS","Image Base: 0x7ff9dc880000, Image Size: 0x23000"
+"23:07:25.1122709","chrome.exe","4252","Load Image","C:\Windows\System32\userenv.dll","SUCCESS","Image Base: 0x7ff9e0cd0000, Image Size: 0x29000"
+"23:07:25.1154830","chrome.exe","4252","Load Image","C:\Windows\System32\winmmbase.dll","SUCCESS","Image Base: 0x7ff9dc820000, Image Size: 0x2a000"
+"23:07:25.1192078","chrome.exe","4252","Load Image","C:\Windows\System32\cryptbase.dll","SUCCESS","Image Base: 0x7ff9e0840000, Image Size: 0xb000"
+"23:07:25.1409901","chrome.exe","4252","Load Image","C:\Windows\System32\imm32.dll","SUCCESS","Image Base: 0x1cf96a40000, Image Size: 0x2d000"
+"23:07:25.1420486","chrome.exe","5172","Load Image","C:\Program Files (x86)\Google\Chrome\Application\chrome.exe","SUCCESS","Image Base: 0x7ff76f4a0000, Image Size: 0x18e000"
+"23:07:25.1478275","chrome.exe","5172","Load Image","C:\Windows\System32\ntdll.dll","SUCCESS","Image Base: 0x7ff9e4a80000, Image Size: 0x1e0000"
+"23:07:25.1483322","chrome.exe","4252","Thread Create","","SUCCESS","Thread ID: 9876"
+"23:07:25.2348547","chrome.exe","4252","Load Image","C:\Program Files (x86)\Google\Chrome\Application\71.0.3578.98\chrome_child.dll","SUCCESS","Image Base: 0x7ff9963b0000, Image Size: 0x5838000"
+"23:07:25.2357436","chrome.exe","4252","Load Image","C:\Windows\System32\ws2_32.dll","SUCCESS","Image Base: 0x7ff9e4960000, Image Size: 0x6c000"
+"23:07:25.2360850","chrome.exe","4252","Load Image","C:\Windows\System32\ole32.dll","SUCCESS","Image Base: 0x7ff9e3b20000, Image Size: 0x149000"
+"23:07:25.2364237","chrome.exe","4252","Load Image","C:\Windows\System32\oleaut32.dll","SUCCESS","Image Base: 0x7ff9e4310000, Image Size: 0xc5000"
+"23:07:25.2367320","chrome.exe","4252","Load Image","C:\Windows\System32\wintrust.dll","SUCCESS","Image Base: 0x7ff9e0ed0000, Image Size: 0x58000"
+"23:07:25.2369592","chrome.exe","4252","Load Image","C:\Windows\System32\msasn1.dll","SUCCESS","Image Base: 0x7ff9e0df0000, Image Size: 0x12000"
+"23:07:25.2372341","chrome.exe","4252","Load Image","C:\Windows\System32\crypt32.dll","SUCCESS","Image Base: 0x7ff9e1030000, Image Size: 0x1ce000"
+"23:07:25.2377312","chrome.exe","4252","Load Image","C:\Windows\System32\comdlg32.dll","SUCCESS","Image Base: 0x1cf96ac0000, Image Size: 0x10a000"
+"23:07:25.2402467","chrome.exe","4252","Load Image","C:\Windows\System32\IPHLPAPI.DLL","SUCCESS","Image Base: 0x7ff9e03f0000, Image Size: 0x39000"
+"23:07:25.2420937","chrome.exe","4252","Load Image","C:\Windows\System32\oleacc.dll","SUCCESS","Image Base: 0x7ff9da780000, Image Size: 0x6e000"
+"23:07:25.2435097","chrome.exe","4252","Load Image","C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.16299.248_none_15ced204935f55d7\comctl32.dll","SUCCESS","Image Base: 0x7ff9d92b0000, Image Size: 0x269000"
+"23:07:25.2467610","chrome.exe","4252","Load Image","C:\Windows\System32\DWrite.dll","SUCCESS","Image Base: 0x7ff9c8a70000, Image Size: 0x30f000"
+"23:07:25.2489338","chrome.exe","4252","Load Image","C:\Windows\System32\dxgi.dll","SUCCESS","Image Base: 0x7ff9dfc40000, Image Size: 0xaf000"
+"23:07:25.2509303","chrome.exe","4252","Load Image","C:\Windows\System32\winspool.drv","SUCCESS","Image Base: 0x7ff9da7f0000, Image Size: 0x86000"
+"23:07:25.2525261","chrome.exe","4252","Load Image","C:\Windows\System32\dbghelp.dll","SUCCESS","Image Base: 0x7ff9df890000, Image Size: 0x1c8000"
+"23:07:25.2541629","chrome.exe","4252","Load Image","C:\Windows\System32\usp10.dll","SUCCESS","Image Base: 0x7ff9dbcf0000, Image Size: 0x19000"
+"23:07:25.2556079","chrome.exe","4252","Load Image","C:\Windows\System32\winhttp.dll","SUCCESS","Image Base: 0x7ff9d6a70000, Image Size: 0xde000"
+"23:07:25.2560613","chrome.exe","5172","Load Image","C:\Windows\System32\kernel32.dll","SUCCESS","Image Base: 0x7ff9e3f80000, Image Size: 0xae000"
+"23:07:25.2573179","chrome.exe","4252","Load Image","C:\Windows\System32\urlmon.dll","SUCCESS","Image Base: 0x7ff9d6520000, Image Size: 0x1cc000"
+"23:07:25.2576838","chrome.exe","4252","Load Image","C:\Windows\System32\imagehlp.dll","SUCCESS","Image Base: 0x7ff9e4610000, Image Size: 0x1d000"
+"23:07:25.2580515","chrome.exe","5172","Load Image","C:\Windows\System32\KernelBase.dll","SUCCESS","Image Base: 0x7ff9e1220000, Image Size: 0x266000"
+"23:07:25.2591917","chrome.exe","4252","Load Image","C:\Windows\System32\secur32.dll","SUCCESS","Image Base: 0x7ff9d0600000, Image Size: 0xc000"
+"23:07:25.2612690","chrome.exe","4252","Load Image","C:\Windows\System32\dhcpcsvc.dll","SUCCESS","Image Base: 0x7ff9da520000, Image Size: 0x1a000"
+"23:07:25.2620347","chrome.exe","4252","Load Image","C:\Windows\System32\nsi.dll","SUCCESS","Image Base: 0x7ff9e4a30000, Image Size: 0x8000"
+"23:07:25.2646962","chrome.exe","4252","Load Image","C:\Windows\System32\bcrypt.dll","SUCCESS","Image Base: 0x7ff9e0930000, Image Size: 0x25000"
+"23:07:25.2668890","chrome.exe","4252","Load Image","C:\Windows\System32\iertutil.dll","SUCCESS","Image Base: 0x7ff9d6270000, Image Size: 0x299000"
+"23:07:25.2676900","chrome.exe","5172","Load Image","C:\Windows\System32\apphelp.dll","SUCCESS","Image Base: 0x7ff9de520000, Image Size: 0x88000"
+"23:07:25.2693586","chrome.exe","4252","Load Image","C:\Windows\System32\sspicli.dll","SUCCESS","Image Base: 0x7ff9e0d00000, Image Size: 0x30000"
+"23:07:25.2739911","chrome.exe","5172","Load Image","C:\Windows\System32\shell32.dll","SUCCESS","Image Base: 0x7ff9e26e0000, Image Size: 0x1436000"
+"23:07:25.2742762","chrome.exe","5172","Load Image","C:\Windows\System32\msvcrt.dll","SUCCESS","Image Base: 0x7ff9e2440000, Image Size: 0x9d000"
+"23:07:25.2744922","chrome.exe","5172","Load Image","C:\Windows\System32\cfgmgr32.dll","SUCCESS","Image Base: 0x7ff9e0e80000, Image Size: 0x4a000"
+"23:07:25.2747327","chrome.exe","5172","Load Image","C:\Windows\System32\ucrtbase.dll","SUCCESS","Image Base: 0x7ff9e0f30000, Image Size: 0xf6000"
+"23:07:25.2749737","chrome.exe","5172","Load Image","C:\Windows\System32\SHCore.dll","SUCCESS","Image Base: 0x7ff9e4500000, Image Size: 0xa6000"
+"23:07:25.2752834","chrome.exe","5172","Load Image","C:\Windows\System32\rpcrt4.dll","SUCCESS","Image Base: 0x7ff9e43e0000, Image Size: 0x11f000"
+"23:07:25.2757341","chrome.exe","5172","Load Image","C:\Windows\System32\combase.dll","SUCCESS","Image Base: 0x7ff9e3c70000, Image Size: 0x308000"
+"23:07:25.2759728","chrome.exe","5172","Load Image","C:\Windows\System32\bcryptprimitives.dll","SUCCESS","Image Base: 0x7ff9e1ed0000, Image Size: 0x72000"
+"23:07:25.2762870","chrome.exe","5172","Load Image","C:\Windows\System32\windows.storage.dll","SUCCESS","Image Base: 0x7ff9e1780000, Image Size: 0x747000"
+"23:07:25.2765842","chrome.exe","5172","Load Image","C:\Windows\System32\advapi32.dll","SUCCESS","Image Base: 0x7ff9e48b0000, Image Size: 0xa1000"
+"23:07:25.2767716","chrome.exe","5172","Load Image","C:\Windows\System32\sechost.dll","SUCCESS","Image Base: 0x7ff9e24e0000, Image Size: 0x5b000"
+"23:07:25.2774231","chrome.exe","5172","Load Image","C:\Windows\System32\shlwapi.dll","SUCCESS","Image Base: 0x7ff9e4140000, Image Size: 0x51000"
+"23:07:25.2778448","chrome.exe","5172","Load Image","C:\Windows\System32\gdi32.dll","SUCCESS","Image Base: 0x7ff9e49d0000, Image Size: 0x28000"
+"23:07:25.2786258","chrome.exe","5172","Load Image","C:\Windows\System32\gdi32full.dll","SUCCESS","Image Base: 0x7ff9e1490000, Image Size: 0x193000"
+"23:07:25.2789373","chrome.exe","5172","Load Image","C:\Windows\System32\msvcp_win.dll","SUCCESS","Image Base: 0x7ff9e16e0000, Image Size: 0x9b000"
+"23:07:25.2794817","chrome.exe","5172","Load Image","C:\Windows\System32\user32.dll","SUCCESS","Image Base: 0x7ff9e4630000, Image Size: 0x18f000"
+"23:07:25.2856649","chrome.exe","5172","Load Image","C:\Windows\System32\win32u.dll","SUCCESS","Image Base: 0x7ff9e1200000, Image Size: 0x20000"
+"23:07:25.2861558","chrome.exe","5172","Load Image","C:\Windows\System32\kernel.appcore.dll","SUCCESS","Image Base: 0x7ff9e0dd0000, Image Size: 0x11000"
+"23:07:25.2864597","chrome.exe","5172","Load Image","C:\Windows\System32\powrprof.dll","SUCCESS","Image Base: 0x7ff9e0e10000, Image Size: 0x4c000"
+"23:07:25.2867381","chrome.exe","5172","Load Image","C:\Windows\System32\profapi.dll","SUCCESS","Image Base: 0x7ff9e0e60000, Image Size: 0x1b000"
+"23:07:25.2870451","chrome.exe","5172","Load Image","C:\Windows\System32\psapi.dll","SUCCESS","Image Base: 0x7ff9e4a40000, Image Size: 0x8000"
+"23:07:25.2880461","chrome.exe","5172","Load Image","C:\Program Files (x86)\Google\Chrome\Application\71.0.3578.98\chrome_elf.dll","SUCCESS","Image Base: 0x7ff9c2560000, Image Size: 0x98000"
+"23:07:25.2957956","chrome.exe","5172","Load Image","C:\Windows\System32\version.dll","SUCCESS","Image Base: 0x7ff9dae10000, Image Size: 0xa000"
+"23:07:25.2986587","chrome.exe","5172","Load Image","C:\Windows\System32\winmm.dll","SUCCESS","Image Base: 0x7ff9dc880000, Image Size: 0x23000"
+"23:07:25.3002027","chrome.exe","5172","Load Image","C:\Windows\System32\userenv.dll","SUCCESS","Image Base: 0x7ff9e0cd0000, Image Size: 0x29000"
+"23:07:25.3025571","chrome.exe","5172","Load Image","C:\Windows\System32\winmmbase.dll","SUCCESS","Image Base: 0x7ff9dc820000, Image Size: 0x2a000"
+"23:07:25.3054113","chrome.exe","5172","Load Image","C:\Windows\System32\cryptbase.dll","SUCCESS","Image Base: 0x7ff9e0840000, Image Size: 0xb000"
+"23:07:25.3180754","chrome.exe","4252","Thread Create","","SUCCESS","Thread ID: 4476"
+"23:07:25.3181615","chrome.exe","4252","Thread Create","","SUCCESS","Thread ID: 2172"
+"23:07:25.3182102","chrome.exe","4252","Thread Create","","SUCCESS","Thread ID: 3376"
+"23:07:25.3182517","chrome.exe","4252","Thread Create","","SUCCESS","Thread ID: 10332"
+"23:07:25.3182968","chrome.exe","4252","Thread Create","","SUCCESS","Thread ID: 12112"
+"23:07:25.3183414","chrome.exe","4252","Thread Create","","SUCCESS","Thread ID: 12048"
+"23:07:25.3187269","chrome.exe","4252","Thread Create","","SUCCESS","Thread ID: 2300"
+"23:07:25.3202808","chrome.exe","4252","Thread Create","","SUCCESS","Thread ID: 1744"
+"23:07:25.3327552","chrome.exe","4252","Thread Create","","SUCCESS","Thread ID: 10408"
+"23:07:25.3338552","chrome.exe","4252","Thread Create","","SUCCESS","Thread ID: 11588"
+"23:07:25.3340337","chrome.exe","4252","Thread Create","","SUCCESS","Thread ID: 4136"
+"23:07:25.3341011","chrome.exe","4252","Thread Create","","SUCCESS","Thread ID: 5856"
+"23:07:25.3595693","chrome.exe","8724","Thread Create","","SUCCESS","Thread ID: 1596"
+"23:07:25.3708621","chrome.exe","4840","Thread Create","","SUCCESS","Thread ID: 7700"
+"23:07:25.3883612","MsMpEng.exe","3984","Thread Create","","SUCCESS","Thread ID: 2228"
+"23:07:25.4521037","chrome.exe","4252","Thread Create","","SUCCESS","Thread ID: 7524"
+"23:07:25.5498341","chrome.exe","4252","Thread Exit","","SUCCESS","Thread ID: 12048, User Time: 0.0000000, Kernel Time: 0.0156250"
+"23:07:25.5524077","chrome.exe","8240","Thread Create","","SUCCESS","Thread ID: 12052"
+"23:07:25.5524853","chrome.exe","8240","Thread Create","","SUCCESS","Thread ID: 6668"
+"23:07:25.5792557","chrome.exe","4796","Thread Create","","SUCCESS","Thread ID: 6812"
+"23:07:25.5979972","chrome.exe","4252","Thread Exit","","SUCCESS","Thread ID: 11304, User Time: 0.1406250, Kernel Time: 0.1875000"
+"23:07:25.5980517","chrome.exe","4252","Thread Exit","","SUCCESS","Thread ID: 7524, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.5980847","chrome.exe","4252","Thread Exit","","SUCCESS","Thread ID: 4136, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.5981115","chrome.exe","4252","Thread Exit","","SUCCESS","Thread ID: 11588, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.5981418","chrome.exe","4252","Thread Exit","","SUCCESS","Thread ID: 10408, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.5981677","chrome.exe","4252","Thread Exit","","SUCCESS","Thread ID: 1744, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.5981940","chrome.exe","4252","Thread Exit","","SUCCESS","Thread ID: 2300, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.5982199","chrome.exe","4252","Thread Exit","","SUCCESS","Thread ID: 3376, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.5982453","chrome.exe","4252","Thread Exit","","SUCCESS","Thread ID: 2172, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.5982703","chrome.exe","4252","Thread Exit","","SUCCESS","Thread ID: 4476, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.5982949","chrome.exe","4252","Thread Exit","","SUCCESS","Thread ID: 9876, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.6013923","chrome.exe","5172","Load Image","C:\Windows\System32\imm32.dll","SUCCESS","Image Base: 0x17393b60000, Image Size: 0x2d000"
+"23:07:25.6056977","chrome.exe","5172","Thread Create","","SUCCESS","Thread ID: 4168"
+"23:07:25.6164130","chrome.exe","4252","Thread Exit","","SUCCESS","Thread ID: 5856, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.6164821","chrome.exe","4252","Thread Exit","","SUCCESS","Thread ID: 12112, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.6165165","chrome.exe","4252","Thread Exit","","SUCCESS","Thread ID: 10332, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.6224395","chrome.exe","4252","Process Exit","","SUCCESS","Exit Status: 0, User Time: 0.1406250 seconds, Kernel Time: 0.2187500 seconds, Private Bytes: 23,498,752, Peak Private Bytes: 23,736,320, Working Set: 40,538,112, Peak Working Set: 40,538,112"
+"23:07:25.7115342","chrome.exe","5172","Load Image","C:\Program Files (x86)\Google\Chrome\Application\71.0.3578.98\chrome_child.dll","SUCCESS","Image Base: 0x7ff9963b0000, Image Size: 0x5838000"
+"23:07:25.7133036","chrome.exe","5172","Load Image","C:\Windows\System32\ws2_32.dll","SUCCESS","Image Base: 0x7ff9e4960000, Image Size: 0x6c000"
+"23:07:25.7138735","chrome.exe","5172","Load Image","C:\Windows\System32\ole32.dll","SUCCESS","Image Base: 0x7ff9e3b20000, Image Size: 0x149000"
+"23:07:25.7144754","chrome.exe","5172","Load Image","C:\Windows\System32\oleaut32.dll","SUCCESS","Image Base: 0x7ff9e4310000, Image Size: 0xc5000"
+"23:07:25.7151948","chrome.exe","5172","Load Image","C:\Windows\System32\wintrust.dll","SUCCESS","Image Base: 0x7ff9e0ed0000, Image Size: 0x58000"
+"23:07:25.7156518","chrome.exe","5172","Load Image","C:\Windows\System32\msasn1.dll","SUCCESS","Image Base: 0x7ff9e0df0000, Image Size: 0x12000"
+"23:07:25.7161261","chrome.exe","5172","Load Image","C:\Windows\System32\crypt32.dll","SUCCESS","Image Base: 0x7ff9e1030000, Image Size: 0x1ce000"
+"23:07:25.7178343","chrome.exe","5172","Load Image","C:\Windows\System32\comdlg32.dll","SUCCESS","Image Base: 0x17393ef0000, Image Size: 0x10a000"
+"23:07:25.7236641","chrome.exe","5172","Load Image","C:\Windows\System32\IPHLPAPI.DLL","SUCCESS","Image Base: 0x7ff9e03f0000, Image Size: 0x39000"
+"23:07:25.7259623","chrome.exe","5172","Load Image","C:\Windows\System32\oleacc.dll","SUCCESS","Image Base: 0x7ff9da780000, Image Size: 0x6e000"
+"23:07:25.7280070","chrome.exe","5172","Load Image","C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.16299.248_none_15ced204935f55d7\comctl32.dll","SUCCESS","Image Base: 0x7ff9d92b0000, Image Size: 0x269000"
+"23:07:25.7303101","chrome.exe","5172","Load Image","C:\Windows\System32\DWrite.dll","SUCCESS","Image Base: 0x7ff9c8a70000, Image Size: 0x30f000"
+"23:07:25.7322807","chrome.exe","5172","Load Image","C:\Windows\System32\dxgi.dll","SUCCESS","Image Base: 0x7ff9dfc40000, Image Size: 0xaf000"
+"23:07:25.7337364","chrome.exe","5172","Load Image","C:\Windows\System32\winspool.drv","SUCCESS","Image Base: 0x7ff9da7f0000, Image Size: 0x86000"
+"23:07:25.7357704","chrome.exe","5172","Load Image","C:\Windows\System32\dbghelp.dll","SUCCESS","Image Base: 0x7ff9df890000, Image Size: 0x1c8000"
+"23:07:25.7372675","chrome.exe","5172","Load Image","C:\Windows\System32\usp10.dll","SUCCESS","Image Base: 0x7ff9dbcf0000, Image Size: 0x19000"
+"23:07:25.7385947","chrome.exe","5172","Load Image","C:\Windows\System32\winhttp.dll","SUCCESS","Image Base: 0x7ff9d6a70000, Image Size: 0xde000"
+"23:07:25.7403417","chrome.exe","5172","Load Image","C:\Windows\System32\urlmon.dll","SUCCESS","Image Base: 0x7ff9d6520000, Image Size: 0x1cc000"
+"23:07:25.7407728","chrome.exe","5172","Load Image","C:\Windows\System32\imagehlp.dll","SUCCESS","Image Base: 0x7ff9e4610000, Image Size: 0x1d000"
+"23:07:25.7425574","chrome.exe","5172","Load Image","C:\Windows\System32\secur32.dll","SUCCESS","Image Base: 0x7ff9d0600000, Image Size: 0xc000"
+"23:07:25.7440974","chrome.exe","5172","Load Image","C:\Windows\System32\dhcpcsvc.dll","SUCCESS","Image Base: 0x7ff9da520000, Image Size: 0x1a000"
+"23:07:25.7444905","chrome.exe","5172","Load Image","C:\Windows\System32\nsi.dll","SUCCESS","Image Base: 0x7ff9e4a30000, Image Size: 0x8000"
+"23:07:25.7492221","chrome.exe","5172","Load Image","C:\Windows\System32\bcrypt.dll","SUCCESS","Image Base: 0x7ff9e0930000, Image Size: 0x25000"
+"23:07:25.7518188","chrome.exe","5172","Load Image","C:\Windows\System32\iertutil.dll","SUCCESS","Image Base: 0x7ff9d6270000, Image Size: 0x299000"
+"23:07:25.7536770","chrome.exe","4796","Thread Exit","","SUCCESS","Thread ID: 4544, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.7537604","chrome.exe","4796","Thread Exit","","SUCCESS","Thread ID: 7652, User Time: 0.0312500, Kernel Time: 0.0000000"
+"23:07:25.7538082","chrome.exe","4796","Thread Exit","","SUCCESS","Thread ID: 2152, User Time: 0.1875000, Kernel Time: 0.1562500"
+"23:07:25.7538349","chrome.exe","4796","Thread Exit","","SUCCESS","Thread ID: 6812, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.7560796","chrome.exe","5172","Load Image","C:\Windows\System32\sspicli.dll","SUCCESS","Image Base: 0x7ff9e0d00000, Image Size: 0x30000"
+"23:07:25.7619294","chrome.exe","4796","Thread Exit","","SUCCESS","Thread ID: 7688, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.7696410","chrome.exe","4796","Thread Exit","","SUCCESS","Thread ID: 3852, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.7731780","chrome.exe","4796","Thread Exit","","SUCCESS","Thread ID: 11320, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.7735885","chrome.exe","4796","Thread Exit","","SUCCESS","Thread ID: 11544, User Time: 0.0000000, Kernel Time: 0.0156250"
+"23:07:25.7736332","chrome.exe","4796","Thread Exit","","SUCCESS","Thread ID: 1184, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.7736675","chrome.exe","4796","Thread Exit","","SUCCESS","Thread ID: 9372, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.7737005","chrome.exe","4796","Thread Exit","","SUCCESS","Thread ID: 7932, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.7737304","chrome.exe","4796","Thread Exit","","SUCCESS","Thread ID: 196, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.7780149","chrome.exe","4796","Thread Exit","","SUCCESS","Thread ID: 5176, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:25.7888904","chrome.exe","4796","Thread Exit","","SUCCESS","Thread ID: 2764, User Time: 0.0000000, Kernel Time: 0.0156250"
+"23:07:25.7889457","chrome.exe","4796","Thread Exit","","SUCCESS","Thread ID: 10228, User Time: 0.0000000, Kernel Time: 0.0156250"
+"23:07:25.7936509","chrome.exe","4796","Process Exit","","SUCCESS","Exit Status: 0, User Time: 0.2187500 seconds, Kernel Time: 0.2031250 seconds, Private Bytes: 35,614,720, Peak Private Bytes: 36,003,840, Working Set: 51,634,176, Peak Working Set: 52,129,792"
+"23:07:25.8160954","chrome.exe","5172","Thread Create","","SUCCESS","Thread ID: 7108"
+"23:07:25.8161833","chrome.exe","5172","Thread Create","","SUCCESS","Thread ID: 6992"
+"23:07:25.8162387","chrome.exe","5172","Thread Create","","SUCCESS","Thread ID: 3788"
+"23:07:25.8162806","chrome.exe","5172","Thread Create","","SUCCESS","Thread ID: 6940"
+"23:07:25.8163453","chrome.exe","5172","Thread Create","","SUCCESS","Thread ID: 10416"
+"23:07:25.8163980","chrome.exe","5172","Thread Create","","SUCCESS","Thread ID: 12172"
+"23:07:25.8167550","chrome.exe","5172","Thread Create","","SUCCESS","Thread ID: 7936"
+"23:07:25.8191228","chrome.exe","5172","Thread Create","","SUCCESS","Thread ID: 5452"
+"23:07:25.8294663","chrome.exe","5172","Thread Create","","SUCCESS","Thread ID: 6544"
+"23:07:25.8305025","chrome.exe","5172","Thread Create","","SUCCESS","Thread ID: 1680"
+"23:07:25.8305677","chrome.exe","5172","Thread Create","","SUCCESS","Thread ID: 7204"
+"23:07:25.8306136","chrome.exe","5172","Thread Create","","SUCCESS","Thread ID: 10376"
+"23:07:26.5608167","chrome.exe","8724","Process Create","C:\Program Files (x86)\Google\Chrome\Application\chrome.exe","SUCCESS","PID: 10888, Command line: ""C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"" --type=renderer --field-trial-handle=1612,8794005255836107264,1022765379407270454,131072 --service-pipe-token=12271628376267370610 --lang=en-US --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --device-scale-factor=1 --num-raster-threads=2 --enable-main-frame-before-activation --service-request-channel-token=12271628376267370610 --renderer-client-id=629 --no-v8-untrusted-code-mitigations --mojo-platform-channel-handle=1052 /prefetch:1"
+"23:07:26.5608301","chrome.exe","10888","Process Start","","SUCCESS","Parent PID: 8724, Command line: ""C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"" --type=renderer --field-trial-handle=1612,8794005255836107264,1022765379407270454,131072 --service-pipe-token=12271628376267370610 --lang=en-US --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --device-scale-factor=1 --num-raster-threads=2 --enable-main-frame-before-activation --service-request-channel-token=12271628376267370610 --renderer-client-id=629 --no-v8-untrusted-code-mitigations --mojo-platform-channel-handle=1052 /prefetch:1, Current directory: C:\Program Files (x86)\Google\Chrome\Application\71.0.3578.98\, Environment: ;	=::=::\;	ALLUSERSPROFILE=C:\ProgramData;	APPDATA=C:\Users\USER\AppData\Roaming;	asl.log=Destination=file;	CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_8724_MJJUPWLFYMMYZABW;	CHROME_RESTART=Google Chrome|Whoa! Google Chrome has crashed. Relaunch now?|LEFT_TO_RIGHT;	CommonProgramFiles=C:\Program Files\Common Files;	CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files;	CommonProgramW6432=C:\Program Files\Common Files;	COMPUTERNAME=TETRIMINO;	ComSpec=C:\WINDOWS\system32\cmd.exe;	C_EM64T_REDIST11=C:\Program Files (x86)\Common Files\Intel\Shared Files\cpp\;	HOMEDRIVE=C:;	HOMEPATH=\Users\USER;	JAVA_HOME=C:\Program Files\Java\jdk1.8.0_91;	LOCALAPPDATA=C:\Users\USER\AppData\Local;	LOGONSERVER=\\TETRIMINO;	MOZ_PLUGIN_PATH=C:\Program Files (x86)\Foxit Software\Foxit Reader\plugins\;	MTPPKROOT=C:\WMSDK\MTPPK12\Responder;	NUMBER_OF_PROCESSORS=4;	OneDrive=C:\Users\USER\OneDrive - Texas Tech University;	OneDriveCommercial=C:\Users\USER\OneDrive - Texas Tech University;	OS=Windows_NT;	Path=C:\Program Files (x86)\Google\Chrome\Application;C:\Program Files\Java\jdk1.8.0_91\bin;C:\Program Files\Java\jdk1.8.0_91\include;D:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Python27\;D:\Setup\OpenCV\opencv\build\x64\vc14\bin;C:\ffmpeg\bin;C:\Program Files\CMake\bin;C:\Program Files\MATLAB\R2017a\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\Users\USER\Anaconda3;C:\Users\USER\Anaconda3\Scripts;C:\Program Files\PuTTY\;C:\Program Files\Java\jdk1.8.0_91\bin;C:\Program Files\Java\jdk1.8.0_91\include;D:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Python27\;D:\Setup\OpenCV\opencv\build\x64\vc14\bin;C:\ffmpeg\bin;C:\Program Files\CMake\bin;C:\Program Files\MATLAB\R2017a\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\Git\cmd;C:\Users\USER\Anaconda3\bin;C:\Program Files\Java\jdk1.8.0_91\bin;C:\Program Files\Java\jdk1.8.0_91\include;D:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Python27\;D:\Setup\OpenCV\opencv\build\x64\vc14\bin;C:\ffmpeg\bin;C:\Program Files\CMake\bin;C:\Program Files\MATLAB\R2017a\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\Git\cmd;\bin;C:\Users\USER\AppData\Local\Microsoft\WindowsApps;C:\Users\USER\AppData\Roaming\Composer\vendor\bin;C:\Us;C:\Users\USER\Anaconda3\Scripts;C:\Users\USER\Anaconda3;;	PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;	PROCESSOR_ARCHITECTURE=AMD64;	PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 69 Stepping 1, GenuineIntel;	PROCESSOR_LEVEL=6;	PROCESSOR_REVISION=4501;	ProgramData=C:\ProgramData;	ProgramFiles=C:\Program Files;	ProgramFiles(x86)=C:\Program Files (x86);	ProgramW6432=C:\Program Files;	PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules;	PUBLIC=C:\Users\Public;	SESSIONNAME=Console;	SystemDrive=C:;	SystemRoot=C:\WINDOWS;	TEMP=C:\Users\USER\AppData\Local\Temp;	TMP=C:\Users\USER\AppData\Local\Temp;	USERDOMAIN=TETRIMINO;	USERDOMAIN_ROAMINGPROFILE=TETRIMINO;	USERNAME=USER;	USERPROFILE=C:\Users\USER;	windir=C:\WINDOWS"
+"23:07:26.5608431","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 3248"
+"23:07:26.5716271","chrome.exe","10888","Load Image","C:\Program Files (x86)\Google\Chrome\Application\chrome.exe","SUCCESS","Image Base: 0x7ff76f4a0000, Image Size: 0x18e000"
+"23:07:26.5717391","chrome.exe","10888","Load Image","C:\Windows\System32\ntdll.dll","SUCCESS","Image Base: 0x7ff9e4a80000, Image Size: 0x1e0000"
+"23:07:26.5732572","chrome.exe","10888","Load Image","C:\Windows\System32\kernel32.dll","SUCCESS","Image Base: 0x7ff9e3f80000, Image Size: 0xae000"
+"23:07:26.5738632","chrome.exe","10888","Load Image","C:\Windows\System32\KernelBase.dll","SUCCESS","Image Base: 0x7ff9e1220000, Image Size: 0x266000"
+"23:07:26.5981498","chrome.exe","10888","Load Image","C:\Windows\System32\apphelp.dll","SUCCESS","Image Base: 0x7ff9de520000, Image Size: 0x88000"
+"23:07:26.6128604","chrome.exe","10888","Load Image","C:\Windows\System32\shell32.dll","SUCCESS","Image Base: 0x7ff9e26e0000, Image Size: 0x1436000"
+"23:07:26.6133240","chrome.exe","10888","Load Image","C:\Windows\System32\msvcrt.dll","SUCCESS","Image Base: 0x7ff9e2440000, Image Size: 0x9d000"
+"23:07:26.6137328","chrome.exe","10888","Load Image","C:\Windows\System32\cfgmgr32.dll","SUCCESS","Image Base: 0x7ff9e0e80000, Image Size: 0x4a000"
+"23:07:26.6143223","chrome.exe","10888","Load Image","C:\Windows\System32\ucrtbase.dll","SUCCESS","Image Base: 0x7ff9e0f30000, Image Size: 0xf6000"
+"23:07:26.6153433","chrome.exe","10888","Load Image","C:\Windows\System32\SHCore.dll","SUCCESS","Image Base: 0x7ff9e4500000, Image Size: 0xa6000"
+"23:07:26.6159431","chrome.exe","10888","Load Image","C:\Windows\System32\rpcrt4.dll","SUCCESS","Image Base: 0x7ff9e43e0000, Image Size: 0x11f000"
+"23:07:26.6165999","chrome.exe","10888","Load Image","C:\Windows\System32\combase.dll","SUCCESS","Image Base: 0x7ff9e3c70000, Image Size: 0x308000"
+"23:07:26.6170355","chrome.exe","10888","Load Image","C:\Windows\System32\bcryptprimitives.dll","SUCCESS","Image Base: 0x7ff9e1ed0000, Image Size: 0x72000"
+"23:07:26.6174487","chrome.exe","10888","Load Image","C:\Windows\System32\windows.storage.dll","SUCCESS","Image Base: 0x7ff9e1780000, Image Size: 0x747000"
+"23:07:26.6179097","chrome.exe","10888","Load Image","C:\Windows\System32\advapi32.dll","SUCCESS","Image Base: 0x7ff9e48b0000, Image Size: 0xa1000"
+"23:07:26.6186830","chrome.exe","10888","Load Image","C:\Windows\System32\sechost.dll","SUCCESS","Image Base: 0x7ff9e24e0000, Image Size: 0x5b000"
+"23:07:26.6190222","chrome.exe","10888","Load Image","C:\Windows\System32\shlwapi.dll","SUCCESS","Image Base: 0x7ff9e4140000, Image Size: 0x51000"
+"23:07:26.6196532","chrome.exe","10888","Load Image","C:\Windows\System32\gdi32.dll","SUCCESS","Image Base: 0x7ff9e49d0000, Image Size: 0x28000"
+"23:07:26.6219000","chrome.exe","10888","Load Image","C:\Windows\System32\gdi32full.dll","SUCCESS","Image Base: 0x7ff9e1490000, Image Size: 0x193000"
+"23:07:26.6357190","chrome.exe","10888","Load Image","C:\Windows\System32\msvcp_win.dll","SUCCESS","Image Base: 0x7ff9e16e0000, Image Size: 0x9b000"
+"23:07:26.6368605","chrome.exe","10888","Load Image","C:\Windows\System32\user32.dll","SUCCESS","Image Base: 0x7ff9e4630000, Image Size: 0x18f000"
+"23:07:26.6389770","chrome.exe","10888","Load Image","C:\Windows\System32\win32u.dll","SUCCESS","Image Base: 0x7ff9e1200000, Image Size: 0x20000"
+"23:07:26.6394389","chrome.exe","10888","Load Image","C:\Windows\System32\kernel.appcore.dll","SUCCESS","Image Base: 0x7ff9e0dd0000, Image Size: 0x11000"
+"23:07:26.6398048","chrome.exe","10888","Load Image","C:\Windows\System32\powrprof.dll","SUCCESS","Image Base: 0x7ff9e0e10000, Image Size: 0x4c000"
+"23:07:26.6401632","chrome.exe","10888","Load Image","C:\Windows\System32\profapi.dll","SUCCESS","Image Base: 0x7ff9e0e60000, Image Size: 0x1b000"
+"23:07:26.6405286","chrome.exe","10888","Load Image","C:\Windows\System32\psapi.dll","SUCCESS","Image Base: 0x7ff9e4a40000, Image Size: 0x8000"
+"23:07:26.6418473","chrome.exe","10888","Load Image","C:\Program Files (x86)\Google\Chrome\Application\71.0.3578.98\chrome_elf.dll","SUCCESS","Image Base: 0x7ff9c2560000, Image Size: 0x98000"
+"23:07:26.6421249","svchost.exe","3604","Thread Create","","SUCCESS","Thread ID: 1112"
+"23:07:26.6507325","chrome.exe","10888","Load Image","C:\Windows\System32\version.dll","SUCCESS","Image Base: 0x7ff9dae10000, Image Size: 0xa000"
+"23:07:26.6522511","chrome.exe","10888","Load Image","C:\Windows\System32\winmm.dll","SUCCESS","Image Base: 0x7ff9dc880000, Image Size: 0x23000"
+"23:07:26.6541615","chrome.exe","10888","Load Image","C:\Windows\System32\userenv.dll","SUCCESS","Image Base: 0x7ff9e0cd0000, Image Size: 0x29000"
+"23:07:26.6566908","chrome.exe","10888","Load Image","C:\Windows\System32\winmmbase.dll","SUCCESS","Image Base: 0x7ff9dc820000, Image Size: 0x2a000"
+"23:07:26.6614889","chrome.exe","10888","Load Image","C:\Windows\System32\cryptbase.dll","SUCCESS","Image Base: 0x7ff9e0840000, Image Size: 0xb000"
+"23:07:26.6745220","chrome.exe","10888","Load Image","C:\Windows\System32\imm32.dll","SUCCESS","Image Base: 0x1c52b840000, Image Size: 0x2d000"
+"23:07:26.6803870","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 2604"
+"23:07:26.7642365","chrome.exe","10888","Load Image","C:\Program Files (x86)\Google\Chrome\Application\71.0.3578.98\chrome_child.dll","SUCCESS","Image Base: 0x7ff9963b0000, Image Size: 0x5838000"
+"23:07:26.7648796","chrome.exe","10888","Load Image","C:\Windows\System32\ws2_32.dll","SUCCESS","Image Base: 0x7ff9e4960000, Image Size: 0x6c000"
+"23:07:26.7653026","chrome.exe","10888","Load Image","C:\Windows\System32\ole32.dll","SUCCESS","Image Base: 0x7ff9e3b20000, Image Size: 0x149000"
+"23:07:26.7657212","chrome.exe","10888","Load Image","C:\Windows\System32\oleaut32.dll","SUCCESS","Image Base: 0x7ff9e4310000, Image Size: 0xc5000"
+"23:07:26.7660768","chrome.exe","10888","Load Image","C:\Windows\System32\wintrust.dll","SUCCESS","Image Base: 0x7ff9e0ed0000, Image Size: 0x58000"
+"23:07:26.7663776","chrome.exe","10888","Load Image","C:\Windows\System32\msasn1.dll","SUCCESS","Image Base: 0x7ff9e0df0000, Image Size: 0x12000"
+"23:07:26.7669386","chrome.exe","10888","Load Image","C:\Windows\System32\crypt32.dll","SUCCESS","Image Base: 0x7ff9e1030000, Image Size: 0x1ce000"
+"23:07:26.7681327","chrome.exe","10888","Load Image","C:\Windows\System32\comdlg32.dll","SUCCESS","Image Base: 0x1c52be40000, Image Size: 0x10a000"
+"23:07:26.7709896","chrome.exe","10888","Load Image","C:\Windows\System32\IPHLPAPI.DLL","SUCCESS","Image Base: 0x7ff9e03f0000, Image Size: 0x39000"
+"23:07:26.7732503","chrome.exe","10888","Load Image","C:\Windows\System32\oleacc.dll","SUCCESS","Image Base: 0x7ff9da780000, Image Size: 0x6e000"
+"23:07:26.7749755","chrome.exe","10888","Load Image","C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.16299.248_none_15ced204935f55d7\comctl32.dll","SUCCESS","Image Base: 0x7ff9d92b0000, Image Size: 0x269000"
+"23:07:26.7814907","chrome.exe","10888","Load Image","C:\Windows\System32\DWrite.dll","SUCCESS","Image Base: 0x7ff9c8a70000, Image Size: 0x30f000"
+"23:07:26.7853324","chrome.exe","10888","Load Image","C:\Windows\System32\dxgi.dll","SUCCESS","Image Base: 0x7ff9dfc40000, Image Size: 0xaf000"
+"23:07:26.7883464","chrome.exe","10888","Load Image","C:\Windows\System32\winspool.drv","SUCCESS","Image Base: 0x7ff9da7f0000, Image Size: 0x86000"
+"23:07:26.7905589","chrome.exe","10888","Load Image","C:\Windows\System32\dbghelp.dll","SUCCESS","Image Base: 0x7ff9df890000, Image Size: 0x1c8000"
+"23:07:26.7944279","chrome.exe","10888","Load Image","C:\Windows\System32\usp10.dll","SUCCESS","Image Base: 0x7ff9dbcf0000, Image Size: 0x19000"
+"23:07:26.7960428","chrome.exe","10888","Load Image","C:\Windows\System32\winhttp.dll","SUCCESS","Image Base: 0x7ff9d6a70000, Image Size: 0xde000"
+"23:07:26.7978965","chrome.exe","10888","Load Image","C:\Windows\System32\urlmon.dll","SUCCESS","Image Base: 0x7ff9d6520000, Image Size: 0x1cc000"
+"23:07:26.7983691","chrome.exe","10888","Load Image","C:\Windows\System32\imagehlp.dll","SUCCESS","Image Base: 0x7ff9e4610000, Image Size: 0x1d000"
+"23:07:26.8004589","chrome.exe","10888","Load Image","C:\Windows\System32\secur32.dll","SUCCESS","Image Base: 0x7ff9d0600000, Image Size: 0xc000"
+"23:07:26.8021171","chrome.exe","10888","Load Image","C:\Windows\System32\dhcpcsvc.dll","SUCCESS","Image Base: 0x7ff9da520000, Image Size: 0x1a000"
+"23:07:26.8026625","chrome.exe","10888","Load Image","C:\Windows\System32\nsi.dll","SUCCESS","Image Base: 0x7ff9e4a30000, Image Size: 0x8000"
+"23:07:26.8047290","chrome.exe","10888","Load Image","C:\Windows\System32\bcrypt.dll","SUCCESS","Image Base: 0x7ff9e0930000, Image Size: 0x25000"
+"23:07:26.8068563","chrome.exe","10888","Load Image","C:\Windows\System32\iertutil.dll","SUCCESS","Image Base: 0x7ff9d6270000, Image Size: 0x299000"
+"23:07:26.8089885","chrome.exe","10888","Load Image","C:\Windows\System32\sspicli.dll","SUCCESS","Image Base: 0x7ff9e0d00000, Image Size: 0x30000"
+"23:07:26.8369553","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 12184"
+"23:07:26.8370253","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 10776"
+"23:07:26.8370749","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 4692"
+"23:07:26.8371164","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 9728"
+"23:07:26.8371663","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 9556"
+"23:07:26.8372127","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 11572"
+"23:07:26.8376179","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 7868"
+"23:07:26.8400919","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 10348"
+"23:07:26.8512200","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 3160"
+"23:07:26.8520906","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 11788"
+"23:07:26.8521478","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 9288"
+"23:07:26.8521888","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 7800"
+"23:07:26.9341212","chrome.exe","8724","Process Create","C:\Program Files (x86)\Google\Chrome\Application\chrome.exe","SUCCESS","PID: 2516, Command line: ""C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"" --type=renderer --field-trial-handle=1612,8794005255836107264,1022765379407270454,131072 --service-pipe-token=16425749064799648251 --lang=en-US --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --device-scale-factor=1 --num-raster-threads=2 --enable-main-frame-before-activation --service-request-channel-token=16425749064799648251 --renderer-client-id=630 --no-v8-untrusted-code-mitigations --mojo-platform-channel-handle=12592 /prefetch:1"
+"23:07:26.9341422","chrome.exe","2516","Process Start","","SUCCESS","Parent PID: 8724, Command line: ""C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"" --type=renderer --field-trial-handle=1612,8794005255836107264,1022765379407270454,131072 --service-pipe-token=16425749064799648251 --lang=en-US --enable-offline-auto-reload --enable-offline-auto-reload-visible-only --device-scale-factor=1 --num-raster-threads=2 --enable-main-frame-before-activation --service-request-channel-token=16425749064799648251 --renderer-client-id=630 --no-v8-untrusted-code-mitigations --mojo-platform-channel-handle=12592 /prefetch:1, Current directory: C:\Program Files (x86)\Google\Chrome\Application\71.0.3578.98\, Environment: ;	=::=::\;	ALLUSERSPROFILE=C:\ProgramData;	APPDATA=C:\Users\USER\AppData\Roaming;	asl.log=Destination=file;	CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_8724_MJJUPWLFYMMYZABW;	CHROME_RESTART=Google Chrome|Whoa! Google Chrome has crashed. Relaunch now?|LEFT_TO_RIGHT;	CommonProgramFiles=C:\Program Files\Common Files;	CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files;	CommonProgramW6432=C:\Program Files\Common Files;	COMPUTERNAME=TETRIMINO;	ComSpec=C:\WINDOWS\system32\cmd.exe;	C_EM64T_REDIST11=C:\Program Files (x86)\Common Files\Intel\Shared Files\cpp\;	HOMEDRIVE=C:;	HOMEPATH=\Users\USER;	JAVA_HOME=C:\Program Files\Java\jdk1.8.0_91;	LOCALAPPDATA=C:\Users\USER\AppData\Local;	LOGONSERVER=\\TETRIMINO;	MOZ_PLUGIN_PATH=C:\Program Files (x86)\Foxit Software\Foxit Reader\plugins\;	MTPPKROOT=C:\WMSDK\MTPPK12\Responder;	NUMBER_OF_PROCESSORS=4;	OneDrive=C:\Users\USER\OneDrive - Texas Tech University;	OneDriveCommercial=C:\Users\USER\OneDrive - Texas Tech University;	OS=Windows_NT;	Path=C:\Program Files (x86)\Google\Chrome\Application;C:\Program Files\Java\jdk1.8.0_91\bin;C:\Program Files\Java\jdk1.8.0_91\include;D:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Python27\;D:\Setup\OpenCV\opencv\build\x64\vc14\bin;C:\ffmpeg\bin;C:\Program Files\CMake\bin;C:\Program Files\MATLAB\R2017a\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\Users\USER\Anaconda3;C:\Users\USER\Anaconda3\Scripts;C:\Program Files\PuTTY\;C:\Program Files\Java\jdk1.8.0_91\bin;C:\Program Files\Java\jdk1.8.0_91\include;D:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Python27\;D:\Setup\OpenCV\opencv\build\x64\vc14\bin;C:\ffmpeg\bin;C:\Program Files\CMake\bin;C:\Program Files\MATLAB\R2017a\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\Git\cmd;C:\Users\USER\Anaconda3\bin;C:\Program Files\Java\jdk1.8.0_91\bin;C:\Program Files\Java\jdk1.8.0_91\include;D:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Python27\;D:\Setup\OpenCV\opencv\build\x64\vc14\bin;C:\ffmpeg\bin;C:\Program Files\CMake\bin;C:\Program Files\MATLAB\R2017a\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\Git\cmd;\bin;C:\Users\USER\AppData\Local\Microsoft\WindowsApps;C:\Users\USER\AppData\Roaming\Composer\vendor\bin;C:\Us;C:\Users\USER\Anaconda3\Scripts;C:\Users\USER\Anaconda3;;	PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;	PROCESSOR_ARCHITECTURE=AMD64;	PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 69 Stepping 1, GenuineIntel;	PROCESSOR_LEVEL=6;	PROCESSOR_REVISION=4501;	ProgramData=C:\ProgramData;	ProgramFiles=C:\Program Files;	ProgramFiles(x86)=C:\Program Files (x86);	ProgramW6432=C:\Program Files;	PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules;	PUBLIC=C:\Users\Public;	SESSIONNAME=Console;	SystemDrive=C:;	SystemRoot=C:\WINDOWS;	TEMP=C:\Users\USER\AppData\Local\Temp;	TMP=C:\Users\USER\AppData\Local\Temp;	USERDOMAIN=TETRIMINO;	USERDOMAIN_ROAMINGPROFILE=TETRIMINO;	USERNAME=USER;	USERPROFILE=C:\Users\USER;	windir=C:\WINDOWS"
+"23:07:26.9341583","chrome.exe","2516","Thread Create","","SUCCESS","Thread ID: 11412"
+"23:07:26.9528694","chrome.exe","2516","Load Image","C:\Program Files (x86)\Google\Chrome\Application\chrome.exe","SUCCESS","Image Base: 0x7ff76f4a0000, Image Size: 0x18e000"
+"23:07:26.9548088","chrome.exe","2516","Load Image","C:\Windows\System32\ntdll.dll","SUCCESS","Image Base: 0x7ff9e4a80000, Image Size: 0x1e0000"
+"23:07:26.9564247","chrome.exe","2516","Load Image","C:\Windows\System32\kernel32.dll","SUCCESS","Image Base: 0x7ff9e3f80000, Image Size: 0xae000"
+"23:07:26.9570311","chrome.exe","2516","Load Image","C:\Windows\System32\KernelBase.dll","SUCCESS","Image Base: 0x7ff9e1220000, Image Size: 0x266000"
+"23:07:26.9649503","chrome.exe","2516","Load Image","C:\Windows\System32\apphelp.dll","SUCCESS","Image Base: 0x7ff9de520000, Image Size: 0x88000"
+"23:07:26.9747980","chrome.exe","2516","Load Image","C:\Windows\System32\shell32.dll","SUCCESS","Image Base: 0x7ff9e26e0000, Image Size: 0x1436000"
+"23:07:26.9751840","chrome.exe","2516","Load Image","C:\Windows\System32\msvcrt.dll","SUCCESS","Image Base: 0x7ff9e2440000, Image Size: 0x9d000"
+"23:07:26.9757575","chrome.exe","2516","Load Image","C:\Windows\System32\cfgmgr32.dll","SUCCESS","Image Base: 0x7ff9e0e80000, Image Size: 0x4a000"
+"23:07:26.9784149","chrome.exe","2516","Load Image","C:\Windows\System32\ucrtbase.dll","SUCCESS","Image Base: 0x7ff9e0f30000, Image Size: 0xf6000"
+"23:07:26.9787991","chrome.exe","2516","Load Image","C:\Windows\System32\SHCore.dll","SUCCESS","Image Base: 0x7ff9e4500000, Image Size: 0xa6000"
+"23:07:26.9795778","chrome.exe","2516","Load Image","C:\Windows\System32\rpcrt4.dll","SUCCESS","Image Base: 0x7ff9e43e0000, Image Size: 0x11f000"
+"23:07:26.9818474","chrome.exe","2516","Load Image","C:\Windows\System32\combase.dll","SUCCESS","Image Base: 0x7ff9e3c70000, Image Size: 0x308000"
+"23:07:26.9823669","chrome.exe","2516","Load Image","C:\Windows\System32\bcryptprimitives.dll","SUCCESS","Image Base: 0x7ff9e1ed0000, Image Size: 0x72000"
+"23:07:26.9826966","chrome.exe","2516","Load Image","C:\Windows\System32\windows.storage.dll","SUCCESS","Image Base: 0x7ff9e1780000, Image Size: 0x747000"
+"23:07:26.9830697","chrome.exe","2516","Load Image","C:\Windows\System32\advapi32.dll","SUCCESS","Image Base: 0x7ff9e48b0000, Image Size: 0xa1000"
+"23:07:26.9834298","chrome.exe","2516","Load Image","C:\Windows\System32\sechost.dll","SUCCESS","Image Base: 0x7ff9e24e0000, Image Size: 0x5b000"
+"23:07:26.9839019","chrome.exe","2516","Load Image","C:\Windows\System32\shlwapi.dll","SUCCESS","Image Base: 0x7ff9e4140000, Image Size: 0x51000"
+"23:07:26.9842857","chrome.exe","2516","Load Image","C:\Windows\System32\gdi32.dll","SUCCESS","Image Base: 0x7ff9e49d0000, Image Size: 0x28000"
+"23:07:26.9851198","chrome.exe","2516","Load Image","C:\Windows\System32\gdi32full.dll","SUCCESS","Image Base: 0x7ff9e1490000, Image Size: 0x193000"
+"23:07:26.9878329","chrome.exe","2516","Load Image","C:\Windows\System32\msvcp_win.dll","SUCCESS","Image Base: 0x7ff9e16e0000, Image Size: 0x9b000"
+"23:07:26.9891663","chrome.exe","2516","Load Image","C:\Windows\System32\user32.dll","SUCCESS","Image Base: 0x7ff9e4630000, Image Size: 0x18f000"
+"23:07:27.0046609","chrome.exe","2516","Load Image","C:\Windows\System32\win32u.dll","SUCCESS","Image Base: 0x7ff9e1200000, Image Size: 0x20000"
+"23:07:27.0054423","chrome.exe","2516","Load Image","C:\Windows\System32\kernel.appcore.dll","SUCCESS","Image Base: 0x7ff9e0dd0000, Image Size: 0x11000"
+"23:07:27.0123342","chrome.exe","2516","Load Image","C:\Windows\System32\powrprof.dll","SUCCESS","Image Base: 0x7ff9e0e10000, Image Size: 0x4c000"
+"23:07:27.0135306","chrome.exe","2516","Load Image","C:\Windows\System32\profapi.dll","SUCCESS","Image Base: 0x7ff9e0e60000, Image Size: 0x1b000"
+"23:07:27.0140777","chrome.exe","2516","Load Image","C:\Windows\System32\psapi.dll","SUCCESS","Image Base: 0x7ff9e4a40000, Image Size: 0x8000"
+"23:07:27.0170907","chrome.exe","2516","Load Image","C:\Program Files (x86)\Google\Chrome\Application\71.0.3578.98\chrome_elf.dll","SUCCESS","Image Base: 0x7ff9c2560000, Image Size: 0x98000"
+"23:07:27.0248246","chrome.exe","2516","Load Image","C:\Windows\System32\version.dll","SUCCESS","Image Base: 0x7ff9dae10000, Image Size: 0xa000"
+"23:07:27.0287860","chrome.exe","2516","Load Image","C:\Windows\System32\winmm.dll","SUCCESS","Image Base: 0x7ff9dc880000, Image Size: 0x23000"
+"23:07:27.0312854","chrome.exe","2516","Load Image","C:\Windows\System32\userenv.dll","SUCCESS","Image Base: 0x7ff9e0cd0000, Image Size: 0x29000"
+"23:07:27.0334818","chrome.exe","2516","Load Image","C:\Windows\System32\winmmbase.dll","SUCCESS","Image Base: 0x7ff9dc820000, Image Size: 0x2a000"
+"23:07:27.0360268","chrome.exe","2516","Load Image","C:\Windows\System32\cryptbase.dll","SUCCESS","Image Base: 0x7ff9e0840000, Image Size: 0xb000"
+"23:07:27.0512367","chrome.exe","2516","Load Image","C:\Windows\System32\imm32.dll","SUCCESS","Image Base: 0x1e84f400000, Image Size: 0x2d000"
+"23:07:27.0538798","chrome.exe","2516","Thread Create","","SUCCESS","Thread ID: 5720"
+"23:07:27.1114534","chrome.exe","2516","Load Image","C:\Program Files (x86)\Google\Chrome\Application\71.0.3578.98\chrome_child.dll","SUCCESS","Image Base: 0x7ff9963b0000, Image Size: 0x5838000"
+"23:07:27.1121754","chrome.exe","2516","Load Image","C:\Windows\System32\ws2_32.dll","SUCCESS","Image Base: 0x7ff9e4960000, Image Size: 0x6c000"
+"23:07:27.1125547","chrome.exe","2516","Load Image","C:\Windows\System32\ole32.dll","SUCCESS","Image Base: 0x7ff9e3b20000, Image Size: 0x149000"
+"23:07:27.1129425","chrome.exe","2516","Load Image","C:\Windows\System32\oleaut32.dll","SUCCESS","Image Base: 0x7ff9e4310000, Image Size: 0xc5000"
+"23:07:27.1132883","chrome.exe","2516","Load Image","C:\Windows\System32\wintrust.dll","SUCCESS","Image Base: 0x7ff9e0ed0000, Image Size: 0x58000"
+"23:07:27.1135878","chrome.exe","2516","Load Image","C:\Windows\System32\msasn1.dll","SUCCESS","Image Base: 0x7ff9e0df0000, Image Size: 0x12000"
+"23:07:27.1138734","chrome.exe","2516","Load Image","C:\Windows\System32\crypt32.dll","SUCCESS","Image Base: 0x7ff9e1030000, Image Size: 0x1ce000"
+"23:07:27.1143401","chrome.exe","2516","Load Image","C:\Windows\System32\comdlg32.dll","SUCCESS","Image Base: 0x1e84f850000, Image Size: 0x10a000"
+"23:07:27.1165410","chrome.exe","2516","Load Image","C:\Windows\System32\IPHLPAPI.DLL","SUCCESS","Image Base: 0x7ff9e03f0000, Image Size: 0x39000"
+"23:07:27.1178793","chrome.exe","2516","Load Image","C:\Windows\System32\oleacc.dll","SUCCESS","Image Base: 0x7ff9da780000, Image Size: 0x6e000"
+"23:07:27.1192007","chrome.exe","2516","Load Image","C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.16299.248_none_15ced204935f55d7\comctl32.dll","SUCCESS","Image Base: 0x7ff9d92b0000, Image Size: 0x269000"
+"23:07:27.1203016","chrome.exe","2516","Load Image","C:\Windows\System32\DWrite.dll","SUCCESS","Image Base: 0x7ff9c8a70000, Image Size: 0x30f000"
+"23:07:27.1213248","chrome.exe","2516","Load Image","C:\Windows\System32\dxgi.dll","SUCCESS","Image Base: 0x7ff9dfc40000, Image Size: 0xaf000"
+"23:07:27.1282568","chrome.exe","2516","Load Image","C:\Windows\System32\winspool.drv","SUCCESS","Image Base: 0x7ff9da7f0000, Image Size: 0x86000"
+"23:07:27.1313569","chrome.exe","2516","Load Image","C:\Windows\System32\dbghelp.dll","SUCCESS","Image Base: 0x7ff9df890000, Image Size: 0x1c8000"
+"23:07:27.1340067","chrome.exe","2516","Load Image","C:\Windows\System32\usp10.dll","SUCCESS","Image Base: 0x7ff9dbcf0000, Image Size: 0x19000"
+"23:07:27.1358328","chrome.exe","2516","Load Image","C:\Windows\System32\winhttp.dll","SUCCESS","Image Base: 0x7ff9d6a70000, Image Size: 0xde000"
+"23:07:27.1402609","chrome.exe","2516","Load Image","C:\Windows\System32\urlmon.dll","SUCCESS","Image Base: 0x7ff9d6520000, Image Size: 0x1cc000"
+"23:07:27.1411842","chrome.exe","2516","Load Image","C:\Windows\System32\imagehlp.dll","SUCCESS","Image Base: 0x7ff9e4610000, Image Size: 0x1d000"
+"23:07:27.1512359","chrome.exe","2516","Load Image","C:\Windows\System32\secur32.dll","SUCCESS","Image Base: 0x7ff9d0600000, Image Size: 0xc000"
+"23:07:27.1558206","chrome.exe","2516","Load Image","C:\Windows\System32\dhcpcsvc.dll","SUCCESS","Image Base: 0x7ff9da520000, Image Size: 0x1a000"
+"23:07:27.1566176","chrome.exe","2516","Load Image","C:\Windows\System32\nsi.dll","SUCCESS","Image Base: 0x7ff9e4a30000, Image Size: 0x8000"
+"23:07:27.1646983","chrome.exe","2516","Load Image","C:\Windows\System32\bcrypt.dll","SUCCESS","Image Base: 0x7ff9e0930000, Image Size: 0x25000"
+"23:07:27.1666948","chrome.exe","2516","Load Image","C:\Windows\System32\iertutil.dll","SUCCESS","Image Base: 0x7ff9d6270000, Image Size: 0x299000"
+"23:07:27.1711537","chrome.exe","2516","Load Image","C:\Windows\System32\sspicli.dll","SUCCESS","Image Base: 0x7ff9e0d00000, Image Size: 0x30000"
+"23:07:27.2274911","chrome.exe","2516","Thread Create","","SUCCESS","Thread ID: 7764"
+"23:07:27.2275536","chrome.exe","2516","Thread Create","","SUCCESS","Thread ID: 9988"
+"23:07:27.2276036","chrome.exe","2516","Thread Create","","SUCCESS","Thread ID: 4632"
+"23:07:27.2276496","chrome.exe","2516","Thread Create","","SUCCESS","Thread ID: 7476"
+"23:07:27.2277040","chrome.exe","2516","Thread Create","","SUCCESS","Thread ID: 6832"
+"23:07:27.2277589","chrome.exe","2516","Thread Create","","SUCCESS","Thread ID: 7088"
+"23:07:27.2281021","chrome.exe","2516","Thread Create","","SUCCESS","Thread ID: 11984"
+"23:07:27.2300754","chrome.exe","2516","Thread Create","","SUCCESS","Thread ID: 3288"
+"23:07:27.2403908","chrome.exe","2516","Thread Create","","SUCCESS","Thread ID: 6396"
+"23:07:27.2423762","chrome.exe","2516","Thread Create","","SUCCESS","Thread ID: 5640"
+"23:07:27.2424503","chrome.exe","2516","Thread Create","","SUCCESS","Thread ID: 5784"
+"23:07:27.2424944","chrome.exe","2516","Thread Create","","SUCCESS","Thread ID: 2668"
+"23:07:27.3344576","chrome.exe","8724","Process Create","C:\Program Files (x86)\Google\Chrome\Application\chrome.exe","SUCCESS","PID: 3216, Command line: ""C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"" --type=utility --field-trial-handle=1612,8794005255836107264,1022765379407270454,131072 --lang=en-US --service-sandbox-type=utility --service-request-channel-token=7602047880597464520 --mojo-platform-channel-handle=14672 --ignored="" --type=renderer "" /prefetch:8"
+"23:07:27.3344701","chrome.exe","3216","Process Start","","SUCCESS","Parent PID: 8724, Command line: ""C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"" --type=utility --field-trial-handle=1612,8794005255836107264,1022765379407270454,131072 --lang=en-US --service-sandbox-type=utility --service-request-channel-token=7602047880597464520 --mojo-platform-channel-handle=14672 --ignored="" --type=renderer "" /prefetch:8, Current directory: C:\Program Files (x86)\Google\Chrome\Application\71.0.3578.98\, Environment: ;	=::=::\;	ALLUSERSPROFILE=C:\ProgramData;	APPDATA=C:\Users\USER\AppData\Roaming;	asl.log=Destination=file;	CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_8724_MJJUPWLFYMMYZABW;	CHROME_RESTART=Google Chrome|Whoa! Google Chrome has crashed. Relaunch now?|LEFT_TO_RIGHT;	CommonProgramFiles=C:\Program Files\Common Files;	CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files;	CommonProgramW6432=C:\Program Files\Common Files;	COMPUTERNAME=TETRIMINO;	ComSpec=C:\WINDOWS\system32\cmd.exe;	C_EM64T_REDIST11=C:\Program Files (x86)\Common Files\Intel\Shared Files\cpp\;	HOMEDRIVE=C:;	HOMEPATH=\Users\USER;	JAVA_HOME=C:\Program Files\Java\jdk1.8.0_91;	LOCALAPPDATA=C:\Users\USER\AppData\Local;	LOGONSERVER=\\TETRIMINO;	MOZ_PLUGIN_PATH=C:\Program Files (x86)\Foxit Software\Foxit Reader\plugins\;	MTPPKROOT=C:\WMSDK\MTPPK12\Responder;	NUMBER_OF_PROCESSORS=4;	OneDrive=C:\Users\USER\OneDrive - Texas Tech University;	OneDriveCommercial=C:\Users\USER\OneDrive - Texas Tech University;	OS=Windows_NT;	Path=C:\Program Files (x86)\Google\Chrome\Application;C:\Program Files\Java\jdk1.8.0_91\bin;C:\Program Files\Java\jdk1.8.0_91\include;D:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Python27\;D:\Setup\OpenCV\opencv\build\x64\vc14\bin;C:\ffmpeg\bin;C:\Program Files\CMake\bin;C:\Program Files\MATLAB\R2017a\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\Users\USER\Anaconda3;C:\Users\USER\Anaconda3\Scripts;C:\Program Files\PuTTY\;C:\Program Files\Java\jdk1.8.0_91\bin;C:\Program Files\Java\jdk1.8.0_91\include;D:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Python27\;D:\Setup\OpenCV\opencv\build\x64\vc14\bin;C:\ffmpeg\bin;C:\Program Files\CMake\bin;C:\Program Files\MATLAB\R2017a\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\Git\cmd;C:\Users\USER\Anaconda3\bin;C:\Program Files\Java\jdk1.8.0_91\bin;C:\Program Files\Java\jdk1.8.0_91\include;D:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Python27\;D:\Setup\OpenCV\opencv\build\x64\vc14\bin;C:\ffmpeg\bin;C:\Program Files\CMake\bin;C:\Program Files\MATLAB\R2017a\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\Git\cmd;\bin;C:\Users\USER\AppData\Local\Microsoft\WindowsApps;C:\Users\USER\AppData\Roaming\Composer\vendor\bin;C:\Us;C:\Users\USER\Anaconda3\Scripts;C:\Users\USER\Anaconda3;;	PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;	PROCESSOR_ARCHITECTURE=AMD64;	PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 69 Stepping 1, GenuineIntel;	PROCESSOR_LEVEL=6;	PROCESSOR_REVISION=4501;	ProgramData=C:\ProgramData;	ProgramFiles=C:\Program Files;	ProgramFiles(x86)=C:\Program Files (x86);	ProgramW6432=C:\Program Files;	PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules;	PUBLIC=C:\Users\Public;	SESSIONNAME=Console;	SystemDrive=C:;	SystemRoot=C:\WINDOWS;	TEMP=C:\Users\USER\AppData\Local\Temp;	TMP=C:\Users\USER\AppData\Local\Temp;	USERDOMAIN=TETRIMINO;	USERDOMAIN_ROAMINGPROFILE=TETRIMINO;	USERNAME=USER;	USERPROFILE=C:\Users\USER;	windir=C:\WINDOWS"
+"23:07:27.3344822","chrome.exe","3216","Thread Create","","SUCCESS","Thread ID: 3720"
+"23:07:27.3439381","chrome.exe","3216","Load Image","C:\Program Files (x86)\Google\Chrome\Application\chrome.exe","SUCCESS","Image Base: 0x7ff76f4a0000, Image Size: 0x18e000"
+"23:07:27.3440720","chrome.exe","3216","Load Image","C:\Windows\System32\ntdll.dll","SUCCESS","Image Base: 0x7ff9e4a80000, Image Size: 0x1e0000"
+"23:07:27.3919214","System","4","Thread Create","","SUCCESS","Thread ID: 11648"
+"23:07:27.3929058","System","4","Thread Create","","SUCCESS","Thread ID: 1924"
+"23:07:27.3931544","System","4","Thread Create","","SUCCESS","Thread ID: 9544"
+"23:07:27.3931811","System","4","Thread Create","","SUCCESS","Thread ID: 10912"
+"23:07:27.3934984","System","4","Thread Create","","SUCCESS","Thread ID: 7004"
+"23:07:27.3935944","System","4","Thread Create","","SUCCESS","Thread ID: 10872"
+"23:07:27.3936542","System","4","Thread Create","","SUCCESS","Thread ID: 800"
+"23:07:27.3937684","System","4","Thread Create","","SUCCESS","Thread ID: 892"
+"23:07:27.3943615","System","4","Thread Create","","SUCCESS","Thread ID: 10724"
+"23:07:27.3946207","System","4","Thread Create","","SUCCESS","Thread ID: 8348"
+"23:07:27.3946520","System","4","Thread Create","","SUCCESS","Thread ID: 7344"
+"23:07:27.3951794","System","4","Thread Create","","SUCCESS","Thread ID: 2512"
+"23:07:27.3953079","System","4","Thread Create","","SUCCESS","Thread ID: 10684"
+"23:07:27.3953566","System","4","Thread Create","","SUCCESS","Thread ID: 11656"
+"23:07:27.3955909","System","4","Thread Create","","SUCCESS","Thread ID: 5724"
+"23:07:27.3960210","System","4","Thread Create","","SUCCESS","Thread ID: 9428"
+"23:07:27.3961656","System","4","Thread Create","","SUCCESS","Thread ID: 5832"
+"23:07:27.3963508","System","4","Thread Create","","SUCCESS","Thread ID: 2756"
+"23:07:27.3963914","System","4","Thread Create","","SUCCESS","Thread ID: 6004"
+"23:07:27.3968399","System","4","Thread Create","","SUCCESS","Thread ID: 10380"
+"23:07:27.3970666","System","4","Thread Create","","SUCCESS","Thread ID: 9484"
+"23:07:27.3970961","System","4","Thread Create","","SUCCESS","Thread ID: 11992"
+"23:07:27.3974419","System","4","Thread Create","","SUCCESS","Thread ID: 11800"
+"23:07:27.3976677","System","4","Thread Create","","SUCCESS","Thread ID: 7072"
+"23:07:27.3978395","System","4","Thread Create","","SUCCESS","Thread ID: 11152"
+"23:07:27.3979426","System","4","Thread Create","","SUCCESS","Thread ID: 10708"
+"23:07:27.4027331","System","4","Thread Create","","SUCCESS","Thread ID: 9892"
+"23:07:27.4104116","System","4","Thread Create","","SUCCESS","Thread ID: 10564"
+"23:07:27.4413536","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 10300"
+"23:07:27.5069877","chrome.exe","3216","Load Image","C:\Windows\System32\kernel32.dll","SUCCESS","Image Base: 0x7ff9e3f80000, Image Size: 0xae000"
+"23:07:27.5166266","chrome.exe","3216","Load Image","C:\Windows\System32\KernelBase.dll","SUCCESS","Image Base: 0x7ff9e1220000, Image Size: 0x266000"
+"23:07:27.5198802","chrome.exe","3216","Load Image","C:\Windows\System32\apphelp.dll","SUCCESS","Image Base: 0x7ff9de520000, Image Size: 0x88000"
+"23:07:27.5258055","chrome.exe","3216","Load Image","C:\Windows\System32\shell32.dll","SUCCESS","Image Base: 0x7ff9e26e0000, Image Size: 0x1436000"
+"23:07:27.5270340","chrome.exe","3216","Load Image","C:\Windows\System32\msvcrt.dll","SUCCESS","Image Base: 0x7ff9e2440000, Image Size: 0x9d000"
+"23:07:27.5274495","chrome.exe","3216","Load Image","C:\Windows\System32\cfgmgr32.dll","SUCCESS","Image Base: 0x7ff9e0e80000, Image Size: 0x4a000"
+"23:07:27.5277837","chrome.exe","3216","Load Image","C:\Windows\System32\ucrtbase.dll","SUCCESS","Image Base: 0x7ff9e0f30000, Image Size: 0xf6000"
+"23:07:27.5281590","chrome.exe","3216","Load Image","C:\Windows\System32\SHCore.dll","SUCCESS","Image Base: 0x7ff9e4500000, Image Size: 0xa6000"
+"23:07:27.5284767","chrome.exe","3216","Load Image","C:\Windows\System32\rpcrt4.dll","SUCCESS","Image Base: 0x7ff9e43e0000, Image Size: 0x11f000"
+"23:07:27.5289569","chrome.exe","3216","Load Image","C:\Windows\System32\combase.dll","SUCCESS","Image Base: 0x7ff9e3c70000, Image Size: 0x308000"
+"23:07:27.5292992","chrome.exe","3216","Load Image","C:\Windows\System32\bcryptprimitives.dll","SUCCESS","Image Base: 0x7ff9e1ed0000, Image Size: 0x72000"
+"23:07:27.5296187","chrome.exe","3216","Load Image","C:\Windows\System32\windows.storage.dll","SUCCESS","Image Base: 0x7ff9e1780000, Image Size: 0x747000"
+"23:07:27.5299489","chrome.exe","3216","Load Image","C:\Windows\System32\advapi32.dll","SUCCESS","Image Base: 0x7ff9e48b0000, Image Size: 0xa1000"
+"23:07:27.5302131","chrome.exe","3216","Load Image","C:\Windows\System32\sechost.dll","SUCCESS","Image Base: 0x7ff9e24e0000, Image Size: 0x5b000"
+"23:07:27.5305594","chrome.exe","3216","Load Image","C:\Windows\System32\shlwapi.dll","SUCCESS","Image Base: 0x7ff9e4140000, Image Size: 0x51000"
+"23:07:27.5308811","chrome.exe","3216","Load Image","C:\Windows\System32\gdi32.dll","SUCCESS","Image Base: 0x7ff9e49d0000, Image Size: 0x28000"
+"23:07:27.5311390","chrome.exe","3216","Load Image","C:\Windows\System32\gdi32full.dll","SUCCESS","Image Base: 0x7ff9e1490000, Image Size: 0x193000"
+"23:07:27.5314050","chrome.exe","3216","Load Image","C:\Windows\System32\msvcp_win.dll","SUCCESS","Image Base: 0x7ff9e16e0000, Image Size: 0x9b000"
+"23:07:27.5317352","chrome.exe","3216","Load Image","C:\Windows\System32\user32.dll","SUCCESS","Image Base: 0x7ff9e4630000, Image Size: 0x18f000"
+"23:07:27.5319914","chrome.exe","3216","Load Image","C:\Windows\System32\win32u.dll","SUCCESS","Image Base: 0x7ff9e1200000, Image Size: 0x20000"
+"23:07:27.5322975","chrome.exe","3216","Load Image","C:\Windows\System32\kernel.appcore.dll","SUCCESS","Image Base: 0x7ff9e0dd0000, Image Size: 0x11000"
+"23:07:27.5325782","chrome.exe","3216","Load Image","C:\Windows\System32\powrprof.dll","SUCCESS","Image Base: 0x7ff9e0e10000, Image Size: 0x4c000"
+"23:07:27.5328531","chrome.exe","3216","Load Image","C:\Windows\System32\profapi.dll","SUCCESS","Image Base: 0x7ff9e0e60000, Image Size: 0x1b000"
+"23:07:27.5331708","chrome.exe","3216","Load Image","C:\Windows\System32\psapi.dll","SUCCESS","Image Base: 0x7ff9e4a40000, Image Size: 0x8000"
+"23:07:27.5341061","chrome.exe","3216","Load Image","C:\Program Files (x86)\Google\Chrome\Application\71.0.3578.98\chrome_elf.dll","SUCCESS","Image Base: 0x7ff9c2560000, Image Size: 0x98000"
+"23:07:27.5622126","chrome.exe","8724","Thread Exit","","SUCCESS","Thread ID: 8156, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:27.5676069","chrome.exe","3216","Load Image","C:\Windows\System32\version.dll","SUCCESS","Image Base: 0x7ff9dae10000, Image Size: 0xa000"
+"23:07:27.5696877","chrome.exe","3216","Load Image","C:\Windows\System32\winmm.dll","SUCCESS","Image Base: 0x7ff9dc880000, Image Size: 0x23000"
+"23:07:27.5713580","chrome.exe","3216","Load Image","C:\Windows\System32\userenv.dll","SUCCESS","Image Base: 0x7ff9e0cd0000, Image Size: 0x29000"
+"23:07:27.5740591","chrome.exe","3216","Load Image","C:\Windows\System32\winmmbase.dll","SUCCESS","Image Base: 0x7ff9dc820000, Image Size: 0x2a000"
+"23:07:27.5779870","chrome.exe","3216","Load Image","C:\Windows\System32\cryptbase.dll","SUCCESS","Image Base: 0x7ff9e0840000, Image Size: 0xb000"
+"23:07:27.5981820","chrome.exe","3216","Load Image","C:\Windows\System32\imm32.dll","SUCCESS","Image Base: 0x7ff9e4a00000, Image Size: 0x2d000"
+"23:07:27.6043045","chrome.exe","3216","Thread Create","","SUCCESS","Thread ID: 6664"
+"23:07:27.6908489","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 11368"
+"23:07:27.7036432","chrome.exe","3216","Load Image","C:\Program Files (x86)\Google\Chrome\Application\71.0.3578.98\chrome_child.dll","SUCCESS","Image Base: 0x7ff9963b0000, Image Size: 0x5838000"
+"23:07:27.7047856","chrome.exe","3216","Load Image","C:\Windows\System32\ws2_32.dll","SUCCESS","Image Base: 0x7ff9e4960000, Image Size: 0x6c000"
+"23:07:27.7057169","chrome.exe","3216","Load Image","C:\Windows\System32\ole32.dll","SUCCESS","Image Base: 0x7ff9e3b20000, Image Size: 0x149000"
+"23:07:27.7061101","chrome.exe","3216","Load Image","C:\Windows\System32\oleaut32.dll","SUCCESS","Image Base: 0x7ff9e4310000, Image Size: 0xc5000"
+"23:07:27.7064354","chrome.exe","3216","Load Image","C:\Windows\System32\wintrust.dll","SUCCESS","Image Base: 0x7ff9e0ed0000, Image Size: 0x58000"
+"23:07:27.7066768","chrome.exe","3216","Load Image","C:\Windows\System32\msasn1.dll","SUCCESS","Image Base: 0x7ff9e0df0000, Image Size: 0x12000"
+"23:07:27.7069588","chrome.exe","3216","Load Image","C:\Windows\System32\crypt32.dll","SUCCESS","Image Base: 0x7ff9e1030000, Image Size: 0x1ce000"
+"23:07:27.7074702","chrome.exe","3216","Load Image","C:\Windows\System32\comdlg32.dll","SUCCESS","Image Base: 0x2c2aea60000, Image Size: 0x10a000"
+"23:07:27.7121938","chrome.exe","3216","Load Image","C:\Windows\System32\IPHLPAPI.DLL","SUCCESS","Image Base: 0x7ff9e03f0000, Image Size: 0x39000"
+"23:07:27.7141430","chrome.exe","3216","Load Image","C:\Windows\System32\oleacc.dll","SUCCESS","Image Base: 0x7ff9da780000, Image Size: 0x6e000"
+"23:07:27.7155844","chrome.exe","3216","Load Image","C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.16299.248_none_15ced204935f55d7\comctl32.dll","SUCCESS","Image Base: 0x7ff9d92b0000, Image Size: 0x269000"
+"23:07:27.7172109","chrome.exe","3216","Load Image","C:\Windows\System32\DWrite.dll","SUCCESS","Image Base: 0x7ff9c8a70000, Image Size: 0x30f000"
+"23:07:27.7186809","chrome.exe","3216","Load Image","C:\Windows\System32\dxgi.dll","SUCCESS","Image Base: 0x7ff9dfc40000, Image Size: 0xaf000"
+"23:07:27.7202561","chrome.exe","3216","Load Image","C:\Windows\System32\winspool.drv","SUCCESS","Image Base: 0x7ff9da7f0000, Image Size: 0x86000"
+"23:07:27.7219197","chrome.exe","3216","Load Image","C:\Windows\System32\dbghelp.dll","SUCCESS","Image Base: 0x7ff9df890000, Image Size: 0x1c8000"
+"23:07:27.7235044","chrome.exe","3216","Load Image","C:\Windows\System32\usp10.dll","SUCCESS","Image Base: 0x7ff9dbcf0000, Image Size: 0x19000"
+"23:07:27.7250529","chrome.exe","3216","Load Image","C:\Windows\System32\winhttp.dll","SUCCESS","Image Base: 0x7ff9d6a70000, Image Size: 0xde000"
+"23:07:27.7276094","chrome.exe","3216","Load Image","C:\Windows\System32\urlmon.dll","SUCCESS","Image Base: 0x7ff9d6520000, Image Size: 0x1cc000"
+"23:07:27.7279776","chrome.exe","3216","Load Image","C:\Windows\System32\imagehlp.dll","SUCCESS","Image Base: 0x7ff9e4610000, Image Size: 0x1d000"
+"23:07:27.7298241","chrome.exe","3216","Load Image","C:\Windows\System32\secur32.dll","SUCCESS","Image Base: 0x7ff9d0600000, Image Size: 0xc000"
+"23:07:27.7313284","chrome.exe","3216","Load Image","C:\Windows\System32\dhcpcsvc.dll","SUCCESS","Image Base: 0x7ff9da520000, Image Size: 0x1a000"
+"23:07:27.7315868","chrome.exe","3216","Load Image","C:\Windows\System32\nsi.dll","SUCCESS","Image Base: 0x7ff9e4a30000, Image Size: 0x8000"
+"23:07:27.7339564","chrome.exe","3216","Load Image","C:\Windows\System32\bcrypt.dll","SUCCESS","Image Base: 0x7ff9e0930000, Image Size: 0x25000"
+"23:07:27.7359623","chrome.exe","3216","Load Image","C:\Windows\System32\iertutil.dll","SUCCESS","Image Base: 0x7ff9d6270000, Image Size: 0x299000"
+"23:07:27.7385255","chrome.exe","3216","Load Image","C:\Windows\System32\sspicli.dll","SUCCESS","Image Base: 0x7ff9e0d00000, Image Size: 0x30000"
+"23:07:27.7698240","chrome.exe","3216","Thread Create","","SUCCESS","Thread ID: 816"
+"23:07:27.7698967","chrome.exe","3216","Thread Create","","SUCCESS","Thread ID: 10928"
+"23:07:27.7699427","chrome.exe","3216","Thread Create","","SUCCESS","Thread ID: 6956"
+"23:07:27.7699811","chrome.exe","3216","Thread Create","","SUCCESS","Thread ID: 1676"
+"23:07:27.7700168","chrome.exe","3216","Thread Create","","SUCCESS","Thread ID: 7760"
+"23:07:27.7700578","chrome.exe","3216","Thread Create","","SUCCESS","Thread ID: 8292"
+"23:07:27.7702903","chrome.exe","3216","Thread Create","","SUCCESS","Thread ID: 4976"
+"23:07:27.7856493","chrome.exe","8556","Thread Exit","","SUCCESS","Thread ID: 3088, User Time: 0.0468750, Kernel Time: 0.0000000"
+"23:07:27.7857051","chrome.exe","8556","Thread Exit","","SUCCESS","Thread ID: 9960, User Time: 0.2187500, Kernel Time: 0.1562500"
+"23:07:27.7937558","chrome.exe","8556","Thread Exit","","SUCCESS","Thread ID: 9532, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:27.7969036","chrome.exe","8556","Thread Exit","","SUCCESS","Thread ID: 5360, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:27.7970705","chrome.exe","8556","Thread Exit","","SUCCESS","Thread ID: 10832, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:27.7971196","chrome.exe","8556","Thread Exit","","SUCCESS","Thread ID: 11940, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:27.7971580","chrome.exe","8556","Thread Exit","","SUCCESS","Thread ID: 5512, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:27.7971937","chrome.exe","8556","Thread Exit","","SUCCESS","Thread ID: 11384, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:27.7972276","chrome.exe","8556","Thread Exit","","SUCCESS","Thread ID: 12084, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:27.7972597","chrome.exe","8556","Thread Exit","","SUCCESS","Thread ID: 9528, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:27.7972910","chrome.exe","8556","Thread Exit","","SUCCESS","Thread ID: 7176, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:28.0727155","chrome.exe","4840","Thread Exit","","SUCCESS","Thread ID: 8968, User Time: 0.0781250, Kernel Time: 0.0312500"
+"23:07:28.0727940","chrome.exe","4840","Thread Exit","","SUCCESS","Thread ID: 4944, User Time: 3.0937500, Kernel Time: 0.3125000"
+"23:07:28.0728935","chrome.exe","4840","Thread Exit","","SUCCESS","Thread ID: 7700, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:28.0729284","chrome.exe","4840","Thread Exit","","SUCCESS","Thread ID: 8884, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:28.0729587","chrome.exe","4840","Thread Exit","","SUCCESS","Thread ID: 11084, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:28.0729873","chrome.exe","4840","Thread Exit","","SUCCESS","Thread ID: 5592, User Time: 0.2031250, Kernel Time: 0.0000000"
+"23:07:28.0730158","chrome.exe","4840","Thread Exit","","SUCCESS","Thread ID: 11168, User Time: 0.1093750, Kernel Time: 0.0000000"
+"23:07:28.0730471","chrome.exe","4840","Thread Exit","","SUCCESS","Thread ID: 10712, User Time: 0.0000000, Kernel Time: 0.0156250"
+"23:07:28.0730765","chrome.exe","4840","Thread Exit","","SUCCESS","Thread ID: 5164, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:28.0731055","chrome.exe","4840","Thread Exit","","SUCCESS","Thread ID: 8544, User Time: 0.0312500, Kernel Time: 0.0312500"
+"23:07:28.0731368","chrome.exe","4840","Thread Exit","","SUCCESS","Thread ID: 5704, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:28.0731662","chrome.exe","4840","Thread Exit","","SUCCESS","Thread ID: 11360, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:28.0731957","chrome.exe","4840","Thread Exit","","SUCCESS","Thread ID: 5276, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:28.0732251","chrome.exe","4840","Thread Exit","","SUCCESS","Thread ID: 10232, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:28.0732546","chrome.exe","4840","Thread Exit","","SUCCESS","Thread ID: 296, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:28.0732903","chrome.exe","8556","Thread Exit","","SUCCESS","Thread ID: 12252, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:28.0733197","chrome.exe","8556","Thread Exit","","SUCCESS","Thread ID: 11468, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:28.0733572","chrome.exe","8556","Thread Exit","","SUCCESS","Thread ID: 4200, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:28.0739074","chrome.exe","4840","Thread Exit","","SUCCESS","Thread ID: 5844, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:28.0739400","chrome.exe","4840","Thread Exit","","SUCCESS","Thread ID: 1564, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:28.0739703","chrome.exe","4840","Thread Exit","","SUCCESS","Thread ID: 7048, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:28.0834692","chrome.exe","4840","Process Exit","","SUCCESS","Exit Status: 0, User Time: 3.6250000 seconds, Kernel Time: 0.3906250 seconds, Private Bytes: 95,350,784, Peak Private Bytes: 120,209,408, Working Set: 123,084,800, Peak Working Set: 129,134,592"
+"23:07:28.0838610","chrome.exe","8556","Process Exit","","SUCCESS","Exit Status: 0, User Time: 0.2656250 seconds, Kernel Time: 0.1562500 seconds, Private Bytes: 29,790,208, Peak Private Bytes: 35,303,424, Working Set: 47,276,032, Peak Working Set: 50,081,792"
+"23:07:28.4030102","svchost.exe","288","Thread Create","","SUCCESS","Thread ID: 1872"
+"23:07:28.4661092","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 2064"
+"23:07:28.7596884","chrome.exe","10296","Thread Create","","SUCCESS","Thread ID: 11584"
+"23:07:30.5752658","chrome.exe","5172","Thread Exit","","SUCCESS","Thread ID: 12172, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:30.5962600","chrome.exe","5172","Thread Exit","","SUCCESS","Thread ID: 7204, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:30.5963247","chrome.exe","5172","Thread Exit","","SUCCESS","Thread ID: 1680, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:30.5963697","chrome.exe","5172","Thread Exit","","SUCCESS","Thread ID: 6544, User Time: 0.0156250, Kernel Time: 0.0000000"
+"23:07:30.5964229","chrome.exe","5172","Thread Exit","","SUCCESS","Thread ID: 5452, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:30.5964586","chrome.exe","5172","Thread Exit","","SUCCESS","Thread ID: 7936, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:30.5965273","chrome.exe","5172","Thread Exit","","SUCCESS","Thread ID: 3788, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:30.5965625","chrome.exe","5172","Thread Exit","","SUCCESS","Thread ID: 6992, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:30.5965964","chrome.exe","5172","Thread Exit","","SUCCESS","Thread ID: 7108, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:30.5966286","chrome.exe","5172","Thread Exit","","SUCCESS","Thread ID: 4168, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:30.5966656","chrome.exe","5172","Thread Exit","","SUCCESS","Thread ID: 11396, User Time: 0.1250000, Kernel Time: 0.1562500"
+"23:07:30.5967084","chrome.exe","5172","Thread Exit","","SUCCESS","Thread ID: 10376, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:30.6068329","chrome.exe","5172","Thread Exit","","SUCCESS","Thread ID: 10416, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:30.6069092","chrome.exe","5172","Thread Exit","","SUCCESS","Thread ID: 6940, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:30.6113503","chrome.exe","5172","Process Exit","","SUCCESS","Exit Status: 0, User Time: 0.1406250 seconds, Kernel Time: 0.1562500 seconds, Private Bytes: 19,894,272, Peak Private Bytes: 21,729,280, Working Set: 32,305,152, Peak Working Set: 33,361,920"
+"23:07:32.0497266","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 11272"
+"23:07:32.7776735","chrome.exe","3216","Thread Exit","","SUCCESS","Thread ID: 8292, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:32.7785231","chrome.exe","3216","Thread Exit","","SUCCESS","Thread ID: 4976, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:32.7787382","chrome.exe","3216","Thread Exit","","SUCCESS","Thread ID: 6956, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:32.7788578","chrome.exe","3216","Thread Exit","","SUCCESS","Thread ID: 10928, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:32.7801957","chrome.exe","3216","Thread Exit","","SUCCESS","Thread ID: 3720, User Time: 0.0156250, Kernel Time: 0.1875000"
+"23:07:32.7804224","chrome.exe","3216","Thread Exit","","SUCCESS","Thread ID: 816, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:32.7804487","chrome.exe","3216","Thread Exit","","SUCCESS","Thread ID: 6664, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:32.7862481","chrome.exe","3216","Thread Exit","","SUCCESS","Thread ID: 7760, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:32.7862990","chrome.exe","3216","Thread Exit","","SUCCESS","Thread ID: 1676, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:32.7967287","chrome.exe","3216","Process Exit","","SUCCESS","Exit Status: 0, User Time: 0.0156250 seconds, Kernel Time: 0.1875000 seconds, Private Bytes: 6,660,096, Peak Private Bytes: 8,024,064, Working Set: 16,601,088, Peak Working Set: 16,609,280"
+"23:07:32.8907294","chrome.exe","3640","Load Image","C:\Windows\System32\avrt.dll","SUCCESS","Image Base: 0x7ff9dbd60000, Image Size: 0xa000"
+"23:07:32.8926961","chrome.exe","3640","Thread Create","","SUCCESS","Thread ID: 8404"
+"23:07:32.8931789","chrome.exe","3640","Thread Create","","SUCCESS","Thread ID: 1896"
+"23:07:32.8960625","svchost.exe","2284","Process Create","C:\WINDOWS\system32\AUDIODG.EXE","SUCCESS","PID: 3292, Command line: C:\WINDOWS\system32\AUDIODG.EXE 0x470"
+"23:07:32.8960786","AUDIODG.EXE","3292","Process Start","","SUCCESS","Parent PID: 2284, Command line: C:\WINDOWS\system32\AUDIODG.EXE 0x470, Current directory: C:\WINDOWS\system32\, Environment: ;	ALLUSERSPROFILE=C:\ProgramData;	APPDATA=C:\WINDOWS\ServiceProfiles\LocalService\AppData\Roaming;	asl.log=Destination=file;	CommonProgramFiles=C:\Program Files\Common Files;	CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files;	CommonProgramW6432=C:\Program Files\Common Files;	COMPUTERNAME=TETRIMINO;	ComSpec=C:\WINDOWS\system32\cmd.exe;	C_EM64T_REDIST11=C:\Program Files (x86)\Common Files\Intel\Shared Files\cpp\;	JAVA_HOME=C:\Program Files\Java\jdk1.8.0_91;	LOCALAPPDATA=C:\WINDOWS\ServiceProfiles\LocalService\AppData\Local;	NUMBER_OF_PROCESSORS=4;	OS=Windows_NT;	PATH=C:\Program Files\Java\jdk1.8.0_91\bin;C:\Program Files\Java\jdk1.8.0_91\include;D:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Python27\;D:\Setup\OpenCV\opencv\build\x64\vc14\bin;C:\ffmpeg\bin;C:\Program Files\CMake\bin;C:\Program Files\MATLAB\R2017a\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\Users\USER\Anaconda3;C:\Users\USER\Anaconda3\Scripts;C:\Program Files\PuTTY\;C:\WINDOWS\ServiceProfiles\LocalService\AppData\Local\Microsoft\WindowsApps;	PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;	PROCESSOR_ARCHITECTURE=AMD64;	PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 69 Stepping 1, GenuineIntel;	PROCESSOR_LEVEL=6;	PROCESSOR_REVISION=4501;	ProgramData=C:\ProgramData;	ProgramFiles=C:\Program Files;	ProgramFiles(x86)=C:\Program Files (x86);	ProgramW6432=C:\Program Files;	PSModulePath=%ProgramFiles%\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules;	PUBLIC=C:\Users\Public;	SystemDrive=C:;	SystemRoot=C:\WINDOWS;	TEMP=C:\WINDOWS\SERVIC~2\LOCALS~1\AppData\Local\Temp;	TMP=C:\WINDOWS\SERVIC~2\LOCALS~1\AppData\Local\Temp;	USERDOMAIN=NT AUTHORITY;	USERNAME=LOCAL SERVICE;	USERPROFILE=C:\WINDOWS\ServiceProfiles\LocalService;	windir=C:\WINDOWS"
+"23:07:32.8960924","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 1576"
+"23:07:32.8988199","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\audiodg.exe","SUCCESS","Image Base: 0x7ff7a94d0000, Image Size: 0x98000"
+"23:07:32.8988873","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\ntdll.dll","SUCCESS","Image Base: 0x7ff9e4a80000, Image Size: 0x1e0000"
+"23:07:32.9755861","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\kernel32.dll","SUCCESS","Image Base: 0x7ff9e3f80000, Image Size: 0xae000"
+"23:07:32.9758128","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\KernelBase.dll","SUCCESS","Image Base: 0x7ff9e1220000, Image Size: 0x266000"
+"23:07:32.9794082","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\ucrtbase.dll","SUCCESS","Image Base: 0x7ff9e0f30000, Image Size: 0xf6000"
+"23:07:32.9796720","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 9196"
+"23:07:32.9799580","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 12072"
+"23:07:32.9809732","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\combase.dll","SUCCESS","Image Base: 0x7ff9e3c70000, Image Size: 0x308000"
+"23:07:32.9818046","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\MMDevAPI.dll","SUCCESS","Image Base: 0x7ff9da340000, Image Size: 0x6f000"
+"23:07:32.9820063","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\msvcrt.dll","SUCCESS","Image Base: 0x7ff9e2440000, Image Size: 0x9d000"
+"23:07:32.9823597","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\rpcrt4.dll","SUCCESS","Image Base: 0x20e315e0000, Image Size: 0x11f000"
+"23:07:32.9825953","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\sechost.dll","SUCCESS","Image Base: 0x7ff9e24e0000, Image Size: 0x5b000"
+"23:07:32.9840613","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\devobj.dll","SUCCESS","Image Base: 0x7ff9e0be0000, Image Size: 0x27000"
+"23:07:32.9843906","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\cfgmgr32.dll","SUCCESS","Image Base: 0x7ff9e0e80000, Image Size: 0x4a000"
+"23:07:32.9859819","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\propsys.dll","SUCCESS","Image Base: 0x7ff9dec50000, Image Size: 0x1b1000"
+"23:07:32.9864148","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\oleaut32.dll","SUCCESS","Image Base: 0x7ff9e4310000, Image Size: 0xc5000"
+"23:07:32.9890936","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\msvcp_win.dll","SUCCESS","Image Base: 0x7ff9e16e0000, Image Size: 0x9b000"
+"23:07:32.9901838","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\SHCore.dll","SUCCESS","Image Base: 0x7ff9e4500000, Image Size: 0xa6000"
+"23:07:32.9937471","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\rpcrt4.dll","SUCCESS","Image Base: 0x7ff9e43e0000, Image Size: 0x11f000"
+"23:07:32.9957489","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\bcryptprimitives.dll","SUCCESS","Image Base: 0x7ff9e1ed0000, Image Size: 0x72000"
+"23:07:33.0307914","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\kernel.appcore.dll","SUCCESS","Image Base: 0x7ff9e0dd0000, Image Size: 0x11000"
+"23:07:33.0341021","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\user32.dll","SUCCESS","Image Base: 0x7ff9e4630000, Image Size: 0x18f000"
+"23:07:33.0342815","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\win32u.dll","SUCCESS","Image Base: 0x7ff9e1200000, Image Size: 0x20000"
+"23:07:33.0344498","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\gdi32.dll","SUCCESS","Image Base: 0x7ff9e49d0000, Image Size: 0x28000"
+"23:07:33.0346399","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\gdi32full.dll","SUCCESS","Image Base: 0x7ff9e1490000, Image Size: 0x193000"
+"23:07:33.0527316","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\clbcatq.dll","SUCCESS","Image Base: 0x7ff9e23a0000, Image Size: 0x9e000"
+"23:07:33.0607074","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 12272"
+"23:07:33.0655688","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 292"
+"23:07:33.0661307","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 10588"
+"23:07:33.1163442","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\AudioSes.dll","SUCCESS","Image Base: 0x7ff9c3180000, Image Size: 0x122000"
+"23:07:33.1168092","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\powrprof.dll","SUCCESS","Image Base: 0x7ff9e0e10000, Image Size: 0x4c000"
+"23:07:33.1190182","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\WinTypes.dll","SUCCESS","Image Base: 0x7ff9dca40000, Image Size: 0x136000"
+"23:07:33.1280404","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\avrt.dll","SUCCESS","Image Base: 0x7ff9dbd60000, Image Size: 0xa000"
+"23:07:33.1524890","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\CX64BP18.dll","SUCCESS","Image Base: 0x6ef70000, Image Size: 0x10e000"
+"23:07:33.1527210","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\setupapi.dll","SUCCESS","Image Base: 0x7ff9e1f50000, Image Size: 0x44e000"
+"23:07:33.1544712","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\ole32.dll","SUCCESS","Image Base: 0x7ff9e3b20000, Image Size: 0x149000"
+"23:07:33.1552811","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\advapi32.dll","SUCCESS","Image Base: 0x7ff9e48b0000, Image Size: 0xa1000"
+"23:07:33.1568301","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 12016"
+"23:07:33.1583959","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\version.dll","SUCCESS","Image Base: 0x7ff9dae10000, Image Size: 0xa000"
+"23:07:33.1584834","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\winmm.dll","SUCCESS","Image Base: 0x7ff9dc880000, Image Size: 0x23000"
+"23:07:33.1594968","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\winmmbase.dll","SUCCESS","Image Base: 0x7ff9dc820000, Image Size: 0x2a000"
+"23:07:33.1597798","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\winmmbase.dll","SUCCESS","Image Base: 0x20e31760000, Image Size: 0x2a000"
+"23:07:33.1598114","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\winmmbase.dll","SUCCESS","Image Base: 0x20e31790000, Image Size: 0x2a000"
+"23:07:33.2133545","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\wintrust.dll","SUCCESS","Image Base: 0x7ff9e0ed0000, Image Size: 0x58000"
+"23:07:33.2135624","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\msasn1.dll","SUCCESS","Image Base: 0x7ff9e0df0000, Image Size: 0x12000"
+"23:07:33.2137606","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\crypt32.dll","SUCCESS","Image Base: 0x7ff9e1030000, Image Size: 0x1ce000"
+"23:07:33.2177942","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 6360"
+"23:07:33.2208929","AUDIODG.EXE","3292","Thread Exit","","SUCCESS","Thread ID: 6360, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:33.2612248","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 3884"
+"23:07:33.2688248","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\MaxxAudioAPO4064.dll","SUCCESS","Image Base: 0x7ff9b2180000, Image Size: 0x11e000"
+"23:07:33.2690154","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\shlwapi.dll","SUCCESS","Image Base: 0x7ff9e4140000, Image Size: 0x51000"
+"23:07:33.3167634","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 6296"
+"23:07:33.3439105","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 5968"
+"23:07:33.3455147","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\MaxxAudioAPOShell64.dll","SUCCESS","Image Base: 0x7ff9be170000, Image Size: 0x10b000"
+"23:07:33.3578173","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\shell32.dll","SUCCESS","Image Base: 0x7ff9e26e0000, Image Size: 0x1436000"
+"23:07:33.3582846","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\windows.storage.dll","SUCCESS","Image Base: 0x7ff9e1780000, Image Size: 0x747000"
+"23:07:33.3585376","AUDIODG.EXE","3292","Load Image","C:\Windows\WinSxS\amd64_microsoft.windows.gdiplus_6595b64144ccf1df_1.1.16299.248_none_46b9c4e9edf1cfa5\GdiPlus.dll","SUCCESS","Image Base: 0x7ff9da5e0000, Image Size: 0x19c000"
+"23:07:33.3586201","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\profapi.dll","SUCCESS","Image Base: 0x7ff9e0e60000, Image Size: 0x1b000"
+"23:07:33.3607711","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\opengl32.dll","SUCCESS","Image Base: 0x7ff9b99f0000, Image Size: 0x11e000"
+"23:07:33.3624007","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\glu32.dll","SUCCESS","Image Base: 0x7ff9b9d90000, Image Size: 0x2c000"
+"23:07:33.4849953","AUDIODG.EXE","3292","Thread Exit","","SUCCESS","Thread ID: 3884, User Time: 0.0312500, Kernel Time: 0.0156250"
+"23:07:33.4879231","AUDIODG.EXE","3292","Thread Exit","","SUCCESS","Thread ID: 6296, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:33.4957512","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\AudioEng.dll","SUCCESS","Image Base: 0x7ff9b2010000, Image Size: 0x163000"
+"23:07:33.5425679","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 6572"
+"23:07:33.5538053","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 7748"
+"23:07:33.5603031","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 11416"
+"23:07:33.5610412","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\MaxxAudioAPOShell64.dll","SUCCESS","Image Base: 0x7ff9be170000, Image Size: 0x10b000"
+"23:07:33.5618498","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\shell32.dll","SUCCESS","Image Base: 0x7ff9e26e0000, Image Size: 0x1436000"
+"23:07:33.5621756","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\windows.storage.dll","SUCCESS","Image Base: 0x7ff9e1780000, Image Size: 0x747000"
+"23:07:33.5625736","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\profapi.dll","SUCCESS","Image Base: 0x7ff9e0e60000, Image Size: 0x1b000"
+"23:07:33.5630511","AUDIODG.EXE","3292","Load Image","C:\Windows\WinSxS\amd64_microsoft.windows.gdiplus_6595b64144ccf1df_1.1.16299.248_none_46b9c4e9edf1cfa5\GdiPlus.dll","SUCCESS","Image Base: 0x7ff9da5e0000, Image Size: 0x19c000"
+"23:07:33.5642056","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\opengl32.dll","SUCCESS","Image Base: 0x7ff9b99f0000, Image Size: 0x11e000"
+"23:07:33.5655041","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\glu32.dll","SUCCESS","Image Base: 0x7ff9b9d90000, Image Size: 0x2c000"
+"23:07:33.5740185","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 3240"
+"23:07:33.5869811","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 10920"
+"23:07:33.5943808","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 2108"
+"23:07:33.6286763","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 8992"
+"23:07:33.6520847","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\AUDIOKSE.dll","SUCCESS","Image Base: 0x7ff9be210000, Image Size: 0x6b000"
+"23:07:33.6807927","System","4","Thread Create","","SUCCESS","Thread ID: 4964"
+"23:07:33.6869857","AUDIODG.EXE","3292","Load Image","C:\Windows\System32\Windows.Media.Devices.dll","SUCCESS","Image Base: 0x7ff9bed00000, Image Size: 0x40000"
+"23:07:33.7173930","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 5184"
+"23:07:33.7840887","AUDIODG.EXE","3292","Thread Exit","","SUCCESS","Thread ID: 8992, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:33.8425124","AUDIODG.EXE","3292","Thread Exit","","SUCCESS","Thread ID: 2108, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:33.8441769","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 3360"
+"23:07:33.8444589","chrome.exe","8724","Thread Create","","SUCCESS","Thread ID: 10732"
+"23:07:33.8455977","AUDIODG.EXE","3292","Thread Create","","SUCCESS","Thread ID: 5388"
+"23:07:36.8120899","chrome.exe","8240","Thread Create","","SUCCESS","Thread ID: 1276"
+"23:07:36.9217620","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 9592"
+"23:07:36.9241485","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 9764"
+"23:07:36.9265801","chrome.exe","10888","Thread Create","","SUCCESS","Thread ID: 3144"
+"23:07:38.8117374","svchost.exe","3556","Thread Exit","","SUCCESS","Thread ID: 7316, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:39.8119391","svchost.exe","3556","Thread Create","","SUCCESS","Thread ID: 392"
+"23:07:42.7062493","svchost.exe","864","Thread Exit","","SUCCESS","Thread ID: 2828, User Time: 0.0625000, Kernel Time: 0.2343750"
+"23:07:42.8897557","chrome.exe","8724","Thread Exit","","SUCCESS","Thread ID: 10732, User Time: 0.0312500, Kernel Time: 0.0000000"
+"23:07:43.6328594","svchost.exe","1580","Thread Exit","","SUCCESS","Thread ID: 7268, User Time: 0.0156250, Kernel Time: 0.0000000"
+"23:07:43.7339631","svchost.exe","1936","Thread Exit","","SUCCESS","Thread ID: 7892, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:43.7339867","svchost.exe","1512","Thread Exit","","SUCCESS","Thread ID: 10308, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:43.9181014","svchost.exe","2220","Thread Exit","","SUCCESS","Thread ID: 2508, User Time: 0.0468750, Kernel Time: 0.0156250"
+"23:07:43.9591142","svchost.exe","2284","Thread Exit","","SUCCESS","Thread ID: 10276, User Time: 0.0156250, Kernel Time: 0.0000000"
+"23:07:44.7347623","svchost.exe","1512","Thread Create","","SUCCESS","Thread ID: 11700"
+"23:07:45.0679862","svchost.exe","2284","Thread Exit","","SUCCESS","Thread ID: 11364, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:45.5955870","svchost.exe","2952","Thread Exit","","SUCCESS","Thread ID: 11372, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:46.0996349","svchost.exe","3408","Thread Exit","","SUCCESS","Thread ID: 11644, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:47.8909008","AUDIODG.EXE","3292","Thread Exit","","SUCCESS","Thread ID: 3240, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:47.8916590","AUDIODG.EXE","3292","Thread Exit","","SUCCESS","Thread ID: 5388, User Time: 0.8750000, Kernel Time: 0.0312500"
+"23:07:47.8926309","AUDIODG.EXE","3292","Thread Exit","","SUCCESS","Thread ID: 5184, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:47.8983817","System","4","Thread Exit","","SUCCESS","Thread ID: 4964, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:47.8988016","AUDIODG.EXE","3292","Thread Exit","","SUCCESS","Thread ID: 6572, User Time: 0.0000000, Kernel Time: 0.0468750"
+"23:07:47.8997187","AUDIODG.EXE","3292","Thread Exit","","SUCCESS","Thread ID: 7748, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:48.4862706","chrome.exe","10888","Thread Exit","","SUCCESS","Thread ID: 3360, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:48.4865335","chrome.exe","3640","Thread Exit","","SUCCESS","Thread ID: 1896, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:48.4884492","chrome.exe","3640","Thread Exit","","SUCCESS","Thread ID: 8404, User Time: 0.0156250, Kernel Time: 0.0000000"
+"23:07:48.4898446","chrome.exe","3640","Thread Create","","SUCCESS","Thread ID: 4440"
+"23:07:48.4900704","chrome.exe","3640","Thread Create","","SUCCESS","Thread ID: 11968"
+"23:07:48.9012189","svchost.exe","2284","Thread Create","","SUCCESS","Thread ID: 11024"
+"23:07:50.3310875","svchost.exe","864","Thread Create","","SUCCESS","Thread ID: 2628"
+"23:07:51.7542379","sihost.exe","3468","Thread Exit","","SUCCESS","Thread ID: 5308, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:52.2455463","services.exe","696","Thread Create","","SUCCESS","Thread ID: 5688"
+"23:07:53.7600882","chrome.exe","8724","Thread Exit","","SUCCESS","Thread ID: 9232, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:54.6297522","chrome.exe","3640","Thread Exit","","SUCCESS","Thread ID: 11968, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:54.6298044","chrome.exe","3640","Thread Exit","","SUCCESS","Thread ID: 4440, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:07:56.2174363","chrome.exe","10296","Thread Exit","","SUCCESS","Thread ID: 808, User Time: 1.8437500, Kernel Time: 0.0625000"
+"23:07:59.2113954","chrome.exe","8240","Thread Exit","","SUCCESS","Thread ID: 6668, User Time: 0.0156250, Kernel Time: 0.0000000"
+"23:07:59.2114021","chrome.exe","8240","Thread Exit","","SUCCESS","Thread ID: 8148, User Time: 0.0312500, Kernel Time: 0.0156250"
+"23:08:01.0036256","svchost.exe","3408","Thread Create","","SUCCESS","Thread ID: 9320"
+"23:08:01.6158958","chrome.exe","8724","Thread Exit","","SUCCESS","Thread ID: 7272, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:08:07.3158464","chrome.exe","10296","Thread Create","","SUCCESS","Thread ID: 10048"
+"23:08:08.2215694","SkypeApp.exe","428","Thread Create","","SUCCESS","Thread ID: 8152"
+"23:08:08.3734646","SkypeApp.exe","428","Thread Create","","SUCCESS","Thread ID: 1752"
+"23:08:09.6709212","chrome.exe","8724","Thread Create","","SUCCESS","Thread ID: 7944"
+"23:08:11.2717589","chrome.exe","8724","Thread Exit","","SUCCESS","Thread ID: 8684, User Time: 0.0468750, Kernel Time: 0.0468750"
+"23:08:13.5072693","svchost.exe","2952","Thread Create","","SUCCESS","Thread ID: 11768"
+"23:08:14.2940659","SkypeApp.exe","428","Thread Exit","","SUCCESS","Thread ID: 8152, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:08:14.7402150","svchost.exe","1732","Thread Exit","","SUCCESS","Thread ID: 5108, User Time: 0.0000000, Kernel Time: 0.0000000"
+"23:08:14.9158599","svchost.exe","2076","Thread Exit","","SUCCESS","Thread ID: 5776, User Time: 0.0000000, Kernel Time: 0.0000000"

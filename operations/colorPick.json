@@ -1,0 +1,286 @@
+{
+    "CloseFile": {
+        "operation": "FileSystem",
+        "index": 0
+    },
+    "CreateFile": {
+        "operation": "FileSystem",
+        "index": 1
+    },
+    "CreateFileMapping": {
+        "operation": "FileSystem",
+        "index": 2
+    },
+    "DeviceIoControl": {
+        "operation": "FileSystem",
+        "index": 3
+    },
+    "FileSystemControl": {
+        "operation": "FileSystem",
+        "index": 4
+    },
+    "FlushBuffersFile": {
+        "operation": "FileSystem",
+        "index": 5
+    },
+    "LockFile": {
+        "operation": "FileSystem",
+        "index": 6
+    },
+    "NotifyChangeDirectory": {
+        "operation": "FileSystem",
+        "index": 7
+    },
+    "QueryAllInformationFile": {
+        "operation": "FileSystem",
+        "index": 8
+    },
+    "QueryAttributeInformationVolume": {
+        "operation": "FileSystem",
+        "index": 9
+    },
+    "QueryAttributeTagFile": {
+        "operation": "FileSystem",
+        "index": 10
+    },
+    "QueryBasicInformationFile": {
+        "operation": "FileSystem",
+        "index": 11
+    },
+    "QueryDeviceRelations": {
+        "operation": "FileSystem",
+        "index": 12
+    },
+    "QueryDirectory": {
+        "operation": "FileSystem",
+        "index": 13
+    },
+    "QueryEAFile": {
+        "operation": "FileSystem",
+        "index": 14
+    },
+    "QueryFileInternalInformationFile": {
+        "operation": "FileSystem",
+        "index": 15
+    },
+    "QueryFullSizeInformationVolume": {
+        "operation": "FileSystem",
+        "index": 16
+    },
+    "QueryInformationVolume": {
+        "operation": "FileSystem",
+        "index": 17
+    },
+    "QueryNameInformationFile": {
+        "operation": "FileSystem",
+        "index": 18
+    },
+    "QueryNetworkOpenInformationFile": {
+        "operation": "FileSystem",
+        "index": 19
+    },
+    "QueryNormalizedNameInformationFile": {
+        "operation": "FileSystem",
+        "index": 20
+    },
+    "QueryObjectIdInformationVolume": {
+        "operation": "FileSystem",
+        "index": 21
+    },
+    "QueryOpen": {
+        "operation": "FileSystem",
+        "index": 22
+    },
+    "QueryPositionInformationFile": {
+        "operation": "FileSystem",
+        "index": 23
+    },
+    "QueryRemoteProtocolInformation": {
+        "operation": "FileSystem",
+        "index": 24
+    },
+    "QuerySecurityFile": {
+        "operation": "FileSystem",
+        "index": 25
+    },
+    "QuerySizeInformationVolume": {
+        "operation": "FileSystem",
+        "index": 26
+    },
+    "QueryStandardInformationFile": {
+        "operation": "FileSystem",
+        "index": 27
+    },
+    "QueryStreamInformationFile": {
+        "operation": "FileSystem",
+        "index": 28
+    },
+    "ReadFile": {
+        "operation": "FileSystem",
+        "index": 29
+    },
+    "SetAllocationInformationFile": {
+        "operation": "FileSystem",
+        "index": 30
+    },
+    "SetBasicInformationFile": {
+        "operation": "FileSystem",
+        "index": 31
+    },
+    "SetDispositionInformationFile": {
+        "operation": "FileSystem",
+        "index": 32
+    },
+    "SetEndOfFileInformationFile": {
+        "operation": "FileSystem",
+        "index": 33
+    },
+    "SetPositionInformationFile": {
+        "operation": "FileSystem",
+        "index": 34
+    },
+    "SetRenameInformationFile": {
+        "operation": "FileSystem",
+        "index": 35
+    },
+    "SetSecurityFile": {
+        "operation": "FileSystem",
+        "index": 36
+    },
+    "UnlockFileSingle": {
+        "operation": "FileSystem",
+        "index": 37
+    },
+    "WriteFile": {
+        "operation": "FileSystem",
+        "index": 38
+    },
+    "Load Image": {
+        "operation": "ProcessThread",
+        "index": 0
+    },
+    "Process Create": {
+        "operation": "ProcessThread",
+        "index": 1
+    },
+    "Process Exit": {
+        "operation": "ProcessThread",
+        "index": 2
+    },
+    "Process Start": {
+        "operation": "ProcessThread",
+        "index": 3
+    },
+    "Thread Create": {
+        "operation": "ProcessThread",
+        "index": 4
+    },
+    "Thread Exit": {
+        "operation": "ProcessThread",
+        "index": 5
+    },
+    "RegCloseKey": {
+        "operation": "Registry",
+        "index": 0
+    },
+    "RegCreateKey": {
+        "operation": "Registry",
+        "index": 1
+    },
+    "RegDeleteKey": {
+        "operation": "Registry",
+        "index": 2
+    },
+    "RegDeleteValue": {
+        "operation": "Registry",
+        "index": 3
+    },
+    "RegEnumKey": {
+        "operation": "Registry",
+        "index": 4
+    },
+    "RegEnumValue": {
+        "operation": "Registry",
+        "index": 5
+    },
+    "RegLoadKey": {
+        "operation": "Registry",
+        "index": 6
+    },
+    "RegOpenKey": {
+        "operation": "Registry",
+        "index": 7
+    },
+    "RegQueryKey": {
+        "operation": "Registry",
+        "index": 8
+    },
+    "RegQueryKeySecurity": {
+        "operation": "Registry",
+        "index": 9
+    },
+    "RegQueryMultipleValueKey": {
+        "operation": "Registry",
+        "index": 10
+    },
+    "RegQueryValue": {
+        "operation": "Registry",
+        "index": 11
+    },
+    "RegSetInfoKey": {
+        "operation": "Registry",
+        "index": 12
+    },
+    "RegSetKeySecurity": {
+        "operation": "Registry",
+        "index": 13
+    },
+    "RegSetValue": {
+        "operation": "Registry",
+        "index": 14
+    },
+    "TCP Accept": {
+        "operation": "Network",
+        "index": 0
+    },
+    "TCP Connect": {
+        "operation": "Network",
+        "index": 1
+    },
+    "TCP Disconnect": {
+        "operation": "Network",
+        "index": 2
+    },
+    "TCP Receive": {
+        "operation": "Network",
+        "index": 3
+    },
+    "TCP Reconnect": {
+        "operation": "Network",
+        "index": 4
+    },
+    "TCP Retransmit": {
+        "operation": "Network",
+        "index": 5
+    },
+    "TCP Send": {
+        "operation": "Network",
+        "index": 6
+    },
+    "TCP TCPCopy": {
+        "operation": "Network",
+        "index": 7
+    },
+    "UDP Receive": {
+        "operation": "Network",
+        "index": 8
+    },
+    "UDP Send": {
+        "operation": "Network",
+        "index": 9
+    },
+    "Process Profiling": {
+        "operation": "Profiling",
+        "index": 0
+    }
+}

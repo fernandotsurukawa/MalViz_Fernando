@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data</title>
+    <script src="https://d3js.org/d3.v4.js"></script>
+</head>
+<body>
+<script>
+    d3.csv("../operations/operations.CSV", function(error, data){
+        console.log(data);
+        var obj = {
+            "FileSystem": [],
+            "ProcessThread": [],
+            "Registry": [],
+            "Network": [],
+            "Profiling": []
+        };
+        data.forEach((d,i) => {
+            for (var key in obj){
+                if (d[key] !== ""){
+                    obj[key].push(d[key]);
+                }
+            }
+        });
+
+        console.log(obj)
+    })
+
+    d3.json("../operations/operations.json", function(error, data){
+        console.log(data);
+        var obj = {
+            "FileSystem": [],
+            "ProcessThread": [],
+            "Registry": [],
+            "Network": [],
+            "Profiling": []
+        };
+        var sub = ["FileSystem",
+            "Registry",
+            "ProcessThread",
+            "Network",
+            "Profiling"];
+        var list = {};
+        var array = []
+        sub.forEach((key,i) => {
+            data[key].forEach((d,j) => {
+               array.push({
+                   "key": d
+               })
+            })
+        });
+        console.log(array)
+    })
+</script>
+</body>
+</html>

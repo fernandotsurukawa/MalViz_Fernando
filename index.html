@@ -1,0 +1,645 @@
+<!--Sepideh Comments-->
+<!--Highlight unusual network activities, it hards for normal eyes-->
+<!--Moouse over process -> activities, its name should be showed up-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Malware Visualization</title>
+    <link rel="shortcut icon" href="images/icon.png"/>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
+    <script src="https://unpkg.com/d3-simple-slider/build/d3-simple-slider.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+    <style>
+        .content{
+            width: 230px;
+            height:180px;
+            overflow:auto;
+            background:#FFFFFF;
+            border: 1px solid #9a9a9a;
+            padding: 10px;
+        }
+        .ticks {
+            font: 10px sans-serif;
+        }
+
+        .track,
+        .track-inset,
+        .track-overlay {
+            stroke-linecap: round;
+        }
+
+        .track {
+            stroke: #bbb;
+            stroke-opacity: 0.3;
+            stroke-width: 5px;
+        }
+
+        .track-inset {
+            stroke: #888;
+            stroke-width: 8px;
+        }
+
+        .track-overlay {
+            pointer-events: stroke;
+            stroke-width: 50px;
+            stroke: transparent;
+            cursor: crosshair;
+        }
+
+        .handle {
+            fill: #fff;
+            stroke: #000;
+            stroke-opacity: 0.5;
+            stroke-width: 1.25px;
+        }
+        #loading {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            position: fixed;
+            display: block;
+            opacity: 0.7;
+            background-color: #fff;
+            z-index: 99;
+            text-align: center;
+        }
+
+        #loading-image {
+            position: absolute;
+            top: 100px;
+            left: 240px;
+            z-index: 100;
+        }
+        #custom-handle {
+            width: 3em;
+            height: 1.6em;
+            top: 50%;
+            margin-top: -.8em;
+            text-align: center;
+            line-height: 1.6em;
+        }
+        .background {
+            fill: #eee;
+        }
+
+        text.active {
+            fill: red;
+        }
+
+        line {
+            stroke: #999;
+            stroke-opacity: .6;
+        }
+
+        .cell {
+            stroke-width: 0px;
+        }
+
+        .dllline {
+            stroke: #000;
+        }
+
+        rect {
+            z-index: 1;
+            border: 0px;
+        }
+
+        div.tooltip {
+            position: absolute;
+            text-align: center;
+            width: auto;
+            height: auto;
+            padding: 2px;
+            font: 12px sans-serif;
+            background: #bbb;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+        * {
+        word-wrap:break-word;
+        }
+
+        div.tooltip2 {
+
+            border-radius: 10px;
+            border: 2px solid #666666;
+            position: absolute;
+            text-align: center;
+            width: 300px;
+            height: auto;
+            font: 13px sans-serif;
+            pointer-events: none;
+
+        }
+
+        /*.tooltip2 span {*/
+            /*padding-top:7px;*/
+            /*padding-bottom: 8px;*/
+            /*font-size: 15px;*/
+            /*display:block;*/
+            /*opacity: 1;*/
+            /*background-color: #f7f7f7;*/
+            /*border-radius: 10px;*/
+        /*}*/
+
+        .tooltip2 table {
+            border-radius: 10px;
+            border-collapse: collapse;
+            table-layout:fixed;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .tooltip2 td{
+            border-collapse: collapse;
+            text-align: left;
+            padding: 8px;
+        }
+
+        .tooltip2 tr:nth-child(odd){
+            border-collapse: collapse;
+            background-color: #f6f6f6;
+
+        }
+
+        .tooltip2 tr:nth-child(even){
+            border-collapse: collapse;
+            background-color: #e1e1e1;
+        }
+
+        .tooltip2 .bold{
+            font-weight: bold;
+        }
+
+        .tooltip2:hover table{
+            visibility: visible;
+        }
+
+        .cell-hover {
+            color: red;
+            fill: red;
+        }
+
+        text.text-highlight {
+            fill: red;
+            font-weight: bold;
+        }
+
+        text.rowLabel {
+            font-size: 12px;
+        }
+
+        text.colLabel {
+            font-size: 12px;
+        }
+
+        text.active {
+            opacity: 1;
+        }
+
+        select.malware {
+            width: 200px;
+            height: 200px;
+        }
+
+        select.selectmalware {
+            width: 300px;
+        }
+
+        option.malicious {
+            color: red;
+            font-weight: bold;
+        }
+
+        option.undetected {
+            color: gray;
+        }
+
+        option.suspicious {
+            color: yellow;
+        }
+    </style>
+</head>
+<body>
+
+Please select dataset:
+<select id="selectmalware" class="selectmalware">
+    <option>--Select dataset--</option>
+    <option value="Moi-Win7-RemoteAccess_1.CSV">Moi-Win7-RemoteAccess_1</option>
+    <option value="Moi-Win7-RemoteAccess_2.CSV">Moi-Win7-RemoteAccess_2</option>
+    <option value="Moi-Win7-RemoteAccess_3.CSV">Moi-Win7-RemoteAccess_3</option>
+    <option value="Moi-Win7-RemoteAccess_4.CSV">Moi-Win7-RemoteAccess_4</option>
+    <option value="Moi-Win7-RemoteAccess_5.CSV">Moi-Win7-RemoteAccess_5</option>
+    <option value="Moi-Win7-RemoteAccess_6.CSV">Moi-Win7-RemoteAccess_6</option>
+    <option value="Moi-Win7-RemoteAccess_7.CSV">Moi-Win7-RemoteAccess_7</option>
+    <option value="Vung-Win7-Bladabindi.CSV">Vung-Win7-Bladabindi</option>
+    <option value="Vung-Win7-Cryptowall.CSV">Vung-Win7-Cryptowall</option>
+    <option value="Vung-Win7-Locky.Gen.CSV">Vung-Win7-Locky.Gen</option>
+    <option value="Vung-Win7-Multinjector.CSV">Vung-Win7-Multinjector</option>
+    <option value="Vung-Win7-Teerac.B.CSV">Vung-Win7-Teerac.B</option>
+
+    <option value="Kovter1.CSV">Kovter1</option>
+    <option value="Kovter2.CSV">Kovter2</option>
+    <option value="Ransomware.CSV">Ransomware</option>
+    <option value="wwwlgoogle.CSV">wwwlgoogle</option>
+    <option value="Moi-XP-RemoteAccess_1.CSV">Moi-XP-RemoteAccess_1</option>
+    <option value="Moi-XP-RemoteAccess_2.CSV">Moi-XP-RemoteAccess_2</option>
+    <option value="Moi-XP-RemoteAccess_3.CSV">Moi-XP-RemoteAccess_3</option>
+    <option value="Moi-XP-RemoteAccess_4.CSV">Moi-XP-RemoteAccess_4</option>
+    <option value="Moi-XP-RemoteAccess_5.CSV">Moi-XP-RemoteAccess_5</option>
+    <option value="Moi-XP-RemoteAccess_6.CSV">Moi-XP-RemoteAccess_6</option>
+    <option value="Moi-XP-RemoteAccess_7_exec.CSV">Moi-XP-RemoteAccess_7_exec</option>
+    <option value="Moi-XP-RemoteAccess_7_install.CSV">Moi-XP-RemoteAccess_7_install</option>
+    <option value="faran-7-vs-backdoor-9.CSV">faran-7-vs-backdoor-9</option>
+    <option value="faran-7-vs-backdoor-10.CSV">faran-7-vs-backdoor-10</option>
+    <option value="faran-7-vs-backdoor-11.CSV">faran-7-vs-backdoor-11</option>
+    <option value="faran-7-vs-backdoor-12.CSV">faran-7-vs-backdoor-12</option>
+    <option value="faran-7-vs-backdoor-13.CSV">faran-7-vs-backdoor-13</option>
+    <option value="faran-7-vs-backdoor-14.CSV">faran-7-vs-backdoor-14</option>
+    <option value="faran-7-vs-backdoor-15.CSV">faran-7-vs-backdoor-15</option>
+
+    <option value="VungPham-Behavior-Bladabindi.gen-XP.CSV">VungPham-Behavior-Bladabindi.gen-XP</option>
+    <option value="VungPham-Behavior-MultiInjector-XP.CSV">VungPham-Behavior-MultiInjector-XP</option>
+    <option value="VungPham-Behavior-Vawtrak.A-XP.CSV">VungPham-Behavior-Vawtrak.A-XP</option>
+    <option value="VungPham-Behavior-Winwebsec.I.CSV">VungPham-Behavior-Winwebsec.I</option>
+    <option value="Vung-Behavior-XP-Payment-copy.CSV">Vung-Behavior-XP-Payment-copy</option>
+    <option value="Vung-Behavior-XP-RemR.CSV">Vung-Behavior-XP-RemR</option>
+    <option value="Vung-Behavior-XP-Scan-copy-(alloyanycut).CSV">Vung-Behavior-XP-Scan-copy-(alloyanycut)</option>
+    <option value="Vung-Email-Flooder-Absolut-XP.CSV">Vung-Email-Flooder-Absolut-XP</option>
+    <option value="Vung-Email-Flooder-Achis-Win10.CSV">Vung-Email-Flooder-Achis-Win10</option>
+    <option value="Vung-Email-Flooder-Achis-XP.CSV">Vung-Email-Flooder-Achis-XP</option>
+    <option value="Vung-Email-Flooder-Archis-Win7.CSV">Vung-Email-Flooder-Archis-Win7</option>
+    <option value="Vung-HackTool-BackSteal-Win10.CSV">Vung-HackTool-BackSteal-Win10</option>
+    <option value="Vung-HackTool-EmailCrack1-Win10.CSV">Vung-HackTool-EmailCrack1-Win10</option>
+    <option value="Vung-HackTool-EmailCrack-Win10.CSV">Vung-HackTool-EmailCrack-Win10</option>
+    <option value="Vung-HackTool-EmailCrack-XP.CSV">Vung-HackTool-EmailCrack-XP</option>
+    <option value="Vung-HackTool-Stealm1-Win10.CSV">Vung-HackTool-Stealm1-Win10</option>
+    <option value="Vung-HackTool-Stealm-Win10.CSV">Vung-HackTool-Stealm-Win10</option>
+    <option value="Huyen-Ransomware-WannaPeace.csv">Huyen-Ransomware-WannaPeace-Win7</option>
+    <option value="Huyen-Trojan-Infostealer.Dexter.csv">Huyen-Trojan-Infostealer-Win7.Dexter</option>
+    <option value="Faran-Trojan-Backdoor.win32.BlueIce.CSV">Faran-Trojan-Backdoor.win32.BlueIce</option>
+    <option value="Faran-Trojan-Backdoor.Win32.CyberSpy.13.b.CSV">Faran-Trojan-Backdoor.Win32.CyberSpy.13.b</option>
+    <option value="Faran-Trojan-Backdoor.win32.Death.25.i.CSV">Faran-Trojan-Backdoor.win32.Death.25.i</option>
+    <option value="Faran-Trojan-Backdoor.win32.executor.a.CSV">Faran-Trojan-Backdoor.win32.executor.a</option>
+    <option value="Faran-win7-Trojan-Backdoor.Win32.Alicia.o.CSV">Faran-win7-Trojan-Backdoor.Win32.Alicia.o</option>
+    <option value="Faran-win7-Trojan-Backdoor.win32.Executor.a.CSV">Faran-win7-Trojan-Backdoor.win32.Executor.a</option>
+    <option value="Win7_WannaPeace.CSV">Win7-WannaPeace-NoFilter</option>
+    <option value="Logfile_Zulfi.CSV">Zulfi-Logfile-NoFilter</option>
+
+
+
+
+</select>
+<fieldset>
+    <legend>Data Overview - Number of API calls in each type</legend>
+    <table width="100%" border="0px" style="height: 100px">
+        <tr>
+            <td width="65%">
+                <div id="stats"></div>
+            </td>
+            <td width="1%">
+
+            </td>
+            <td width="15%">
+                List of Operations:
+                <div id="OperationList" class="content">
+
+                </div>
+            </td>
+            <td width="1%">
+
+            </td>
+            <td width="20%">
+                Connecting domains:
+                <div>
+                    <select id="maliciousdomain" class="malware" size="15"></select>
+                </div>
+
+            </td>
+        </tr>
+    </table>
+
+
+</fieldset>
+
+<fieldset>
+    <legend>
+        Heat Map
+    </legend>
+    <table width="100%" border="0px">
+        <tbody>
+        <tr>
+            <td width="100%">
+                <div id="heatmap"></div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+</fieldset>
+<fieldset>
+    <legend>
+        Libraries called
+    </legend>
+    <div>
+        
+    
+        <p>
+            <label for="amount">Number of libraries called:</label>
+            <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+        </p>
+        <div id="slider" style="width: 400px; background: linear-gradient(to right, #ffffff 0%, #000000 100%);">
+            <div id="custom-handle" class="ui-slider-handle"></div>
+        </div>
+        <aside>
+            <p>Order: <select id="order">
+                <option value="similarity">By Similarity</option>
+                <option value="name">By name</option>
+                <option value="frequency">By Frequency</option>
+                <option value="linkDiff">By Different libraries called</option>
+            </select>
+        </aside>
+    </div>
+    <div id="matrix2D"></div>
+
+</fieldset>
+<div id="loading">
+    <img id="loading-image" src="images/ajax-loader.gif" alt="Loading..." />
+</div>
+<script src="js/ultility.js"></script>
+<script src="js/appManager.js"></script>
+<script>
+
+    var div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+    var div2 = d3.select("body").append("div")
+        .attr("class", "tooltip2")
+        .style("opacity", 0);
+
+    $('select#selectmalware').on('change', function (e) {
+        var optionSelected = $("option:selected", this);
+        var valueSelected = this.value;
+        var loading = d3.select('body').append('div').attr('id','loading')
+        loading.append('img').attr('id','loading-image').attr('src','images/ajax-loader.gif')
+        init(valueSelected);
+
+    });
+    var init = function (filePath) {
+        d3.queue()
+            .defer(d3.csv, "data/" + filePath, function (d) {
+                return {
+                    Timestamp: d['Time_of_Day'],
+                    PID: d['PID'],
+                    Process_Name: d['Process_Name'],
+                    Operation: d["Operation"],
+                    Path: d["Path"],
+                    Detail: d["Detail"]
+                }
+            })
+            .defer(d3.csv, "data/domain.csv")
+            .await(function (error, original_data, domain) {
+                if (error) {
+                    console.error('Oh dear, something went wrong: ' + error);
+                }
+                else {
+
+                    ProcessDataV2(original_data, domain);
+                    var data = ProcessDataV2(original_data, domain);
+
+                    var SiteManager = applicationManager(data); //Initialize application
+                    SiteManager.drawStats('#stats'); //Draw statistic map
+                    SiteManager.drawStats2('#OperationList'); //Draw statistic map
+                    SiteManager.drawMain('#heatmap');//Draw mainMap
+                    var maxcalls = SiteManager.getCallRange().maxcall;
+                    SiteManager.updateDomainBox('#maliciousdomain');
+                    $("#btnName").click(function () {
+                            SiteManager.sort2DMatrix('similarity')
+                        }
+                    );
+                    $("#btnNum").click(function () {
+                            SiteManager.sort2DMatrix('numlinks')
+                        }
+                    );
+                    $("#btnCount").click(function () {
+                            SiteManager.sort2DMatrix('numcount')
+                        }
+                    );
+                    // $("#btnSimilarity").click( function()
+                    //     {
+                    //         SiteManager.sort2DMatrix('similarity')
+                    //     }
+                    // );
+                    $( function() {
+                        var handle = $( "#custom-handle" );
+                        $( "#slider" ).slider({
+                            min:0,
+                            value:3,
+                            max:maxcalls,
+                            create: function() {
+                                handle.text( $( this ).slider( "value" ) );
+                            },
+                            slide: function( event, ui ) {
+                                $( "#amount" ).val( "Min: " + ui.value + " - Max: " + maxcalls );
+                                handle.text( ui.value );
+                                SiteManager.updateRangeFilter(ui.value , maxcalls)
+                            }
+                        });
+                        $( "#amount" ).val( "Min: " + 3 + " - Max: " + maxcalls );
+                    } );
+
+                    SiteManager.updateRangeFilter(3, maxcalls);
+                    isready =true;
+                }
+            });
+
+    };
+    init("faran-7-vs-backdoor-10.CSV");
+
+
+    function getProcessName(operation) {
+        var list = {
+            "CloseFile": "FileSystem",
+            "CreateFile": "FileSystem",
+            "CreateFileMapping": "FileSystem",
+            "DeviceIoControl": "FileSystem",
+            "FileSystemControl": "FileSystem",
+            "FlushBuffersFile": "FileSystem",
+            "LockFile": "FileSystem",
+            "NotifyChangeDirectory": "FileSystem",
+            "QueryAllInformationFile": "FileSystem",
+            "QueryAttributeInformationVolume": "FileSystem",
+            "QueryAttributeTagFile": "FileSystem",
+            "QueryBasicInformationFile": "FileSystem",
+            "QueryDeviceRelations": "FileSystem",
+            "QueryDirectory": "FileSystem",
+            "QueryEAFile": "FileSystem",
+            "QueryEaInformationFile": "FileSystem",
+            "QueryFileInternalInformationFile": "FileSystem",
+            "QueryFullSizeInformationVolume": "FileSystem",
+            "QueryInformationVolume": "FileSystem",
+            "QueryNameInformationFile": "FileSystem",
+            "QueryNetworkOpenInformationFile": "FileSystem",
+            "QueryNormalizedNameInformationFile": "FileSystem",
+            "QueryObjectIdInformationVolume": "FileSystem",
+            "QueryOpen": "FileSystem",
+            "QueryPositionInformationFile": "FileSystem",
+            "QueryRemoteProtocolInformation": "FileSystem",
+            "QuerySecurityFile": "FileSystem",
+            "QuerySizeInformationVolume": "FileSystem",
+            "QueryStandardInformationFile": "FileSystem",
+            "QueryStreamInformationFile": "FileSystem",
+            "ReadFile": "FileSystem",
+            "SetAllocationInformationFile": "FileSystem",
+            "SetBasicInformationFile": "FileSystem",
+            "SetDispositionInformationFile": "FileSystem",
+            "SetEndOfFileInformationFile": "FileSystem",
+            "SetPositionInformationFile": "FileSystem",
+            "SetRenameInformationFile": "FileSystem",
+            "SetSecurityFile": "FileSystem",
+            "UnlockFileSingle": "FileSystem",
+            "WriteFile": "FileSystem",
+            "Load Image": "ProcessThread",
+            "Process Create": "ProcessThread",
+            "Process Exit": "ProcessThread",
+            "Process Start": "ProcessThread",
+            "Thread Create": "ProcessThread",
+            "Thread Exit": "ProcessThread",
+            "RegCloseKey": "Registry",
+            "RegCreateKey": "Registry",
+            "RegDeleteKey": "Registry",
+            "RegDeleteValue": "Registry",
+            "RegEnumKey": "Registry",
+            "RegEnumValue": "Registry",
+            "RegFlushKey": "Registry",
+            "RegLoadKey": "Registry",
+            "RegOpenKey": "Registry",
+            "RegQueryKey": "Registry",
+            "RegQueryKeySecurity": "Registry",
+            "RegQueryMultipleValueKey": "Registry",
+            "RegQueryValue": "Registry",
+            "RegSetInfoKey": "Registry",
+            "RegSetKeySecurity": "Registry",
+            "RegSetValue": "Registry",
+            "TCP Accept": "Network",
+            "TCP Connect": "Network",
+            "TCP Disconnect": "Network",
+            "TCP Receive": "Network",
+            "TCP Reconnect": "Network",
+            "TCP Retransmit": "Network",
+            "TCP Send": "Network",
+            "TCP TCPCopy": "Network",
+            "UDP Receive": "Network",
+            "UDP Send": "Network",
+            "Process Profiling": "Profiling"
+        };
+        if (list[operation] === undefined){
+            return "Others"
+        }
+        else return list[operation]
+        ;
+
+    }
+
+    function colorPicker(operation) {
+        const list = {"CloseFile":{"operation":"FileSystem","index":0},"CreateFile":{"operation":"FileSystem","index":1},"CreateFileMapping":{"operation":"FileSystem","index":2},"DeviceIoControl":{"operation":"FileSystem","index":3},"FileSystemControl":{"operation":"FileSystem","index":4},"FlushBuffersFile":{"operation":"FileSystem","index":5},"LockFile":{"operation":"FileSystem","index":6},"NotifyChangeDirectory":{"operation":"FileSystem","index":7},"QueryAllInformationFile":{"operation":"FileSystem","index":8},"QueryAttributeInformationVolume":{"operation":"FileSystem","index":9},"QueryAttributeTagFile":{"operation":"FileSystem","index":10},"QueryBasicInformationFile":{"operation":"FileSystem","index":11},"QueryDeviceRelations":{"operation":"FileSystem","index":12},"QueryDirectory":{"operation":"FileSystem","index":13},"QueryEAFile":{"operation":"FileSystem","index":14},"QueryEaInformationFile":{"operation":"FileSystem","index":15},"QueryFileInternalInformationFile":{"operation":"FileSystem","index":16},"QueryFullSizeInformationVolume":{"operation":"FileSystem","index":17},"QueryInformationVolume":{"operation":"FileSystem","index":18},"QueryNameInformationFile":{"operation":"FileSystem","index":19},"QueryNetworkOpenInformationFile":{"operation":"FileSystem","index":20},"QueryNormalizedNameInformationFile":{"operation":"FileSystem","index":21},"QueryObjectIdInformationVolume":{"operation":"FileSystem","index":22},"QueryOpen":{"operation":"FileSystem","index":23},"QueryPositionInformationFile":{"operation":"FileSystem","index":24},"QueryRemoteProtocolInformation":{"operation":"FileSystem","index":25},"QuerySecurityFile":{"operation":"FileSystem","index":26},"QuerySizeInformationVolume":{"operation":"FileSystem","index":27},"QueryStandardInformationFile":{"operation":"FileSystem","index":28},"QueryStreamInformationFile":{"operation":"FileSystem","index":29},"ReadFile":{"operation":"FileSystem","index":30},"SetAllocationInformationFile":{"operation":"FileSystem","index":31},"SetBasicInformationFile":{"operation":"FileSystem","index":32},"SetDispositionInformationFile":{"operation":"FileSystem","index":33},"SetEndOfFileInformationFile":{"operation":"FileSystem","index":34},"SetPositionInformationFile":{"operation":"FileSystem","index":35},"SetRenameInformationFile":{"operation":"FileSystem","index":36},"SetSecurityFile":{"operation":"FileSystem","index":37},"UnlockFileSingle":{"operation":"FileSystem","index":38},"WriteFile":{"operation":"FileSystem","index":39},"Load Image":{"operation":"ProcessThread","index":0},"Process Create":{"operation":"ProcessThread","index":1},"Process Exit":{"operation":"ProcessThread","index":2},"Process Start":{"operation":"ProcessThread","index":3},"Thread Create":{"operation":"ProcessThread","index":4},"Thread Exit":{"operation":"ProcessThread","index":5},"RegCloseKey":{"operation":"Registry","index":0},"RegCreateKey":{"operation":"Registry","index":1},"RegDeleteKey":{"operation":"Registry","index":2},"RegDeleteValue":{"operation":"Registry","index":3},"RegEnumKey":{"operation":"Registry","index":4},"RegEnumValue":{"operation":"Registry","index":5},"RegFlushKey":{"operation":"Registry","index":6},"RegLoadKey":{"operation":"Registry","index":7},"RegOpenKey":{"operation":"Registry","index":8},"RegQueryKey":{"operation":"Registry","index":9},"RegQueryKeySecurity":{"operation":"Registry","index":10},"RegQueryMultipleValueKey":{"operation":"Registry","index":11},"RegQueryValue":{"operation":"Registry","index":12},"RegSetInfoKey":{"operation":"Registry","index":13},"RegSetKeySecurity":{"operation":"Registry","index":14},"RegSetValue":{"operation":"Registry","index":15},"TCP Accept":{"operation":"Network","index":0},"TCP Connect":{"operation":"Network","index":1},"TCP Disconnect":{"operation":"Network","index":2},"TCP Receive":{"operation":"Network","index":3},"TCP Reconnect":{"operation":"Network","index":4},"TCP Retransmit":{"operation":"Network","index":5},"TCP Send":{"operation":"Network","index":6},"TCP TCPCopy":{"operation":"Network","index":7},"UDP Receive":{"operation":"Network","index":8},"UDP Send":{"operation":"Network","index":9},"Process Profiling":{"operation":"Profiling","index":0},"Others":{"operation":"Others","index":0}}
+        var colorScaleOrange = d3.scaleSequential(d3["interpolateYlOrBr"])// File: 0-38
+            .domain([60, -25]);
+
+        var colorScaleGreen = d3.scaleSequential(d3["interpolateGreens"]) // Registry: 0-14
+            .domain([20, -3]);
+
+        var colorScaleBlue = d3.scaleSequential(d3["interpolateBlues"])  // Process: 0-5
+            .domain([8, -2]);
+
+        var colorScaleRed = d3.scaleSequential(d3["interpolateReds"]) // Network: 0-9
+            .domain([15, -5]);
+
+        var sub = d3.keys(list);
+
+        var flag = 0;
+        for (let i = 0; i < sub.length; i++){
+            if (operation === sub[i]) {
+                flag = 1;
+                if (list[sub[i]]["operation"] === "FileSystem"){
+                    return colorScaleOrange(list[sub[i]]["index"])
+                }
+                else if (list[sub[i]]["operation"] === "Registry"){
+                    return colorScaleGreen(list[sub[i]]["index"])
+                }
+                else if (list[sub[i]]["operation"] === "ProcessThread"){
+                    return colorScaleBlue(list[sub[i]]["index"])
+                }
+                else if (list[sub[i]]["operation"] === "Network"){
+                    return colorScaleRed(list[sub[i]]["index"])
+                }
+                else if (list[sub[i]]["operation"] === "Profiling"){
+                    return "#6854b1"
+                }
+                else if (list[sub[i]]["operation"] === "Others"){
+                    return "#5d5d5d"
+                }
+            }
+
+        }
+        if (flag === 0) return "#5d5d5d"
+
+
+    }
+
+    function UpdateProcessNameWithChild(processLst, links) {
+        processLst.forEach(function (proc, parentIndex) {
+            proc.childs = [];
+            links.forEach(function (link) {
+                if (proc.key == link.Process_Name) {
+                    var index = getProcessNameIndex(processLst, link.targetProcessName);
+
+                    if (!proc.childs.includes(index) && index != parentIndex) {
+                        //Check for loop insertion
+                        if (processLst[index].hasOwnProperty('childs')) {
+                            if (!processLst[index].childs.includes(parentIndex)) {
+                                proc.childs.push(index)
+                            }
+                        } else {
+                            proc.childs.push(index)
+                        }
+
+                    }
+
+                }
+            })
+        })
+        return processLst;
+    }
+
+    function getProcessNameIndex(processlst, key) {
+        var index;
+        processlst.forEach(function (d, i) {
+            if (d.key == key) {
+                index = i;
+            }
+
+        })
+        return index;
+    }
+
+
+</script>
+
+</body>
+</html>

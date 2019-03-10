@@ -1,0 +1,215 @@
+[
+    {
+        "key": "CloseFile"
+    },
+    {
+        "key": "CreateFile"
+    },
+    {
+        "key": "CreateFileMapping"
+    },
+    {
+        "key": "DeviceIoControl"
+    },
+    {
+        "key": "FileSystemControl"
+    },
+    {
+        "key": "FlushBuffersFile"
+    },
+    {
+        "key": "LockFile"
+    },
+    {
+        "key": "NotifyChangeDirectory"
+    },
+    {
+        "key": "QueryAllInformationFile"
+    },
+    {
+        "key": "QueryAttributeInformationVolume"
+    },
+    {
+        "key": "QueryAttributeTagFile"
+    },
+    {
+        "key": "QueryBasicInformationFile"
+    },
+    {
+        "key": "QueryDeviceRelations"
+    },
+    {
+        "key": "QueryDirectory"
+    },
+    {
+        "key": "QueryEAFile"
+    },
+    {
+        "key": "QueryFileInternalInformationFile"
+    },
+    {
+        "key": "QueryFullSizeInformationVolume"
+    },
+    {
+        "key": "QueryInformationVolume"
+    },
+    {
+        "key": "QueryNameInformationFile"
+    },
+    {
+        "key": "QueryNetworkOpenInformationFile"
+    },
+    {
+        "key": "QueryNormalizedNameInformationFile"
+    },
+    {
+        "key": "QueryObjectIdInformationVolume"
+    },
+    {
+        "key": "QueryOpen"
+    },
+    {
+        "key": "QueryPositionInformationFile"
+    },
+    {
+        "key": "QueryRemoteProtocolInformation"
+    },
+    {
+        "key": "QuerySecurityFile"
+    },
+    {
+        "key": "QuerySizeInformationVolume"
+    },
+    {
+        "key": "QueryStandardInformationFile"
+    },
+    {
+        "key": "QueryStreamInformationFile"
+    },
+    {
+        "key": "ReadFile"
+    },
+    {
+        "key": "SetAllocationInformationFile"
+    },
+    {
+        "key": "SetBasicInformationFile"
+    },
+    {
+        "key": "SetDispositionInformationFile"
+    },
+    {
+        "key": "SetEndOfFileInformationFile"
+    },
+    {
+        "key": "SetPositionInformationFile"
+    },
+    {
+        "key": "SetRenameInformationFile"
+    },
+    {
+        "key": "SetSecurityFile"
+    },
+    {
+        "key": "UnlockFileSingle"
+    },
+    {
+        "key": "WriteFile"
+    },
+    {
+        "key": "RegCloseKey"
+    },
+    {
+        "key": "RegCreateKey"
+    },
+    {
+        "key": "RegDeleteKey"
+    },
+    {
+        "key": "RegDeleteValue"
+    },
+    {
+        "key": "RegEnumKey"
+    },
+    {
+        "key": "RegEnumValue"
+    },
+    {
+        "key": "RegLoadKey"
+    },
+    {
+        "key": "RegOpenKey"
+    },
+    {
+        "key": "RegQueryKey"
+    },
+    {
+        "key": "RegQueryKeySecurity"
+    },
+    {
+        "key": "RegQueryMultipleValueKey"
+    },
+    {
+        "key": "RegQueryValue"
+    },
+    {
+        "key": "RegSetInfoKey"
+    },
+    {
+        "key": "RegSetKeySecurity"
+    },
+    {
+        "key": "RegSetValue"
+    },
+    {
+        "key": "Load Image"
+    },
+    {
+        "key": "Process Create"
+    },
+    {
+        "key": "Process Exit"
+    },
+    {
+        "key": "Process Start"
+    },
+    {
+        "key": "Thread Create"
+    },
+    {
+        "key": "Thread Exit"
+    },
+    {
+        "key": "TCP Accept"
+    },
+    {
+        "key": "TCP Connect"
+    },
+    {
+        "key": "TCP Disconnect"
+    },
+    {
+        "key": "TCP Receive"
+    },
+    {
+        "key": "TCP Reconnect"
+    },
+    {
+        "key": "TCP Retransmit"
+    },
+    {
+        "key": "TCP Send"
+    },
+    {
+        "key": "TCP TCPCopy"
+    },
+    {
+        "key": "UDP Receive"
+    },
+    {
+        "key": "UDP Send"
+    },
+    {
+        "key": "Process Profiling"
+    }
+]
