@@ -7,38 +7,31 @@ function applicationManager(globalData) {
     var initTimeStamp = d3.min(globalData, function (d) {
         return d.currenttimestamp;
     });
-
     var minTimeStamp = ~~(initTimeStamp/100000) * 100000;
 
     var maxTimeStamp = d3.max(globalData, function (d) {
         return d.currenttimestamp;
     });
-    globalData.forEach(function (d,i) {
-        var newStep = d.currenttimestamp - minTimeStamp;
-        d.Step = newStep;
-        if (d.currenttimestamp === initTimeStamp){
-            initStamp = {
-                step: d.Step,
-                hour: d.Hour,
-                minute: d.Minute,
-                second: d.Second,
-                millisecond: d.Milisecond
-            };
-        }
-        if (d.currenttimestamp === maxTimeStamp){
-            maxStamp = {
-                step: d.Step,
-                hour: d.Hour,
-                minute: d.Minute,
-                second: d.Second,
-                millisecond: d.Milisecond
-            };
-        }
-    });
-    // console.log("initStamp: ");
-    // console.log(initStamp);
-    // console.log("maxStamp: ");
-    // console.log(maxStamp);
+
+    var minT = globalData.find(d => d.currenttimestamp === initTimeStamp);
+
+    initStamp = {
+        step: minT.Step,
+        hour: minT.Hour,
+        minute: minT.Minute,
+        second: minT.Second,
+        millisecond: minT.Milisecond
+    };
+
+    var maxT = globalData.find(d => d.currenttimestamp === maxTimeStamp);
+
+    initStamp = {
+        step: maxT.Step,
+        hour: maxT.Hour,
+        minute: maxT.Minute,
+        second: maxT.Second,
+        millisecond: maxT.Milisecond
+    };
 
     var settings = {
         ProcessArea: {
@@ -185,9 +178,6 @@ function applicationManager(globalData) {
     }
 
     function sortArrayBySimilarity(source, target, inputData) {
-        // console.log(globalmatrix);
-        // console.log(globalib);
-        // console.log(globalgroupbyprocessname);
 
         d3.select("#matrix2D").selectAll("*").remove();
         var processes1 = [];
@@ -401,9 +391,9 @@ function applicationManager(globalData) {
             return newIndex;
         }
 
-        for (var i = 0; i < 10; i++) {
-            console.log(getProcessIndex(i));
-        }
+        // for (var i = 0; i < 10; i++) {
+        //     console.log(getProcessIndex(i));
+        // }
 
         // var margintop=10;
         // var ColorScale = d3.scaleLinear()
@@ -829,10 +819,10 @@ function applicationManager(globalData) {
         //var processes1 = processDif(processes1,processes3[0].index);
         processes1 = processDif(processes1, 0);
         libs = processLib(libs, 0);
-        console.log(processes1)
-        console.log(libs)
+        // console.log(processes1)
+        // console.log(libs)
         // Order options
-        console.log(nodes)
+        // console.log(nodes)
 
         nodes.sources.forEach(function (node, i) {
             node.similarity = processes1[i].indexSimilarity;
@@ -1356,8 +1346,7 @@ function applicationManager(globalData) {
             var margin_left = settings.ProcessArea.left;
             var bar_height = settings.ProcessArea.bar_height;
             var group_by_process = getData.getdatabyProcess;
-            console.log("group by process:");
-            console.log(group_by_process);
+
             var xScale = d3.scaleLinear()
                 .domain([0, d3.max(group_by_process, function (d) {
                     return d.values.length;
@@ -1366,17 +1355,6 @@ function applicationManager(globalData) {
 
             d3.select(position).selectAll("*").remove();
             var svgStats = d3.select(position).append('svg').attr("id", "overview").attr('width', '100%').attr('height', settings.ProcessArea.svg_height).attr("y",0);
-
-            var firstProcess = d3.nest().key(function (d) {
-                return d.Operation
-            }).entries(group_by_process[0].values);
-            firstProcess = firstProcess.sort(function (a, b) {
-                return b.values.length - a.values.length;
-            });
-
-            var otherProcess = [];
-            if (firstProcess.length > 3){otherProcess = JSON.parse(JSON.stringify(firstProcess))};
-            console.log(otherProcess);
 
             group_by_process.forEach(function (process, index) {
                 var group = svgStats.append('g').attr("transform", "translate(0," + index * bar_height + ")");
@@ -1470,14 +1448,14 @@ function applicationManager(globalData) {
                 d3.select(position).selectAll("*").remove();
                 var svgStats = d3.select(position).append('svg').attr('width', '100%').attr('height', 1110);
                 var group_O = svgStats.append('g');
-                var group_by_operation = [{"key":"CloseFile"},{"key":"CreateFile"},{"key":"CreateFileMapping"},{"key":"DeviceIoControl"},{"key":"FileSystemControl"},{"key":"FlushBuffersFile"},{"key":"LockFile"},{"key":"NotifyChangeDirectory"},{"key":"QueryAllInformationFile"},{"key":"QueryAttributeInformationVolume"},{"key":"QueryAttributeTagFile"},{"key":"QueryBasicInformationFile"},{"key":"QueryDeviceRelations"},{"key":"QueryDirectory"},{"key":"QueryEAFile"}, {"key":"QueryEaInformationFile"},{"key":"QueryFileInternalInformationFile"},{"key":"QueryFullSizeInformationVolume"},{"key":"QueryInformationVolume"},{"key":"QueryNameInformationFile"},{"key":"QueryNetworkOpenInformationFile"},{"key":"QueryNormalizedNameInformationFile"},{"key":"QueryObjectIdInformationVolume"},{"key":"QueryOpen"},{"key":"QueryPositionInformationFile"},{"key":"QueryRemoteProtocolInformation"},{"key":"QuerySecurityFile"},{"key":"QuerySizeInformationVolume"},{"key":"QueryStandardInformationFile"},{"key":"QueryStreamInformationFile"},{"key":"ReadFile"},{"key":"SetAllocationInformationFile"},{"key":"SetBasicInformationFile"},{"key":"SetDispositionInformationFile"},{"key":"SetEndOfFileInformationFile"},{"key":"SetPositionInformationFile"},{"key":"SetRenameInformationFile"},{"key":"SetSecurityFile"},{"key":"UnlockFileSingle"},{"key":"WriteFile"},{"key":"RegCloseKey"},{"key":"RegCreateKey"},{"key":"RegDeleteKey"},{"key":"RegDeleteValue"},{"key":"RegEnumKey"},{"key":"RegEnumValue"},{"key":"RegFlushKey"},{"key":"RegLoadKey"},{"key":"RegOpenKey"},{"key":"RegQueryKey"},{"key":"RegQueryKeySecurity"},{"key":"RegQueryMultipleValueKey"},{"key":"RegQueryValue"},{"key":"RegSetInfoKey"},{"key":"RegSetKeySecurity"},{"key":"RegSetValue"},{"key":"Load Image"},{"key":"Process Create"},{"key":"Process Exit"},{"key":"Process Start"},{"key":"Thread Create"},{"key":"Thread Exit"},{"key":"TCP Accept"},{"key":"TCP Connect"},{"key":"TCP Disconnect"},{"key":"TCP Receive"},{"key":"TCP Reconnect"},{"key":"TCP Retransmit"},{"key":"TCP Send"},{"key":"TCP TCPCopy"},{"key":"UDP Receive"},{"key":"UDP Send"},{"key":"Process Profiling"},{"key":"Others"}]
 
+                var group_by_operation = d3.keys(list);
                 group_by_operation.forEach(function (operation, index) {
                     var rect = group_O.append('g').attr('transform', 'translate(0,' + index * 15 + ')');
                     rect.append('rect').attr('width', '20px').attr('height', '12px').attr('fill', function (d) {
-                        return colorPicker(operation.key);
+                        return colorPicker(operation);
                     });
-                    rect.append('text').text(operation.key).attr('x', '30px').style('color', 'black').style('font-size', '12px').attr('y', '8px')
+                    rect.append('text').text(operation).attr('x', '30px').style('color', 'black').style('font-size', '12px').attr('y', '8px')
                 })
             });
 
@@ -1716,7 +1694,7 @@ function applicationManager(globalData) {
                 else {
                     return xStep * norm;
                 }
-            }
+            };
             var reverseStepScale = function(x){
                 return x*timeInterval/maxProcessLength;
             };
@@ -2008,9 +1986,10 @@ function applicationManager(globalData) {
                     .attr('x', ((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left)+5).attr('y', group_rect_height / 2)
                     .attr('text-anchor', 'start');
 
-
-//======================= rect for process here =======================================================
-                var rect = group.selectAll('rect').data(row.values).enter().append('rect')
+//======================= rect for process here ================================
+                var rect = group.selectAll('rect').data(row.values
+                    .filter(d => d["Process"] !== "Profiling")
+                ).enter().append('rect')
                     .attr('class', function (d, i) {
                         return d.Operation.replace(" ", "_");
                     })
@@ -2115,10 +2094,6 @@ function applicationManager(globalData) {
                             .style("opacity", 0);
                     });
             });
-            // console.log("ordered array:");
-            // console.log(orderedArray);
-            // console.log("updated data:");
-            // console.log(updated_data);
 
             outline.on("mouseleave", function(){
                 outline.selectAll(".verticalBars").transition().duration(200)

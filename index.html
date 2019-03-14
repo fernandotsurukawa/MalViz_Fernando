@@ -15,10 +15,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
-    <script src="https://unpkg.com/d3-simple-slider/build/d3-simple-slider.js"></script>
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
 
     <style>
         .content{
@@ -238,17 +236,10 @@
 Please select dataset:
 <select id="selectmalware" class="selectmalware">
     <option>--Select dataset--</option>
-    <option value="Moi-Win7-RemoteAccess_1.CSV">Moi-Win7-RemoteAccess_1</option>
-    <option value="Moi-Win7-RemoteAccess_2.CSV">Moi-Win7-RemoteAccess_2</option>
-    <option value="Moi-Win7-RemoteAccess_3.CSV">Moi-Win7-RemoteAccess_3</option>
-    <option value="Moi-Win7-RemoteAccess_4.CSV">Moi-Win7-RemoteAccess_4</option>
-    <option value="Moi-Win7-RemoteAccess_5.CSV">Moi-Win7-RemoteAccess_5</option>
-    <option value="Moi-Win7-RemoteAccess_6.CSV">Moi-Win7-RemoteAccess_6</option>
-    <option value="Moi-Win7-RemoteAccess_7.CSV">Moi-Win7-RemoteAccess_7</option>
+
     <option value="Vung-Win7-Bladabindi.CSV">Vung-Win7-Bladabindi</option>
     <option value="Vung-Win7-Cryptowall.CSV">Vung-Win7-Cryptowall</option>
     <option value="Vung-Win7-Locky.Gen.CSV">Vung-Win7-Locky.Gen</option>
-    <option value="Vung-Win7-Multinjector.CSV">Vung-Win7-Multinjector</option>
     <option value="Vung-Win7-Teerac.B.CSV">Vung-Win7-Teerac.B</option>
 
     <option value="Kovter1.CSV">Kovter1</option>
@@ -298,6 +289,7 @@ Please select dataset:
     <option value="Faran-win7-Trojan-Backdoor.win32.Executor.a.CSV">Faran-win7-Trojan-Backdoor.win32.Executor.a</option>
     <option value="Win7_WannaPeace.CSV">Win7-WannaPeace-NoFilter</option>
     <option value="Logfile_Zulfi.CSV">Zulfi-Logfile-NoFilter</option>
+    <option value="Logfile_V1.CSV">Cerber</option>
 
 
 
@@ -356,8 +348,6 @@ Please select dataset:
         Libraries called
     </legend>
     <div>
-        
-    
         <p>
             <label for="amount">Number of libraries called:</label>
             <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
@@ -378,29 +368,29 @@ Please select dataset:
 
 </fieldset>
 <div id="loading">
-    <img id="loading-image" src="images/ajax-loader.gif" alt="Loading..." />
+    <img id="loading-image" src="images/loader2.gif" alt="Loading..." />
 </div>
 <script src="js/ultility.js"></script>
 <script src="js/appManager.js"></script>
 <script>
 
-    var div = d3.select("body").append("div")
+    let div = d3.select("body").append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
 
-    var div2 = d3.select("body").append("div")
+    let div2 = d3.select("body").append("div")
         .attr("class", "tooltip2")
         .style("opacity", 0);
 
     $('select#selectmalware').on('change', function (e) {
-        var optionSelected = $("option:selected", this);
-        var valueSelected = this.value;
-        var loading = d3.select('body').append('div').attr('id','loading')
-        loading.append('img').attr('id','loading-image').attr('src','images/ajax-loader.gif')
+        let optionSelected = $("option:selected", this);
+        let valueSelected = this.value;
+        let loading = d3.select('body').append('div').attr('id','loading')
+        loading.append('img').attr('id','loading-image').attr('src','images/loader2.gif')
         init(valueSelected);
 
     });
-    var init = function (filePath) {
+    let init = function (filePath) {
         d3.queue()
             .defer(d3.csv, "data/" + filePath, function (d) {
                 return {
@@ -418,15 +408,13 @@ Please select dataset:
                     console.error('Oh dear, something went wrong: ' + error);
                 }
                 else {
+                    let data = ProcessDataV2(original_data, domain);
 
-                    ProcessDataV2(original_data, domain);
-                    var data = ProcessDataV2(original_data, domain);
-
-                    var SiteManager = applicationManager(data); //Initialize application
+                    let SiteManager = applicationManager(data); //Initialize application
                     SiteManager.drawStats('#stats'); //Draw statistic map
                     SiteManager.drawStats2('#OperationList'); //Draw statistic map
                     SiteManager.drawMain('#heatmap');//Draw mainMap
-                    var maxcalls = SiteManager.getCallRange().maxcall;
+                    let maxcalls = SiteManager.getCallRange().maxcall;
                     SiteManager.updateDomainBox('#maliciousdomain');
                     $("#btnName").click(function () {
                             SiteManager.sort2DMatrix('similarity')
@@ -446,7 +434,7 @@ Please select dataset:
                     //     }
                     // );
                     $( function() {
-                        var handle = $( "#custom-handle" );
+                        let handle = $( "#custom-handle" );
                         $( "#slider" ).slider({
                             min:0,
                             value:3,
@@ -469,137 +457,142 @@ Please select dataset:
             });
 
     };
-    init("faran-7-vs-backdoor-10.CSV");
+    init("Huyen-Ransomware-WannaPeace.csv");
+    var list = {
+        "CloseFile": {"operation": "FileSystem", "index": 0},
+        "CreateFile": {"operation": "FileSystem", "index": 1},
+        "CreateFileMapping": {"operation": "FileSystem", "index": 2},
+        "DeviceIoControl": {"operation": "FileSystem", "index": 3},
+        "FileSystemControl": {"operation": "FileSystem", "index": 4},
+        "FlushBuffersFile": {"operation": "FileSystem", "index": 5},
+        "LockFile": {"operation": "FileSystem", "index": 6},
+        "NotifyChangeDirectory": {"operation": "FileSystem", "index": 7},
+        "QueryAllInformationFile": {"operation": "FileSystem", "index": 8},
+        "QueryAttributeInformationVolume": {"operation": "FileSystem", "index": 9},
+        "QueryAttributeTagFile": {"operation": "FileSystem", "index": 10},
+        "QueryBasicInformationFile": {"operation": "FileSystem", "index": 11},
+        "QueryDeviceRelations": {"operation": "FileSystem", "index": 12},
+        "QueryDirectory": {"operation": "FileSystem", "index": 13},
+        "QueryEAFile": {"operation": "FileSystem", "index": 14},
+        "QueryEaInformationFile": {"operation": "FileSystem", "index": 15},
+        "QueryFileInternalInformationFile": {"operation": "FileSystem", "index": 16},
+        "QueryFullSizeInformationVolume": {"operation": "FileSystem", "index": 17},
+        "QueryInformationVolume": {"operation": "FileSystem", "index": 18},
+        "QueryNameInformationFile": {"operation": "FileSystem", "index": 19},
+        "QueryNetworkOpenInformationFile": {"operation": "FileSystem", "index": 20},
+        "QueryNormalizedNameInformationFile": {"operation": "FileSystem", "index": 21},
+        "QueryObjectIdInformationVolume": {"operation": "FileSystem", "index": 22},
+        "QueryOpen": {"operation": "FileSystem", "index": 23},
+        "QueryPositionInformationFile": {"operation": "FileSystem", "index": 24},
+        "QueryRemoteProtocolInformation": {"operation": "FileSystem", "index": 25},
+        "QuerySecurityFile": {"operation": "FileSystem", "index": 26},
+        "QuerySizeInformationVolume": {"operation": "FileSystem", "index": 27},
+        "QueryStandardInformationFile": {"operation": "FileSystem", "index": 28},
+        "QueryStreamInformationFile": {"operation": "FileSystem", "index": 29},
+        "ReadFile": {"operation": "FileSystem", "index": 30},
+        "SetAllocationInformationFile": {"operation": "FileSystem", "index": 31},
+        "SetBasicInformationFile": {"operation": "FileSystem", "index": 32},
+        "SetDispositionInformationFile": {"operation": "FileSystem", "index": 33},
+        "SetEndOfFileInformationFile": {"operation": "FileSystem", "index": 34},
+        "SetPositionInformationFile": {"operation": "FileSystem", "index": 35},
+        "SetRenameInformationFile": {"operation": "FileSystem", "index": 36},
+        "SetSecurityFile": {"operation": "FileSystem", "index": 37},
+        "UnlockFileSingle": {"operation": "FileSystem", "index": 38},
+        "WriteFile": {"operation": "FileSystem", "index": 39},
+        "Load Image": {"operation": "ProcessThread", "index": 0},
+        "Process Create": {"operation": "ProcessThread", "index": 1},
+        "Process Exit": {"operation": "ProcessThread", "index": 2},
+        "Process Start": {"operation": "ProcessThread", "index": 3},
+        "Thread Create": {"operation": "ProcessThread", "index": 4},
+        "Thread Exit": {"operation": "ProcessThread", "index": 5},
+        "RegCloseKey": {"operation": "Registry", "index": 0},
+        "RegCreateKey": {"operation": "Registry", "index": 1},
+        "RegDeleteKey": {"operation": "Registry", "index": 2},
+        "RegDeleteValue": {"operation": "Registry", "index": 3},
+        "RegEnumKey": {"operation": "Registry", "index": 4},
+        "RegEnumValue": {"operation": "Registry", "index": 5},
+        "RegFlushKey": {"operation": "Registry", "index": 6},
+        "RegLoadKey": {"operation": "Registry", "index": 7},
+        "RegOpenKey": {"operation": "Registry", "index": 8},
+        "RegQueryKey": {"operation": "Registry", "index": 9},
+        "RegQueryKeySecurity": {"operation": "Registry", "index": 10},
+        "RegQueryMultipleValueKey": {"operation": "Registry", "index": 11},
+        "RegQueryValue": {"operation": "Registry", "index": 12},
+        "RegSetInfoKey": {"operation": "Registry", "index": 13},
+        "RegSetKeySecurity": {"operation": "Registry", "index": 14},
+        "RegSetValue": {"operation": "Registry", "index": 15},
+        "TCP Accept": {"operation": "Network", "index": 0},
+        "TCP Connect": {"operation": "Network", "index": 1},
+        "TCP Disconnect": {"operation": "Network", "index": 2},
+        "TCP Receive": {"operation": "Network", "index": 3},
+        "TCP Reconnect": {"operation": "Network", "index": 4},
+        "TCP Retransmit": {"operation": "Network", "index": 5},
+        "TCP Send": {"operation": "Network", "index": 6},
+        "TCP TCPCopy": {"operation": "Network", "index": 7},
+        "UDP Receive": {"operation": "Network", "index": 8},
+        "UDP Send": {"operation": "Network", "index": 9},
+        "Process Profiling": {"operation": "Profiling", "index": 0},
+        "Others": {"operation": "Others", "index": 0}
+    };
+    var colorScaleOrange = d3.scaleSequential(d3["interpolateYlOrBr"])// File: 0-38
+        .domain([70, -30]);
 
+    var colorScaleGreen = d3.scaleSequential(d3["interpolateGreens"]) // Registry: 0-14
+        .domain([20, -3]);
+
+    var colorScaleBlue = d3.scaleSequential(d3["interpolateBlues"])  // Process: 0-5
+        .domain([8, -2]);
+
+    var colorScaleRed = d3.scaleSequential(d3["interpolateReds"]) // Network: 0-9
+        .domain([15, -5]);
 
     function getProcessName(operation) {
-        var list = {
-            "CloseFile": "FileSystem",
-            "CreateFile": "FileSystem",
-            "CreateFileMapping": "FileSystem",
-            "DeviceIoControl": "FileSystem",
-            "FileSystemControl": "FileSystem",
-            "FlushBuffersFile": "FileSystem",
-            "LockFile": "FileSystem",
-            "NotifyChangeDirectory": "FileSystem",
-            "QueryAllInformationFile": "FileSystem",
-            "QueryAttributeInformationVolume": "FileSystem",
-            "QueryAttributeTagFile": "FileSystem",
-            "QueryBasicInformationFile": "FileSystem",
-            "QueryDeviceRelations": "FileSystem",
-            "QueryDirectory": "FileSystem",
-            "QueryEAFile": "FileSystem",
-            "QueryEaInformationFile": "FileSystem",
-            "QueryFileInternalInformationFile": "FileSystem",
-            "QueryFullSizeInformationVolume": "FileSystem",
-            "QueryInformationVolume": "FileSystem",
-            "QueryNameInformationFile": "FileSystem",
-            "QueryNetworkOpenInformationFile": "FileSystem",
-            "QueryNormalizedNameInformationFile": "FileSystem",
-            "QueryObjectIdInformationVolume": "FileSystem",
-            "QueryOpen": "FileSystem",
-            "QueryPositionInformationFile": "FileSystem",
-            "QueryRemoteProtocolInformation": "FileSystem",
-            "QuerySecurityFile": "FileSystem",
-            "QuerySizeInformationVolume": "FileSystem",
-            "QueryStandardInformationFile": "FileSystem",
-            "QueryStreamInformationFile": "FileSystem",
-            "ReadFile": "FileSystem",
-            "SetAllocationInformationFile": "FileSystem",
-            "SetBasicInformationFile": "FileSystem",
-            "SetDispositionInformationFile": "FileSystem",
-            "SetEndOfFileInformationFile": "FileSystem",
-            "SetPositionInformationFile": "FileSystem",
-            "SetRenameInformationFile": "FileSystem",
-            "SetSecurityFile": "FileSystem",
-            "UnlockFileSingle": "FileSystem",
-            "WriteFile": "FileSystem",
-            "Load Image": "ProcessThread",
-            "Process Create": "ProcessThread",
-            "Process Exit": "ProcessThread",
-            "Process Start": "ProcessThread",
-            "Thread Create": "ProcessThread",
-            "Thread Exit": "ProcessThread",
-            "RegCloseKey": "Registry",
-            "RegCreateKey": "Registry",
-            "RegDeleteKey": "Registry",
-            "RegDeleteValue": "Registry",
-            "RegEnumKey": "Registry",
-            "RegEnumValue": "Registry",
-            "RegFlushKey": "Registry",
-            "RegLoadKey": "Registry",
-            "RegOpenKey": "Registry",
-            "RegQueryKey": "Registry",
-            "RegQueryKeySecurity": "Registry",
-            "RegQueryMultipleValueKey": "Registry",
-            "RegQueryValue": "Registry",
-            "RegSetInfoKey": "Registry",
-            "RegSetKeySecurity": "Registry",
-            "RegSetValue": "Registry",
-            "TCP Accept": "Network",
-            "TCP Connect": "Network",
-            "TCP Disconnect": "Network",
-            "TCP Receive": "Network",
-            "TCP Reconnect": "Network",
-            "TCP Retransmit": "Network",
-            "TCP Send": "Network",
-            "TCP TCPCopy": "Network",
-            "UDP Receive": "Network",
-            "UDP Send": "Network",
-            "Process Profiling": "Profiling"
-        };
-        if (list[operation] === undefined){
+        if (!list[operation]){
             return "Others"
-        }
-        else return list[operation]
+        } else return list[operation]["operation"]
         ;
-
     }
-
+    var sub = d3.keys(list);
     function colorPicker(operation) {
-        const list = {"CloseFile":{"operation":"FileSystem","index":0},"CreateFile":{"operation":"FileSystem","index":1},"CreateFileMapping":{"operation":"FileSystem","index":2},"DeviceIoControl":{"operation":"FileSystem","index":3},"FileSystemControl":{"operation":"FileSystem","index":4},"FlushBuffersFile":{"operation":"FileSystem","index":5},"LockFile":{"operation":"FileSystem","index":6},"NotifyChangeDirectory":{"operation":"FileSystem","index":7},"QueryAllInformationFile":{"operation":"FileSystem","index":8},"QueryAttributeInformationVolume":{"operation":"FileSystem","index":9},"QueryAttributeTagFile":{"operation":"FileSystem","index":10},"QueryBasicInformationFile":{"operation":"FileSystem","index":11},"QueryDeviceRelations":{"operation":"FileSystem","index":12},"QueryDirectory":{"operation":"FileSystem","index":13},"QueryEAFile":{"operation":"FileSystem","index":14},"QueryEaInformationFile":{"operation":"FileSystem","index":15},"QueryFileInternalInformationFile":{"operation":"FileSystem","index":16},"QueryFullSizeInformationVolume":{"operation":"FileSystem","index":17},"QueryInformationVolume":{"operation":"FileSystem","index":18},"QueryNameInformationFile":{"operation":"FileSystem","index":19},"QueryNetworkOpenInformationFile":{"operation":"FileSystem","index":20},"QueryNormalizedNameInformationFile":{"operation":"FileSystem","index":21},"QueryObjectIdInformationVolume":{"operation":"FileSystem","index":22},"QueryOpen":{"operation":"FileSystem","index":23},"QueryPositionInformationFile":{"operation":"FileSystem","index":24},"QueryRemoteProtocolInformation":{"operation":"FileSystem","index":25},"QuerySecurityFile":{"operation":"FileSystem","index":26},"QuerySizeInformationVolume":{"operation":"FileSystem","index":27},"QueryStandardInformationFile":{"operation":"FileSystem","index":28},"QueryStreamInformationFile":{"operation":"FileSystem","index":29},"ReadFile":{"operation":"FileSystem","index":30},"SetAllocationInformationFile":{"operation":"FileSystem","index":31},"SetBasicInformationFile":{"operation":"FileSystem","index":32},"SetDispositionInformationFile":{"operation":"FileSystem","index":33},"SetEndOfFileInformationFile":{"operation":"FileSystem","index":34},"SetPositionInformationFile":{"operation":"FileSystem","index":35},"SetRenameInformationFile":{"operation":"FileSystem","index":36},"SetSecurityFile":{"operation":"FileSystem","index":37},"UnlockFileSingle":{"operation":"FileSystem","index":38},"WriteFile":{"operation":"FileSystem","index":39},"Load Image":{"operation":"ProcessThread","index":0},"Process Create":{"operation":"ProcessThread","index":1},"Process Exit":{"operation":"ProcessThread","index":2},"Process Start":{"operation":"ProcessThread","index":3},"Thread Create":{"operation":"ProcessThread","index":4},"Thread Exit":{"operation":"ProcessThread","index":5},"RegCloseKey":{"operation":"Registry","index":0},"RegCreateKey":{"operation":"Registry","index":1},"RegDeleteKey":{"operation":"Registry","index":2},"RegDeleteValue":{"operation":"Registry","index":3},"RegEnumKey":{"operation":"Registry","index":4},"RegEnumValue":{"operation":"Registry","index":5},"RegFlushKey":{"operation":"Registry","index":6},"RegLoadKey":{"operation":"Registry","index":7},"RegOpenKey":{"operation":"Registry","index":8},"RegQueryKey":{"operation":"Registry","index":9},"RegQueryKeySecurity":{"operation":"Registry","index":10},"RegQueryMultipleValueKey":{"operation":"Registry","index":11},"RegQueryValue":{"operation":"Registry","index":12},"RegSetInfoKey":{"operation":"Registry","index":13},"RegSetKeySecurity":{"operation":"Registry","index":14},"RegSetValue":{"operation":"Registry","index":15},"TCP Accept":{"operation":"Network","index":0},"TCP Connect":{"operation":"Network","index":1},"TCP Disconnect":{"operation":"Network","index":2},"TCP Receive":{"operation":"Network","index":3},"TCP Reconnect":{"operation":"Network","index":4},"TCP Retransmit":{"operation":"Network","index":5},"TCP Send":{"operation":"Network","index":6},"TCP TCPCopy":{"operation":"Network","index":7},"UDP Receive":{"operation":"Network","index":8},"UDP Send":{"operation":"Network","index":9},"Process Profiling":{"operation":"Profiling","index":0},"Others":{"operation":"Others","index":0}}
-        var colorScaleOrange = d3.scaleSequential(d3["interpolateYlOrBr"])// File: 0-38
-            .domain([60, -25]);
-
-        var colorScaleGreen = d3.scaleSequential(d3["interpolateGreens"]) // Registry: 0-14
-            .domain([20, -3]);
-
-        var colorScaleBlue = d3.scaleSequential(d3["interpolateBlues"])  // Process: 0-5
-            .domain([8, -2]);
-
-        var colorScaleRed = d3.scaleSequential(d3["interpolateReds"]) // Network: 0-9
-            .domain([15, -5]);
-
-        var sub = d3.keys(list);
-
-        var flag = 0;
-        for (let i = 0; i < sub.length; i++){
-            if (operation === sub[i]) {
-                flag = 1;
-                if (list[sub[i]]["operation"] === "FileSystem"){
-                    return colorScaleOrange(list[sub[i]]["index"])
-                }
-                else if (list[sub[i]]["operation"] === "Registry"){
-                    return colorScaleGreen(list[sub[i]]["index"])
-                }
-                else if (list[sub[i]]["operation"] === "ProcessThread"){
-                    return colorScaleBlue(list[sub[i]]["index"])
-                }
-                else if (list[sub[i]]["operation"] === "Network"){
-                    return colorScaleRed(list[sub[i]]["index"])
-                }
-                else if (list[sub[i]]["operation"] === "Profiling"){
-                    return "#6854b1"
-                }
-                else if (list[sub[i]]["operation"] === "Others"){
-                    return "#5d5d5d"
-                }
+        if (list[operation]){
+            switch (list[operation]["operation"]) {
+                case "FileSystem":
+                    return colorScaleOrange(list[operation]["index"]);
+                case "Registry":
+                    return colorScaleGreen(list[operation]["index"]);
+                case "Network":
+                    return colorScaleRed(list[operation]["index"]);
+                case "ProcessThread":
+                    return colorScaleBlue(list[operation]["index"]);
+                case "Profiling":
+                    return  "#6854b1";
+                default:
+                    return  "#5d5d5d"
             }
+        } else return "#5d5d5d"
 
-        }
-        if (flag === 0) return "#5d5d5d"
-
-
+        // let flag = 0;
+        // for (let i in sub){
+        //     if (operation === sub[i]) {
+        //         flag = 1;
+        //         if (list[sub[i]]["operation"] === "FileSystem"){
+        //             return colorScaleOrange(list[sub[i]]["index"])
+        //         }
+        //         else if (list[sub[i]]["operation"] === "Registry"){
+        //             return colorScaleGreen(list[sub[i]]["index"])
+        //         }
+        //         else if (list[sub[i]]["operation"] === "Network"){
+        //             return colorScaleRed(list[sub[i]]["index"])
+        //         }
+        //         else if (list[sub[i]]["operation"] === "ProcessThread"){
+        //             return colorScaleBlue(list[sub[i]]["index"])
+        //         }
+        //         else if (list[sub[i]]["operation"] === "Profiling"){
+        //             return "#6854b1"
+        //         }
+        //     }
+        // }
+        // if (!flag) return "#5d5d5d"
     }
 
     function UpdateProcessNameWithChild(processLst, links) {
@@ -607,7 +600,7 @@ Please select dataset:
             proc.childs = [];
             links.forEach(function (link) {
                 if (proc.key == link.Process_Name) {
-                    var index = getProcessNameIndex(processLst, link.targetProcessName);
+                    let index = getProcessNameIndex(processLst, link.targetProcessName);
 
                     if (!proc.childs.includes(index) && index != parentIndex) {
                         //Check for loop insertion
@@ -628,7 +621,7 @@ Please select dataset:
     }
 
     function getProcessNameIndex(processlst, key) {
-        var index;
+        let index;
         processlst.forEach(function (d, i) {
             if (d.key == key) {
                 index = i;
