@@ -1,10 +1,9 @@
-var svgActionWidth;
-var initStamp, maxStamp;
-var reverse;
-var leftBound, rightBound;
-
 function applicationManager(globalData) {
-    var lensingMultiple = 10, granularity = 1000;
+    var svgActionWidth;
+    //var initStamp, maxStamp;
+    var leftBound, rightBound;
+
+    var lensingMultiple = 10, granularity = 300;
     var initTimeStamp = d3.min(globalData, function (d) {
         return d.currenttimestamp;
     });
@@ -14,25 +13,17 @@ function applicationManager(globalData) {
         return d.currenttimestamp;
     });
 
-    var minT = globalData.find(d => d.currenttimestamp === initTimeStamp);
-
-    initStamp = {
-        step: minT.Step,
-        hour: minT.Hour,
-        minute: minT.Minute,
-        second: minT.Second,
-        millisecond: minT.Milisecond
-    };
-
-    var maxT = globalData.find(d => d.currenttimestamp === maxTimeStamp);
-
-    initStamp = {
-        step: maxT.Step,
-        hour: maxT.Hour,
-        minute: maxT.Minute,
-        second: maxT.Second,
-        millisecond: maxT.Milisecond
-    };
+    // var minT = globalData.find(d => d.currenttimestamp === initTimeStamp);
+    //
+    // initStamp = {
+    //     step: minT.Step,
+    //     hour: minT.Hour,
+    //     minute: minT.Minute,
+    //     second: minT.Second,
+    //     millisecond: minT.Milisecond
+    // };
+    //
+    // var maxT = globalData.find(d => d.currenttimestamp === maxTimeStamp);
 
     var settings = {
         ProcessArea: {
@@ -71,8 +62,7 @@ function applicationManager(globalData) {
                         //Update existing link
                         link.value.push(object);
                     }
-                    ;
-                })
+                });
                 if (!flag) {
                     var obj = new Object();
                     obj.source = object.Process_Name.toUpperCase();
@@ -101,7 +91,6 @@ function applicationManager(globalData) {
                 }
 
             })
-
 
             if (!sourceFlag) {
                 var obj = {};
@@ -859,8 +848,8 @@ function applicationManager(globalData) {
             })
         };
 
-        x_scale.domain(orders.library);
-        y_scale.domain(orders.process);
+        x_scale.domain(orders.x_similarity);
+        y_scale.domain(orders.y_similarity);
         var rows = svg.selectAll(".row")
             .data(matrix)
             .enter().append("g")
@@ -904,7 +893,7 @@ function applicationManager(globalData) {
         var timeout = setTimeout(function () {
             order("group");
             d3.select("#order").property("selectedIndex", 0).node().focus();
-        }, 5000);
+        }, 2000);
 
         function order(value) {
             if (value == "name") {
@@ -1358,6 +1347,7 @@ function applicationManager(globalData) {
             d3.select(position).selectAll("*").remove();
             var svgStats = d3.select(position).append('svg').attr("id", "overview").attr('width', '100%').attr('height', settings.ProcessArea.svg_height).attr("y", 0);
 
+            var active;
             group_by_process.forEach(function (process, index) {
                 var group = svgStats.append('g').attr("transform", "translate(0," + index * bar_height + ")");
                 var child_process = d3.nest().key(function (d) {
@@ -1394,58 +1384,21 @@ function applicationManager(globalData) {
                             .style("background-color", "#cccccc")
                             .style("padding", "5px");
                     }).on('mouseleave', function (d) {
-                        d3.select(this)
-                            .attr("stroke-width", "0px");
+                        d3.select(this).attr("stroke-width", "0px");
                         div.style("opacity", 0)
-
                     })
 
                         .on("click", function (d) {
-                            var allrect = d3.select("#heatmap").selectAll('rect[group=detail]').style('visibility', () => {
-                                console.log("hiddddden")
-                                return "hidden"
-                                })
-
-                            ;
+                            var allrect = d3.select("#heatmap").selectAll('rect[group=detail]').style('visibility', active ? "visible" : "hidden");
                             d3.select("#heatmap").selectAll('rect.' + child.key.replace(" ", "_")).style('visibility', "visible");
+                            active = !active;
                         });
-                    ;
+
                     xpos += xScale(child.values.length) + 2;
-                })
+                });
                 group.append('text').text(process.key + " (" + process.values.length + ")").attr('x', 0).attr('y', 18);
             })
 
-            // if (otherProcess.length > 0){
-            // svgStats.append("text").attr("transform","translate(0,220)").text("Other activities are: ");
-            //
-            // var other = svgStats.append("g")
-            //     .attr("transform","translate(0,250)")
-            //     .selectAll("text").data(otherProcess);
-            //
-            // other.enter()
-            //     .append("text")
-            //         .text((d,i) => {
-            //             if (i == otherProcess.length-1){return d.key + ". "}
-            //             else {return d.key + ", "}})
-            //         .attr("fill","black")
-            //         .attr("font-size","12px")
-            //         .attr("transform", (d,i) => {
-            //             if ((i%4) === 0){
-            //                 return "translate(0," + (i/4) * 30 + ")";
-            //             }
-            //             else if ((i%4) === 1){
-            //                 return "translate(200," + ((i-1)/4) * 30 + ")";
-            //             }
-            //             else if ((i%4) === 2){
-            //                 return "translate(400," + ((i-2)/4) * 30 + ")";
-            //             }
-            //
-            //             else if ((i%4) === 3){
-            //                 return "translate(600," + ((i-3)/4) * 30 + ")";
-            //             }
-            //
-            //         });
-            // }
         },
 
         drawStats2: function (position) {
@@ -1574,7 +1527,7 @@ function applicationManager(globalData) {
 
             var library = d3.nest().key(function (d) {
                 return d.library
-            }).entries(globalData)
+            }).entries(globalData);
 
             library = library.filter(function (value) {
                 if (value.key != 'undefined' && value.values.length > 10) return value
@@ -1596,8 +1549,6 @@ function applicationManager(globalData) {
             global_data.sort(function (a, b) {
                 return a.currenttimestamp - b.currenttimestamp;
             });
-
-            var groupedProcess = JSON.parse(JSON.stringify(group_by_process_name));
 
             // console.log("global data: ");
             // console.log(global_data);
@@ -1813,7 +1764,7 @@ function applicationManager(globalData) {
             svgActionWidth = bbox.getBoundingClientRect().width;
             var namespace = 120;
             var maxProcessLength = svgActionWidth - namespace;   // for dislaying name of virus
-
+            console.log(svgActionWidth);
             // Draw grids
             var stepData = [];
             var dashStepSpace = initStepData[1] - initStepData[0];
@@ -1832,6 +1783,7 @@ function applicationManager(globalData) {
             // console.log("stepdata:");
             // console.log(stepData);
 
+            console.log(stepData);
             outline.selectAll(".verticalBars").remove();
             outline.selectAll(".verticalBars")
                 .data(stepData).enter()
@@ -1849,6 +1801,14 @@ function applicationManager(globalData) {
                     }
                     else {
                         return 0
+                    }
+                })
+                .style("visibility", function (d, i) {
+                    if (d.main) {
+                        return "visible"
+                    }
+                    else {
+                        return "hidden"
                     }
                 })
                 .style("stroke-width", 1)
@@ -1913,8 +1873,6 @@ function applicationManager(globalData) {
                     var coordinates = [0, 0];
                     coordinates = d3.mouse(this);
                     var x = coordinates[0];
-
-
                     pointer = reverseStepScale(Math.max(0, x));
 
                     // console.log("x in v4: " + d3.event.clientX);
@@ -1924,7 +1882,6 @@ function applicationManager(globalData) {
                     // console.log("number of milis (pointer) = "+pointer);
 
                     // change lensing
-
 
                     svg_process_name.selectAll("rect").transition().duration(200)
                         .attr("x", d => (StepScale(d.Step, true)) * rect_width + margin_left);
@@ -1947,12 +1904,16 @@ function applicationManager(globalData) {
                         }
                     });
 
+                    // svg_process_name.selectAll(".stream")
+                    //     .transition().duration(200)
+                    //     .attr("d", area.x(function(d, i) { return xScale(i); }))
+
                     group_by_process_name.forEach(function (row, index) {
                         svg_process_name.selectAll(".malName" + index)
                             .transition().duration(200)
-                            .attr('x', ((StepScale(row.values[row.values.length - 1].Step, true)) * rect_width + margin_left) + 5).attr('y', group_rect_height / 2)
+                            .attr('x', ((StepScale(row.values[row.values.length - 1].Step, true)) * rect_width + margin_left) + 5)
+                            .attr('y', group_rect_height / 2)
                     });
-
 
                     outline.selectAll(".verticalBars").transition().duration(200)
                         .attr("x1", d => StepScale(d.step, true) + margin_left)
@@ -1969,6 +1930,20 @@ function applicationManager(globalData) {
                             }
                             else {
                                 return 0.2;
+                            }
+                        })
+                        .style("visibility", function (d, i) {
+                            if (d.main) {
+                                return "visible"
+                            }    // main ticks
+                            else if (d.step < leftBound) {
+                                return "hidden";
+                            }
+                            else if (d.step > rightBound) {
+                                return "hidden";
+                            }
+                            else {
+                                return "visible";
                             }
                         })
                         .style("stroke-width", 1)
@@ -1990,8 +1965,86 @@ function applicationManager(globalData) {
                 .attr("markerWidth", 8)
                 .attr("markerHeight", 8).attr('fill', 'rgb(37, 142, 215)')
                 .attr("orient", 0).append('path').attr('d', 'M0,0 L0,8 L8,4 z');
+            // stream
+            var stream1 = function (globalData) {
+                var global_data = JSON.parse(JSON.stringify(globalData));
+                var bin = 10000;
+                global_data.forEach(d => {
+                    d.binStep = Math.ceil(d.Step / bin);
+                });
+                var [minBin, maxBin] = d3.extent(global_data, d => d.binStep);
+                console.log(minBin, maxBin);
+
+                var binData = d3.nest()
+                    .key(d => d.Process_Name)
+                    .key(d => d.binStep)
+                    .rollup(v => v.length)
+                    .entries(global_data.filter(d => d.hasOwnProperty('library')));
+
+                // add dummy data
+                var defaultValue = 0;
+                binData.forEach(process => {
+                    process.lib = [];
+                    for (var i = 0; i < maxBin + 1; i++) {
+                        process.lib.push(process.values.find(d => d.key == i) ? process.values.find(d => d.key == i).value : defaultValue)
+                    }
+                });
+                return binData
+            };
+
+            var minBin, maxBin;
+            var stream = function (group_by_process_name, globalData) {
+                var group = JSON.parse(JSON.stringify(group_by_process_name));
+                var global_data = JSON.parse(JSON.stringify(globalData));
+                var bin = 20000;
+                global_data.forEach(d => {
+                    d.binStep = Math.ceil(d.Step / bin);
+                });
+                [minBin, maxBin] = d3.extent(global_data, d => d.binStep);
+                console.log(minBin, maxBin);
+
+                return group.map(process => {
+                    process.values.forEach(d => {
+                        d.binStep = Math.ceil(d.Step / bin);
+                    });
+                    var binData = d3.nest()
+                        .key(d => d.binStep)
+                        .rollup(v => v.length)
+                        .entries(process.values.filter(d => d.hasOwnProperty('library')));
+
+                    var defaultValue = 0;
+                    process.lib = [];
+                    for (var i = 0; i < maxBin + 1; i++) {
+                        process.lib.push(binData.find(d => d.key == i) ? binData.find(d => d.key == i).value : defaultValue)
+                    }
+
+                    return {
+                        process: process.key,
+                        // binData: binData,
+                        calls: process.lib
+                    }
+                })
+
+            };
+            var streamData = stream(group_by_process_name, globalData);
+            console.log(streamData);
+            // stream ==================================================
+
+            var xScale = d3.scaleLinear()
+                .domain([0, maxBin])
+                .range([0, maxProcessLength]);
+
+            var yScale = d3.scalePoint()
+                .domain(d3.range(streamData.length))
+                .range([0, svgheight]);
+
+            var area = d3.area()
+                .x(function(d, i) { return xScale(i); })
+                .y0(function(d) { return -d/4; })
+                .y1(function(d) { return d/4; });
 
             group_by_process_name.forEach(function (row, index) {
+
                 var group = svg_process_name.append('g')
                     .attr("transform", "translate(0," + index * group_rect_height + ")");
 
@@ -2001,7 +2054,7 @@ function applicationManager(globalData) {
 
                 var processes = row.values.filter(function (filter) {
                     if (filter.hasOwnProperty('library') && libarr.includes(filter.library) == true) return filter;
-                })
+                });
                 var filtered_library = d3.nest().key(function (d) {
                     return d.library
                 }).entries(processes)
@@ -2015,12 +2068,18 @@ function applicationManager(globalData) {
                     lines.push(obj);
                 })
                 // console.log(filtered_library)
-
                 group.append('text').attr("class", "malName" + index).text(row.key.substring(0, 20))
                     .attr('x', ((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 5).attr('y', group_rect_height / 2)
                     .attr('text-anchor', 'start');
 
-//======================= rect for process here ================================
+                // stream =========================
+                var stream = group.selectAll("path").data([streamData[index].calls])
+                    .enter().append("path")
+                    .style("fill", "#555")
+                    .attr("transform", function(d, i) { return "translate(" + margin_left + "," + yScale(i) + (2.5 +(rect_height-8)/2)  +")"; })
+                    .attr("class", "stream")
+                    .attr("d", area);
+        //======================= rect for process here ================================
                 var rect = group.selectAll('rect').data(row.values
                     .filter(d => d["Process"] !== "Profiling")
                 ).enter().append('rect')
@@ -2052,7 +2111,7 @@ function applicationManager(globalData) {
                             return rect_height - 8;
                         }
                     })
-                    .style('fill-opacity', 0.6)
+                    .style('fill-opacity', 0.4)
                     .attr('fill', function (d) {
                         return colorPicker(d.Operation);
                     }).on('mouseover', function (d) {
@@ -2139,6 +2198,14 @@ function applicationManager(globalData) {
                         }
                         else {
                             return 0
+                        }
+                    })
+                    .style("visibility", function (d, i) {
+                        if (d.main) {
+                            return "visible"
+                        }
+                        else {
+                            return "hidden"
                         }
                     })
                     .style("stroke-width", 1)

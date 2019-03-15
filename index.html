@@ -19,14 +19,15 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <style>
-        .content{
+        .content {
             width: 230px;
-            height:180px;
-            overflow:auto;
-            background:#FFFFFF;
+            height: 180px;
+            overflow: auto;
+            background: #FFFFFF;
             border: 1px solid #9a9a9a;
             padding: 10px;
         }
+
         .ticks {
             font: 10px sans-serif;
         }
@@ -61,6 +62,7 @@
             stroke-opacity: 0.5;
             stroke-width: 1.25px;
         }
+
         #loading {
             width: 100%;
             height: 100%;
@@ -80,6 +82,7 @@
             left: 240px;
             z-index: 100;
         }
+
         #custom-handle {
             width: 3em;
             height: 1.6em;
@@ -88,6 +91,7 @@
             text-align: center;
             line-height: 1.6em;
         }
+
         .background {
             fill: #eee;
         }
@@ -126,8 +130,9 @@
             border-radius: 8px;
             pointer-events: none;
         }
+
         * {
-        word-wrap:break-word;
+            word-wrap: break-word;
         }
 
         div.tooltip2 {
@@ -144,45 +149,45 @@
         }
 
         /*.tooltip2 span {*/
-            /*padding-top:7px;*/
-            /*padding-bottom: 8px;*/
-            /*font-size: 15px;*/
-            /*display:block;*/
-            /*opacity: 1;*/
-            /*background-color: #f7f7f7;*/
-            /*border-radius: 10px;*/
+        /*padding-top:7px;*/
+        /*padding-bottom: 8px;*/
+        /*font-size: 15px;*/
+        /*display:block;*/
+        /*opacity: 1;*/
+        /*background-color: #f7f7f7;*/
+        /*border-radius: 10px;*/
         /*}*/
 
         .tooltip2 table {
             border-radius: 10px;
             border-collapse: collapse;
-            table-layout:fixed;
+            table-layout: fixed;
             width: 100%;
             overflow: hidden;
         }
 
-        .tooltip2 td{
+        .tooltip2 td {
             border-collapse: collapse;
             text-align: left;
             padding: 8px;
         }
 
-        .tooltip2 tr:nth-child(odd){
+        .tooltip2 tr:nth-child(odd) {
             border-collapse: collapse;
             background-color: #f6f6f6;
 
         }
 
-        .tooltip2 tr:nth-child(even){
+        .tooltip2 tr:nth-child(even) {
             border-collapse: collapse;
             background-color: #e1e1e1;
         }
 
-        .tooltip2 .bold{
+        .tooltip2 .bold {
             font-weight: bold;
         }
 
-        .tooltip2:hover table{
+        .tooltip2:hover table {
             visibility: visible;
         }
 
@@ -292,8 +297,6 @@ Please select dataset:
     <option value="Logfile_V1.CSV">Cerber</option>
 
 
-
-
 </select>
 <fieldset>
     <legend>Data Overview - Number of API calls in each type</legend>
@@ -368,7 +371,7 @@ Please select dataset:
 
 </fieldset>
 <div id="loading">
-    <img id="loading-image" src="images/loader2.gif" alt="Loading..." />
+    <img id="loading-image" src="images/loader2.gif" alt="Loading..."/>
 </div>
 <script src="js/ultility.js"></script>
 <script src="js/appManager.js"></script>
@@ -385,8 +388,8 @@ Please select dataset:
     $('select#selectmalware').on('change', function (e) {
         let optionSelected = $("option:selected", this);
         let valueSelected = this.value;
-        let loading = d3.select('body').append('div').attr('id','loading')
-        loading.append('img').attr('id','loading-image').attr('src','images/loader2.gif')
+        let loading = d3.select('body').append('div').attr('id', 'loading')
+        loading.append('img').attr('id', 'loading-image').attr('src', 'images/loader2.gif')
         init(valueSelected);
 
     });
@@ -409,7 +412,6 @@ Please select dataset:
                 }
                 else {
                     let data = ProcessDataV2(original_data, domain);
-
                     let SiteManager = applicationManager(data); //Initialize application
                     SiteManager.drawStats('#stats'); //Draw statistic map
                     SiteManager.drawStats2('#OperationList'); //Draw statistic map
@@ -433,26 +435,26 @@ Please select dataset:
                     //         SiteManager.sort2DMatrix('similarity')
                     //     }
                     // );
-                    $( function() {
-                        let handle = $( "#custom-handle" );
-                        $( "#slider" ).slider({
-                            min:0,
-                            value:3,
-                            max:maxcalls,
-                            create: function() {
-                                handle.text( $( this ).slider( "value" ) );
+                    $(function () {
+                        let handle = $("#custom-handle");
+                        $("#slider").slider({
+                            min: 0,
+                            value: 3,
+                            max: maxcalls,
+                            create: function () {
+                                handle.text($(this).slider("value"));
                             },
-                            slide: function( event, ui ) {
-                                $( "#amount" ).val( "Min: " + ui.value + " - Max: " + maxcalls );
-                                handle.text( ui.value );
-                                SiteManager.updateRangeFilter(ui.value , maxcalls)
+                            slide: function (event, ui) {
+                                $("#amount").val("Min: " + ui.value + " - Max: " + maxcalls);
+                                handle.text(ui.value);
+                                SiteManager.updateRangeFilter(ui.value, maxcalls)
                             }
                         });
-                        $( "#amount" ).val( "Min: " + 3 + " - Max: " + maxcalls );
-                    } );
+                        $("#amount").val("Min: " + 3 + " - Max: " + maxcalls);
+                    });
 
                     SiteManager.updateRangeFilter(3, maxcalls);
-                    isready =true;
+                    isready = true;
                 }
             });
 
@@ -547,14 +549,16 @@ Please select dataset:
         .domain([15, -5]);
 
     function getProcessName(operation) {
-        if (!list[operation]){
+        if (!list[operation]) {
             return "Others"
         } else return list[operation]["operation"]
-        ;
+            ;
     }
+
     var sub = d3.keys(list);
+
     function colorPicker(operation) {
-        if (list[operation]){
+        if (list[operation]) {
             switch (list[operation]["operation"]) {
                 case "FileSystem":
                     return colorScaleOrange(list[operation]["index"]);
@@ -565,34 +569,11 @@ Please select dataset:
                 case "ProcessThread":
                     return colorScaleBlue(list[operation]["index"]);
                 case "Profiling":
-                    return  "#6854b1";
+                    return "#6854b1";
                 default:
-                    return  "#5d5d5d"
+                    return "#5d5d5d"
             }
         } else return "#5d5d5d"
-
-        // let flag = 0;
-        // for (let i in sub){
-        //     if (operation === sub[i]) {
-        //         flag = 1;
-        //         if (list[sub[i]]["operation"] === "FileSystem"){
-        //             return colorScaleOrange(list[sub[i]]["index"])
-        //         }
-        //         else if (list[sub[i]]["operation"] === "Registry"){
-        //             return colorScaleGreen(list[sub[i]]["index"])
-        //         }
-        //         else if (list[sub[i]]["operation"] === "Network"){
-        //             return colorScaleRed(list[sub[i]]["index"])
-        //         }
-        //         else if (list[sub[i]]["operation"] === "ProcessThread"){
-        //             return colorScaleBlue(list[sub[i]]["index"])
-        //         }
-        //         else if (list[sub[i]]["operation"] === "Profiling"){
-        //             return "#6854b1"
-        //         }
-        //     }
-        // }
-        // if (!flag) return "#5d5d5d"
     }
 
     function UpdateProcessNameWithChild(processLst, links) {
@@ -611,9 +592,7 @@ Please select dataset:
                         } else {
                             proc.childs.push(index)
                         }
-
                     }
-
                 }
             })
         })
