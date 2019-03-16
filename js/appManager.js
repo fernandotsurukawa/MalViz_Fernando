@@ -1513,6 +1513,8 @@ function applicationManager(globalData) {
 
             var margin_left = 30;  // min margin = 30
             var rect_height = 30, rect_margin_top = 5, group_rect_height = rect_height + rect_margin_top;
+            var rect_normal_height = rect_height - 8;
+            var rectSpacing = 2.5;
 
             group_by_process_name.forEach(function (d) {
                 d.position = getProcessNameIndex(orderedArray, d.key);
@@ -1971,28 +1973,30 @@ function applicationManager(globalData) {
             var stream = function (group_by_process_name, globalData) {
                 var group = JSON.parse(JSON.stringify(group_by_process_name));
                 var global_data = JSON.parse(JSON.stringify(globalData));
-                var bin = 15000;
+                console.log(group);
+                var bin = 20000;
                 global_data.forEach(d => {
-                    d.binStep = Math.ceil(d.Step / bin);
+                    d.binStep = Math.round(d.Step / bin);
                 });
                 [minBin, maxBin] = d3.extent(global_data, d => d.binStep);
                 console.log(minBin, maxBin);
 
                 return group.map(process => {
                     process.values.forEach(d => {
-                        d.binStep = Math.ceil(d.Step / bin);
+                        d.binStep = Math.round(d.Step / bin);
                     });
                     var binData = d3.nest()
                         .key(d => d.binStep)
                         .rollup(v => v.length)
-                        .entries(process.values.filter(d => d.hasOwnProperty('library')));
+                        .entries(process.values
+                            .filter(d => d.Path.length > 0)
+                        );
 
                     var defaultValue = 0;
                     process.lib = [];
                     for (var i = 0; i < maxBin + 1; i++) {
                         process.lib.push(binData.find(d => d.key == i) ? binData.find(d => d.key == i).value : defaultValue)
                     }
-
                     return {
                         process: process.key,
                         // binData: binData,
@@ -2001,8 +2005,16 @@ function applicationManager(globalData) {
                 })
 
             };
+
             var streamData = stream(group_by_process_name, globalData);
             console.log(streamData);
+            var maxCall = 0;
+            streamData.forEach(record => {
+                if (d3.max(record.calls) > maxCall) {
+                    maxCall = d3.max(record.calls)
+                }
+            });
+
             // stream ==================================================
 
             var xScale = d3.scaleLinear()
@@ -2013,11 +2025,15 @@ function applicationManager(globalData) {
                 .domain(d3.range(streamData.length))
                 .range([0, svgheight]);
 
+            var streamHeightScale = d3v5.scaleSymlog()
+                .domain([0, maxCall])
+                .range([0, 2* rect_normal_height]);
+
             var area = d3.area()
                 .curve(d3.curveNatural)
                 .x(function(d, i) { return StepScale(xScale(i)) + margin_left; })
-                .y0(function(d) { return -d/5; })
-                .y1(function(d) { return d/5; });
+                .y0(function(d) { return -streamHeightScale(d)/2; })
+                .y1(function(d) { return streamHeightScale(d)/2; });
 
             group_by_process_name.forEach(function (row, index) {
 
@@ -2051,8 +2067,8 @@ function applicationManager(globalData) {
                 // stream =========================
                 var stream = group.selectAll("path").data([streamData[index].calls])
                     .enter().append("path")
-                    .style("fill", "#555")
-                    .attr("transform", function(d, i) { return "translate(0" + "," + yScale(i) + (2.5 +(rect_height-8)/2)  +")"; })
+                    .style("fill", "#7c7c7c")
+                    .attr("transform", function(d, i) { return "translate(0" + "," + yScale(i) + (rectSpacing +rect_normal_height/2)  +")"; })
                     .attr("class", "stream")
                     .attr("d", area);
         //======================= rect for process here ================================
@@ -2074,7 +2090,7 @@ function applicationManager(globalData) {
                                 return 0;
                         }
                         else {
-                            return 2.5;
+                            return rectSpacing;
                         }
                     })
                     .attr('width', rect_width)
@@ -2084,7 +2100,7 @@ function applicationManager(globalData) {
                                 return rect_height;
                         }
                         else {
-                            return rect_height - 8;
+                            return rect_normal_height;
                         }
                     })
                     .style('fill-opacity', 0.4)
