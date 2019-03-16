@@ -1,4 +1,5 @@
 function applicationManager(globalData) {
+    var [minStep, maxStep] = d3.extent(globalData, d=> d.Step);
     var svgActionWidth;
     //var initStamp, maxStamp;
     var leftBound, rightBound;
@@ -1904,9 +1905,9 @@ function applicationManager(globalData) {
                         }
                     });
 
-                    // svg_process_name.selectAll(".stream")
-                    //     .transition().duration(200)
-                    //     .attr("d", area.x(function(d, i) { return xScale(i); }))
+                    svg_process_name.selectAll(".stream")
+                        .transition().duration(200)
+                        .attr("d", area.x(function(d, i) { return StepScale(xScale(i), true) + margin_left; }))
 
                     group_by_process_name.forEach(function (row, index) {
                         svg_process_name.selectAll(".malName" + index)
@@ -1966,37 +1967,11 @@ function applicationManager(globalData) {
                 .attr("markerHeight", 8).attr('fill', 'rgb(37, 142, 215)')
                 .attr("orient", 0).append('path').attr('d', 'M0,0 L0,8 L8,4 z');
             // stream
-            var stream1 = function (globalData) {
-                var global_data = JSON.parse(JSON.stringify(globalData));
-                var bin = 10000;
-                global_data.forEach(d => {
-                    d.binStep = Math.ceil(d.Step / bin);
-                });
-                var [minBin, maxBin] = d3.extent(global_data, d => d.binStep);
-                console.log(minBin, maxBin);
-
-                var binData = d3.nest()
-                    .key(d => d.Process_Name)
-                    .key(d => d.binStep)
-                    .rollup(v => v.length)
-                    .entries(global_data.filter(d => d.hasOwnProperty('library')));
-
-                // add dummy data
-                var defaultValue = 0;
-                binData.forEach(process => {
-                    process.lib = [];
-                    for (var i = 0; i < maxBin + 1; i++) {
-                        process.lib.push(process.values.find(d => d.key == i) ? process.values.find(d => d.key == i).value : defaultValue)
-                    }
-                });
-                return binData
-            };
-
             var minBin, maxBin;
             var stream = function (group_by_process_name, globalData) {
                 var group = JSON.parse(JSON.stringify(group_by_process_name));
                 var global_data = JSON.parse(JSON.stringify(globalData));
-                var bin = 20000;
+                var bin = 5000;
                 global_data.forEach(d => {
                     d.binStep = Math.ceil(d.Step / bin);
                 });
@@ -2032,14 +2007,15 @@ function applicationManager(globalData) {
 
             var xScale = d3.scaleLinear()
                 .domain([0, maxBin])
-                .range([0, maxProcessLength]);
+                .range([0, maxStep]);
 
             var yScale = d3.scalePoint()
                 .domain(d3.range(streamData.length))
                 .range([0, svgheight]);
 
             var area = d3.area()
-                .x(function(d, i) { return xScale(i); })
+                .curve(d3.curveBasis)
+                .x(function(d, i) { return StepScale(xScale(i)) + margin_left; })
                 .y0(function(d) { return -d/4; })
                 .y1(function(d) { return d/4; });
 
@@ -2076,7 +2052,7 @@ function applicationManager(globalData) {
                 var stream = group.selectAll("path").data([streamData[index].calls])
                     .enter().append("path")
                     .style("fill", "#555")
-                    .attr("transform", function(d, i) { return "translate(" + margin_left + "," + yScale(i) + (2.5 +(rect_height-8)/2)  +")"; })
+                    .attr("transform", function(d, i) { return "translate(0" + "," + yScale(i) + (2.5 +(rect_height-8)/2)  +")"; })
                     .attr("class", "stream")
                     .attr("d", area);
         //======================= rect for process here ================================
@@ -2243,6 +2219,9 @@ function applicationManager(globalData) {
                     }
 
                 });
+                svg_process_name.selectAll(".stream")
+                    .transition().duration(200)
+                    .attr("d", area.x(function(d, i) { return StepScale(xScale(i)) + margin_left; }))
 
                 group_by_process_name.forEach(function (row, index) {
                     svg_process_name.selectAll(".malName" + index)
