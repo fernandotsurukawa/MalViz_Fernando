@@ -60,12 +60,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="117" />
+          <entry key="js" value="124" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JavaScript" value="117" />
+          <entry key="JavaScript" value="124" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -94,8 +94,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/appManager.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1569">
-              <caret line="2016" column="14" selection-start-line="2016" selection-start-column="14" selection-end-line="2016" selection-end-column="37" />
+            <state relative-caret-position="120">
+              <caret line="1954" column="34" lean-forward="true" selection-start-line="1954" selection-start-column="34" selection-end-line="1954" selection-end-column="34" />
               <folding>
                 <element signature="e#6#12#0" expanded="true" />
                 <element signature="e#6#12#0" expanded="true" />
@@ -109,8 +109,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="99" column="22" lean-forward="true" selection-start-line="99" selection-start-column="22" selection-end-line="99" selection-end-column="22" />
+            <state relative-caret-position="141">
+              <caret line="101" lean-forward="true" selection-start-line="101" selection-end-line="101" />
             </state>
           </provider>
         </entry>
@@ -239,12 +239,12 @@
       <updated>1552609109489</updated>
       <workItem from="1552609112158" duration="5454000" />
       <workItem from="1552666921182" duration="16887000" />
-      <workItem from="1552691925248" duration="2581000" />
+      <workItem from="1552691925248" duration="3020000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24922000" />
+    <option name="totallyTimeSpent" value="25361000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1241" height="1416" extended-state="0" />
@@ -295,8 +295,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/appManager.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1569">
-          <caret line="2016" column="14" selection-start-line="2016" selection-start-column="14" selection-end-line="2016" selection-end-column="37" />
+        <state relative-caret-position="120">
+          <caret line="1954" column="34" lean-forward="true" selection-start-line="1954" selection-start-column="34" selection-end-line="1954" selection-end-column="34" />
           <folding>
             <element signature="e#6#12#0" expanded="true" />
             <element signature="e#6#12#0" expanded="true" />
@@ -308,8 +308,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="99" column="22" lean-forward="true" selection-start-line="99" selection-start-column="22" selection-end-line="99" selection-end-column="22" />
+        <state relative-caret-position="141">
+          <caret line="101" lean-forward="true" selection-start-line="101" selection-end-line="101" />
         </state>
       </provider>
     </entry>

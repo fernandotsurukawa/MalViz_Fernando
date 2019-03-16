@@ -1971,7 +1971,7 @@ function applicationManager(globalData) {
             var stream = function (group_by_process_name, globalData) {
                 var group = JSON.parse(JSON.stringify(group_by_process_name));
                 var global_data = JSON.parse(JSON.stringify(globalData));
-                var bin = 5000;
+                var bin = 15000;
                 global_data.forEach(d => {
                     d.binStep = Math.ceil(d.Step / bin);
                 });
@@ -2014,7 +2014,7 @@ function applicationManager(globalData) {
                 .range([0, svgheight]);
 
             var area = d3.area()
-                .curve(d3.curveBasis)
+                .curve(d3.curveNatural)
                 .x(function(d, i) { return StepScale(xScale(i)) + margin_left; })
                 .y0(function(d) { return -d/4; })
                 .y1(function(d) { return d/4; });
