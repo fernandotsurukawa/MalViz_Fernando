@@ -2016,8 +2016,8 @@ function applicationManager(globalData) {
             var area = d3.area()
                 .curve(d3.curveNatural)
                 .x(function(d, i) { return StepScale(xScale(i)) + margin_left; })
-                .y0(function(d) { return -d/4; })
-                .y1(function(d) { return d/4; });
+                .y0(function(d) { return -d/5; })
+                .y1(function(d) { return d/5; });
 
             group_by_process_name.forEach(function (row, index) {
 
