@@ -2059,19 +2059,20 @@ function applicationManager(globalData) {
 
                     lines.push(obj);
                 })
-                // console.log(filtered_library)
-                group.append('text').attr("class", "malName" + index).text(row.key.substring(0, 20))
-                    .attr('x', ((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 5).attr('y', group_rect_height / 2)
-                    .attr('text-anchor', 'start');
 
-                // stream =========================
+                // streamDraw =========================
                 var stream = group.selectAll("path").data([streamData[index].calls])
                     .enter().append("path")
-                    .style("fill", "#7c7c7c")
+                    .style("fill", "#9d9d9d")
                     .attr("transform", function(d, i) { return "translate(0" + "," + yScale(i) + (rectSpacing +rect_normal_height/2)  +")"; })
                     .attr("class", "stream")
                     .attr("d", area);
-        //======================= rect for process here ================================
+
+                // textDraw
+                group.append('text').attr("class", "malName" + index).text(row.key.substring(0, 20))
+                    .attr('x', ((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 5).attr('y', group_rect_height / 2)
+                    .attr('text-anchor', 'start');
+        //======================= rectDraw for process here ================================
                 var rect = group.selectAll('rect').data(row.values
                     .filter(d => d["Process"] !== "Profiling")
                 ).enter().append('rect')
@@ -2247,6 +2248,7 @@ function applicationManager(globalData) {
 
             });
 
+            //
             orderedArray.forEach(function (d, index) {
                 if (d.children.length > 0) {
                     d.children.forEach(function (child, index2) {
