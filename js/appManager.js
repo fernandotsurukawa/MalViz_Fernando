@@ -1,10 +1,10 @@
 function applicationManager(globalData) {
-    var [minStep, maxStep] = d3.extent(globalData, d=> d.Step);
+    var [minStep, maxStep] = d3.extent(globalData, d => d.Step);
     var svgActionWidth;
     //var initStamp, maxStamp;
     var leftBound, rightBound;
 
-    var lensingMultiple = 10, granularity = 300;
+    var lensingMultiple = 10, granularity = 500;
     var initTimeStamp = d3.min(globalData, function (d) {
         return d.currenttimestamp;
     });
@@ -271,7 +271,6 @@ function applicationManager(globalData) {
                     }
                 }
                 if (minIndex >= 0) {
-                    // console.log(minIndex + " " + processArray[minIndex].name);
                     processArray[minIndex].isUsed = true;
                     processArray[minIndex].indexSimilarity = count;
                     startIndex = minIndex;
@@ -381,22 +380,6 @@ function applicationManager(globalData) {
             }
             return newIndex;
         }
-
-        // for (var i = 0; i < 10; i++) {
-        //     console.log(getProcessIndex(i));
-        // }
-
-        // var margintop=10;
-        // var ColorScale = d3.scaleLinear()
-        //     .domain([0, Math.sqrt(250)])
-        //     .range([0, 1]);
-        // var svg_height=globalgroupbyprocessname.length*(settings.MatrixArea.rect_height + settings.MatrixArea.padding) + 360;
-        // var svg_width = globalib.length*(settings.MatrixArea.rect_width + settings.MatrixArea.padding) + settings.MatrixArea.row_text_width +20;
-        // var svgMatrix = d3.select("#matrix2D")
-        //     .append('svg')
-        //     .attr('height', svg_height)
-        //     .attr('width', svg_width);
-        // var svg_g = svgMatrix.append('g').attr('transform','translate(0,10)');
 
     }
 
@@ -810,10 +793,8 @@ function applicationManager(globalData) {
         //var processes1 = processDif(processes1,processes3[0].index);
         processes1 = processDif(processes1, 0);
         libs = processLib(libs, 0);
-        // console.log(processes1)
-        // console.log(libs)
+
         // Order options
-        // console.log(nodes)
 
         nodes.sources.forEach(function (node, i) {
             node.similarity = processes1[i].indexSimilarity;
@@ -1110,7 +1091,6 @@ function applicationManager(globalData) {
                     }
                 }
                 if (minIndex >= 0) {
-                    // console.log(minIndex + " " + processArray[minIndex].name);
                     processArray[minIndex].isUsed = true;
                     processArray[minIndex].indexSimilarity = count;
                     startIndex = minIndex;
@@ -1223,8 +1203,6 @@ function applicationManager(globalData) {
             return newIndex;
         }
 
-        // console.log(processes1)
-        // console.log(libs)
         var ColorScale = d3.scaleLinear()
             .domain([0, Math.sqrt(maxvalue)])
             .range([0, 1]);
@@ -1429,6 +1407,7 @@ function applicationManager(globalData) {
             var lines = [];
             var group_by_process_name = getData.getdatabyProcessName;
             var group_by_process_create = getData.getdatabyOperation;
+
             group_by_process_create = group_by_process_create.filter(function (value) {
                 return value.key == 'Process Create'
             })[0].values;
@@ -1553,11 +1532,6 @@ function applicationManager(globalData) {
                 return a.currenttimestamp - b.currenttimestamp;
             });
 
-            // console.log("global data: ");
-            // console.log(global_data);
-            // console.log("group by process name:");
-            // console.log(groupedProcess);
-
             // Variables
             var timeInterval = maxTimeStamp - minTimeStamp;
             var numSecond = timeInterval / 100000;
@@ -1573,14 +1547,6 @@ function applicationManager(globalData) {
 
             var lensRadius = 20;
             var pointer = -1000;
-
-            // console.log("rounded step: "+roundedStep);
-            //
-            //
-            // console.log("numSecond: " + numSecond);
-            // console.log("minTimeStamp: " + minTimeStamp);
-            // console.log("maxTimeStamp: " + maxTimeStamp);
-            // console.log("timeInterval: " + timeInterval);
 
             // functions here ====================================================
 
@@ -1749,10 +1715,6 @@ function applicationManager(globalData) {
             // Outline -----------------------------------------------------------
 
             getTimeBoxData();
-            // console.log("timeData: ");
-            // console.log(timeData);
-            // console.log("initStepData: ");
-            // console.log(initStepData);
 
             var timeBoxHeight = 30;
             var dashHeight = svgheight + timeBoxHeight;
@@ -1767,7 +1729,7 @@ function applicationManager(globalData) {
             svgActionWidth = bbox.getBoundingClientRect().width;
             var namespace = 120;
             var maxProcessLength = svgActionWidth - namespace;   // for dislaying name of virus
-            console.log(svgActionWidth);
+
             // Draw grids
             var stepData = [];
             var dashStepSpace = initStepData[1] - initStepData[0];
@@ -1783,10 +1745,7 @@ function applicationManager(globalData) {
                     });
                 }
             }
-            // console.log("stepdata:");
-            // console.log(stepData);
 
-            console.log(stepData);
             outline.selectAll(".verticalBars").remove();
             outline.selectAll(".verticalBars")
                 .data(stepData).enter()
@@ -1806,14 +1765,14 @@ function applicationManager(globalData) {
                         return 0
                     }
                 })
-                .style("visibility", function (d, i) {
-                    if (d.main) {
-                        return "visible"
-                    }
-                    else {
-                        return "hidden"
-                    }
-                })
+                // .style("visibility", function (d, i) {
+                //     if (d.main) {
+                //         return "visible"
+                //     }
+                //     else {
+                //         return "hidden"
+                //     }
+                // })
                 .style("stroke-width", 1)
                 .style("stroke-dasharray", function (d, i) {
                     if (d.main) {
@@ -1835,7 +1794,6 @@ function applicationManager(globalData) {
                 .style("stroke-opacity", "0.4")
                 .style("stroke-width", 1)
                 .style("stroke-dasharray", "3, 2");
-
 
             var svg_process_name = outline.append('svg')
                 .attr("id", "processes").attr('margin-left', '20px')
@@ -1897,7 +1855,8 @@ function applicationManager(globalData) {
                     orderedArray.forEach(function (d, index) {
                         if (d.children.length > 0) {
                             d.children.forEach(function (child, index2) {
-                                svg_process_name.selectAll(".detail_path_" + index + "_" + index2).transition().duration(200)
+                                svg_process_name.selectAll(".detail_path_" + index + "_" + index2)
+                                    .transition().duration(200)
                                     .attr('transform', function () {
                                         var posX = (StepScale(child.values[0].Step, true)) * rect_width + margin_left - 5;
                                         var posY = (getProcessNameIndex(updated_data, child.key) + index) * group_rect_height / 2 + group_rect_height / 2;
@@ -1909,7 +1868,9 @@ function applicationManager(globalData) {
 
                     svg_process_name.selectAll(".stream")
                         .transition().duration(200)
-                        .attr("d", area.x(function(d, i) { return StepScale(xScale(i), true) + margin_left; }))
+                        .attr("d", area.x(function (d, i) {
+                            return StepScale(xScale(i), true) + margin_left;
+                        }))
 
                     group_by_process_name.forEach(function (row, index) {
                         svg_process_name.selectAll(".malName" + index)
@@ -1935,20 +1896,20 @@ function applicationManager(globalData) {
                                 return 0.2;
                             }
                         })
-                        .style("visibility", function (d, i) {
-                            if (d.main) {
-                                return "visible"
-                            }    // main ticks
-                            else if (d.step < leftBound) {
-                                return "hidden";
-                            }
-                            else if (d.step > rightBound) {
-                                return "hidden";
-                            }
-                            else {
-                                return "visible";
-                            }
-                        })
+                        // .style("visibility", function (d, i) {
+                        //     if (d.main) {
+                        //         return "visible"
+                        //     }    // main ticks
+                        //     else if (d.step < leftBound) {
+                        //         return "hidden";
+                        //     }
+                        //     else if (d.step > rightBound) {
+                        //         return "hidden";
+                        //     }
+                        //     else {
+                        //         return "visible";
+                        //     }
+                        // })
                         .style("stroke-width", 1)
                         .style("stroke-dasharray", function (d, i) {
                             if (d.main) {
@@ -1968,18 +1929,20 @@ function applicationManager(globalData) {
                 .attr("markerWidth", 8)
                 .attr("markerHeight", 8).attr('fill', 'rgb(37, 142, 215)')
                 .attr("orient", 0).append('path').attr('d', 'M0,0 L0,8 L8,4 z');
-            // stream
+
+            // stream calculation ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～
+            // ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～
+
             var minBin, maxBin;
-            var stream = function (group_by_process_name, globalData) {
+            function stream(group_by_process_name, globalData) {
                 var group = JSON.parse(JSON.stringify(group_by_process_name));
                 var global_data = JSON.parse(JSON.stringify(globalData));
-                console.log(group);
+
                 var bin = 20000;
                 global_data.forEach(d => {
                     d.binStep = Math.round(d.Step / bin);
                 });
                 [minBin, maxBin] = d3.extent(global_data, d => d.binStep);
-                console.log(minBin, maxBin);
 
                 return group.map(process => {
                     process.values.forEach(d => {
@@ -2003,19 +1966,16 @@ function applicationManager(globalData) {
                         calls: process.lib
                     }
                 })
-
-            };
-
+            }
             var streamData = stream(group_by_process_name, globalData);
             console.log(streamData);
+            // get max number of calls
             var maxCall = 0;
             streamData.forEach(record => {
                 if (d3.max(record.calls) > maxCall) {
                     maxCall = d3.max(record.calls)
                 }
             });
-
-            // stream ==================================================
 
             var xScale = d3.scaleLinear()
                 .domain([0, maxBin])
@@ -2025,15 +1985,22 @@ function applicationManager(globalData) {
                 .domain(d3.range(streamData.length))
                 .range([0, svgheight]);
 
-            var streamHeightScale = d3v5.scaleSymlog()
+            var streamHeightScale =
+                d3.scaleSqrt()
                 .domain([0, maxCall])
-                .range([0, 2* rect_normal_height]);
+                .range([0, 2 * rect_normal_height]);
 
             var area = d3.area()
                 .curve(d3.curveNatural)
-                .x(function(d, i) { return StepScale(xScale(i)) + margin_left; })
-                .y0(function(d) { return -streamHeightScale(d)/2; })
-                .y1(function(d) { return streamHeightScale(d)/2; });
+                .x(function (d, i) {
+                    return StepScale(xScale(i)) + margin_left;
+                })
+                .y0(function (d) {
+                    return -streamHeightScale(d) / 2;
+                })
+                .y1(function (d) {
+                    return streamHeightScale(d) / 2;
+                });
 
             group_by_process_name.forEach(function (row, index) {
 
@@ -2050,7 +2017,7 @@ function applicationManager(globalData) {
                 var filtered_library = d3.nest().key(function (d) {
                     return d.library
                 }).entries(processes)
-                //console.log(filtered_library)
+
                 filtered_library.forEach(function (d) {
                     var obj = {};
                     obj.source = index;
@@ -2064,7 +2031,9 @@ function applicationManager(globalData) {
                 var stream = group.selectAll("path").data([streamData[index].calls])
                     .enter().append("path")
                     .style("fill", "#9d9d9d")
-                    .attr("transform", function(d, i) { return "translate(0" + "," + yScale(i) + (rectSpacing +rect_normal_height/2)  +")"; })
+                    .attr("transform", function (d, i) {
+                        return "translate(0" + "," + yScale(i) + (rectSpacing + rect_normal_height / 2) + ")";
+                    })
                     .attr("class", "stream")
                     .attr("d", area);
 
@@ -2072,7 +2041,7 @@ function applicationManager(globalData) {
                 group.append('text').attr("class", "malName" + index).text(row.key.substring(0, 20))
                     .attr('x', ((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 5).attr('y', group_rect_height / 2)
                     .attr('text-anchor', 'start');
-        //======================= rectDraw for process here ================================
+                //======================= rectDraw for process here ================================
                 var rect = group.selectAll('rect').data(row.values
                     .filter(d => d["Process"] !== "Profiling")
                 ).enter().append('rect')
@@ -2193,14 +2162,14 @@ function applicationManager(globalData) {
                             return 0
                         }
                     })
-                    .style("visibility", function (d, i) {
-                        if (d.main) {
-                            return "visible"
-                        }
-                        else {
-                            return "hidden"
-                        }
-                    })
+                    // .style("visibility", function (d, i) {
+                    //     if (d.main) {
+                    //         return "visible"
+                    //     }
+                    //     else {
+                    //         return "hidden"
+                    //     }
+                    // })
                     .style("stroke-width", 1)
                     .style("stroke-dasharray", function (d, i) {
                         if (d.main) {
@@ -2223,8 +2192,6 @@ function applicationManager(globalData) {
                 orderedArray.forEach(function (d, index) {
                     if (d.children.length > 0) {
                         d.children.forEach(function (child, index2) {
-
-
                             svg_process_name.selectAll(".detail_path_" + index + "_" + index2).transition().duration(200)
                                 .attr('transform', function () {
                                     var posX = (StepScale(child.values[0].Step)) * rect_width + margin_left - 5;
@@ -2232,13 +2199,13 @@ function applicationManager(globalData) {
                                     return 'translate(' + posX + ',' + posY + ')';
                                 });
                         })
-
                     }
-
                 });
                 svg_process_name.selectAll(".stream")
                     .transition().duration(200)
-                    .attr("d", area.x(function(d, i) { return StepScale(xScale(i)) + margin_left; }))
+                    .attr("d", area.x(function (d, i) {
+                        return StepScale(xScale(i)) + margin_left;
+                    }))
 
                 group_by_process_name.forEach(function (row, index) {
                     svg_process_name.selectAll(".malName" + index)
@@ -2248,7 +2215,7 @@ function applicationManager(globalData) {
 
             });
 
-            //
+            // arcs
             orderedArray.forEach(function (d, index) {
                 if (d.children.length > 0) {
                     d.children.forEach(function (child, index2) {
