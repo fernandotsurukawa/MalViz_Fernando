@@ -14,18 +14,6 @@ function applicationManager(globalData) {
         return d.currenttimestamp;
     });
 
-    // var minT = globalData.find(d => d.currenttimestamp === initTimeStamp);
-    //
-    // initStamp = {
-    //     step: minT.Step,
-    //     hour: minT.Hour,
-    //     minute: minT.Minute,
-    //     second: minT.Second,
-    //     millisecond: minT.Milisecond
-    // };
-    //
-    // var maxT = globalData.find(d => d.currenttimestamp === maxTimeStamp);
-
     var settings = {
         ProcessArea: {
             svg_height: 200,
@@ -1406,12 +1394,25 @@ function applicationManager(globalData) {
             d3.select(position).selectAll("*").remove();
             var lines = [];
             var group_by_process_name = getData.getdatabyProcessName;
-            var group_by_process_create = getData.getdatabyOperation;
+            var group_by_process_create = [];
+            var operationKeys = group_by_process_name.map(d => d.key);
 
-            group_by_process_create = group_by_process_create.filter(function (value) {
-                return value.key == 'Process Create'
-            })[0].values;
+            globalData.forEach(d => {
+                for (var i = 0; i < operationKeys.length; i++){
+                    if (d.Path.endsWith(operationKeys[i])){
+                        group_by_process_create.push(d);
+                    }
+                }
+            });
+
+            // group_by_process_create = group_by_process_create.filter(function (value) {
+            //     return value.key == 'Process Create'
+            // })[0].values;
+
+            console.log(JSON.parse(JSON.stringify(group_by_process_create)));
+
             var updated_data = UpdateProcessNameWithChild(group_by_process_name, group_by_process_create);
+
             for (var i = 0; i < updated_data.length; i++) {
                 updated_data[i].children = [];
                 for (var j = 0; j < updated_data[i].childs.length; j++) {
@@ -1463,6 +1464,7 @@ function applicationManager(globalData) {
             for (var i = 0; i < updated_data.length; i++) {
                 dfs(updated_data[i], orderedArray);
             }
+            console.log(JSON.parse(JSON.stringify(orderedArray)));
 
             // DFS
             function dfs(o, array) {
@@ -1524,7 +1526,7 @@ function applicationManager(globalData) {
             var matrix = make2Darray(group_by_process_name.length, library.length);
 
             // ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿
-            // ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ Huyen 2018 ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿
+            // ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ Huyen 2018-19 ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿
 
             var global_data = JSON.parse(JSON.stringify(globalData));
 
@@ -1724,7 +1726,6 @@ function applicationManager(globalData) {
                 .attr("width", "100%")
                 .attr("id", "outline");
 
-            var totalmbp = 70; // total margin, border, padding, to get the inside padding
             var bbox = document.getElementById("outline");
             svgActionWidth = bbox.getBoundingClientRect().width;
             var namespace = 120;
@@ -1858,7 +1859,7 @@ function applicationManager(globalData) {
                                 svg_process_name.selectAll(".detail_path_" + index + "_" + index2)
                                     .transition().duration(200)
                                     .attr('transform', function () {
-                                        var posX = (StepScale(child.values[0].Step, true)) * rect_width + margin_left - 5;
+                                        var posX = (StepScale(child.values[0].Step, true)) * rect_width + margin_left;
                                         var posY = (getProcessNameIndex(updated_data, child.key) + index) * group_rect_height / 2 + group_rect_height / 2;
                                         return 'translate(' + posX + ',' + posY + ')';
                                     });
@@ -1924,30 +1925,37 @@ function applicationManager(globalData) {
 
             svg_process_name.append("svg:defs").append("svg:marker")
                 .attr("id", "arrow")
-                .attr("refX", 0)
-                .attr("refY", 4)
+                .attr("refX", 6)
+                .attr("refY", 5)
                 .attr("markerWidth", 8)
                 .attr("markerHeight", 8).attr('fill', 'rgb(37, 142, 215)')
                 .attr("orient", 0).append('path').attr('d', 'M0,0 L0,8 L8,4 z');
 
             // stream calculation ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～
-            // ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～
+            // ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～
 
-            var minBin, maxBin;
+            var maxBin;
             function stream(group_by_process_name, globalData) {
                 var group = JSON.parse(JSON.stringify(group_by_process_name));
                 var global_data = JSON.parse(JSON.stringify(globalData));
-
+                var ref = {};
+                var defaultValue = 0;
                 var bin = 20000;
                 global_data.forEach(d => {
                     d.binStep = Math.round(d.Step / bin);
                 });
-                [minBin, maxBin] = d3.extent(global_data, d => d.binStep);
+                maxBin = d3.max(global_data, d => d.binStep);
 
-                return group.map(process => {
+                var a = group.map(process => {
                     process.values.forEach(d => {
                         d.binStep = Math.round(d.Step / bin);
                     });
+                    process.values.forEach(d => {
+                        if (d.Path.length > 0) {
+                            ref[d.Path] = 1;
+                        }
+                    });
+
                     var binData = d3.nest()
                         .key(d => d.binStep)
                         .rollup(v => v.length)
@@ -1955,20 +1963,22 @@ function applicationManager(globalData) {
                             .filter(d => d.Path.length > 0)
                         );
 
-                    var defaultValue = 0;
+                    // add dummy points
                     process.lib = [];
                     for (var i = 0; i < maxBin + 1; i++) {
-                        process.lib.push(binData.find(d => d.key == i) ? binData.find(d => d.key == i).value : defaultValue)
+                        process.lib.push(binData.find(d => d.key == i) ?
+                            binData.find(d => d.key == i).value : defaultValue)
                     }
                     return {
                         process: process.key,
-                        // binData: binData,
                         calls: process.lib
                     }
-                })
+                });
+                console.log(d3.keys(ref).sort((a,b) => {return a.length - b.length}));
+                return a;
             }
             var streamData = stream(group_by_process_name, globalData);
-            console.log(streamData);
+            // console.log(streamData);
             // get max number of calls
             var maxCall = 0;
             streamData.forEach(record => {
@@ -2109,7 +2119,7 @@ function applicationManager(globalData) {
                                     + "<td class ='bold' style='color: " + colorPicker(d.Operation) + ";'>" + d.Operation + "</td>"
                                     + "</tr>"
                                     + "<tr>"
-                                    + "<td>Process</td>"
+                                    + "<td>Event type</td>"
                                     + "<td>" + d.Process + "</td>"
                                     + "</tr>"
                                     + "<tr>"
@@ -2194,7 +2204,7 @@ function applicationManager(globalData) {
                         d.children.forEach(function (child, index2) {
                             svg_process_name.selectAll(".detail_path_" + index + "_" + index2).transition().duration(200)
                                 .attr('transform', function () {
-                                    var posX = (StepScale(child.values[0].Step)) * rect_width + margin_left - 5;
+                                    var posX = (StepScale(child.values[0].Step)) * rect_width + margin_left;
                                     var posY = (getProcessNameIndex(updated_data, child.key) + index) * group_rect_height / 2 + group_rect_height / 2;
                                     return 'translate(' + posX + ',' + posY + ')';
                                 });
@@ -2205,7 +2215,7 @@ function applicationManager(globalData) {
                     .transition().duration(200)
                     .attr("d", area.x(function (d, i) {
                         return StepScale(xScale(i)) + margin_left;
-                    }))
+                    }));
 
                 group_by_process_name.forEach(function (row, index) {
                     svg_process_name.selectAll(".malName" + index)
@@ -2227,7 +2237,7 @@ function applicationManager(globalData) {
                                 .endAngle(Math.PI / 90))
                             .attr('fill', 'rgb(37, 142, 215)').attr('source', index).attr('target', getProcessNameIndex(updated_data, child.key))
                             .attr('transform', function () {
-                                var posX = (StepScale(child.values[0].Step)) * rect_width + margin_left - 5;
+                                var posX = (StepScale(child.values[0].Step)) * rect_width + margin_left;
                                 var posY = (getProcessNameIndex(updated_data, child.key) + index) * group_rect_height / 2 + group_rect_height / 2;
                                 return 'translate(' + posX + ',' + posY + ')';
                             }).attr("marker-end", "url(#arrow)")
