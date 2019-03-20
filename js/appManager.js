@@ -1399,17 +1399,16 @@ function applicationManager(globalData) {
 
             globalData.forEach(d => {
                 for (var i = 0; i < operationKeys.length; i++){
-                    if (d.Path.endsWith(operationKeys[i])){
+                    if (d.Path.endsWith("\\" + operationKeys[i])){
                         group_by_process_create.push(d);
                     }
                 }
             });
 
+
             // group_by_process_create = group_by_process_create.filter(function (value) {
             //     return value.key == 'Process Create'
             // })[0].values;
-
-            console.log(JSON.parse(JSON.stringify(group_by_process_create)));
 
             var updated_data = UpdateProcessNameWithChild(group_by_process_name, group_by_process_create);
 
@@ -1417,6 +1416,7 @@ function applicationManager(globalData) {
                 updated_data[i].children = [];
                 for (var j = 0; j < updated_data[i].childs.length; j++) {
                     var obj = updated_data[updated_data[i].childs[j]];
+                    obj.type = updated_data[i].event[j];
                     updated_data[i].children.push(obj);
                 }
                 // sort children
@@ -1439,7 +1439,7 @@ function applicationManager(globalData) {
                     }
                 });
             }
-
+            console.log(JSON.parse(JSON.stringify(updated_data)));
             updated_data.sort(function (a, b) {
                 if (getSuccessors(a, []).length < getSuccessors(b, []).length) {
                     return 1;
@@ -1923,13 +1923,6 @@ function applicationManager(globalData) {
                 })
             ;
 
-            svg_process_name.append("svg:defs").append("svg:marker")
-                .attr("id", "arrow")
-                .attr("refX", 6)
-                .attr("refY", 5)
-                .attr("markerWidth", 8)
-                .attr("markerHeight", 8).attr('fill', 'rgb(37, 142, 215)')
-                .attr("orient", 0).append('path').attr('d', 'M0,0 L0,8 L8,4 z');
 
             // stream calculation ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～
             // ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～
@@ -1974,7 +1967,7 @@ function applicationManager(globalData) {
                         calls: process.lib
                     }
                 });
-                console.log(d3.keys(ref).sort((a,b) => {return a.length - b.length}));
+                // console.log(d3.keys(ref).sort((a,b) => {return a.length - b.length}));
                 return a;
             }
             var streamData = stream(group_by_process_name, globalData);
@@ -2197,7 +2190,7 @@ function applicationManager(globalData) {
                 timeBox.selectAll("text").transition().duration(200)
                     .attr("x", (d, i) => {
                         return StepScale(d.step) + margin_left;
-                    })
+                    });
 
                 orderedArray.forEach(function (d, index) {
                     if (d.children.length > 0) {
@@ -2225,22 +2218,56 @@ function applicationManager(globalData) {
 
             });
 
+            // var arrowColor;
+            // svg_process_name.append("svg:defs").append("svg:marker")
+            //     .attr("id", "arrow")
+            //     .attr("refX", 6)
+            //     .attr("refY", 5)
+            //     .attr("markerWidth", 8)
+            //     .attr("markerHeight", 8).attr('fill', arrowColor)
+            //     .attr("orient", 0).append('path').attr('d', 'M0,0 L0,8 L8,4 z');
             // arcs
+            //console.log(JSON.parse(JSON.stringify(orderedArray)));
             orderedArray.forEach(function (d, index) {
                 if (d.children.length > 0) {
                     d.children.forEach(function (child, index2) {
-                        svg_process_name.append('path').attr("class", 'detail_path_' + index + "_" + index2)
+                        var signedOrienation = getProcessNameIndex(updated_data, child.key) - index;
+                        console.log(signedOrienation);
+
+                        svg_process_name
+                            .append("svg:defs")
+                            .selectAll(".arrows")
+                            .data([child])
+                            .enter()
+                            .append("svg:marker")
+                            .attr("id", () => {return "arrow_" + index + "_" + index2})
+                            .attr("refX", 6)
+                            .attr("refY", 5)
+                            .attr("markerWidth", 8)
+                            .attr("markerHeight", 8)
+                            .style("fill", d => colorPicker(d.type))
+                            .attr("orient", 0)
+                            .append('path')
+                            .attr('d', 'M0,0 L0,8 L8,4 z');
+
+                        svg_process_name
+                            .append('path').attr("class", 'detail_path_' + index + "_" + index2)
                             .attr('d', d3.arc()
-                                .innerRadius((getProcessNameIndex(updated_data, child.key) - index) * group_rect_height / 2 - 1)
-                                .outerRadius((getProcessNameIndex(updated_data, child.key) - index) * group_rect_height / 2)
-                                .startAngle(-Math.PI) //converting from degs to radians
-                                .endAngle(Math.PI / 90))
-                            .attr('fill', 'rgb(37, 142, 215)').attr('source', index).attr('target', getProcessNameIndex(updated_data, child.key))
+                                .innerRadius(Math.abs(signedOrienation) * group_rect_height / 2 - 1)
+                                .outerRadius(Math.abs(signedOrienation) * group_rect_height / 2)
+                                .startAngle(signedOrienation > 0? -Math.PI : Math.PI/90) //converting from degs to
+                                // radians
+                                .endAngle(signedOrienation > 0? Math.PI/90 : -Math.PI ))
+                            .attr('fill', colorPicker(child.type))
+                            .attr('source', index)
+                            .attr('target', getProcessNameIndex(updated_data, child.key))
                             .attr('transform', function () {
-                                var posX = (StepScale(child.values[0].Step)) * rect_width + margin_left;
+                                var posX = (StepScale(child.values[0].Step)) * rect_width + margin_left ;
                                 var posY = (getProcessNameIndex(updated_data, child.key) + index) * group_rect_height / 2 + group_rect_height / 2;
+
                                 return 'translate(' + posX + ',' + posY + ')';
-                            }).attr("marker-end", "url(#arrow)")
+                            })
+                            .attr("marker-end", "url(#arrow_"+ index + "_" + index2+")")
 
                     })
 
