@@ -580,19 +580,21 @@ Please select dataset:
 
     function UpdateProcessNameWithChild(processLst, links) {
         processLst.forEach(function (proc, parentIndex) {
+            proc.event = [];
             proc.childs = [];
             links.forEach(function (link) {
                 if (proc.key == link.Process_Name) {
                     let index = getProcessNameIndex(processLst, link.targetProcessName);
-
                     if (!proc.childs.includes(index) && index != parentIndex) {
                         //Check for loop insertion
                         if (processLst[index].hasOwnProperty('childs')) {
                             if (!processLst[index].childs.includes(parentIndex)) {
-                                proc.childs.push(index)
+                                proc.childs.push(index);
+                                proc.event.push(link.Operation)
                             }
                         } else {
                             proc.childs.push(index)
+                            proc.event.push(link.Operation)
                         }
                     }
                 }
@@ -607,8 +609,7 @@ Please select dataset:
             if (d.key == key) {
                 index = i;
             }
-
-        })
+        });
         return index;
     }
 

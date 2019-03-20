@@ -62,10 +62,12 @@ function ProcessDataV2(orginalData,domain) {
         obj.timeDiff =timediff;
         obj.Step = currentStep;
         obj.Process = getProcessName(row.Operation);
-        if (row.Operation == 'Process Create') {
+
+        if (row.Path.toLowerCase().endsWith(".exe")) {
             obj.targetProcessName = row.Path.replace(/^.*[\\\/]/, '');
-            obj.childPID = row.Detail.slice(5, 9); //Extract the ID only
+            // obj.childPID = row.Detail.slice(5, 9); //Extract the ID only
         }
+
         if (row.Operation == 'UDP Send') {
 
             var getdomain = row.Path.slice(row.Path.indexOf('->') + 3, -5);
