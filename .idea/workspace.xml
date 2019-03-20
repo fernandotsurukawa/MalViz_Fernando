@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8b82504-1950-4318-aa3d-f800f494b894" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/test/marker.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/opioid_province.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/appManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/appManager.js" afterDir="false" />
     </list>
@@ -88,13 +85,13 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="html" value="108" />
-          <entry key="js" value="2430" />
+          <entry key="js" value="2577" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="108" />
-          <entry key="JavaScript" value="2430" />
+          <entry key="JavaScript" value="2577" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -129,8 +126,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/appManager.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1311">
-              <caret line="2259" column="88" lean-forward="true" selection-start-line="2259" selection-start-column="88" selection-end-line="2259" selection-end-column="88" />
+            <state relative-caret-position="386">
+              <caret line="2231" column="51" lean-forward="true" selection-start-line="2231" selection-start-column="51" selection-end-line="2231" selection-end-column="51" />
               <folding>
                 <element signature="e#6#12#0" expanded="true" />
                 <element signature="e#6#12#0" expanded="true" />
@@ -144,8 +141,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="122">
-              <caret line="571" column="37" lean-forward="true" selection-start-line="571" selection-start-column="37" selection-end-line="571" selection-end-column="37" />
+            <state relative-caret-position="144">
+              <caret line="573" column="37" lean-forward="true" selection-start-line="573" selection-start-column="37" selection-end-line="573" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -162,9 +159,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>d3</find>
-      <find>d/</find>
-      <find>ceil</find>
       <find>streamh</find>
       <find>rect</find>
       <find>outline.on(</find>
@@ -175,9 +169,7 @@
       <find>stream</find>
       <find>streamdra</find>
       <find>group_by_process_name</find>
-      <find>detail_path</find>
       <find>detail_</find>
-      <find>detail_path_</find>
       <find>d3.arc</find>
       <find>opac</find>
       <find>updat</find>
@@ -191,7 +183,12 @@
       <find>childs</find>
       <find>UpdateProcessNameWithChild</find>
       <find>colorp</find>
+      <find>update</find>
+      <find>'detail_path_</find>
+      <find>detail_path_</find>
+      <find>.on</find>
       <find>arrow</find>
+      <find>detail_path</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -217,7 +214,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="1109" />
+    <option name="width" value="1020" />
     <option name="height" value="1416" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -315,15 +312,15 @@
       <workItem from="1553010374518" duration="4847000" />
       <workItem from="1553038999053" duration="18000" />
       <workItem from="1553039026084" duration="8166000" />
-      <workItem from="1553049105588" duration="18250000" />
+      <workItem from="1553049105588" duration="20517000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="73812000" />
+    <option name="totallyTimeSpent" value="76079000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1109" height="1416" extended-state="0" />
+    <frame x="0" y="23" width="1020" height="1416" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.1764706" />
@@ -399,15 +396,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
-          <caret line="571" column="37" lean-forward="true" selection-start-line="571" selection-start-column="37" selection-end-line="571" selection-end-column="37" />
+        <state relative-caret-position="144">
+          <caret line="573" column="37" lean-forward="true" selection-start-line="573" selection-start-column="37" selection-end-line="573" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/appManager.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1311">
-          <caret line="2259" column="88" lean-forward="true" selection-start-line="2259" selection-start-column="88" selection-end-line="2259" selection-end-column="88" />
+        <state relative-caret-position="386">
+          <caret line="2231" column="51" lean-forward="true" selection-start-line="2231" selection-start-column="51" selection-end-line="2231" selection-end-column="51" />
           <folding>
             <element signature="e#6#12#0" expanded="true" />
             <element signature="e#6#12#0" expanded="true" />

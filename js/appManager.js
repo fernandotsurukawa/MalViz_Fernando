@@ -1411,7 +1411,7 @@ function applicationManager(globalData) {
             // })[0].values;
 
             var updated_data = UpdateProcessNameWithChild(group_by_process_name, group_by_process_create);
-
+            console.log(JSON.parse(JSON.stringify(updated_data)));
             for (var i = 0; i < updated_data.length; i++) {
                 updated_data[i].children = [];
                 for (var j = 0; j < updated_data[i].childs.length; j++) {
@@ -1439,7 +1439,7 @@ function applicationManager(globalData) {
                     }
                 });
             }
-            console.log(JSON.parse(JSON.stringify(updated_data)));
+
             updated_data.sort(function (a, b) {
                 if (getSuccessors(a, []).length < getSuccessors(b, []).length) {
                     return 1;
@@ -1464,7 +1464,6 @@ function applicationManager(globalData) {
             for (var i = 0; i < updated_data.length; i++) {
                 dfs(updated_data[i], orderedArray);
             }
-            console.log(JSON.parse(JSON.stringify(orderedArray)));
 
             // DFS
             function dfs(o, array) {
@@ -2218,31 +2217,21 @@ function applicationManager(globalData) {
 
             });
 
-            // var arrowColor;
-            // svg_process_name.append("svg:defs").append("svg:marker")
-            //     .attr("id", "arrow")
-            //     .attr("refX", 6)
-            //     .attr("refY", 5)
-            //     .attr("markerWidth", 8)
-            //     .attr("markerHeight", 8).attr('fill', arrowColor)
-            //     .attr("orient", 0).append('path').attr('d', 'M0,0 L0,8 L8,4 z');
-            // arcs
-            //console.log(JSON.parse(JSON.stringify(orderedArray)));
             orderedArray.forEach(function (d, index) {
                 if (d.children.length > 0) {
                     d.children.forEach(function (child, index2) {
                         var signedOrienation = getProcessNameIndex(updated_data, child.key) - index;
-                        console.log(signedOrienation);
 
                         svg_process_name
                             .append("svg:defs")
-                            .selectAll(".arrows")
+                            .selectAll(".arrow")
                             .data([child])
                             .enter()
                             .append("svg:marker")
                             .attr("id", () => {return "arrow_" + index + "_" + index2})
+                            .attr("class", "arrow")
                             .attr("refX", 6)
-                            .attr("refY", 5)
+                            .attr("refY", 4)
                             .attr("markerWidth", 8)
                             .attr("markerHeight", 8)
                             .style("fill", d => colorPicker(d.type))
@@ -2251,7 +2240,7 @@ function applicationManager(globalData) {
                             .attr('d', 'M0,0 L0,8 L8,4 z');
 
                         svg_process_name
-                            .append('path').attr("class", 'detail_path_' + index + "_" + index2)
+                            .append('path').attr("class", 'arc detail_path_' + index + "_" + index2)
                             .attr('d', d3.arc()
                                 .innerRadius(Math.abs(signedOrienation) * group_rect_height / 2 - 1)
                                 .outerRadius(Math.abs(signedOrienation) * group_rect_height / 2)
@@ -2268,6 +2257,16 @@ function applicationManager(globalData) {
                                 return 'translate(' + posX + ',' + posY + ')';
                             })
                             .attr("marker-end", "url(#arrow_"+ index + "_" + index2+")")
+                            .on("mouseover", function(){
+                                d3.selectAll(".arc")
+                                    .attr("opacity", 0.2)
+                                d3.select('.detail_path_' + index + "_" + index2)
+                                    .attr("opacity", 1)
+                            })
+                            .on("mouseout", function(){
+                                d3.selectAll(".arc")
+                                    .attr("opacity", 1)
+                            })
 
                     })
 

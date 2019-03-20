@@ -567,11 +567,11 @@ Please select dataset:
                 case "Registry":
                     return colorScaleGreen(list[operation]["index"]);
                 case "Network":
-                    return "#6854b1";
                     return colorScaleRed(list[operation]["index"]);
                 case "ProcessThread":
                     return colorScaleBlue(list[operation]["index"]);
                 case "Profiling":
+                    return "#6854b1";
                 default:
                     return "#5d5d5d"
             }
@@ -584,7 +584,6 @@ Please select dataset:
             proc.childs = [];
             links.forEach(function (link) {
                 if (proc.key == link.Process_Name) {
-                    // console.log(link.targetProcessName);
                     let index = getProcessNameIndex(processLst, link.targetProcessName);
                     if (!proc.childs.includes(index) && index != parentIndex) {
                         //Check for loop insertion
