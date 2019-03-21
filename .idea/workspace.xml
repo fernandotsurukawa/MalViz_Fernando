@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d8b82504-1950-4318-aa3d-f800f494b894" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Metadata/Notes.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operations/colorPick.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/operations/drawstat.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/operations/opList.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/operations/operations.CSV" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/operations/operations.json" beforeDir="false" />
-    </list>
+    <list default="true" id="d8b82504-1950-4318-aa3d-f800f494b894" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -75,29 +65,32 @@
         <counts>
           <entry key="html" value="109" />
           <entry key="js" value="2577" />
-          <entry key="md" value="177" />
+          <entry key="md" value="195" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="109" />
           <entry key="JavaScript" value="2577" />
-          <entry key="Markdown" value="177" />
+          <entry key="Markdown" value="195" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
+          <entry key="CSV" value="1" />
           <entry key="csv" value="1" />
           <entry key="html" value="4" />
           <entry key="js" value="3" />
+          <entry key="json" value="4" />
           <entry key="md" value="2" />
           <entry key="ts" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CSV" value="1" />
+          <entry key="CSV" value="2" />
           <entry key="HTML" value="4" />
+          <entry key="JSON" value="4" />
           <entry key="JavaScript" value="3" />
           <entry key="Markdown" value="2" />
           <entry key="TypeScript" value="1" />
@@ -132,11 +125,11 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Metadata/Notes.md">
+        <entry file="file://$PROJECT_DIR$/metadata/Notes.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="168">
-                <caret line="4" column="6" lean-forward="true" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
+              <first_editor relative-caret-position="144">
+                <caret line="3" column="40" lean-forward="true" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
               </first_editor>
               <second_editor />
             </state>
@@ -210,6 +203,7 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/Metadata/Notes.md" />
+        <option value="$PROJECT_DIR$/Metadata/drawstat.json" />
       </list>
     </option>
   </component>
@@ -261,7 +255,7 @@
             <path>
               <item name="MalViz" type="b2602c69:ProjectViewProjectNode" />
               <item name="MalViz" type="462c0819:PsiDirectoryNode" />
-              <item name="Metadata" type="462c0819:PsiDirectoryNode" />
+              <item name="metadata" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -320,16 +314,15 @@
       <workItem from="1553038999053" duration="18000" />
       <workItem from="1553039026084" duration="8166000" />
       <workItem from="1553049105588" duration="21898000" />
-      <workItem from="1553179396872" duration="1451000" />
+      <workItem from="1553179396872" duration="1812000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="78911000" />
+    <option name="totallyTimeSpent" value="79272000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1260" height="1416" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13559322" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -432,11 +425,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Metadata/Notes.md">
+    <entry file="file://$PROJECT_DIR$/Metadata/colorPick.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Metadata/opList.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="16" column="53" lean-forward="true" selection-start-line="16" selection-start-column="53" selection-end-line="16" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Metadata/drawstat.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="15" column="4" lean-forward="true" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/metadata/operations.CSV">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="7" column="30" lean-forward="true" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/metadata/operations.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/metadata/Notes.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="168">
-            <caret line="4" column="6" lean-forward="true" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
+          <first_editor relative-caret-position="144">
+            <caret line="3" column="40" lean-forward="true" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="40" />
           </first_editor>
           <second_editor />
         </state>
