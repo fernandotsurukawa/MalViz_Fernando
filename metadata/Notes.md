@@ -42,7 +42,18 @@ captured. Besides, the values can be `System` or `Idle`.
         the pointer in the table at will [[link]](https://stackoverflow.com/a/902969/)
         
         Consider this case: You need to access a drawer of a locker. A receptionist is in the middle: She hands you a
-         card number to your drawer when you come to . You hand it to her when you want to take back the item.
-        
-        Table of pointers: The number cards for all of drawers.
-        
+         card to your drawer when you arrive. You hand it to her when you want to take back the item. All the cards 
+         hung on the wall for all of drawers (Table of pointers). The handle is the card that the receptionist 
+         gives you. You don't know exactly where is the drawer, but you know how to access it (you use the index for the system API calls).
+         The handle is the card.
+         
+4. **CreateProcess vs. CreateFile .exe**
+
+Question: Is there any difference between them?
+
+|       | [CreateProcess](https://docs.microsoft.com/en-us/windows/desktop/api/processthreadsapi/nf-processthreadsapi-createprocessa)           | [CreateFile](https://docs.microsoft.com/en-us/windows/desktop/api/fileapi/nf-fileapi-createfilea)  |
+| ------------- |:-------------| :-----|
+| Definition      | Creates a new process and its primary thread | Creates or opens a file or I/O device |
+| Activity      | Runs an executable file **as a process**, it will not create a file.| Opens or creates a file. It will not execute that file as a process. |
+| Return value (succesfully) |Two separate handles, one each for the process and the thread       |An open handle to the specified file,  which you can then use, e.g., to read the contents of the file |
+|Answer |The new process runs in the security context of the calling process.  |The file extension is irrelevant.|

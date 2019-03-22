@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8b82504-1950-4318-aa3d-f800f494b894" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/metadata/Notes.md" beforeDir="false" afterPath="$PROJECT_DIR$/metadata/Notes.md" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -68,14 +67,14 @@
         <counts>
           <entry key="html" value="152" />
           <entry key="js" value="2764" />
-          <entry key="md" value="1209" />
+          <entry key="md" value="2051" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="152" />
           <entry key="JavaScript" value="2764" />
-          <entry key="Markdown" value="1209" />
+          <entry key="Markdown" value="2051" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -118,8 +117,8 @@
         <entry file="file://$PROJECT_DIR$/metadata/Notes.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="1121">
-                <caret line="43" column="66" selection-start-line="43" selection-start-column="66" selection-end-line="43" selection-end-column="66" />
+              <first_editor relative-caret-position="915">
+                <caret line="54" column="111" lean-forward="true" selection-start-line="54" selection-start-column="111" selection-end-line="54" selection-end-column="111" />
               </first_editor>
               <second_editor />
             </state>
@@ -218,7 +217,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="1261" />
+    <option name="width" value="1502" />
     <option name="height" value="1417" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -325,18 +324,18 @@
       <workItem from="1553049105588" duration="21898000" />
       <workItem from="1553179396872" duration="12760000" />
       <workItem from="1553219428006" duration="104000" />
-      <workItem from="1553219555380" duration="1664000" />
+      <workItem from="1553219555380" duration="4961000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="91988000" />
+    <option name="totallyTimeSpent" value="95285000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1261" height="1417" extended-state="0" />
+    <frame x="0" y="23" width="1502" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13548388" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11343687" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -466,8 +465,8 @@
     <entry file="file://$PROJECT_DIR$/metadata/Notes.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="1121">
-            <caret line="43" column="66" selection-start-line="43" selection-start-column="66" selection-end-line="43" selection-end-column="66" />
+          <first_editor relative-caret-position="915">
+            <caret line="54" column="111" lean-forward="true" selection-start-line="54" selection-start-column="111" selection-end-line="54" selection-end-column="111" />
           </first_editor>
           <second_editor />
         </state>
