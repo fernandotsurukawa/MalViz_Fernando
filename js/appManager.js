@@ -1369,7 +1369,6 @@ function applicationManager(globalData) {
         },
 
         drawStats2: function (position) {
-            d3.csv("operations/operations.CSV", function (error, data) {
                 d3.select(position).selectAll("*").remove();
                 var svgStats = d3.select(position).append('svg').attr('width', '100%').attr('height', 1110);
                 var group_O = svgStats.append('g');
@@ -1382,8 +1381,6 @@ function applicationManager(globalData) {
                     });
                     rect.append('text').text(operation).attr('x', '30px').style('color', 'black').style('font-size', '12px').attr('y', '8px')
                 })
-            });
-
         },
         loadMatrix: function () {
 
@@ -1394,13 +1391,14 @@ function applicationManager(globalData) {
             d3.select(position).selectAll("*").remove();
             var lines = [];
             var group_by_process_name = getData.getdatabyProcessName;
-            var group_by_process_create = [];
+            var haveExeChild = [];
             var operationKeys = group_by_process_name.map(d => d.key);
 
+            console.log(operationKeys);
             globalData.forEach(d => {
                 for (var i = 0; i < operationKeys.length; i++){
                     if (d.Path.endsWith("\\" + operationKeys[i])){
-                        group_by_process_create.push(d);
+                        haveExeChild.push(d);
                     }
                 }
             });
@@ -1410,7 +1408,8 @@ function applicationManager(globalData) {
             //     return value.key == 'Process Create'
             // })[0].values;
 
-            var updated_data = UpdateProcessNameWithChild(group_by_process_name, group_by_process_create);
+            var updated_data = UpdateProcessNameWithChild(group_by_process_name, haveExeChild);
+
             console.log(JSON.parse(JSON.stringify(updated_data)));
             for (var i = 0; i < updated_data.length; i++) {
                 updated_data[i].children = [];

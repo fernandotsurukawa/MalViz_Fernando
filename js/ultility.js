@@ -26,6 +26,7 @@ function convertToMilis(row){
 }
 
 function ProcessDataV2(orginalData,domain) {
+    console.log(JSON.parse(JSON.stringify(orginalData)))
     var globalData=[];
     var domainFormat = /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+/;
     var previoustime;
@@ -105,4 +106,43 @@ function ProcessDataV2(orginalData,domain) {
         previoustep = currentStep;
     });
     return globalData;
+}
+
+function UpdateProcessNameWithChild(processLst, links) {
+    console.log(JSON.parse(JSON.stringify(processLst)));
+    console.log(JSON.parse(JSON.stringify(links)));
+
+    processLst.forEach(function (proc, parentIndex) {
+        proc.event = [];
+        proc.childs = [];
+        links.forEach(function (link) {
+            if (proc.key == link.Process_Name) {
+                console.log()
+                let index = getProcessNameIndex(processLst, link.targetProcessName);
+                if (!proc.childs.includes(index) && index != parentIndex) {
+                    //Check for loop insertion
+                    if (processLst[index].hasOwnProperty('childs')) {
+                        if (!processLst[index].childs.includes(parentIndex)) {
+                            proc.childs.push(index);
+                            proc.event.push(link.Operation)
+                        }
+                    } else {
+                        proc.childs.push(index);
+                        proc.event.push(link.Operation)
+                    }
+                }
+            }
+        })
+    });
+    return processLst;
+}
+
+function getProcessNameIndex(processlst, key) {
+    let index;
+    processlst.forEach(function (d, i) {
+        if (d.key === key) {
+            index = i;
+        }
+    });
+    return index;
 }
