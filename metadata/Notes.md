@@ -30,5 +30,31 @@ captured. Besides, the values can be `System` or `Idle`.
     accounting for processor time when the system isn't processing other threads. The system idle process has always the 
     PID 0  in the Windows Task Manager, otherwise it is malware.
     
-3. **Windows System Information**
+3. **Windows System Information** [[link]](https://docs.microsoft.com/en-us/windows/desktop/sysinfo/handles-and-objects)
     
+    - Objects: An object is a data structure that **represents a system resource**, such as a file, thread, or graphic 
+    image. An application cannot directly access object data or the system resource that an object represents. 
+    Application must obtain an object **handle**, which it can use to examine or modify the system resource.
+    
+    - Handle: This can be explained in two ways: 
+        1. Each handle has an entry in an internally maintained table. These entries contain the addresses of the 
+        resources and the means to identify the resource type [[link]](https://docs.microsoft.com/en-us/windows/desktop/sysinfo/handles-and-objects)
+        2. An index into a table of pointers, you use the index for the system API calls, and the system can change 
+        the pointer in the table at will [[link]](https://stackoverflow.com/a/902969/)
+        
+        Consider this case: You need to access a drawer of a locker. A receptionist is in the middle: She hands you a
+         card to your drawer when you arrive. You hand it to her when you want to take back the item. All the cards 
+         hung on the wall for all of drawers (Table of pointers). The handle is the card that the receptionist 
+         gives you. You don't know exactly where is the drawer, but you know how to access it (you use the index for the system API calls).
+         The handle is the card.
+         
+4. **CreateProcess vs. CreateFile .exe**
+
+Question: Is there any difference between them?
+
+|       | [CreateProcess](https://docs.microsoft.com/en-us/windows/desktop/api/processthreadsapi/nf-processthreadsapi-createprocessa)           | [CreateFile](https://docs.microsoft.com/en-us/windows/desktop/api/fileapi/nf-fileapi-createfilea)  |
+| ------------- |:-------------| :-----|
+| Definition      | Creates a new process and its primary thread | Creates or opens a file or I/O device |
+| Activity      | Runs an executable file **as a process**, it will not create a file.| Opens or creates a file. It will not execute that file as a process. |
+| Return value (succesfully) |Two separate handles, one each for the process and the thread       |An open handle to the specified file,  which you can then use, e.g., to read the contents of the file |
+|Answer |The new process runs in the security context of the calling process.  |The file extension is irrelevant.|
