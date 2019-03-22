@@ -1,8 +1,7 @@
 ## Notes
 
-
 Some notes about the concepts used in this project.
-___
+
 Demo: https://idatavisualizationlab.github.io/MalViz/
 
 Example of a record:
