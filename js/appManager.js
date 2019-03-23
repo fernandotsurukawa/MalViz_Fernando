@@ -1369,18 +1369,18 @@ function applicationManager(globalData) {
         },
 
         drawStats2: function (position) {
-                d3.select(position).selectAll("*").remove();
-                var svgStats = d3.select(position).append('svg').attr('width', '100%').attr('height', 1110);
-                var group_O = svgStats.append('g');
+            d3.select(position).selectAll("*").remove();
+            var svgStats = d3.select(position).append('svg').attr('width', '100%').attr('height', 1110);
+            var group_O = svgStats.append('g');
 
-                var group_by_operation = d3.keys(list);
-                group_by_operation.forEach(function (operation, index) {
-                    var rect = group_O.append('g').attr('transform', 'translate(0,' + index * 15 + ')');
-                    rect.append('rect').attr('width', '20px').attr('height', '12px').attr('fill', function (d) {
-                        return colorPicker(operation);
-                    });
-                    rect.append('text').text(operation).attr('x', '30px').style('color', 'black').style('font-size', '12px').attr('y', '8px')
-                })
+            var group_by_operation = d3.keys(list);
+            group_by_operation.forEach(function (operation, index) {
+                var rect = group_O.append('g').attr('transform', 'translate(0,' + index * 15 + ')');
+                rect.append('rect').attr('width', '20px').attr('height', '12px').attr('fill', function (d) {
+                    return colorPicker(operation);
+                });
+                rect.append('text').text(operation).attr('x', '30px').style('color', 'black').style('font-size', '12px').attr('y', '8px')
+            })
         },
         loadMatrix: function () {
 
@@ -1394,30 +1394,30 @@ function applicationManager(globalData) {
             var haveExeChild = [];
             var operationKeys = group_by_process_name.map(d => d.key);
 
-            console.log(operationKeys);
             globalData.forEach(d => {
-                for (var i = 0; i < operationKeys.length; i++){
-                    if (d.Path.endsWith("\\" + operationKeys[i])){
+                for (var i = 0; i < operationKeys.length; i++) {
+                    if (d.Path.endsWith("\\" + operationKeys[i])) {
                         haveExeChild.push(d);
                     }
                 }
             });
 
-
-            // group_by_process_create = group_by_process_create.filter(function (value) {
-            //     return value.key == 'Process Create'
-            // })[0].values;
-
             var updated_data = UpdateProcessNameWithChild(group_by_process_name, haveExeChild);
 
-            console.log(JSON.parse(JSON.stringify(updated_data)));
             for (var i = 0; i < updated_data.length; i++) {
                 updated_data[i].children = [];
                 for (var j = 0; j < updated_data[i].childs.length; j++) {
-                    var obj = updated_data[updated_data[i].childs[j]];
-                    obj.type = updated_data[i].event[j];
-                    updated_data[i].children.push(obj);
+                    updated_data[i].children[j] = updated_data[updated_data[i].childs[j]];
                 }
+
+                // for (var j = 0; j < updated_data[i].childs.length; j++) {
+                //     updated_data[i].children[j] = {};
+                //
+                //     updated_data[i].children[j] = JSON.parse(JSON.stringify(updated_data[updated_data[i].childs[j]["index"]]));
+                //     updated_data[i].children[j].event = updated_data[i].childs[j].event;
+                //     updated_data[i].children[j].step = updated_data[i].childs[j].step;
+                // }
+
                 // sort children
                 updated_data[i].children.sort(function (a, b) {
                     if (a.childs.length < b.childs.length) {
@@ -1457,18 +1457,21 @@ function applicationManager(globalData) {
                         return 0;
                 }
             });
+            console.log(updated_data);
             var orderedArray = [];
-            var nextIndex = 0;
 
-            for (var i = 0; i < updated_data.length; i++) {
-                dfs(updated_data[i], orderedArray);
-            }
+            // for (var i = 0; i < updated_data.length; i++) {
+            //     dfs(updated_data[i], orderedArray);
+            // }
+            orderedArray = updated_data;
+            console.log(orderedArray);
 
-            // DFS
+            // DFS - convert tree to array using DFS
             function dfs(o, array) {
                 if (o.isDone == undefined) {
                     array.push(o);
                     o.isDone = true;
+                    // set true
                     if (o.children != undefined) {
                         for (var i = 0; i < o.children.length; i++) {
                             dfs(o.children[i], array);
@@ -1851,16 +1854,18 @@ function applicationManager(globalData) {
                             return StepScale(d.step, true) + margin_left;
                         });
 
-                    orderedArray.forEach(function (d, index) {
-                        if (d.children.length > 0) {
-                            d.children.forEach(function (child, index2) {
-                                svg_process_name.selectAll(".detail_path_" + index + "_" + index2)
-                                    .transition().duration(200)
-                                    .attr('transform', function () {
-                                        var posX = (StepScale(child.values[0].Step, true)) * rect_width + margin_left;
-                                        var posY = (getProcessNameIndex(updated_data, child.key) + index) * group_rect_height / 2 + group_rect_height / 2;
-                                        return 'translate(' + posX + ',' + posY + ')';
-                                    });
+                    orderedArray.forEach((parentProcess, pIndex) => {
+                        if (parentProcess.children.length > 0) {
+                            parentProcess.children.forEach((childProcess, cIndex) => {
+                                parentProcess.childInfo[childProcess.key].forEach((child, i) => {
+                                    svg_process_name.selectAll('.detail_path_' + pIndex + "_" + cIndex + "_" + i)
+                                        .transition().duration(200)
+                                        .attr('transform', function () {
+                                            var posX = (StepScale(child.step, true)) * rect_width + margin_left;
+                                            var posY = (getProcessNameIndex(updated_data, childProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
+                                            return 'translate(' + posX + ',' + posY + ')';
+                                        });
+                                })
                             })
                         }
                     });
@@ -1926,6 +1931,7 @@ function applicationManager(globalData) {
             // ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～
 
             var maxBin;
+
             function stream(group_by_process_name, globalData) {
                 var group = JSON.parse(JSON.stringify(group_by_process_name));
                 var global_data = JSON.parse(JSON.stringify(globalData));
@@ -1968,6 +1974,7 @@ function applicationManager(globalData) {
                 // console.log(d3.keys(ref).sort((a,b) => {return a.length - b.length}));
                 return a;
             }
+
             var streamData = stream(group_by_process_name, globalData);
             // console.log(streamData);
             // get max number of calls
@@ -1988,8 +1995,8 @@ function applicationManager(globalData) {
 
             var streamHeightScale =
                 d3.scaleSqrt()
-                .domain([0, maxCall])
-                .range([0, 2 * rect_normal_height]);
+                    .domain([0, maxCall])
+                    .range([0, 2 * rect_normal_height]);
 
             var area = d3.area()
                 .curve(d3.curveNatural)
@@ -2004,13 +2011,16 @@ function applicationManager(globalData) {
                 });
 
             group_by_process_name.forEach(function (row, index) {
-
                 var group = svg_process_name.append('g')
                     .attr("transform", "translate(0," + index * group_rect_height + ")");
 
-                group.append('line').attr('stroke-dasharray', '2, 5').attr('stroke', 'black').attr('stroke-width', 0.1)
-                    .attr('x1', (StepScale(row.values[0].Step) * rect_width + margin_left + 10)).attr('y1', rect_height / 2)
-                    .attr('x2', (((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 10)).attr('y2', rect_height / 2);
+                group.append('line').attr('stroke-dasharray', '2, 5').attr('stroke', 'black').attr('stroke-width', 0.5)
+                    // .attr('x1', (StepScale(row.values[0].Step) * rect_width + margin_left + 10)).attr('y1', rect_height / 2)
+                    // .attr('x2', (((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 10)).attr('y2', rect_height / 2);
+                    .attr('x1', (StepScale(minStep) * rect_width + margin_left + 10))
+                    .attr('y1', rect_height / 2)
+                    .attr('x2', (((StepScale(maxStep)) * rect_width + margin_left) + 10))
+                    .attr('y2', rect_height / 2);
 
                 var processes = row.values.filter(function (filter) {
                     if (filter.hasOwnProperty('library') && libarr.includes(filter.library) == true) return filter;
@@ -2190,15 +2200,18 @@ function applicationManager(globalData) {
                         return StepScale(d.step) + margin_left;
                     });
 
-                orderedArray.forEach(function (d, index) {
-                    if (d.children.length > 0) {
-                        d.children.forEach(function (child, index2) {
-                            svg_process_name.selectAll(".detail_path_" + index + "_" + index2).transition().duration(200)
-                                .attr('transform', function () {
-                                    var posX = (StepScale(child.values[0].Step)) * rect_width + margin_left;
-                                    var posY = (getProcessNameIndex(updated_data, child.key) + index) * group_rect_height / 2 + group_rect_height / 2;
-                                    return 'translate(' + posX + ',' + posY + ')';
-                                });
+                orderedArray.forEach((parentProcess, pIndex) => {
+                    if (parentProcess.children.length > 0) {
+                        parentProcess.children.forEach((childProcess, cIndex) => {
+                            parentProcess.childInfo[childProcess.key].forEach((child, i) => {
+                                svg_process_name.selectAll('.detail_path_' + pIndex + "_" + cIndex + "_" + i)
+                                    .transition().duration(200)
+                                    .attr('transform', function () {
+                                        var posX = (StepScale(child.step)) * rect_width + margin_left;
+                                        var posY = (getProcessNameIndex(updated_data, childProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
+                                        return 'translate(' + posX + ',' + posY + ')';
+                                    });
+                            })
                         })
                     }
                 });
@@ -2216,61 +2229,65 @@ function applicationManager(globalData) {
 
             });
 
-            orderedArray.forEach(function (d, index) {
-                if (d.children.length > 0) {
-                    d.children.forEach(function (child, index2) {
-                        var signedOrienation = getProcessNameIndex(updated_data, child.key) - index;
-
+            orderedArray.forEach((parentProcess, pIndex) => {
+                if (parentProcess.children.length > 0) {
+                    parentProcess.children.forEach((childProcess, cIndex) => {
+                        // define arrow
                         svg_process_name
                             .append("svg:defs")
                             .selectAll(".arrow")
-                            .data([child])
+                            .data(parentProcess.childInfo[childProcess.key])
                             .enter()
                             .append("svg:marker")
-                            .attr("id", () => {return "arrow_" + index + "_" + index2})
+                            .attr("id", (d, i) => {
+                                return "arrow_" + pIndex + "_" + cIndex + "_" + i
+                            })
                             .attr("class", "arrow")
                             .attr("refX", 6)
                             .attr("refY", 4)
                             .attr("markerWidth", 8)
                             .attr("markerHeight", 8)
-                            .style("fill", d => colorPicker(d.type))
+                            .style("fill", d => colorPicker(d.event))
                             .attr("orient", 0)
                             .append('path')
                             .attr('d', 'M0,0 L0,8 L8,4 z');
 
-                        svg_process_name
-                            .append('path').attr("class", 'arc detail_path_' + index + "_" + index2)
-                            .attr('d', d3.arc()
-                                .innerRadius(Math.abs(signedOrienation) * group_rect_height / 2 - 1)
-                                .outerRadius(Math.abs(signedOrienation) * group_rect_height / 2)
-                                .startAngle(signedOrienation > 0? -Math.PI : Math.PI/90) //converting from degs to
-                                // radians
-                                .endAngle(signedOrienation > 0? Math.PI/90 : -Math.PI ))
-                            .attr('fill', colorPicker(child.type))
-                            .attr('source', index)
-                            .attr('target', getProcessNameIndex(updated_data, child.key))
-                            .attr('transform', function () {
-                                var posX = (StepScale(child.values[0].Step)) * rect_width + margin_left ;
-                                var posY = (getProcessNameIndex(updated_data, child.key) + index) * group_rect_height / 2 + group_rect_height / 2;
+                        // draw arc
+                        var signedOrienation = getProcessNameIndex(updated_data, childProcess.key) - pIndex;
+                        parentProcess.childInfo[childProcess.key].forEach((child, i) => {
+                            svg_process_name
+                                .append('path').attr("class", 'arc detail_path_' + pIndex + "_" + cIndex + "_" + i)
+                                .attr('d', d3.arc()
+                                    .innerRadius(Math.abs(signedOrienation) * group_rect_height / 2 - 1)
+                                    .outerRadius(Math.abs(signedOrienation) * group_rect_height / 2)
+                                    .startAngle(signedOrienation > 0 ? -Math.PI : Math.PI / 90) //converting from degs to radians
+                                    .endAngle(signedOrienation > 0 ? Math.PI / 90 : -Math.PI))
+                                .attr('fill', colorPicker(child.event))
+                                .attr('source', pIndex)
+                                .attr('target', getProcessNameIndex(updated_data, childProcess.key))
+                                .attr('transform', function () {
 
-                                return 'translate(' + posX + ',' + posY + ')';
-                            })
-                            .attr("marker-end", "url(#arrow_"+ index + "_" + index2+")")
-                            .on("mouseover", function(){
-                                d3.selectAll(".arc")
-                                    .attr("opacity", 0.2)
-                                d3.select('.detail_path_' + index + "_" + index2)
-                                    .attr("opacity", 1)
-                            })
-                            .on("mouseout", function(){
-                                d3.selectAll(".arc")
-                                    .attr("opacity", 1)
-                            })
+                                    var posX = (StepScale(child.step)) * rect_width + margin_left ;
+                                    var posY = (getProcessNameIndex(updated_data, childProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
+
+                                    return 'translate(' + posX + ',' + posY + ')';
+                                })
+                                .attr("marker-end", "url(#arrow_"+pIndex+"_"+cIndex+"_"+i+")")
+                                .on("mouseover", function(){
+                                    d3.selectAll(".arc")
+                                        .attr("opacity", 0.2);
+                                    d3.select('.detail_path_' + pIndex + "_" + cIndex+"_"+i)
+                                        .attr("opacity", 1)
+                                })
+                                .on("mouseout", function(){
+                                    d3.selectAll(".arc")
+                                        .attr("opacity", 1)
+                                })
+
+                        })
 
                     })
-
                 }
-
             });
 
             for (var i = 0; i < lines.length; i++) {
