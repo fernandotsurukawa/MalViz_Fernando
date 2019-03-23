@@ -1402,12 +1402,6 @@ function applicationManager(globalData) {
                 }
             });
 
-            // var group_by_process_create = getData.getdatabyOperation;
-            // group_by_process_create = group_by_process_create.filter(function (value) {
-            //     return value.key == 'Process Create'
-            // })[0].values;
-            // var updated_data = UpdateProcessNameWithChild(group_by_process_name, group_by_process_create);
-
             var updated_data = UpdateProcessNameWithChild(group_by_process_name, haveExeChild);
 
             for (var i = 0; i < updated_data.length; i++) {
