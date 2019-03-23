@@ -119,6 +119,7 @@ function UpdateProcessNameWithChild(processLst, links) {
     console.log(links);
     processLst.forEach(function (proc, parentIndex) {
         proc.childs = [];
+        proc.childInfo = {};
         links.forEach(function (link) {
             if (proc.key == link.Process_Name) {    // if key = parent
                 let index = getProcessNameIndex(processLst, link.targetProcessName);
@@ -130,44 +131,42 @@ function UpdateProcessNameWithChild(processLst, links) {
                     //Check for loop insertion
                     if (processLst[index].hasOwnProperty('childs')) {
                         if (!processLst[index].childs.includes(parentIndex)) {
-                            proc.childs.push({
-                                index: index,
-                                event: link.Operation,
-                                step: link.Step
-                            });
+                            if (!proc.childs.includes(index)){
+                                proc.childs.push(index);
+                            }
+                            if (!proc.childInfo[link.targetProcessName]){    // if havent met this process
+                                proc.childInfo[link.targetProcessName] = [];
+                                proc.childInfo[link.targetProcessName].push({
+                                    event: link.Operation,
+                                    step: link.Step
+                                })
+                            } else{
+                                proc.childInfo[link.targetProcessName].push({
+                                    event: link.Operation,
+                                    step: link.Step
+                                })
+                            }
                         }
                     } else {
-                        proc.childs.push({
-                            index: index,
-                            event: link.Operation,
-                            step: link.Step
-                        });
+                        if (!proc.childs.includes(index)){
+                            proc.childs.push(index);
+                        }
+                        if (!proc.childInfo[link.targetProcessName]){
+                            proc.childInfo[link.targetProcessName] = [];
+                            proc.childInfo[link.targetProcessName].push({
+                                event: link.Operation,
+                                step: link.Step
+                            })
+                        } else{
+                            proc.childInfo[link.targetProcessName].push({
+                                event: link.Operation,
+                                step: link.Step
+                            })
+                        }
                     }
                 }
             }
         })
-
-        // links.forEach(function (link) {
-        //     if (proc.key == link.Process_Name) {    // if key = parent
-        //         let index = getProcessNameIndex(processLst, link.targetProcessName);
-        //         // index = stt child in processLst
-        //
-        //         if (!proc.childs.includes(index) && index != parentIndex) {
-        //             // if parent have havd that child counted & chld != parent
-        //
-        //             //Check for loop insertion
-        //             if (processLst[index].hasOwnProperty('childs')) {
-        //                 if (!processLst[index].childs.includes(parentIndex)) {
-        //                     proc.childs.push(index);
-        //                     proc.event.push(link.Operation)
-        //                 }
-        //             } else {
-        //                 proc.childs.push(index);
-        //                 proc.event.push(link.Operation)
-        //             }
-        //         }
-        //     }
-        // })
     });
     return processLst;
 }
