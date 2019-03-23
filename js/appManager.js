@@ -1460,10 +1460,10 @@ function applicationManager(globalData) {
             console.log(updated_data);
             var orderedArray = [];
 
-            // for (var i = 0; i < updated_data.length; i++) {
-            //     dfs(updated_data[i], orderedArray);
-            // }
-            orderedArray = updated_data;
+            for (var i = 0; i < updated_data.length; i++) {
+                dfs(updated_data[i], orderedArray);
+            }
+            // orderedArray = updated_data;
             console.log(orderedArray);
 
             // DFS - convert tree to array using DFS
