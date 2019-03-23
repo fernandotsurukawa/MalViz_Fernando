@@ -1,72 +1,76 @@
 function make2Darray(rows, cols) {
     var arr = new Array(rows);
-    for(var i=0;i<rows;i++){
+    for (var i = 0; i < rows; i++) {
         arr[i] = new Array(cols);
-        for(j=0;j<cols;j++){
-            arr[i][j] = {x:j,y:i,z:[]};
+        for (j = 0; j < cols; j++) {
+            arr[i][j] = {x: j, y: i, z: []};
         }
     }
     return arr;
 }
-function getObjectIndex(obj,property,value) {
+
+function getObjectIndex(obj, property, value) {
     var index;
-    obj.forEach(function (d,i) {
-        if(d[property]==value) index = i;
+    obj.forEach(function (d, i) {
+        if (d[property] == value) index = i;
     })
     return index;
 }
-function convertToMilis(row){
+
+function convertToMilis(row) {
     var time = row.Timestamp.split(':');
     var hour = +time[0];
     var minute = +time[1];
     var second = +time[2].split('.')[0];
-    var milisecond = +time[2].split('.')[1].split(' ')[0].slice(0,5);
-    var currentTimeStamp =(hour*3600+minute*60 + second)*100000 + milisecond;
+    var milisecond = +time[2].split('.')[1].split(' ')[0].slice(0, 5);
+    var currentTimeStamp = (hour * 3600 + minute * 60 + second) * 100000 + milisecond;
     return currentTimeStamp;
 }
 
-function ProcessDataV2(orginalData,domain) {
-    console.log(JSON.parse(JSON.stringify(orginalData)))
-    var globalData=[];
+function ProcessDataV2(orginalData, domain) {
+    var processNameList = d3.nest().key(d => d.Process_Name).entries(orginalData).map(d => d.key).filter(d => d.toLowerCase() !== "procmon.exe");
+
+    var globalData = [];
     var domainFormat = /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+/;
     var previoustime;
-    var previoustep=0;
-    orginalData.forEach(function (row,index) {
-
+    var previoustep = 0;
+    orginalData.forEach(function (row, index) {
         //Preprocess Data
         var time = row.Timestamp.split(':');
         var hour = +time[0];
         var minute = +time[1];
         var second = +time[2].split('.')[0];
-        var milisecond = +time[2].split('.')[1].split(' ')[0].slice(0,5);
-        var currentTimeStamp =(hour*3600+minute*60 + second)*100000 + milisecond;
+        var milisecond = +time[2].split('.')[1].split(' ')[0].slice(0, 5);
+        var currentTimeStamp = (hour * 3600 + minute * 60 + second) * 100000 + milisecond;
 
-        if(index==0){
+        if (index == 0) {
             previoustime = currentTimeStamp;
         }
         var timediff = currentTimeStamp - previoustime;
         var currentStep = previoustep + timediff;
+
         //Assign value
         var obj = new Object();
-        obj.Timestamp=row.Timestamp;
-        obj.Process_Name=row.Process_Name;
-        obj.Path=row.Path;
-        obj.PID =row.PID;
-        obj.Operation =row.Operation;
-        obj.Detail=row.Detail;
-        obj.Hour =hour;
-        obj.Minute =minute;
-        obj.Second =second;
-        obj.Milisecond =milisecond;
+        obj.Timestamp = row.Timestamp;
+        obj.Process_Name = row.Process_Name;
+        obj.Path = row.Path;
+        obj.PID = row.PID;
+        obj.Operation = row.Operation;
+        obj.Detail = row.Detail;
+        obj.Hour = hour;
+        obj.Minute = minute;
+        obj.Second = second;
+        obj.Milisecond = milisecond;
         obj.previoustimestamp = previoustime;
         obj.currenttimestamp = currentTimeStamp;
-        obj.timeDiff =timediff;
+        obj.timeDiff = timediff;
         obj.Step = currentStep;
         obj.Process = getProcessName(row.Operation);
 
-        if (row.Path.toLowerCase().endsWith(".exe")) {
-            obj.targetProcessName = row.Path.replace(/^.*[\\\/]/, '');
-            // obj.childPID = row.Detail.slice(5, 9); //Extract the ID only
+        for (var i = 0; i < processNameList.length; i++) {
+            if (row.Path.endsWith("\\" + processNameList[i])) {
+                obj.targetProcessName = row.Path.replace(/^.*[\\\/]/, '');
+            }
         }
 
         if (row.Operation == 'UDP Send') {
@@ -99,7 +103,9 @@ function ProcessDataV2(orginalData,domain) {
             obj.library = row.Path.replace(/^.*[\\\/]/, '')
         }
         //Push value
-        globalData.push(obj);
+        if (row.Process_Name.toLowerCase() !== "procmon.exe") {
+            globalData.push(obj);
+        }
 
         //After pushing data update previous time
         previoustime = currentTimeStamp;
@@ -109,33 +115,85 @@ function ProcessDataV2(orginalData,domain) {
 }
 
 function UpdateProcessNameWithChild(processLst, links) {
-    console.log(JSON.parse(JSON.stringify(processLst)));
-    console.log(JSON.parse(JSON.stringify(links)));
-
+    console.log(processLst);
+    console.log(links);
     processLst.forEach(function (proc, parentIndex) {
-        proc.event = [];
         proc.childs = [];
         links.forEach(function (link) {
-            if (proc.key == link.Process_Name) {
-                console.log()
+            if (proc.key == link.Process_Name) {    // if key = parent
                 let index = getProcessNameIndex(processLst, link.targetProcessName);
-                if (!proc.childs.includes(index) && index != parentIndex) {
+                // index = stt child in processLst
+
+                if (index != parentIndex) {
+                    // if chld != parent
+
                     //Check for loop insertion
                     if (processLst[index].hasOwnProperty('childs')) {
                         if (!processLst[index].childs.includes(parentIndex)) {
-                            proc.childs.push(index);
-                            proc.event.push(link.Operation)
+                            proc.childs.push({
+                                index: index,
+                                event: link.Operation,
+                                step: link.Step
+                            });
                         }
                     } else {
-                        proc.childs.push(index);
-                        proc.event.push(link.Operation)
+                        proc.childs.push({
+                            index: index,
+                            event: link.Operation,
+                            step: link.Step
+                        });
                     }
                 }
             }
         })
+
+        // links.forEach(function (link) {
+        //     if (proc.key == link.Process_Name) {    // if key = parent
+        //         let index = getProcessNameIndex(processLst, link.targetProcessName);
+        //         // index = stt child in processLst
+        //
+        //         if (!proc.childs.includes(index) && index != parentIndex) {
+        //             // if parent have havd that child counted & chld != parent
+        //
+        //             //Check for loop insertion
+        //             if (processLst[index].hasOwnProperty('childs')) {
+        //                 if (!processLst[index].childs.includes(parentIndex)) {
+        //                     proc.childs.push(index);
+        //                     proc.event.push(link.Operation)
+        //                 }
+        //             } else {
+        //                 proc.childs.push(index);
+        //                 proc.event.push(link.Operation)
+        //             }
+        //         }
+        //     }
+        // })
     });
     return processLst;
 }
+
+//
+// function UpdateProcessNameWithChild(processLst, links) {
+//     processLst.forEach(function (proc, parentIndex) {
+//         proc.childs = [];
+//         links.forEach(function (link) {
+//             if (proc.key == link.Process_Name) {
+//                 var index = getProcessNameIndex(processLst, link.targetProcessName);
+//                 if (!proc.childs.includes(index) && index != parentIndex) {
+//                     //Check for loop insertion
+//                     if (processLst[index].hasOwnProperty('childs')) {
+//                         if (!processLst[index].childs.includes(parentIndex)) {
+//                             proc.childs.push(index)
+//                         }
+//                     } else {
+//                         proc.childs.push(index)
+//                     }
+//                 }
+//             }
+//         })
+//     })
+//     return processLst;
+// }
 
 function getProcessNameIndex(processlst, key) {
     let index;

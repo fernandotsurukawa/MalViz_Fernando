@@ -1394,7 +1394,6 @@ function applicationManager(globalData) {
             var haveExeChild = [];
             var operationKeys = group_by_process_name.map(d => d.key);
 
-            console.log(operationKeys);
             globalData.forEach(d => {
                 for (var i = 0; i < operationKeys.length; i++){
                     if (d.Path.endsWith("\\" + operationKeys[i])){
@@ -1403,21 +1402,40 @@ function applicationManager(globalData) {
                 }
             });
 
-
+            // var group_by_process_create = getData.getdatabyOperation;
             // group_by_process_create = group_by_process_create.filter(function (value) {
             //     return value.key == 'Process Create'
             // })[0].values;
+            // var updated_data = UpdateProcessNameWithChild(group_by_process_name, group_by_process_create);
 
             var updated_data = UpdateProcessNameWithChild(group_by_process_name, haveExeChild);
 
-            console.log(JSON.parse(JSON.stringify(updated_data)));
             for (var i = 0; i < updated_data.length; i++) {
                 updated_data[i].children = [];
+                // for (var j = 0; j < updated_data[i].childs.length; j++) {
+                //     // j is index of child
+                //     var obj = {};
+                //     obj.source = updated_data[updated_data[i].childs[j].index];
+                //     updated_data[i].children.push(Object.assign({
+                //         event: updated_data[i].childs[j].event,
+                //         step: updated_data[i].childs[j].step
+                //     }, obj.source));
+                // }
+
+                // for (var j = 0; j < updated_data[i].childs.length; j++) {
+                //     var obj = updated_data[updated_data[i].childs[j]];
+                //     obj.type = updated_data[i].event[j];
+                //     updated_data[i].children.push(obj);
+                // }
+
                 for (var j = 0; j < updated_data[i].childs.length; j++) {
-                    var obj = updated_data[updated_data[i].childs[j]];
-                    obj.type = updated_data[i].event[j];
-                    updated_data[i].children.push(obj);
+                    updated_data[i].children[j] = {};
+
+                    updated_data[i].children[j] = JSON.parse(JSON.stringify(updated_data[updated_data[i].childs[j]["index"]]));
+                    updated_data[i].children[j].event = updated_data[i].childs[j].event;
+                    updated_data[i].children[j].step = updated_data[i].childs[j].step;
                 }
+
                 // sort children
                 updated_data[i].children.sort(function (a, b) {
                     if (a.childs.length < b.childs.length) {
@@ -1457,18 +1475,20 @@ function applicationManager(globalData) {
                         return 0;
                 }
             });
+            console.log(updated_data);
             var orderedArray = [];
-            var nextIndex = 0;
 
-            for (var i = 0; i < updated_data.length; i++) {
-                dfs(updated_data[i], orderedArray);
-            }
-
-            // DFS
+             // for (var i = 0; i < updated_data.length; i++) {
+             //     dfs(updated_data[i], orderedArray);
+             // }
+            orderedArray = updated_data;
+            console.log(orderedArray);
+            // DFS - convert tree to array using DFS
             function dfs(o, array) {
                 if (o.isDone == undefined) {
                     array.push(o);
                     o.isDone = true;
+                    // set true
                     if (o.children != undefined) {
                         for (var i = 0; i < o.children.length; i++) {
                             dfs(o.children[i], array);
@@ -1857,7 +1877,7 @@ function applicationManager(globalData) {
                                 svg_process_name.selectAll(".detail_path_" + index + "_" + index2)
                                     .transition().duration(200)
                                     .attr('transform', function () {
-                                        var posX = (StepScale(child.values[0].Step, true)) * rect_width + margin_left;
+                                        var posX = (StepScale(child.step, true)) * rect_width + margin_left;
                                         var posY = (getProcessNameIndex(updated_data, child.key) + index) * group_rect_height / 2 + group_rect_height / 2;
                                         return 'translate(' + posX + ',' + posY + ')';
                                     });
@@ -2004,7 +2024,6 @@ function applicationManager(globalData) {
                 });
 
             group_by_process_name.forEach(function (row, index) {
-
                 var group = svg_process_name.append('g')
                     .attr("transform", "translate(0," + index * group_rect_height + ")");
 
@@ -2195,7 +2214,7 @@ function applicationManager(globalData) {
                         d.children.forEach(function (child, index2) {
                             svg_process_name.selectAll(".detail_path_" + index + "_" + index2).transition().duration(200)
                                 .attr('transform', function () {
-                                    var posX = (StepScale(child.values[0].Step)) * rect_width + margin_left;
+                                    var posX = (StepScale(child.step)) * rect_width + margin_left;
                                     var posY = (getProcessNameIndex(updated_data, child.key) + index) * group_rect_height / 2 + group_rect_height / 2;
                                     return 'translate(' + posX + ',' + posY + ')';
                                 });
@@ -2220,7 +2239,6 @@ function applicationManager(globalData) {
                 if (d.children.length > 0) {
                     d.children.forEach(function (child, index2) {
                         var signedOrienation = getProcessNameIndex(updated_data, child.key) - index;
-
                         svg_process_name
                             .append("svg:defs")
                             .selectAll(".arrow")
@@ -2233,7 +2251,7 @@ function applicationManager(globalData) {
                             .attr("refY", 4)
                             .attr("markerWidth", 8)
                             .attr("markerHeight", 8)
-                            .style("fill", d => colorPicker(d.type))
+                            .style("fill", d => colorPicker(d.event))
                             .attr("orient", 0)
                             .append('path')
                             .attr('d', 'M0,0 L0,8 L8,4 z');
@@ -2246,11 +2264,12 @@ function applicationManager(globalData) {
                                 .startAngle(signedOrienation > 0? -Math.PI : Math.PI/90) //converting from degs to
                                 // radians
                                 .endAngle(signedOrienation > 0? Math.PI/90 : -Math.PI ))
-                            .attr('fill', colorPicker(child.type))
+                            .attr('fill', colorPicker(child.event))
                             .attr('source', index)
                             .attr('target', getProcessNameIndex(updated_data, child.key))
                             .attr('transform', function () {
-                                var posX = (StepScale(child.values[0].Step)) * rect_width + margin_left ;
+
+                                var posX = (StepScale(child.step)) * rect_width + margin_left ;
                                 var posY = (getProcessNameIndex(updated_data, child.key) + index) * group_rect_height / 2 + group_rect_height / 2;
 
                                 return 'translate(' + posX + ',' + posY + ')';

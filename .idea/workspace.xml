@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8b82504-1950-4318-aa3d-f800f494b894" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/metadata/Notes.md" beforeDir="false" afterPath="$PROJECT_DIR$/metadata/Notes.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/underscore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/appManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/appManager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/ultility.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/ultility.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -58,23 +62,24 @@
           <entry key="project.open.time.0" value="5" />
           <entry key="project.open.time.1" value="2" />
           <entry key="project.open.time.29" value="1" />
+          <entry key="project.open.time.36" value="1" />
           <entry key="project.open.time.48" value="1" />
           <entry key="project.open.time.61" value="1" />
-          <entry key="project.opened" value="10" />
+          <entry key="project.opened" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="html" value="152" />
-          <entry key="js" value="2764" />
-          <entry key="md" value="2051" />
+          <entry key="html" value="159" />
+          <entry key="js" value="4241" />
+          <entry key="md" value="2052" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="152" />
-          <entry key="JavaScript" value="2764" />
-          <entry key="Markdown" value="2051" />
+          <entry key="HTML" value="159" />
+          <entry key="JavaScript" value="4241" />
+          <entry key="Markdown" value="2052" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -83,7 +88,7 @@
           <entry key="css" value="1" />
           <entry key="csv" value="1" />
           <entry key="html" value="7" />
-          <entry key="js" value="3" />
+          <entry key="js" value="5" />
           <entry key="json" value="4" />
           <entry key="md" value="3" />
           <entry key="ts" value="1" />
@@ -95,7 +100,7 @@
           <entry key="CSV" value="3" />
           <entry key="HTML" value="7" />
           <entry key="JSON" value="4" />
-          <entry key="JavaScript" value="3" />
+          <entry key="JavaScript" value="5" />
           <entry key="Markdown" value="3" />
           <entry key="TypeScript" value="1" />
         </counts>
@@ -107,20 +112,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/ultility.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="672">
-              <caret line="28" column="53" selection-start-line="28" selection-start-column="53" selection-end-line="28" selection-end-column="53" />
+            <state relative-caret-position="604">
+              <caret line="126" column="20" selection-start-line="126" selection-start-column="20" selection-end-line="126" selection-end-column="20" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/metadata/Notes.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="915">
-                <caret line="54" column="111" lean-forward="true" selection-start-line="54" selection-start-column="111" selection-end-line="54" selection-end-column="111" />
-              </first_editor>
-              <second_editor />
+        <entry file="file://$PROJECT_DIR$/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="6" column="6" lean-forward="true" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -128,17 +130,14 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/appManager.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="33576">
-              <caret line="1399" column="30" selection-start-line="1399" selection-start-column="30" selection-end-line="1399" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4368">
-              <caret line="182" selection-start-line="182" selection-end-line="182" />
+            <state relative-caret-position="441">
+              <caret line="1478" column="34" lean-forward="true" selection-start-line="1478" selection-start-column="34" selection-end-line="1478" selection-end-column="34" />
+              <folding>
+                <element signature="e#6#12#0" expanded="true" />
+                <element signature="e#6#12#0" expanded="true" />
+                <element signature="e#6#12#0" expanded="true" />
+                <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -148,18 +147,13 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>outline.</find>
-      <find>orderedArray</find>
-      <find>visibi</find>
-      <find>console</find>
-      <find>stream</find>
       <find>streamdra</find>
       <find>group_by_process_name</find>
       <find>detail_</find>
@@ -173,7 +167,6 @@
       <find>updatepro</find>
       <find>Path</find>
       <find>child</find>
-      <find>childs</find>
       <find>UpdateProcessNameWithChild</find>
       <find>colorp</find>
       <find>'detail_path_</find>
@@ -183,8 +176,14 @@
       <find>arrow</find>
       <find>scrol</find>
       <find>update</find>
-      <find>updated</find>
       <find>group_by_process_create</find>
+      <find>type</find>
+      <find>updated</find>
+      <find>childre</find>
+      <find>childs</find>
+      <find>children</find>
+      <find>ordered</find>
+      <find>orderedA</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -202,10 +201,11 @@
         <option value="$PROJECT_DIR$/bin/Miserables.html" />
         <option value="$PROJECT_DIR$/bin/Transition.html" />
         <option value="$PROJECT_DIR$/main.css" />
+        <option value="$PROJECT_DIR$/metadata/Notes.md" />
+        <option value="$PROJECT_DIR$/lib/underscore.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/appManager.js" />
         <option value="$PROJECT_DIR$/js/ultility.js" />
-        <option value="$PROJECT_DIR$/metadata/Notes.md" />
       </list>
     </option>
   </component>
@@ -217,7 +217,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="1502" />
+    <option name="width" value="1168" />
     <option name="height" value="1417" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -242,6 +242,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -257,13 +258,17 @@
             <path>
               <item name="MalViz" type="b2602c69:ProjectViewProjectNode" />
               <item name="MalViz" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MalViz" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MalViz" type="462c0819:PsiDirectoryNode" />
               <item name="metadata" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -324,24 +329,25 @@
       <workItem from="1553049105588" duration="21898000" />
       <workItem from="1553179396872" duration="12760000" />
       <workItem from="1553219428006" duration="104000" />
-      <workItem from="1553219555380" duration="4961000" />
+      <workItem from="1553219555380" duration="27548000" />
+      <workItem from="1553357541883" duration="2773000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="95285000" />
+    <option name="totallyTimeSpent" value="120645000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1502" height="1417" extended-state="0" />
+    <frame x="0" y="23" width="1168" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11343687" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14646906" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3295107" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.17341483" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.17341483" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -441,34 +447,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/ultility.js">
+    <entry file="file://$PROJECT_DIR$/metadata/Notes.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="1097">
+            <caret line="58" column="77" selection-start-line="58" selection-start-column="77" selection-end-line="58" selection-end-column="77" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/underscore.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="672">
-          <caret line="28" column="53" selection-start-line="28" selection-start-column="53" selection-end-line="28" selection-end-column="53" />
+        <state relative-caret-position="177">
+          <caret line="1658" column="24" lean-forward="true" selection-start-line="1658" selection-start-column="24" selection-end-line="1658" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/appManager.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="33576">
-          <caret line="1399" column="30" selection-start-line="1399" selection-start-column="30" selection-end-line="1399" selection-end-column="30" />
+        <state relative-caret-position="441">
+          <caret line="1478" column="34" lean-forward="true" selection-start-line="1478" selection-start-column="34" selection-end-line="1478" selection-end-column="34" />
+          <folding>
+            <element signature="e#6#12#0" expanded="true" />
+            <element signature="e#6#12#0" expanded="true" />
+            <element signature="e#6#12#0" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ultility.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="604">
+          <caret line="126" column="20" selection-start-line="126" selection-start-column="20" selection-end-line="126" selection-end-column="20" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4368">
-          <caret line="182" selection-start-line="182" selection-end-line="182" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/metadata/Notes.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="915">
-            <caret line="54" column="111" lean-forward="true" selection-start-line="54" selection-start-column="111" selection-end-line="54" selection-end-column="111" />
-          </first_editor>
-          <second_editor />
+        <state relative-caret-position="144">
+          <caret line="6" column="6" lean-forward="true" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
         </state>
       </provider>
     </entry>
