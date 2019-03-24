@@ -1348,6 +1348,7 @@ function applicationManager(globalData) {
                         div.html('Operation: ' + child.key + "<br/> Total calls: " + child.values.length.toLocaleString() + "<br/>")
                             .style("left", (d3.event.pageX) + 5 + "px")
                             .style("top", (d3.event.pageY - 28) + "px")
+                            .style("pointer-events", "none")
                             .style("background-color", "#cccccc")
                             .style("padding", "5px");
                     }).on('mouseleave', function (d) {
@@ -1453,22 +1454,11 @@ function applicationManager(globalData) {
             console.log(updated_data);
             var orderedArray = [];
 
-            function calculateDistance(updated_data){
-                var sum = 0;
-                updated_data.forEach((parentProcess, pIndex) => {
-                    d3.keys(parentProcess.childInfo).forEach(childProcess => {
-                        sum += parentProcess.childInfo[childProcess].length * Math.abs(getProcessNameIndex(updated_data, childProcess) - pIndex)
-                    })
-                });
-                return sum;
-            }
-
             for (var i = 0; i < updated_data.length; i++) {
                 dfs(updated_data[i], orderedArray);
             }
             // orderedArray = updated_data;
             console.log(orderedArray);
-
             // console.log(calculateDistance(orderedArray));
 
             // DFS - convert tree to array using DFS
@@ -1498,6 +1488,15 @@ function applicationManager(globalData) {
                 return array;
             }
 
+            function calculateDistance(orderedArray){
+                var sum = 0;
+                orderedArray.forEach((parentProcess, pIndex) => {
+                    d3.keys(parentProcess.childInfo).forEach(childProcess => {
+                        sum += parentProcess.childInfo[childProcess].length * Math.abs(getProcessNameIndex(orderedArray, childProcess) - pIndex)
+                    })
+                });
+                return sum;
+            }
             var margin_left = 30;  // min margin = 30
             var rect_height = 30, rect_margin_top = 5, group_rect_height = rect_height + rect_margin_top;
             var rect_normal_height = rect_height - 8;
@@ -2150,7 +2149,8 @@ function applicationManager(globalData) {
                                     + "</tr>"
                                     + "</table>")
                                 .style("left", (d3.event.pageX) + 20 + "px")
-                                .style("top", (d3.event.pageY + 20) + "px");
+                                .style("top", (d3.event.pageY + 20) + "px")
+                                .style("pointer-events", "none");
                         }
                     })
                     .on('click', function (d) {
@@ -2282,11 +2282,27 @@ function applicationManager(globalData) {
                                     d3.selectAll(".arc")
                                         .attr("opacity", 0.2);
                                     d3.select('.detail_path_' + pIndex + "_" + cIndex+"_"+i)
-                                        .attr("opacity", 1)
+                                        .attr("opacity", 1);
+                                    div3.transition()
+                                        .duration(200)
+                                        .style("visibility", "visible");
+
+                                    div3.html('Source: ' +
+                                        '<text class = "bold">' + parentProcess.key + "</text><br/> Target: " + '<text class = "bold">' + childProcess.key + "</text><br/>")
+                                        .style("left", (d3.event.pageX) + 10 + "px")
+                                        .style("top", (d3.event.pageY - 40) + "px")
+                                        .style("pointer-events", "none")
+                                        .style("background-color", () => {
+                                                // return colorPicker(child.event).replace("(", "a(").replace(")", ", 0.8)");
+                                            return "#dddddd"
+                                            }
+                                        )
                                 })
                                 .on("mouseout", function(){
                                     d3.selectAll(".arc")
-                                        .attr("opacity", 1)
+                                        .attr("opacity", 1);
+
+                                    div3.style("visibility", "hidden");
                                 })
 
                         })
@@ -2294,6 +2310,14 @@ function applicationManager(globalData) {
                     })
                 }
             });
+            function hexToRgb(hex) {
+                var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                return result ? {
+                    r: parseInt(result[1], 16),
+                    g: parseInt(result[2], 16),
+                    b: parseInt(result[3], 16)
+                } : null;
+            }
 
             for (var i = 0; i < lines.length; i++) {
                 var obj = new Object();

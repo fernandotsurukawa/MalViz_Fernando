@@ -115,7 +115,6 @@ div.tooltip {
 }
 
 div.tooltip2 {
-
     border-radius: 10px;
     border: 2px solid #666666;
     position: absolute;
@@ -124,9 +123,22 @@ div.tooltip2 {
     height: auto;
     font: 13px sans-serif;
     pointer-events: none;
-
 }
 
+div.tooltip3 {
+    padding: 6px;
+    border-radius: 10px;
+    position: absolute;
+    text-align: left;
+    width: auto;
+    height: auto;
+    font: 14px sans-serif;
+    pointer-events: none;
+    display:inline-block
+}
+.tooltip3 .bold {
+    font-weight: bold;
+}
 /*.tooltip2 span {*/
 /*padding-top:7px;*/
 /*padding-bottom: 8px;*/
