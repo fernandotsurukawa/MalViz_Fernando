@@ -1410,14 +1410,6 @@ function applicationManager(globalData) {
                     updated_data[i].children[j] = updated_data[updated_data[i].childs[j]];
                 }
 
-                // for (var j = 0; j < updated_data[i].childs.length; j++) {
-                //     updated_data[i].children[j] = {};
-                //
-                //     updated_data[i].children[j] = JSON.parse(JSON.stringify(updated_data[updated_data[i].childs[j]["index"]]));
-                //     updated_data[i].children[j].event = updated_data[i].childs[j].event;
-                //     updated_data[i].children[j].step = updated_data[i].childs[j].step;
-                // }
-
                 // sort children
                 updated_data[i].children.sort(function (a, b) {
                     if (a.childs.length < b.childs.length) {
@@ -1457,14 +1449,27 @@ function applicationManager(globalData) {
                         return 0;
                 }
             });
+
             console.log(updated_data);
             var orderedArray = [];
+
+            function calculateDistance(updated_data){
+                var sum = 0;
+                updated_data.forEach((parentProcess, pIndex) => {
+                    d3.keys(parentProcess.childInfo).forEach(childProcess => {
+                        sum += parentProcess.childInfo[childProcess].length * Math.abs(getProcessNameIndex(updated_data, childProcess) - pIndex)
+                    })
+                });
+                return sum;
+            }
 
             for (var i = 0; i < updated_data.length; i++) {
                 dfs(updated_data[i], orderedArray);
             }
             // orderedArray = updated_data;
             console.log(orderedArray);
+
+            // console.log(calculateDistance(orderedArray));
 
             // DFS - convert tree to array using DFS
             function dfs(o, array) {
