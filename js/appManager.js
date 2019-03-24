@@ -2056,9 +2056,10 @@ function applicationManager(globalData) {
                 group.append('text').attr("class", "malName" + index).text(row.key.substring(0, 20))
                     .attr('x', ((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 5).attr('y', group_rect_height / 2)
                     .attr('text-anchor', 'start');
+                
                 //======================= rectDraw for process here ================================
                 var rect = group.selectAll('rect').data(row.values
-                    .filter(d => d["Process"] !== "Profiling")
+                    // .filter(d => d["Process"] !== "Profiling")
                 ).enter().append('rect')
                     .attr('class', function (d, i) {
                         return d.Operation.replace(" ", "_");
@@ -2091,7 +2092,14 @@ function applicationManager(globalData) {
                     .style('fill-opacity', 0.4)
                     .attr('fill', function (d) {
                         return colorPicker(d.Operation);
-                    }).on('mouseover', function (d) {
+                    })
+                    .style("display", d => {
+                        if (d["Process"] !== "Profiling"){
+                            return "block"
+                        }
+                        else return "none"
+                    })
+                    .on('mouseover', function (d) {
                         if (d.Operation == 'UDP Send' && d.hasOwnProperty('VirusTotal')) {
 
                             div.transition()
@@ -2261,7 +2269,7 @@ function applicationManager(globalData) {
                         var signedOrienation = getProcessNameIndex(updated_data, childProcess.key) - pIndex;
                         parentProcess.childInfo[childProcess.key].forEach((child, i) => {
                             svg_process_name
-                                .append('path').attr("class", 'arc detail_path_' + pIndex + "_" + cIndex + "_" + i)
+                                .append('path').attr("class", 'arc detail_path_' + pIndex + "_" + cIndex)
                                 .attr('d', d3.arc()
                                     .innerRadius(Math.abs(signedOrienation) * group_rect_height / 2 - 1)
                                     .outerRadius(Math.abs(signedOrienation) * group_rect_height / 2)
@@ -2280,16 +2288,16 @@ function applicationManager(globalData) {
                                 .attr("marker-end", "url(#arrow_"+pIndex+"_"+cIndex+"_"+i+")")
                                 .on("mouseover", function(){
                                     d3.selectAll(".arc")
-                                        .attr("opacity", 0.2);
-                                    d3.select('.detail_path_' + pIndex + "_" + cIndex+"_"+i)
+                                        .attr("opacity", 0);
+                                    d3.selectAll('.detail_path_' + pIndex + "_" + cIndex)
                                         .attr("opacity", 1);
                                     div3.transition()
                                         .duration(200)
-                                        .style("visibility", "visible");
+                                        .style("opacity", 1);
 
                                     div3.html('Source: ' +
                                         '<text class = "bold">' + parentProcess.key + "</text><br/> Target: " + '<text class = "bold">' + childProcess.key + "</text><br/>")
-                                        .style("left", (d3.event.pageX) + 10 + "px")
+                                        .style("left", (d3.event.pageX) + 20 + "px")
                                         .style("top", (d3.event.pageY - 40) + "px")
                                         .style("pointer-events", "none")
                                         .style("background-color", () => {
@@ -2302,7 +2310,7 @@ function applicationManager(globalData) {
                                     d3.selectAll(".arc")
                                         .attr("opacity", 1);
 
-                                    div3.style("visibility", "hidden");
+                                    div3.style("opacity", 0);
                                 })
 
                         })

@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8b82504-1950-4318-aa3d-f800f494b894" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/appManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/appManager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/main.css" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -71,16 +69,16 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="30" />
-          <entry key="html" value="163" />
-          <entry key="js" value="5749" />
+          <entry key="html" value="164" />
+          <entry key="js" value="5859" />
           <entry key="md" value="2052" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="30" />
-          <entry key="HTML" value="163" />
-          <entry key="JavaScript" value="5749" />
+          <entry key="HTML" value="164" />
+          <entry key="JavaScript" value="5859" />
           <entry key="Markdown" value="2052" />
         </counts>
       </usages-collector>
@@ -120,11 +118,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="74">
-              <caret line="151" column="79" lean-forward="true" selection-start-line="151" selection-start-column="79" selection-end-line="151" selection-end-column="79" />
+            <state relative-caret-position="170">
+              <caret line="155" column="29" lean-forward="true" selection-start-line="155" selection-start-column="29" selection-end-line="155" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -138,11 +136,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/appManager.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
-              <caret line="2215" column="45" selection-start-line="2215" selection-start-column="45" selection-end-line="2215" selection-end-column="45" />
+            <state relative-caret-position="408">
+              <caret line="2290" column="85" selection-start-line="2290" selection-start-column="85" selection-end-line="2290" selection-end-column="85" />
               <folding>
                 <element signature="e#6#12#0" expanded="true" />
                 <element signature="e#6#12#0" expanded="true" />
@@ -188,13 +186,13 @@
       <find>ordered</find>
       <find>2, 5</find>
       <find>dfs</find>
-      <find>rectdr</find>
-      <find>.arc</find>
       <find>total ca</find>
       <find>div.</find>
       <find>div2</find>
       <find>div3</find>
+      <find>rectdr</find>
       <find>bold</find>
+      <find>.arc</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -347,12 +345,12 @@
       <workItem from="1553380741635" duration="428000" />
       <workItem from="1553381337416" duration="2342000" />
       <workItem from="1553450671451" duration="1421000" />
-      <workItem from="1553452332903" duration="4839000" />
+      <workItem from="1553452332903" duration="5664000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="141148000" />
+    <option name="totallyTimeSpent" value="141973000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1191" height="1417" extended-state="0" />
@@ -475,13 +473,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="74">
-          <caret line="151" column="79" lean-forward="true" selection-start-line="151" selection-start-column="79" selection-end-line="151" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1016">
@@ -491,14 +482,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/appManager.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="2215" column="45" selection-start-line="2215" selection-start-column="45" selection-end-line="2215" selection-end-column="45" />
+        <state relative-caret-position="408">
+          <caret line="2290" column="85" selection-start-line="2290" selection-start-column="85" selection-end-line="2290" selection-end-column="85" />
           <folding>
             <element signature="e#6#12#0" expanded="true" />
             <element signature="e#6#12#0" expanded="true" />
             <element signature="e#6#12#0" expanded="true" />
             <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="155" column="29" lean-forward="true" selection-start-line="155" selection-start-column="29" selection-end-line="155" selection-end-column="29" />
         </state>
       </provider>
     </entry>
