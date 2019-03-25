@@ -2046,6 +2046,8 @@ function applicationManager(globalData) {
                 maxBin = d3.max(global_data, d => d.binStep);
 
                 var a = group.map(process => {
+
+                    console.log(process);
                     process.values.forEach(d => {
                         d.binStep = Math.round(d.Step / bin);
                     });
@@ -2063,14 +2065,14 @@ function applicationManager(globalData) {
                         );
 
                     // add dummy points
-                    process.lib = [];
+                    process.calls = [];
                     for (var i = 0; i < maxBin + 1; i++) {
-                        process.lib.push(binData.find(d => d.key == i) ?
+                        process.calls.push(binData.find(d => d.key == i) ?
                             binData.find(d => d.key == i).value : defaultValue)
                     }
                     return {
                         process: process.key,
-                        calls: process.lib
+                        calls: process.calls
                     }
                 });
                 // console.log(d3.keys(ref).sort((a,b) => {return a.length - b.length}));
