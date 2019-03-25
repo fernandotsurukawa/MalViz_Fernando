@@ -6,6 +6,19 @@
     border: 1px solid #9a9a9a;
     padding: 10px;
 }
+.normV {
+    visibility: visible;
+}
+.normH {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}
+.hidden {
+    visibility: hidden;
+}
 
 .ticks {
     font: 10px sans-serif;
@@ -16,7 +29,7 @@
 .op1 {
     stroke-width: 3px;
     stroke-opacity: 1;
-    stroke: #ffff6f;
+    stroke: #e3e985;
     stroke-alignment: inner;
 }
 .op2{

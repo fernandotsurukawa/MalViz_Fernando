@@ -1315,7 +1315,6 @@ function applicationManager(globalData) {
 
             // group_by_operation.map(d => d.key).filter(d => d.Process !== "Profiling");
 
-            console.log(group_by_process);
             var xScale = d3.scaleLinear()
                 .domain([0, d3.max(group_by_process, function (d) {
                     return d.values.length;
@@ -1337,7 +1336,6 @@ function applicationManager(globalData) {
                 });
                 var xpos = margin_left;
 
-                console.log(child_process);
                 child_process.forEach(function (child) {
                     group.append('rect').attr('x', function (d) {
                         return xpos;
@@ -1379,6 +1377,7 @@ function applicationManager(globalData) {
                         .on("click", function (d) {
                             document.getElementById("opSelection").checked = false;
                             if (firstClick === undefined) {
+                                var key1 = child.key.replace(" ", "");
                                 firstClick = true;
                                 // first, hide all
                                 // hide rect
@@ -1386,7 +1385,8 @@ function applicationManager(globalData) {
                                     .style('visibility', "hidden");
 
                                 // hide arc
-                                d3.selectAll(".arc").style("visibility", "hidden");
+                                d3.selectAll(".arc")
+                                    .classed("hidden", true);
 
                                 // unselect group
                                 svgStats.selectAll("rect")
@@ -1394,41 +1394,53 @@ function applicationManager(globalData) {
                                     .classed("op1 op2", false);
 
                                 // then, visible selection
-                                console.log(child.key.replace(" ", ""));
+                                console.log(key1);
                                 //show rect
-                                d3.select("#heatmap").selectAll('rect.' + child.key.replace(" ", ""))
-                                    .style('visibility', "visible");
+                                d3.select("#heatmap").selectAll('rect.' + key1)
+                                    .style('visibility', "visible")
+                                    .raise();
 
                                 //show arc
-                                arcSelect = d3.selectAll("[class*=o"+child.key.replace(" ", "")+"]");
-                                arcSelect.style("visibility", "visible");
+                                arcSelect = d3.selectAll("[class*=o"+key1+"]");
+                                arcSelect
+                                    .classed("visible", !active[key1])
+                                    .classed("hidden", !!active[key1])
+                                    .raise();
 
                                 d3.select(this)
                                     .classed("op1", true)
                                     .classed("op0 op2", false);
+
+                                active[key1] = !active[key1];
                             }
                             else {
+                                var key2 = child.key.replace(" ", "");
                                 // second click
-                                var secondaryClass = d3.select(this).attr("class");
+                                console.log(active[key2]);
                                 // show group
                                 d3.select(this)
                                     .classed("op1", () => {
-                                        thisClass = d3.select(this).attr("class").split(" ")[0] + " op1";
-                                        return true;
+                                        let option = active[key2]? " op0" : " op1";
+                                        thisClass = d3.select(this).attr("class").split(" ")[0] + option;
+                                        return !active[key2];
                                     })
-                                    .classed("op0 op2", false);
+                                    .classed("op2", false)
+                                    .classed("op0", !!active[key2])
+                                ;
 
                                 // show arc
-                                arcSelect = d3.selectAll("[class*=o"+child.key.replace(" ", "")+"]");
-                                arcSelect.style("visibility", "visible");
+                                d3.selectAll("[class*=o"+key2+"]")
+                                    .classed("visible", !active[key2])
+                                    .classed("hidden", !!active[key2])
+                                    .raise();
 
                                 // show rect
-                                d3.select("#heatmap").selectAll('rect.' + child.key.replace(" ", ""))
-                                    .style('visibility', "visible");
+                                d3.select("#heatmap").selectAll('rect.' + key2)
+                                    .style('visibility', active[key2] ? "hidden" : "visible")
+                                    .raise();
+
+                                active[key2] = !active[key2];
                             }
-
-
-                            active = !active;
                         });
 
                     xpos += xScale(child.values.length) + 2;
@@ -1464,8 +1476,6 @@ function applicationManager(globalData) {
             var haveExeChild = [];
             var operationKeys = group_by_process_name.map(d => d.key);
 
-            console.log("group_by_process_name");
-            console.log(group_by_process_name);
             globalData.forEach(d => {
                 for (var i = 0; i < operationKeys.length; i++) {
                     if (d.Path.endsWith("\\" + operationKeys[i])) {
@@ -2353,10 +2363,17 @@ function applicationManager(globalData) {
                                 })
                                 .attr("marker-end", "url(#arrow_" + pIndex + "_" + cIndex + "_" + i + ")")
                                 .on("mouseover", function () {
-                                    d3.selectAll(".arc")
-                                        .style("visibility", "hidden");
-                                    d3.selectAll('.a' + pIndex + '_' + cIndex)
-                                        .style("visibility", "visible");
+                                    if (arcSelect){
+                                    }
+                                    else {
+                                        d3.selectAll(".arc")
+                                            .classed("normV", false)
+                                            .classed("normH", true);
+
+                                        d3.select('.path_' + pIndex + "_" + cIndex + "_" + i)
+                                            .classed("normV", true)
+                                            .classed("normH", false);
+                                    }
 
                                     div3.transition()
                                         .duration(200)
@@ -2375,11 +2392,14 @@ function applicationManager(globalData) {
                                 })
                                 .on("mouseout", function () {
                                     if (arcSelect){
-                                        arcSelect.style("visibility", "visible");
+                                        d3.selectAll(".arc.visible")
+                                            .classed("visible", true)
+                                            .classed("hidden", false);
                                     }
                                     else {
                                         d3.selectAll(".arc")
-                                            .style("visibility", "visible");
+                                            .classed("normV", true)
+                                            .classed("normH", false);
                                     }
 
                                     div3.style("opacity", 0);
