@@ -1,4 +1,5 @@
 function applicationManager(globalData) {
+    var operationShown = [];
     var [minStep, maxStep] = d3.extent(globalData, d => d.Step);
     var svgActionWidth;
     //var initStamp, maxStamp;
@@ -20,7 +21,7 @@ function applicationManager(globalData) {
             left: 150,
             bar_height: 35,
             scale_xMin: 10,
-            scale_xMax: 1000
+            scale_xMax: 800
         },
         MatrixArea: {
             padding: 1,
@@ -1299,12 +1300,19 @@ function applicationManager(globalData) {
     }
 
     return {
+        // data stats - overview
         drawStats: function (position) {
             var allProcess = [];
             var margin_left = settings.ProcessArea.left;
             var bar_height = settings.ProcessArea.bar_height;
             var group_by_process = getData.getdatabyProcess;
+            var group_by_operation = getData.getdatabyOperation;
 
+            // operationShown = d3.nest().key(d => d.Operation).entries(globalData)
+
+            // group_by_operation.map(d => d.key).filter(d => d.Process !== "Profiling");
+
+            console.log(group_by_process);
             var xScale = d3.scaleLinear()
                 .domain([0, d3.max(group_by_process, function (d) {
                     return d.values.length;
@@ -1314,7 +1322,7 @@ function applicationManager(globalData) {
             d3.select(position).selectAll("*").remove();
             var svgStats = d3.select(position).append('svg').attr("id", "overview").attr('width', '100%').attr('height', settings.ProcessArea.svg_height).attr("y", 0);
 
-            var active;
+            var active, firstClick, thisClass;
             group_by_process.forEach(function (process, index) {
                 var group = svgStats.append('g').attr("transform", "translate(0," + index * bar_height + ")");
                 var child_process = d3.nest().key(function (d) {
@@ -1326,6 +1334,7 @@ function applicationManager(globalData) {
                 });
                 var xpos = margin_left;
 
+                console.log(child_process);
                 child_process.forEach(function (child) {
                     group.append('rect').attr('x', function (d) {
                         return xpos;
@@ -1334,27 +1343,36 @@ function applicationManager(globalData) {
                             return xScale(child.values.length)
                         })
                         .attr('height', 30)
-                        .attr('class', child.key)
                         .attr('fill', function (d) {
                             return colorPicker(child.key);
-                        }).on('mouseover', function (d) {
-                        d3.select(this)
-                            .attr("stroke-width", "2px")
-                            .attr("stroke", "#3b3b3b");
+                        })
+                        .classed(child.key.replace(" ", ""), true)
+                        .classed("op0", child.key === "Process Profiling")
+                        .classed("op1", !(child.key === "Process Profiling"))
+                        
+                        .on('mouseover', function () {
+                            thisClass = d3.select(this).attr("class");
+                            d3.select(this)
+                                .classed("op2", true)
+                                .classed("op0 op1", false);
 
-                        div.transition()
-                            .duration(200)
-                            .style("opacity", .9);
-                        div.html('Operation: ' + child.key + "<br/> Total calls: " + child.values.length.toLocaleString() + "<br/>")
-                            .style("left", (d3.event.pageX) + 5 + "px")
-                            .style("top", (d3.event.pageY - 28) + "px")
-                            .style("pointer-events", "none")
-                            .style("background-color", "#cccccc")
-                            .style("padding", "5px");
-                    }).on('mouseleave', function (d) {
-                        d3.select(this).attr("stroke-width", "0px");
-                        div.style("opacity", 0)
-                    })
+                            div.transition()
+                                .duration(200)
+                                .style("opacity", .9);
+                            div.html('Operation: ' + child.key + "<br/> Total calls: " + child.values.length.toLocaleString() + "<br/>")
+                                .style("left", (d3.event.pageX) + 5 + "px")
+                                .style("top", (d3.event.pageY - 28) + "px")
+                                .style("pointer-events", "none")
+                                .style("background-color", "#cccccc")
+                                .style("padding", "5px");
+                        })
+                        .on('mouseleave', function (d) {
+                            div.style("opacity", 0);
+                            d3.select(this)
+                                .classed("op0 op1 op2", false)
+                                .classed(thisClass, true)
+
+                        })
 
                         .on("click", function (d) {
                             var allrect = d3.select("#heatmap").selectAll('rect[group=detail]').style('visibility', active ? "visible" : "hidden");
@@ -1367,8 +1385,15 @@ function applicationManager(globalData) {
                 group.append('text').text(process.key + " (" + process.values.length + ")").attr('x', 0).attr('y', 18);
             })
 
+            svgStats.append("input")
+                .attr("checked", true)
+                .attr("type", "checkbox")
+                .attr("id", "opSelect")
+                .attr("onClick", "change(this)")
+            //.attr("for", function(d,i) { return i; });
         },
 
+        // List of Operations (legend)
         drawStats2: function (position) {
             d3.select(position).selectAll("*").remove();
             var svgStats = d3.select(position).append('svg').attr('width', '100%').attr('height', 1110);
@@ -1380,11 +1405,10 @@ function applicationManager(globalData) {
                 rect.append('rect').attr('width', '20px').attr('height', '12px').attr('fill', function (d) {
                     return colorPicker(operation);
                 });
-                rect.append('text').text(operation).attr('x', '30px').style('color', 'black').style('font-size', '12px').attr('y', '8px')
+                rect.append('text').text(operation).attr('x', '30px').style('color', 'black').style('font-size', '12px').attr('y', '10px')
             })
         },
         loadMatrix: function () {
-
             return loadMatrix(global_links);
         },
 
@@ -1395,6 +1419,8 @@ function applicationManager(globalData) {
             var haveExeChild = [];
             var operationKeys = group_by_process_name.map(d => d.key);
 
+            console.log("group_by_process_name");
+            console.log(group_by_process_name);
             globalData.forEach(d => {
                 for (var i = 0; i < operationKeys.length; i++) {
                     if (d.Path.endsWith("\\" + operationKeys[i])) {
@@ -1451,14 +1477,13 @@ function applicationManager(globalData) {
                 }
             });
 
-            console.log(updated_data);
             var orderedArray = [];
 
             for (var i = 0; i < updated_data.length; i++) {
                 dfs(updated_data[i], orderedArray);
             }
             // orderedArray = updated_data;
-            console.log(orderedArray);
+
             // console.log(calculateDistance(orderedArray));
 
             // DFS - convert tree to array using DFS
@@ -1488,7 +1513,7 @@ function applicationManager(globalData) {
                 return array;
             }
 
-            function calculateDistance(orderedArray){
+            function calculateDistance(orderedArray) {
                 var sum = 0;
                 orderedArray.forEach((parentProcess, pIndex) => {
                     d3.keys(parentProcess.childInfo).forEach(childProcess => {
@@ -1497,6 +1522,7 @@ function applicationManager(globalData) {
                 });
                 return sum;
             }
+
             var margin_left = 30;  // min margin = 30
             var rect_height = 30, rect_margin_top = 5, group_rect_height = rect_height + rect_margin_top;
             var rect_normal_height = rect_height - 8;
@@ -1862,7 +1888,7 @@ function applicationManager(globalData) {
                         if (parentProcess.children.length > 0) {
                             parentProcess.children.forEach((childProcess, cIndex) => {
                                 parentProcess.childInfo[childProcess.key].forEach((child, i) => {
-                                    svg_process_name.selectAll('.detail_path_' + pIndex + "_" + cIndex + "_" + i)
+                                    svg_process_name.selectAll('.path_' + pIndex + "_" + cIndex + "_" + i)
                                         .transition().duration(200)
                                         .attr('transform', function () {
                                             var posX = (StepScale(child.step, true)) * rect_width + margin_left;
@@ -2019,8 +2045,8 @@ function applicationManager(globalData) {
                     .attr("transform", "translate(0," + index * group_rect_height + ")");
 
                 group.append('line').attr('stroke-dasharray', '2, 5').attr('stroke', 'black').attr('stroke-width', 0.5)
-                    // .attr('x1', (StepScale(row.values[0].Step) * rect_width + margin_left + 10)).attr('y1', rect_height / 2)
-                    // .attr('x2', (((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 10)).attr('y2', rect_height / 2);
+                // .attr('x1', (StepScale(row.values[0].Step) * rect_width + margin_left + 10)).attr('y1', rect_height / 2)
+                // .attr('x2', (((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 10)).attr('y2', rect_height / 2);
                     .attr('x1', (StepScale(minStep) * rect_width + margin_left + 10))
                     .attr('y1', rect_height / 2)
                     .attr('x2', (((StepScale(maxStep)) * rect_width + margin_left) + 10))
@@ -2056,7 +2082,7 @@ function applicationManager(globalData) {
                 group.append('text').attr("class", "malName" + index).text(row.key.substring(0, 20))
                     .attr('x', ((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 5).attr('y', group_rect_height / 2)
                     .attr('text-anchor', 'start');
-                
+
                 //======================= rectDraw for process here ================================
                 var rect = group.selectAll('rect').data(row.values
                     // .filter(d => d["Process"] !== "Profiling")
@@ -2094,7 +2120,7 @@ function applicationManager(globalData) {
                         return colorPicker(d.Operation);
                     })
                     .style("display", d => {
-                        if (d["Process"] !== "Profiling"){
+                        if (d["Process"] !== "Profiling") {
                             return "block"
                         }
                         else return "none"
@@ -2186,14 +2212,7 @@ function applicationManager(globalData) {
                             return 0
                         }
                     })
-                    // .style("visibility", function (d, i) {
-                    //     if (d.main) {
-                    //         return "visible"
-                    //     }
-                    //     else {
-                    //         return "hidden"
-                    //     }
-                    // })
+
                     .style("stroke-width", 1)
                     .style("stroke-dasharray", function (d, i) {
                         if (d.main) {
@@ -2217,7 +2236,7 @@ function applicationManager(globalData) {
                     if (parentProcess.children.length > 0) {
                         parentProcess.children.forEach((childProcess, cIndex) => {
                             parentProcess.childInfo[childProcess.key].forEach((child, i) => {
-                                svg_process_name.selectAll('.detail_path_' + pIndex + "_" + cIndex + "_" + i)
+                                svg_process_name.selectAll('.path_' + pIndex + "_" + cIndex + "_" + i)
                                     .transition().duration(200)
                                     .attr('transform', function () {
                                         var posX = (StepScale(child.step)) * rect_width + margin_left;
@@ -2269,7 +2288,7 @@ function applicationManager(globalData) {
                         var signedOrienation = getProcessNameIndex(updated_data, childProcess.key) - pIndex;
                         parentProcess.childInfo[childProcess.key].forEach((child, i) => {
                             svg_process_name
-                                .append('path').attr("class", 'arc detail_path_' + pIndex + "_" + cIndex)
+                                .append('path').attr("class", 'arc a' + pIndex + "_" + cIndex + ' path_' + pIndex + "_" + cIndex + "_" + i)
                                 .attr('d', d3.arc()
                                     .innerRadius(Math.abs(signedOrienation) * group_rect_height / 2 - 1)
                                     .outerRadius(Math.abs(signedOrienation) * group_rect_height / 2)
@@ -2280,16 +2299,16 @@ function applicationManager(globalData) {
                                 .attr('target', getProcessNameIndex(updated_data, childProcess.key))
                                 .attr('transform', function () {
 
-                                    var posX = (StepScale(child.step)) * rect_width + margin_left ;
+                                    var posX = (StepScale(child.step)) * rect_width + margin_left;
                                     var posY = (getProcessNameIndex(updated_data, childProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
 
                                     return 'translate(' + posX + ',' + posY + ')';
                                 })
-                                .attr("marker-end", "url(#arrow_"+pIndex+"_"+cIndex+"_"+i+")")
-                                .on("mouseover", function(){
+                                .attr("marker-end", "url(#arrow_" + pIndex + "_" + cIndex + "_" + i + ")")
+                                .on("mouseover", function () {
                                     d3.selectAll(".arc")
                                         .attr("opacity", 0);
-                                    d3.selectAll('.detail_path_' + pIndex + "_" + cIndex)
+                                    d3.selectAll('.a' + pIndex + '_' + cIndex)
                                         .attr("opacity", 1);
                                     div3.transition()
                                         .duration(200)
@@ -2298,15 +2317,15 @@ function applicationManager(globalData) {
                                     div3.html('Source: ' +
                                         '<text class = "bold">' + parentProcess.key + "</text><br/> Target: " + '<text class = "bold">' + childProcess.key + "</text><br/>")
                                         .style("left", (d3.event.pageX) + 20 + "px")
-                                        .style("top", (d3.event.pageY - 40) + "px")
+                                        .style("top", (d3.event.pageY - 30) + "px")
                                         .style("pointer-events", "none")
                                         .style("background-color", () => {
                                                 // return colorPicker(child.event).replace("(", "a(").replace(")", ", 0.8)");
-                                            return "#dddddd"
+                                                return "#dddddd"
                                             }
                                         )
                                 })
-                                .on("mouseout", function(){
+                                .on("mouseout", function () {
                                     d3.selectAll(".arc")
                                         .attr("opacity", 1);
 
@@ -2318,6 +2337,7 @@ function applicationManager(globalData) {
                     })
                 }
             });
+
             function hexToRgb(hex) {
                 var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
                 return result ? {

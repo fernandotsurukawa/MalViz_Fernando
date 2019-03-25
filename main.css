@@ -10,7 +10,21 @@
 .ticks {
     font: 10px sans-serif;
 }
-
+.op0{
+    stroke-width: 0px;
+}
+.op1 {
+    stroke-width: 3px;
+    stroke-opacity: 1;
+    stroke: #ababab;
+    stroke-alignment: inner;
+}
+.op2{
+    stroke-width: 3px;
+    stroke-opacity: 1;
+    stroke: #fde24f;
+    stroke-alignment: inner;
+}
 .track,
 .track-inset,
 .track-overlay {
@@ -132,7 +146,7 @@ div.tooltip3 {
     text-align: left;
     width: auto;
     height: auto;
-    font: 14px sans-serif;
+    font: 13px sans-serif;
     pointer-events: none;
     display:inline-block
 }
