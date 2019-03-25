@@ -1375,6 +1375,7 @@ function applicationManager(globalData) {
                         })
 
                         .on("click", function () {
+                            document.getElementById("opSelection").checked = false;
                             if (firstClick === undefined) {
                                 firstClick = true;
                                 var key1 = child.key.replace(" ", "");
