@@ -11,231 +11,16 @@
     <script src="lib/d3.v5.min.js"></script>
     <script src="https://d3js.org/d3.v4.js"></script>
     <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <!--<script src="lib/underscore.js"></script>-->
     <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://d3js.org/d3-scale.v3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
-
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="main.css">
 
-    <style>
-        .content {
-            width: 230px;
-            height: 180px;
-            overflow: auto;
-            background: #FFFFFF;
-            border: 1px solid #9a9a9a;
-            padding: 10px;
-        }
-
-        .ticks {
-            font: 10px sans-serif;
-        }
-
-        .track,
-        .track-inset,
-        .track-overlay {
-            stroke-linecap: round;
-        }
-
-        .track {
-            stroke: #bbb;
-            stroke-opacity: 0.3;
-            stroke-width: 5px;
-        }
-
-        .track-inset {
-            stroke: #888;
-            stroke-width: 8px;
-        }
-
-        .track-overlay {
-            pointer-events: stroke;
-            stroke-width: 50px;
-            stroke: transparent;
-            cursor: crosshair;
-        }
-
-        .handle {
-            fill: #fff;
-            stroke: #000;
-            stroke-opacity: 0.5;
-            stroke-width: 1.25px;
-        }
-
-        #loading {
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            position: fixed;
-            display: block;
-            opacity: 0.7;
-            background-color: #fff;
-            z-index: 99;
-            text-align: center;
-        }
-
-        #loading-image {
-            position: absolute;
-            top: 100px;
-            left: 240px;
-            z-index: 100;
-        }
-
-        #custom-handle {
-            width: 3em;
-            height: 1.6em;
-            top: 50%;
-            margin-top: -.8em;
-            text-align: center;
-            line-height: 1.6em;
-        }
-
-        .background {
-            fill: #eee;
-        }
-
-        text.active {
-            fill: red;
-        }
-
-        line {
-            stroke: #999;
-            stroke-opacity: .6;
-        }
-
-        .cell {
-            stroke-width: 0px;
-        }
-
-        .dllline {
-            stroke: #000;
-        }
-
-        rect {
-            z-index: 1;
-            border: 0px;
-        }
-
-        div.tooltip {
-            position: absolute;
-            text-align: center;
-            width: auto;
-            height: auto;
-            padding: 2px;
-            font: 12px sans-serif;
-            background: #bbb;
-            border: 0px;
-            border-radius: 8px;
-            pointer-events: none;
-        }
-
-        * {
-            word-wrap: break-word;
-        }
-
-        div.tooltip2 {
-
-            border-radius: 10px;
-            border: 2px solid #666666;
-            position: absolute;
-            text-align: center;
-            width: 300px;
-            height: auto;
-            font: 13px sans-serif;
-            pointer-events: none;
-
-        }
-
-        /*.tooltip2 span {*/
-        /*padding-top:7px;*/
-        /*padding-bottom: 8px;*/
-        /*font-size: 15px;*/
-        /*display:block;*/
-        /*opacity: 1;*/
-        /*background-color: #f7f7f7;*/
-        /*border-radius: 10px;*/
-        /*}*/
-
-        .tooltip2 table {
-            border-radius: 10px;
-            border-collapse: collapse;
-            table-layout: fixed;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .tooltip2 td {
-            border-collapse: collapse;
-            text-align: left;
-            padding: 8px;
-        }
-
-        .tooltip2 tr:nth-child(odd) {
-            border-collapse: collapse;
-            background-color: #f6f6f6;
-
-        }
-
-        .tooltip2 tr:nth-child(even) {
-            border-collapse: collapse;
-            background-color: #e1e1e1;
-        }
-
-        .tooltip2 .bold {
-            font-weight: bold;
-        }
-
-        .tooltip2:hover table {
-            visibility: visible;
-        }
-
-        .cell-hover {
-            color: red;
-            fill: red;
-        }
-
-        text.text-highlight {
-            fill: red;
-            font-weight: bold;
-        }
-
-        text.rowLabel {
-            font-size: 12px;
-        }
-
-        text.colLabel {
-            font-size: 12px;
-        }
-
-        text.active {
-            opacity: 1;
-        }
-
-        select.malware {
-            width: 200px;
-            height: 200px;
-        }
-
-        select.selectmalware {
-            width: 300px;
-        }
-
-        option.malicious {
-            color: red;
-            font-weight: bold;
-        }
-
-        option.undetected {
-            color: gray;
-        }
-
-        option.suspicious {
-            color: yellow;
-        }
-    </style>
 </head>
 <body>
 
@@ -305,6 +90,7 @@ Please select dataset:
         <tr>
             <td width="65%">
                 <div id="stats"></div>
+                <input type="checkbox" id="opSelection" onclick="selectAll()" checked> Select all
             </td>
             <td width="1%">
 
@@ -377,6 +163,9 @@ Please select dataset:
 <script src="js/ultility.js"></script>
 <script src="js/appManager.js"></script>
 <script>
+    let divOperation = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
 
     let div = d3.select("body").append("div")
         .attr("class", "tooltip")
@@ -384,6 +173,10 @@ Please select dataset:
 
     let div2 = d3.select("body").append("div")
         .attr("class", "tooltip2")
+        .style("opacity", 0);
+
+    let div3 = d3.select("body").append("div")
+        .attr("class", "tooltip3")
         .style("opacity", 0);
 
     $('select#selectmalware').on('change', function (e) {
@@ -575,40 +368,6 @@ Please select dataset:
                     return "#5d5d5d"
             }
         } else return "#5d5d5d"
-    }
-
-    function UpdateProcessNameWithChild(processLst, links) {
-        processLst.forEach(function (proc, parentIndex) {
-            proc.childs = [];
-            links.forEach(function (link) {
-                if (proc.key == link.Process_Name) {
-                    let index = getProcessNameIndex(processLst, link.targetProcessName);
-
-                    if (!proc.childs.includes(index) && index != parentIndex) {
-                        //Check for loop insertion
-                        if (processLst[index].hasOwnProperty('childs')) {
-                            if (!processLst[index].childs.includes(parentIndex)) {
-                                proc.childs.push(index)
-                            }
-                        } else {
-                            proc.childs.push(index)
-                        }
-                    }
-                }
-            })
-        })
-        return processLst;
-    }
-
-    function getProcessNameIndex(processlst, key) {
-        let index;
-        processlst.forEach(function (d, i) {
-            if (d.key == key) {
-                index = i;
-            }
-
-        })
-        return index;
     }
 
 

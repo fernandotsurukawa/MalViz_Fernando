@@ -1,10 +1,11 @@
 function applicationManager(globalData) {
-    var [minStep, maxStep] = d3.extent(globalData, d=> d.Step);
+    var arcSelect;
+    var [minStep, maxStep] = d3.extent(globalData, d => d.Step);
     var svgActionWidth;
     //var initStamp, maxStamp;
     var leftBound, rightBound;
 
-    var lensingMultiple = 10, granularity = 300;
+    var lensingMultiple = 10, granularity = 500;
     var initTimeStamp = d3.min(globalData, function (d) {
         return d.currenttimestamp;
     });
@@ -14,25 +15,13 @@ function applicationManager(globalData) {
         return d.currenttimestamp;
     });
 
-    // var minT = globalData.find(d => d.currenttimestamp === initTimeStamp);
-    //
-    // initStamp = {
-    //     step: minT.Step,
-    //     hour: minT.Hour,
-    //     minute: minT.Minute,
-    //     second: minT.Second,
-    //     millisecond: minT.Milisecond
-    // };
-    //
-    // var maxT = globalData.find(d => d.currenttimestamp === maxTimeStamp);
-
     var settings = {
         ProcessArea: {
             svg_height: 200,
             left: 150,
             bar_height: 35,
             scale_xMin: 10,
-            scale_xMax: 1000
+            scale_xMax: 800
         },
         MatrixArea: {
             padding: 1,
@@ -271,7 +260,6 @@ function applicationManager(globalData) {
                     }
                 }
                 if (minIndex >= 0) {
-                    // console.log(minIndex + " " + processArray[minIndex].name);
                     processArray[minIndex].isUsed = true;
                     processArray[minIndex].indexSimilarity = count;
                     startIndex = minIndex;
@@ -381,22 +369,6 @@ function applicationManager(globalData) {
             }
             return newIndex;
         }
-
-        // for (var i = 0; i < 10; i++) {
-        //     console.log(getProcessIndex(i));
-        // }
-
-        // var margintop=10;
-        // var ColorScale = d3.scaleLinear()
-        //     .domain([0, Math.sqrt(250)])
-        //     .range([0, 1]);
-        // var svg_height=globalgroupbyprocessname.length*(settings.MatrixArea.rect_height + settings.MatrixArea.padding) + 360;
-        // var svg_width = globalib.length*(settings.MatrixArea.rect_width + settings.MatrixArea.padding) + settings.MatrixArea.row_text_width +20;
-        // var svgMatrix = d3.select("#matrix2D")
-        //     .append('svg')
-        //     .attr('height', svg_height)
-        //     .attr('width', svg_width);
-        // var svg_g = svgMatrix.append('g').attr('transform','translate(0,10)');
 
     }
 
@@ -810,10 +782,8 @@ function applicationManager(globalData) {
         //var processes1 = processDif(processes1,processes3[0].index);
         processes1 = processDif(processes1, 0);
         libs = processLib(libs, 0);
-        // console.log(processes1)
-        // console.log(libs)
+
         // Order options
-        // console.log(nodes)
 
         nodes.sources.forEach(function (node, i) {
             node.similarity = processes1[i].indexSimilarity;
@@ -1110,7 +1080,6 @@ function applicationManager(globalData) {
                     }
                 }
                 if (minIndex >= 0) {
-                    // console.log(minIndex + " " + processArray[minIndex].name);
                     processArray[minIndex].isUsed = true;
                     processArray[minIndex].indexSimilarity = count;
                     startIndex = minIndex;
@@ -1223,8 +1192,6 @@ function applicationManager(globalData) {
             return newIndex;
         }
 
-        // console.log(processes1)
-        // console.log(libs)
         var ColorScale = d3.scaleLinear()
             .domain([0, Math.sqrt(maxvalue)])
             .range([0, 1]);
@@ -1333,11 +1300,20 @@ function applicationManager(globalData) {
     }
 
     return {
+        // data stats - overview
         drawStats: function (position) {
             var allProcess = [];
             var margin_left = settings.ProcessArea.left;
             var bar_height = settings.ProcessArea.bar_height;
             var group_by_process = getData.getdatabyProcess;
+            var group_by_operation = getData.getdatabyOperation;
+
+            operationShown = group_by_operation.map(d => d.key);
+            // console.log(group_by_operation, operationShown);
+            var thisClass;
+
+
+            // group_by_operation.map(d => d.key).filter(d => d.Process !== "Profiling");
 
             var xScale = d3.scaleLinear()
                 .domain([0, d3.max(group_by_process, function (d) {
@@ -1348,7 +1324,7 @@ function applicationManager(globalData) {
             d3.select(position).selectAll("*").remove();
             var svgStats = d3.select(position).append('svg').attr("id", "overview").attr('width', '100%').attr('height', settings.ProcessArea.svg_height).attr("y", 0);
 
-            var active;
+
             group_by_process.forEach(function (process, index) {
                 var group = svgStats.append('g').attr("transform", "translate(0," + index * bar_height + ")");
                 var child_process = d3.nest().key(function (d) {
@@ -1368,59 +1344,145 @@ function applicationManager(globalData) {
                             return xScale(child.values.length)
                         })
                         .attr('height', 30)
-                        .attr('class', child.key)
                         .attr('fill', function (d) {
                             return colorPicker(child.key);
-                        }).on('mouseover', function (d) {
-                        d3.select(this)
-                            .attr("stroke-width", "2px")
-                            .attr("stroke", "#3b3b3b");
+                        })
+                        .classed(child.key.replace(" ", ""), true)
+                        .classed("op0", child.key === "Process Profiling")
+                        .classed("op1", !(child.key === "Process Profiling"))
 
-                        div.transition()
-                            .duration(200)
-                            .style("opacity", .9);
-                        div.html('Operation: ' + child.key + "<br/> Total calls: " + child.values.length.toLocaleString() + "<br/>")
-                            .style("left", (d3.event.pageX) + 5 + "px")
-                            .style("top", (d3.event.pageY - 28) + "px")
-                            .style("background-color", "#cccccc")
-                            .style("padding", "5px");
-                    }).on('mouseleave', function (d) {
-                        d3.select(this).attr("stroke-width", "0px");
-                        div.style("opacity", 0)
-                    })
+                        .on('mouseover', function () {
+                            thisClass = d3.select(this).attr("class");
+                            d3.select(this)
+                                .classed("op2", true)
+                                .classed("op0 op1", false);
 
-                        .on("click", function (d) {
-                            var allrect = d3.select("#heatmap").selectAll('rect[group=detail]').style('visibility', active ? "visible" : "hidden");
-                            d3.select("#heatmap").selectAll('rect.' + child.key.replace(" ", "_")).style('visibility', "visible");
-                            active = !active;
+                            divOperation.transition()
+                                .duration(200)
+                                .style("opacity", .9);
+                            divOperation.html('Operation: ' + child.key + "<br/> Total calls: " + child.values.length.toLocaleString() + "<br/>")
+                                .style("left", (d3.event.pageX) + 5 + "px")
+                                .style("top", (d3.event.pageY - 28) + "px")
+                                .style("pointer-events", "none")
+                                .style("background-color", "#cccccc")
+                                .style("padding", "5px");
+                        })
+                        .on('mouseleave', function (d) {
+                            divOperation.style("opacity", 0);
+                            d3.select(this)
+                                .classed("op0 op1 op2", false)
+                                .classed(thisClass, true)
+                        })
+
+                        .on("click", function () {
+                            document.getElementById("opSelection").checked = false;
+                            if (firstClick === undefined) {
+                                firstClick = true;
+                                var key1 = child.key.replace(" ", "");
+                                // if profiling
+                                // the only difference is: not disable all others
+                                if (child.key.replace(" ", "") === "ProcessProfiling") {
+                                    console.log("bingo");
+                                    // show rect
+                                    d3.select("#heatmap").selectAll('rect.' + key1)
+                                        .style('visibility', "visible")
+                                        .raise();
+
+                                    // show arc
+                                    arcSelect = d3.selectAll("[class*=o" + key1 + "]");
+                                    arcSelect
+                                        .classed("visible", !active[key1])
+                                        .classed("hidden", !!active[key1])
+                                        .raise();
+                                    thisClass = d3.select(this).attr("class").split(" ")[0] + " op1";
+                                }
+                                else {
+                                    // first, hide all
+                                    // hide rect
+                                    d3.select("#heatmap").selectAll('rect[group=detail]')
+                                        .style('visibility', "hidden");
+
+                                    // hide arc
+                                    d3.selectAll(".arc")
+                                        .classed("hidden", true);
+
+                                    // unselect group
+                                    svgStats.selectAll("rect")
+                                        .classed("op0", true)
+                                        .classed("op1 op2", false);
+
+                                    // then, visible selection
+                                    //show rect
+                                    d3.select("#heatmap").selectAll('rect.' + key1)
+                                        .style('visibility', "visible")
+                                        .raise();
+
+                                    //show arc
+                                    arcSelect = d3.selectAll("[class*=o" + key1 + "]");
+                                    arcSelect
+                                        .classed("visible", !active[key1])
+                                        .classed("hidden", !!active[key1])
+                                        .raise();
+
+                                    d3.select(this)
+                                        .classed("op1", true)
+                                        .classed("op0 op2", false);
+                                }
+                                // change status
+                                active[key1] = !active[key1];
+                            }
+                            else {
+                                var key2 = child.key.replace(" ", "");
+
+                                // show group
+                                d3.select(this)
+                                    .classed("op1", () => {
+                                        let option = active[key2] ? " op0" : " op1";
+                                        thisClass = d3.select(this).attr("class").split(" ")[0] + option;
+                                        return !active[key2];
+                                    })
+                                    .classed("op2", false)
+                                    .classed("op0", !!active[key2]);
+
+                                // show arc
+                                d3.selectAll("[class*=o" + key2 + "]")
+                                    .classed("visible", !active[key2])
+                                    .classed("hidden", !!active[key2])
+                                    .raise();
+
+                                // show rect
+                                d3.select("#heatmap").selectAll('rect.' + key2)
+                                    .style('visibility', active[key2] ? "hidden" : "visible")
+                                    .raise();
+
+                                active[key2] = !active[key2];
+                            }
                         });
 
                     xpos += xScale(child.values.length) + 2;
                 });
                 group.append('text').text(process.key + " (" + process.values.length + ")").attr('x', 0).attr('y', 18);
-            })
-
-        },
-
-        drawStats2: function (position) {
-            d3.csv("operations/operations.CSV", function (error, data) {
-                d3.select(position).selectAll("*").remove();
-                var svgStats = d3.select(position).append('svg').attr('width', '100%').attr('height', 1110);
-                var group_O = svgStats.append('g');
-
-                var group_by_operation = d3.keys(list);
-                group_by_operation.forEach(function (operation, index) {
-                    var rect = group_O.append('g').attr('transform', 'translate(0,' + index * 15 + ')');
-                    rect.append('rect').attr('width', '20px').attr('height', '12px').attr('fill', function (d) {
-                        return colorPicker(operation);
-                    });
-                    rect.append('text').text(operation).attr('x', '30px').style('color', 'black').style('font-size', '12px').attr('y', '8px')
-                })
             });
 
+            document.getElementById("opSelection").checked = operationShown.indexOf("Process Profiling") < 0;
+        },
+
+        // List of Operations (legend)
+        drawStats2: function (position) {
+            d3.select(position).selectAll("*").remove();
+            var svgStats = d3.select(position).append('svg').attr('width', '100%').attr('height', 1110);
+            var group_O = svgStats.append('g');
+
+            var group_by_operation = d3.keys(list);
+            group_by_operation.forEach(function (operation, index) {
+                var rect = group_O.append('g').attr('transform', 'translate(0,' + index * 15 + ')');
+                rect.append('rect').attr('width', '20px').attr('height', '12px').attr('fill', function (d) {
+                    return colorPicker(operation);
+                });
+                rect.append('text').text(operation).attr('x', '30px').style('color', 'black').style('font-size', '12px').attr('y', '10px')
+            })
         },
         loadMatrix: function () {
-
             return loadMatrix(global_links);
         },
 
@@ -1428,17 +1490,25 @@ function applicationManager(globalData) {
             d3.select(position).selectAll("*").remove();
             var lines = [];
             var group_by_process_name = getData.getdatabyProcessName;
-            var group_by_process_create = getData.getdatabyOperation;
-            group_by_process_create = group_by_process_create.filter(function (value) {
-                return value.key == 'Process Create'
-            })[0].values;
-            var updated_data = UpdateProcessNameWithChild(group_by_process_name, group_by_process_create);
+            var haveExeChild = [];
+            var operationKeys = group_by_process_name.map(d => d.key);
+
+            globalData.forEach(d => {
+                for (var i = 0; i < operationKeys.length; i++) {
+                    if (d.Path.endsWith("\\" + operationKeys[i])) {
+                        haveExeChild.push(d);
+                    }
+                }
+            });
+
+            var updated_data = UpdateProcessNameWithChild(group_by_process_name, haveExeChild);
+
             for (var i = 0; i < updated_data.length; i++) {
                 updated_data[i].children = [];
                 for (var j = 0; j < updated_data[i].childs.length; j++) {
-                    var obj = updated_data[updated_data[i].childs[j]];
-                    updated_data[i].children.push(obj);
+                    updated_data[i].children[j] = updated_data[updated_data[i].childs[j]];
                 }
+
                 // sort children
                 updated_data[i].children.sort(function (a, b) {
                     if (a.childs.length < b.childs.length) {
@@ -1478,18 +1548,22 @@ function applicationManager(globalData) {
                         return 0;
                 }
             });
+
             var orderedArray = [];
-            var nextIndex = 0;
 
             for (var i = 0; i < updated_data.length; i++) {
                 dfs(updated_data[i], orderedArray);
             }
+            // orderedArray = updated_data;
 
-            // DFS
+            // console.log(calculateDistance(orderedArray));
+
+            // DFS - convert tree to array using DFS
             function dfs(o, array) {
                 if (o.isDone == undefined) {
                     array.push(o);
                     o.isDone = true;
+                    // set true
                     if (o.children != undefined) {
                         for (var i = 0; i < o.children.length; i++) {
                             dfs(o.children[i], array);
@@ -1509,6 +1583,16 @@ function applicationManager(globalData) {
                     }
                 }
                 return array;
+            }
+
+            function calculateDistance(orderedArray) {
+                var sum = 0;
+                orderedArray.forEach((parentProcess, pIndex) => {
+                    d3.keys(parentProcess.childInfo).forEach(childProcess => {
+                        sum += parentProcess.childInfo[childProcess].length * Math.abs(getProcessNameIndex(orderedArray, childProcess) - pIndex)
+                    })
+                });
+                return sum;
             }
 
             var margin_left = 30;  // min margin = 30
@@ -1545,18 +1629,13 @@ function applicationManager(globalData) {
             var matrix = make2Darray(group_by_process_name.length, library.length);
 
             // ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿
-            // ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ Huyen 2018 ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿
+            // ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ Huyen 2018-19 ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿
 
             var global_data = JSON.parse(JSON.stringify(globalData));
 
             global_data.sort(function (a, b) {
                 return a.currenttimestamp - b.currenttimestamp;
             });
-
-            // console.log("global data: ");
-            // console.log(global_data);
-            // console.log("group by process name:");
-            // console.log(groupedProcess);
 
             // Variables
             var timeInterval = maxTimeStamp - minTimeStamp;
@@ -1573,14 +1652,6 @@ function applicationManager(globalData) {
 
             var lensRadius = 20;
             var pointer = -1000;
-
-            // console.log("rounded step: "+roundedStep);
-            //
-            //
-            // console.log("numSecond: " + numSecond);
-            // console.log("minTimeStamp: " + minTimeStamp);
-            // console.log("maxTimeStamp: " + maxTimeStamp);
-            // console.log("timeInterval: " + timeInterval);
 
             // functions here ====================================================
 
@@ -1749,10 +1820,6 @@ function applicationManager(globalData) {
             // Outline -----------------------------------------------------------
 
             getTimeBoxData();
-            // console.log("timeData: ");
-            // console.log(timeData);
-            // console.log("initStepData: ");
-            // console.log(initStepData);
 
             var timeBoxHeight = 30;
             var dashHeight = svgheight + timeBoxHeight;
@@ -1762,12 +1829,11 @@ function applicationManager(globalData) {
                 .attr("width", "100%")
                 .attr("id", "outline");
 
-            var totalmbp = 70; // total margin, border, padding, to get the inside padding
             var bbox = document.getElementById("outline");
             svgActionWidth = bbox.getBoundingClientRect().width;
             var namespace = 120;
             var maxProcessLength = svgActionWidth - namespace;   // for dislaying name of virus
-            console.log(svgActionWidth);
+
             // Draw grids
             var stepData = [];
             var dashStepSpace = initStepData[1] - initStepData[0];
@@ -1783,10 +1849,7 @@ function applicationManager(globalData) {
                     });
                 }
             }
-            // console.log("stepdata:");
-            // console.log(stepData);
 
-            console.log(stepData);
             outline.selectAll(".verticalBars").remove();
             outline.selectAll(".verticalBars")
                 .data(stepData).enter()
@@ -1806,14 +1869,14 @@ function applicationManager(globalData) {
                         return 0
                     }
                 })
-                .style("visibility", function (d, i) {
-                    if (d.main) {
-                        return "visible"
-                    }
-                    else {
-                        return "hidden"
-                    }
-                })
+                // .style("visibility", function (d, i) {
+                //     if (d.main) {
+                //         return "visible"
+                //     }
+                //     else {
+                //         return "hidden"
+                //     }
+                // })
                 .style("stroke-width", 1)
                 .style("stroke-dasharray", function (d, i) {
                     if (d.main) {
@@ -1835,7 +1898,6 @@ function applicationManager(globalData) {
                 .style("stroke-opacity", "0.4")
                 .style("stroke-width", 1)
                 .style("stroke-dasharray", "3, 2");
-
 
             var svg_process_name = outline.append('svg')
                 .attr("id", "processes").attr('margin-left', '20px')
@@ -1894,22 +1956,27 @@ function applicationManager(globalData) {
                             return StepScale(d.step, true) + margin_left;
                         });
 
-                    orderedArray.forEach(function (d, index) {
-                        if (d.children.length > 0) {
-                            d.children.forEach(function (child, index2) {
-                                svg_process_name.selectAll(".detail_path_" + index + "_" + index2).transition().duration(200)
-                                    .attr('transform', function () {
-                                        var posX = (StepScale(child.values[0].Step, true)) * rect_width + margin_left - 5;
-                                        var posY = (getProcessNameIndex(updated_data, child.key) + index) * group_rect_height / 2 + group_rect_height / 2;
-                                        return 'translate(' + posX + ',' + posY + ')';
-                                    });
+                    orderedArray.forEach((parentProcess, pIndex) => {
+                        if (parentProcess.children.length > 0) {
+                            parentProcess.children.forEach((childProcess, cIndex) => {
+                                parentProcess.childInfo[childProcess.key].forEach((child, i) => {
+                                    svg_process_name.selectAll('.path_' + pIndex + "_" + cIndex + "_" + i)
+                                        .transition().duration(200)
+                                        .attr('transform', function () {
+                                            var posX = (StepScale(child.step, true)) * rect_width + margin_left;
+                                            var posY = (getProcessNameIndex(updated_data, childProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
+                                            return 'translate(' + posX + ',' + posY + ')';
+                                        });
+                                })
                             })
                         }
                     });
 
                     svg_process_name.selectAll(".stream")
                         .transition().duration(200)
-                        .attr("d", area.x(function(d, i) { return StepScale(xScale(i), true) + margin_left; }))
+                        .attr("d", area.x(function (d, i) {
+                            return StepScale(xScale(i), true) + margin_left;
+                        }))
 
                     group_by_process_name.forEach(function (row, index) {
                         svg_process_name.selectAll(".malName" + index)
@@ -1935,20 +2002,20 @@ function applicationManager(globalData) {
                                 return 0.2;
                             }
                         })
-                        .style("visibility", function (d, i) {
-                            if (d.main) {
-                                return "visible"
-                            }    // main ticks
-                            else if (d.step < leftBound) {
-                                return "hidden";
-                            }
-                            else if (d.step > rightBound) {
-                                return "hidden";
-                            }
-                            else {
-                                return "visible";
-                            }
-                        })
+                        // .style("visibility", function (d, i) {
+                        //     if (d.main) {
+                        //         return "visible"
+                        //     }    // main ticks
+                        //     else if (d.step < leftBound) {
+                        //         return "hidden";
+                        //     }
+                        //     else if (d.step > rightBound) {
+                        //         return "hidden";
+                        //     }
+                        //     else {
+                        //         return "visible";
+                        //     }
+                        // })
                         .style("stroke-width", 1)
                         .style("stroke-dasharray", function (d, i) {
                             if (d.main) {
@@ -1961,30 +2028,33 @@ function applicationManager(globalData) {
                 })
             ;
 
-            svg_process_name.append("svg:defs").append("svg:marker")
-                .attr("id", "arrow")
-                .attr("refX", 0)
-                .attr("refY", 4)
-                .attr("markerWidth", 8)
-                .attr("markerHeight", 8).attr('fill', 'rgb(37, 142, 215)')
-                .attr("orient", 0).append('path').attr('d', 'M0,0 L0,8 L8,4 z');
-            // stream
-            var minBin, maxBin;
-            var stream = function (group_by_process_name, globalData) {
+
+            // stream calculation ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～
+            // ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～
+
+            var maxBin;
+
+            function stream(group_by_process_name, globalData) {
                 var group = JSON.parse(JSON.stringify(group_by_process_name));
                 var global_data = JSON.parse(JSON.stringify(globalData));
-                console.log(group);
+                var ref = {};
+                var defaultValue = 0;
                 var bin = 20000;
                 global_data.forEach(d => {
                     d.binStep = Math.round(d.Step / bin);
                 });
-                [minBin, maxBin] = d3.extent(global_data, d => d.binStep);
-                console.log(minBin, maxBin);
+                maxBin = d3.max(global_data, d => d.binStep);
 
-                return group.map(process => {
+                var a = group.map(process => {
                     process.values.forEach(d => {
                         d.binStep = Math.round(d.Step / bin);
                     });
+                    process.values.forEach(d => {
+                        if (d.Path.length > 0) {
+                            ref[d.Path] = 1;
+                        }
+                    });
+
                     var binData = d3.nest()
                         .key(d => d.binStep)
                         .rollup(v => v.length)
@@ -1992,30 +2062,30 @@ function applicationManager(globalData) {
                             .filter(d => d.Path.length > 0)
                         );
 
-                    var defaultValue = 0;
+                    // add dummy points
                     process.lib = [];
                     for (var i = 0; i < maxBin + 1; i++) {
-                        process.lib.push(binData.find(d => d.key == i) ? binData.find(d => d.key == i).value : defaultValue)
+                        process.lib.push(binData.find(d => d.key == i) ?
+                            binData.find(d => d.key == i).value : defaultValue)
                     }
                     return {
                         process: process.key,
-                        // binData: binData,
                         calls: process.lib
                     }
-                })
-
-            };
+                });
+                // console.log(d3.keys(ref).sort((a,b) => {return a.length - b.length}));
+                return a;
+            }
 
             var streamData = stream(group_by_process_name, globalData);
-            console.log(streamData);
+           
+            // get max number of calls
             var maxCall = 0;
             streamData.forEach(record => {
                 if (d3.max(record.calls) > maxCall) {
                     maxCall = d3.max(record.calls)
                 }
             });
-
-            // stream ==================================================
 
             var xScale = d3.scaleLinear()
                 .domain([0, maxBin])
@@ -2025,24 +2095,34 @@ function applicationManager(globalData) {
                 .domain(d3.range(streamData.length))
                 .range([0, svgheight]);
 
-            var streamHeightScale = d3v5.scaleSymlog()
-                .domain([0, maxCall])
-                .range([0, 2* rect_normal_height]);
+            var streamHeightScale =
+                d3.scaleSqrt()
+                    .domain([0, maxCall])
+                    .range([0, 2 * rect_normal_height]);
 
             var area = d3.area()
                 .curve(d3.curveNatural)
-                .x(function(d, i) { return StepScale(xScale(i)) + margin_left; })
-                .y0(function(d) { return -streamHeightScale(d)/2; })
-                .y1(function(d) { return streamHeightScale(d)/2; });
+                .x(function (d, i) {
+                    return StepScale(xScale(i)) + margin_left;
+                })
+                .y0(function (d) {
+                    return -streamHeightScale(d) / 2;
+                })
+                .y1(function (d) {
+                    return streamHeightScale(d) / 2;
+                });
 
             group_by_process_name.forEach(function (row, index) {
-
                 var group = svg_process_name.append('g')
                     .attr("transform", "translate(0," + index * group_rect_height + ")");
 
-                group.append('line').attr('stroke-dasharray', '2, 5').attr('stroke', 'black').attr('stroke-width', 0.1)
-                    .attr('x1', (StepScale(row.values[0].Step) * rect_width + margin_left + 10)).attr('y1', rect_height / 2)
-                    .attr('x2', (((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 10)).attr('y2', rect_height / 2);
+                group.append('line').attr('stroke-dasharray', '2, 5').attr('stroke', 'black').attr('stroke-width', 0.5)
+                // .attr('x1', (StepScale(row.values[0].Step) * rect_width + margin_left + 10)).attr('y1', rect_height / 2)
+                // .attr('x2', (((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 10)).attr('y2', rect_height / 2);
+                    .attr('x1', (StepScale(minStep) * rect_width + margin_left + 10))
+                    .attr('y1', rect_height / 2)
+                    .attr('x2', (((StepScale(maxStep)) * rect_width + margin_left) + 10))
+                    .attr('y2', rect_height / 2);
 
                 var processes = row.values.filter(function (filter) {
                     if (filter.hasOwnProperty('library') && libarr.includes(filter.library) == true) return filter;
@@ -2050,7 +2130,7 @@ function applicationManager(globalData) {
                 var filtered_library = d3.nest().key(function (d) {
                     return d.library
                 }).entries(processes)
-                //console.log(filtered_library)
+
                 filtered_library.forEach(function (d) {
                     var obj = {};
                     obj.source = index;
@@ -2064,7 +2144,9 @@ function applicationManager(globalData) {
                 var stream = group.selectAll("path").data([streamData[index].calls])
                     .enter().append("path")
                     .style("fill", "#9d9d9d")
-                    .attr("transform", function(d, i) { return "translate(0" + "," + yScale(i) + (rectSpacing +rect_normal_height/2)  +")"; })
+                    .attr("transform", function (d, i) {
+                        return "translate(0" + "," + yScale(i) + (rectSpacing + rect_normal_height / 2) + ")";
+                    })
                     .attr("class", "stream")
                     .attr("d", area);
 
@@ -2072,12 +2154,14 @@ function applicationManager(globalData) {
                 group.append('text').attr("class", "malName" + index).text(row.key.substring(0, 20))
                     .attr('x', ((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 5).attr('y', group_rect_height / 2)
                     .attr('text-anchor', 'start');
-        //======================= rectDraw for process here ================================
-                var rect = group.selectAll('rect').data(row.values
-                    .filter(d => d["Process"] !== "Profiling")
-                ).enter().append('rect')
+
+                //======================= rectDraw for process here ================================
+                var rect = group.selectAll('rect')
+                    .data(row.values
+                        // .filter(d => d["Process"] !== "Profiling")
+                    ).enter().append('rect')
                     .attr('class', function (d, i) {
-                        return d.Operation.replace(" ", "_");
+                        return d.Operation.replace(" ", "");
                     })
                     .attr('x', function (d, i) {
                         return (StepScale(d.Step)) * rect_width + margin_left;
@@ -2107,7 +2191,14 @@ function applicationManager(globalData) {
                     .style('fill-opacity', 0.4)
                     .attr('fill', function (d) {
                         return colorPicker(d.Operation);
-                    }).on('mouseover', function (d) {
+                    })
+                    .style("visibility", d => {
+                        if (d["Process"] !== "Profiling") {
+                            return "visible"
+                        }
+                        else return "hidden"
+                    })
+                    .on('mouseover', function (d) {
                         if (d.Operation == 'UDP Send' && d.hasOwnProperty('VirusTotal')) {
 
                             div.transition()
@@ -2140,7 +2231,7 @@ function applicationManager(globalData) {
                                     + "<td class ='bold' style='color: " + colorPicker(d.Operation) + ";'>" + d.Operation + "</td>"
                                     + "</tr>"
                                     + "<tr>"
-                                    + "<td>Process</td>"
+                                    + "<td>Event type</td>"
                                     + "<td>" + d.Process + "</td>"
                                     + "</tr>"
                                     + "<tr>"
@@ -2165,7 +2256,8 @@ function applicationManager(globalData) {
                                     + "</tr>"
                                     + "</table>")
                                 .style("left", (d3.event.pageX) + 20 + "px")
-                                .style("top", (d3.event.pageY + 20) + "px");
+                                .style("top", (d3.event.pageY + 20) + "px")
+                                .style("pointer-events", "none");
                         }
                     })
                     .on('click', function (d) {
@@ -2193,14 +2285,7 @@ function applicationManager(globalData) {
                             return 0
                         }
                     })
-                    .style("visibility", function (d, i) {
-                        if (d.main) {
-                            return "visible"
-                        }
-                        else {
-                            return "hidden"
-                        }
-                    })
+
                     .style("stroke-width", 1)
                     .style("stroke-dasharray", function (d, i) {
                         if (d.main) {
@@ -2218,27 +2303,28 @@ function applicationManager(globalData) {
                 timeBox.selectAll("text").transition().duration(200)
                     .attr("x", (d, i) => {
                         return StepScale(d.step) + margin_left;
-                    })
+                    });
 
-                orderedArray.forEach(function (d, index) {
-                    if (d.children.length > 0) {
-                        d.children.forEach(function (child, index2) {
-
-
-                            svg_process_name.selectAll(".detail_path_" + index + "_" + index2).transition().duration(200)
-                                .attr('transform', function () {
-                                    var posX = (StepScale(child.values[0].Step)) * rect_width + margin_left - 5;
-                                    var posY = (getProcessNameIndex(updated_data, child.key) + index) * group_rect_height / 2 + group_rect_height / 2;
-                                    return 'translate(' + posX + ',' + posY + ')';
-                                });
+                orderedArray.forEach((parentProcess, pIndex) => {
+                    if (parentProcess.children.length > 0) {
+                        parentProcess.children.forEach((childProcess, cIndex) => {
+                            parentProcess.childInfo[childProcess.key].forEach((child, i) => {
+                                svg_process_name.selectAll('.path_' + pIndex + "_" + cIndex + "_" + i)
+                                    .transition().duration(200)
+                                    .attr('transform', function () {
+                                        var posX = (StepScale(child.step)) * rect_width + margin_left;
+                                        var posY = (getProcessNameIndex(updated_data, childProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
+                                        return 'translate(' + posX + ',' + posY + ')';
+                                    });
+                            })
                         })
-
                     }
-
                 });
                 svg_process_name.selectAll(".stream")
                     .transition().duration(200)
-                    .attr("d", area.x(function(d, i) { return StepScale(xScale(i)) + margin_left; }))
+                    .attr("d", area.x(function (d, i) {
+                        return StepScale(xScale(i)) + margin_left;
+                    }));
 
                 group_by_process_name.forEach(function (row, index) {
                     svg_process_name.selectAll(".malName" + index)
@@ -2248,28 +2334,109 @@ function applicationManager(globalData) {
 
             });
 
-            //
-            orderedArray.forEach(function (d, index) {
-                if (d.children.length > 0) {
-                    d.children.forEach(function (child, index2) {
-                        svg_process_name.append('path').attr("class", 'detail_path_' + index + "_" + index2)
-                            .attr('d', d3.arc()
-                                .innerRadius((getProcessNameIndex(updated_data, child.key) - index) * group_rect_height / 2 - 1)
-                                .outerRadius((getProcessNameIndex(updated_data, child.key) - index) * group_rect_height / 2)
-                                .startAngle(-Math.PI) //converting from degs to radians
-                                .endAngle(Math.PI / 90))
-                            .attr('fill', 'rgb(37, 142, 215)').attr('source', index).attr('target', getProcessNameIndex(updated_data, child.key))
-                            .attr('transform', function () {
-                                var posX = (StepScale(child.values[0].Step)) * rect_width + margin_left - 5;
-                                var posY = (getProcessNameIndex(updated_data, child.key) + index) * group_rect_height / 2 + group_rect_height / 2;
-                                return 'translate(' + posX + ',' + posY + ')';
-                            }).attr("marker-end", "url(#arrow)")
+            orderedArray.forEach((parentProcess, pIndex) => {
+                if (parentProcess.children.length > 0) {
+                    parentProcess.children.forEach((childProcess, cIndex) => {
+                        // define arrow
+                        svg_process_name
+                            .append("svg:defs")
+                            .selectAll(".arrow")
+                            .data(parentProcess.childInfo[childProcess.key])
+                            .enter()
+                            .append("svg:marker")
+                            .attr("id", (d, i) => {
+                                return "arrow_" + pIndex + "_" + cIndex + "_" + i
+                            })
+                            .attr("class", "arrow")
+                            .attr("refX", 6)
+                            .attr("refY", 4)
+                            .attr("markerWidth", 8)
+                            .attr("markerHeight", 8)
+                            .style("fill", d => colorPicker(d.event))
+                            .attr("orient", 0)
+                            .append('path')
+                            .attr('d', 'M0,0 L0,8 L8,4 z');
+
+                        // draw arc
+                        var signedOrienation = getProcessNameIndex(updated_data, childProcess.key) - pIndex;
+                        parentProcess.childInfo[childProcess.key].forEach((child, i) => {
+                            svg_process_name
+                                .append('path').attr("class", () => {
+                                return 'arc a' + pIndex + "_" + cIndex + ' path_' + pIndex + "_" + cIndex + "_" + i + " o" + child.event.replace(" ", "");
+                            })
+                                .attr('d', d3.arc()
+                                    .innerRadius(Math.abs(signedOrienation) * group_rect_height / 2 - 1)
+                                    .outerRadius(Math.abs(signedOrienation) * group_rect_height / 2)
+                                    .startAngle(signedOrienation > 0 ? -Math.PI : Math.PI / 90) //converting from degs to radians
+                                    .endAngle(signedOrienation > 0 ? Math.PI / 90 : -Math.PI))
+                                .attr('fill', colorPicker(child.event))
+                                .attr('source', pIndex)
+                                .attr('target', getProcessNameIndex(updated_data, childProcess.key))
+                                .attr('transform', function () {
+
+                                    var posX = (StepScale(child.step)) * rect_width + margin_left;
+                                    var posY = (getProcessNameIndex(updated_data, childProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
+
+                                    return 'translate(' + posX + ',' + posY + ')';
+                                })
+                                .attr("marker-end", "url(#arrow_" + pIndex + "_" + cIndex + "_" + i + ")")
+                                .on("mouseover", function () {
+                                    if (arcSelect) {
+                                    }
+                                    else {
+                                        d3.selectAll(".arc")
+                                            .classed("normV", false)
+                                            .classed("normH", true);
+
+                                        d3.select('.path_' + pIndex + "_" + cIndex + "_" + i)
+                                            .classed("normV", true)
+                                            .classed("normH", false);
+                                    }
+
+                                    div3.transition()
+                                        .duration(200)
+                                        .style("opacity", 1);
+
+                                    div3.html('Source: ' +
+                                        '<text class = "bold">' + parentProcess.key + "</text><br/> Target: " + '<text class = "bold">' + childProcess.key + "</text><br/>")
+                                        .style("left", (d3.event.pageX) + 20 + "px")
+                                        .style("top", (d3.event.pageY - 30) + "px")
+                                        .style("pointer-events", "none")
+                                        .style("background-color", () => {
+                                                // return colorPicker(child.event).replace("(", "a(").replace(")", ", 0.8)");
+                                                return "#dddddd"
+                                            }
+                                        )
+                                })
+                                .on("mouseout", function () {
+                                    if (arcSelect) {
+                                        d3.selectAll(".arc.visible")
+                                            .classed("visible", true)
+                                            .classed("hidden", false);
+                                    }
+                                    else {
+                                        d3.selectAll(".arc")
+                                            .classed("normV", true)
+                                            .classed("normH", false);
+                                    }
+
+                                    div3.style("opacity", 0);
+                                })
+
+                        })
 
                     })
-
                 }
-
             });
+
+            function hexToRgb(hex) {
+                var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                return result ? {
+                    r: parseInt(result[1], 16),
+                    g: parseInt(result[2], 16),
+                    b: parseInt(result[3], 16)
+                } : null;
+            }
 
             for (var i = 0; i < lines.length; i++) {
                 var obj = new Object();
@@ -2375,4 +2542,49 @@ function applicationManager(globalData) {
 
     }
 
+}
+var operationShown;
+var active = {};
+var firstClick;
+
+function selectAll() {
+    var selectAll = document.getElementById("opSelection").checked;
+    firstClick = true;
+    if (selectAll){
+        // show all rect
+        d3.select("#heatmap").selectAll('rect[group=detail]')
+            .style('visibility', "visible");
+
+        // show all arc
+        d3.selectAll(".arc")
+            .classed("hidden", false)
+            .classed("visible", true);
+
+        // select all group
+        d3.select("#overview").selectAll("rect")
+            .classed("op1", true)
+            .classed("op0 op2", false);
+
+        operationShown.forEach(d => {
+            active[d] = true;
+        })
+    }
+    else {
+        d3.select("#heatmap").selectAll('rect[group=detail]')
+            .style('visibility', "hidden");
+
+        // hide all arc
+        d3.selectAll(".arc")
+            .classed("hidden", true)
+            .classed("visible", false);
+
+        // hide all group
+        d3.select("#overview").selectAll("rect")
+            .classed("op0", true)
+            .classed("op1 op2", false);
+
+        operationShown.forEach(d => {
+            active[d] = false;
+        })
+    }
 }
