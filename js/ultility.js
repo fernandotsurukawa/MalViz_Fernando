@@ -115,8 +115,6 @@ function ProcessDataV2(orginalData, domain) {
 }
 
 function UpdateProcessNameWithChild(processLst, links) {
-    console.log(processLst);
-    console.log(links);
     processLst.forEach(function (proc, parentIndex) {
         proc.childs = [];
         proc.childInfo = {};
@@ -171,28 +169,6 @@ function UpdateProcessNameWithChild(processLst, links) {
     return processLst;
 }
 
-//
-// function UpdateProcessNameWithChild(processLst, links) {
-//     processLst.forEach(function (proc, parentIndex) {
-//         proc.childs = [];
-//         links.forEach(function (link) {
-//             if (proc.key == link.Process_Name) {
-//                 var index = getProcessNameIndex(processLst, link.targetProcessName);
-//                 if (!proc.childs.includes(index) && index != parentIndex) {
-//                     //Check for loop insertion
-//                     if (processLst[index].hasOwnProperty('childs')) {
-//                         if (!processLst[index].childs.includes(parentIndex)) {
-//                             proc.childs.push(index)
-//                         }
-//                     } else {
-//                         proc.childs.push(index)
-//                     }
-//                 }
-//             }
-//         })
-//     })
-//     return processLst;
-// }
 
 function getProcessNameIndex(processlst, key) {
     let index;

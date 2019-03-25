@@ -90,6 +90,7 @@ Please select dataset:
         <tr>
             <td width="65%">
                 <div id="stats"></div>
+                <input type="checkbox" id="opSelection" onclick="selectAll()" checked> Select all
             </td>
             <td width="1%">
 
@@ -162,6 +163,9 @@ Please select dataset:
 <script src="js/ultility.js"></script>
 <script src="js/appManager.js"></script>
 <script>
+    let divOperation = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
 
     let div = d3.select("body").append("div")
         .attr("class", "tooltip")

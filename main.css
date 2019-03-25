@@ -6,11 +6,40 @@
     border: 1px solid #9a9a9a;
     padding: 10px;
 }
+.normV {
+    visibility: visible;
+}
+.normH {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}
+.hidden {
+    visibility: hidden;
+}
 
 .ticks {
     font: 10px sans-serif;
 }
-
+.op0{
+    stroke-width: 0px;
+}
+.op1 {
+    stroke-width: 3px;
+    stroke-opacity: 1;
+    stroke: #fffd00;
+    stroke-alignment: inner;
+}
+.op2{
+    stroke-width: 4px;
+    stroke-opacity: 1;
+    stroke-dasharray: 3;
+    stroke: #fffd00;
+    /*stroke: #ffb2ec;*/
+    stroke-alignment: inner;
+}
 .track,
 .track-inset,
 .track-overlay {
@@ -115,7 +144,6 @@ div.tooltip {
 }
 
 div.tooltip2 {
-
     border-radius: 10px;
     border: 2px solid #666666;
     position: absolute;
@@ -124,9 +152,22 @@ div.tooltip2 {
     height: auto;
     font: 13px sans-serif;
     pointer-events: none;
-
 }
 
+div.tooltip3 {
+    padding: 6px;
+    border-radius: 10px;
+    position: absolute;
+    text-align: left;
+    width: auto;
+    height: auto;
+    font: 13px sans-serif;
+    pointer-events: none;
+    display:inline-block
+}
+.tooltip3 .bold {
+    font-weight: bold;
+}
 /*.tooltip2 span {*/
 /*padding-top:7px;*/
 /*padding-bottom: 8px;*/
