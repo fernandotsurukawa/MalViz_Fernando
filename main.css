@@ -29,13 +29,15 @@
 .op1 {
     stroke-width: 3px;
     stroke-opacity: 1;
-    stroke: #e3e985;
+    stroke: #fffd00;
     stroke-alignment: inner;
 }
 .op2{
     stroke-width: 4px;
     stroke-opacity: 1;
+    stroke-dasharray: 3;
     stroke: #fffd00;
+    /*stroke: #ffb2ec;*/
     stroke-alignment: inner;
 }
 .track,

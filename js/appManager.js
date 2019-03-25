@@ -1,6 +1,5 @@
 function applicationManager(globalData) {
     var arcSelect;
-    var operationShown = [];
     var [minStep, maxStep] = d3.extent(globalData, d => d.Step);
     var svgActionWidth;
     //var initStamp, maxStamp;
@@ -1309,10 +1308,10 @@ function applicationManager(globalData) {
             var group_by_process = getData.getdatabyProcess;
             var group_by_operation = getData.getdatabyOperation;
 
-            var operationShown = group_by_operation.map(d => d.key);
+            operationShown = group_by_operation.map(d => d.key);
             // console.log(group_by_operation, operationShown);
-            var firstClick, thisClass;
-            var active = {};
+            var thisClass;
+
 
             // group_by_operation.map(d => d.key).filter(d => d.Process !== "Profiling");
 
@@ -1375,7 +1374,7 @@ function applicationManager(globalData) {
                                 .classed(thisClass, true)
                         })
 
-                        .on("click", function (d) {
+                        .on("click", function () {
                             if (firstClick === undefined) {
                                 firstClick = true;
                                 var key1 = child.key.replace(" ", "");
@@ -1412,7 +1411,6 @@ function applicationManager(globalData) {
                                         .classed("op1 op2", false);
 
                                     // then, visible selection
-                                    console.log(key1);
                                     //show rect
                                     d3.select("#heatmap").selectAll('rect.' + key1)
                                         .style('visibility', "visible")
@@ -1434,8 +1432,7 @@ function applicationManager(globalData) {
                             }
                             else {
                                 var key2 = child.key.replace(" ", "");
-                                // second click
-                                console.log(active[key2]);
+
                                 // show group
                                 d3.select(this)
                                     .classed("op1", () => {
@@ -2545,8 +2542,13 @@ function applicationManager(globalData) {
     }
 
 }
+var operationShown;
+var active = {};
+var firstClick;
+
 function selectAll() {
     var selectAll = document.getElementById("opSelection").checked;
+    firstClick = true;
     if (selectAll){
         // show all rect
         d3.select("#heatmap").selectAll('rect[group=detail]')
@@ -2561,6 +2563,10 @@ function selectAll() {
         d3.select("#overview").selectAll("rect")
             .classed("op1", true)
             .classed("op0 op2", false);
+
+        operationShown.forEach(d => {
+            active[d] = true;
+        })
     }
     else {
         d3.select("#heatmap").selectAll('rect[group=detail]')
@@ -2575,5 +2581,9 @@ function selectAll() {
         d3.select("#overview").selectAll("rect")
             .classed("op0", true)
             .classed("op1 op2", false);
+
+        operationShown.forEach(d => {
+            active[d] = false;
+        })
     }
 }
