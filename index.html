@@ -90,7 +90,7 @@ Please select dataset:
         <tr>
             <td width="65%">
                 <div id="stats"></div>
-                <input type="checkbox" id="opSelection" checked> Select all
+                <input type="checkbox" id="opSelection" onclick="selectAll()" checked> Select all
             </td>
             <td width="1%">
 
@@ -253,7 +253,7 @@ Please select dataset:
             });
 
     };
-    init("Huyen-Ransomware-WannaPeace.csv");
+    init("VungPham-Behavior-Bladabindi.gen-XP.CSV");
     var list = {
         "CloseFile": {"operation": "FileSystem", "index": 0},
         "CreateFile": {"operation": "FileSystem", "index": 1},

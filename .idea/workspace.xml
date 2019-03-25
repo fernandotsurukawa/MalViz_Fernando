@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8b82504-1950-4318-aa3d-f800f494b894" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/appManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/appManager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/main.css" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -71,16 +70,16 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="176" />
-          <entry key="html" value="216" />
-          <entry key="js" value="8558" />
+          <entry key="html" value="231" />
+          <entry key="js" value="9110" />
           <entry key="md" value="2052" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="176" />
-          <entry key="HTML" value="216" />
-          <entry key="JavaScript" value="8558" />
+          <entry key="HTML" value="231" />
+          <entry key="JavaScript" value="9110" />
           <entry key="Markdown" value="2052" />
         </counts>
       </usages-collector>
@@ -120,11 +119,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="143">
-              <caret line="121" column="16" lean-forward="true" selection-start-line="121" selection-start-column="16" selection-end-line="121" selection-end-column="16" />
+            <state relative-caret-position="1040">
+              <caret line="93" column="17" lean-forward="true" selection-start-line="93" selection-start-column="17" selection-end-line="93" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -138,11 +137,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/appManager.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1062">
-              <caret line="1439" column="44" selection-start-line="1439" selection-start-column="44" selection-end-line="1439" selection-end-column="44" />
+            <state relative-caret-position="1010">
+              <caret line="2577" column="25" selection-start-line="2577" selection-start-column="25" selection-end-line="2577" selection-end-column="25" />
               <folding>
                 <element signature="e#6#12#0" expanded="true" />
                 <element signature="e#6#12#0" expanded="true" />
@@ -165,9 +164,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>children</find>
-      <find>orderedA</find>
-      <find>for (var j = 0; j &lt; updated_data[i].childs.length; j++) {</find>
       <find>ordered</find>
       <find>2, 5</find>
       <find>dfs</find>
@@ -185,7 +181,6 @@
       <find>div.</find>
       <find>svgst</find>
       <find>isch</find>
-      <find>rectdr</find>
       <find>divop</find>
       <find>arc</find>
       <find>.replace(&quot; &quot;, &quot;&quot;)</find>
@@ -195,6 +190,10 @@
       <find>hide a</find>
       <find>.arc</find>
       <find>hide all</find>
+      <find>rectdr</find>
+      <find>opselect</find>
+      <find>svgStats</find>
+      <find>bla</find>
     </findStrings>
     <replaceStrings>
       <replace>op0</replace>
@@ -217,8 +216,8 @@
         <option value="$PROJECT_DIR$/metadata/Notes.md" />
         <option value="$PROJECT_DIR$/lib/underscore.js" />
         <option value="$PROJECT_DIR$/js/ultility.js" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/main.css" />
+        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/appManager.js" />
       </list>
     </option>
@@ -229,10 +228,9 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="2" />
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
-    <option name="width" value="1191" />
+    <option name="width" value="2164" />
     <option name="height" value="1417" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -352,15 +350,15 @@
       <workItem from="1553381337416" duration="2342000" />
       <workItem from="1553450671451" duration="1421000" />
       <workItem from="1553452332903" duration="25480000" />
-      <workItem from="1553528218994" duration="10845000" />
+      <workItem from="1553528218994" duration="13863000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="172634000" />
+    <option name="totallyTimeSpent" value="175652000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="2" y="23" width="1191" height="1417" extended-state="0" />
+    <frame x="2" y="23" width="1060" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.14273505" />
@@ -473,13 +471,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/underscore.js" />
-    <entry file="file://$PROJECT_DIR$/js/ultility.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="82">
-          <caret line="116" column="56" selection-start-line="116" selection-start-column="56" selection-end-line="116" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -487,23 +478,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/ultility.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="82">
+          <caret line="116" column="56" selection-start-line="116" selection-start-column="56" selection-end-line="116" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1040">
+          <caret line="93" column="17" lean-forward="true" selection-start-line="93" selection-start-column="17" selection-end-line="93" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/appManager.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1062">
-          <caret line="1439" column="44" selection-start-line="1439" selection-start-column="44" selection-end-line="1439" selection-end-column="44" />
+        <state relative-caret-position="1010">
+          <caret line="2577" column="25" selection-start-line="2577" selection-start-column="25" selection-end-line="2577" selection-end-column="25" />
           <folding>
             <element signature="e#6#12#0" expanded="true" />
             <element signature="e#6#12#0" expanded="true" />
             <element signature="e#6#12#0" expanded="true" />
             <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="121" column="16" lean-forward="true" selection-start-line="121" selection-start-column="16" selection-end-line="121" selection-end-column="16" />
         </state>
       </provider>
     </entry>
