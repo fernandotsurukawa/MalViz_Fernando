@@ -163,6 +163,9 @@ Please select dataset:
 <script src="js/ultility.js"></script>
 <script src="js/appManager.js"></script>
 <script>
+    let divOperation = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
 
     let div = d3.select("body").append("div")
         .attr("class", "tooltip")

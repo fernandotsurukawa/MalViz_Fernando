@@ -16,13 +16,13 @@
 .op1 {
     stroke-width: 3px;
     stroke-opacity: 1;
-    stroke: #ababab;
+    stroke: #ffff6f;
     stroke-alignment: inner;
 }
 .op2{
-    stroke-width: 3px;
+    stroke-width: 4px;
     stroke-opacity: 1;
-    stroke: #fde24f;
+    stroke: #fffd00;
     stroke-alignment: inner;
 }
 .track,

@@ -1,4 +1,5 @@
 function applicationManager(globalData) {
+    var arcSelect;
     var operationShown = [];
     var [minStep, maxStep] = d3.extent(globalData, d => d.Step);
     var svgActionWidth;
@@ -1308,7 +1309,9 @@ function applicationManager(globalData) {
             var group_by_process = getData.getdatabyProcess;
             var group_by_operation = getData.getdatabyOperation;
 
-            // operationShown = d3.nest().key(d => d.Operation).entries(globalData)
+            var operationShown = d3.nest().key(d => d.Operation).entries(globalData);
+            var  firstClick, thisClass;
+            var active = {};
 
             // group_by_operation.map(d => d.key).filter(d => d.Process !== "Profiling");
 
@@ -1322,7 +1325,7 @@ function applicationManager(globalData) {
             d3.select(position).selectAll("*").remove();
             var svgStats = d3.select(position).append('svg').attr("id", "overview").attr('width', '100%').attr('height', settings.ProcessArea.svg_height).attr("y", 0);
 
-            var active, firstClick, thisClass;
+
             group_by_process.forEach(function (process, index) {
                 var group = svgStats.append('g').attr("transform", "translate(0," + index * bar_height + ")");
                 var child_process = d3.nest().key(function (d) {
@@ -1349,17 +1352,17 @@ function applicationManager(globalData) {
                         .classed(child.key.replace(" ", ""), true)
                         .classed("op0", child.key === "Process Profiling")
                         .classed("op1", !(child.key === "Process Profiling"))
-                        
+
                         .on('mouseover', function () {
                             thisClass = d3.select(this).attr("class");
                             d3.select(this)
                                 .classed("op2", true)
                                 .classed("op0 op1", false);
 
-                            div.transition()
+                            divOperation.transition()
                                 .duration(200)
                                 .style("opacity", .9);
-                            div.html('Operation: ' + child.key + "<br/> Total calls: " + child.values.length.toLocaleString() + "<br/>")
+                            divOperation.html('Operation: ' + child.key + "<br/> Total calls: " + child.values.length.toLocaleString() + "<br/>")
                                 .style("left", (d3.event.pageX) + 5 + "px")
                                 .style("top", (d3.event.pageY - 28) + "px")
                                 .style("pointer-events", "none")
@@ -1367,16 +1370,64 @@ function applicationManager(globalData) {
                                 .style("padding", "5px");
                         })
                         .on('mouseleave', function (d) {
-                            div.style("opacity", 0);
+                            divOperation.style("opacity", 0);
                             d3.select(this)
                                 .classed("op0 op1 op2", false)
                                 .classed(thisClass, true)
-
                         })
 
                         .on("click", function (d) {
-                            var allrect = d3.select("#heatmap").selectAll('rect[group=detail]').style('visibility', active ? "visible" : "hidden");
-                            d3.select("#heatmap").selectAll('rect.' + child.key.replace(" ", "_")).style('visibility', "visible");
+                            document.getElementById("opSelection").checked = false;
+                            if (firstClick === undefined) {
+                                firstClick = true;
+                                // first, hide all
+                                // hide rect
+                                d3.select("#heatmap").selectAll('rect[group=detail]')
+                                    .style('visibility', "hidden");
+
+                                // hide arc
+                                d3.selectAll(".arc").style("visibility", "hidden");
+
+                                // unselect group
+                                svgStats.selectAll("rect")
+                                    .classed("op0", true)
+                                    .classed("op1 op2", false);
+
+                                // then, visible selection
+                                console.log(child.key.replace(" ", ""));
+                                //show rect
+                                d3.select("#heatmap").selectAll('rect.' + child.key.replace(" ", ""))
+                                    .style('visibility', "visible");
+
+                                //show arc
+                                arcSelect = d3.selectAll("[class*=o"+child.key.replace(" ", "")+"]");
+                                arcSelect.style("visibility", "visible");
+
+                                d3.select(this)
+                                    .classed("op1", true)
+                                    .classed("op0 op2", false);
+                            }
+                            else {
+                                // second click
+                                var secondaryClass = d3.select(this).attr("class");
+                                // show group
+                                d3.select(this)
+                                    .classed("op1", () => {
+                                        thisClass = d3.select(this).attr("class").split(" ")[0] + " op1";
+                                        return true;
+                                    })
+                                    .classed("op0 op2", false);
+
+                                // show arc
+                                arcSelect = d3.selectAll("[class*=o"+child.key.replace(" ", "")+"]");
+                                arcSelect.style("visibility", "visible");
+
+                                // show rect
+                                d3.select("#heatmap").selectAll('rect.' + child.key.replace(" ", ""))
+                                    .style('visibility', "visible");
+                            }
+
+
                             active = !active;
                         });
 
@@ -1385,12 +1436,6 @@ function applicationManager(globalData) {
                 group.append('text').text(process.key + " (" + process.values.length + ")").attr('x', 0).attr('y', 18);
             })
 
-            svgStats.append("input")
-                .attr("checked", true)
-                .attr("type", "checkbox")
-                .attr("id", "opSelect")
-                .attr("onClick", "change(this)")
-            //.attr("for", function(d,i) { return i; });
         },
 
         // List of Operations (legend)
@@ -2088,7 +2133,7 @@ function applicationManager(globalData) {
                     // .filter(d => d["Process"] !== "Profiling")
                 ).enter().append('rect')
                     .attr('class', function (d, i) {
-                        return d.Operation.replace(" ", "_");
+                        return d.Operation.replace(" ", "");
                     })
                     .attr('x', function (d, i) {
                         return (StepScale(d.Step)) * rect_width + margin_left;
@@ -2288,7 +2333,9 @@ function applicationManager(globalData) {
                         var signedOrienation = getProcessNameIndex(updated_data, childProcess.key) - pIndex;
                         parentProcess.childInfo[childProcess.key].forEach((child, i) => {
                             svg_process_name
-                                .append('path').attr("class", 'arc a' + pIndex + "_" + cIndex + ' path_' + pIndex + "_" + cIndex + "_" + i)
+                                .append('path').attr("class", () => {
+                                    return 'arc a' + pIndex + "_" + cIndex + ' path_' + pIndex + "_" + cIndex + "_" + i + " o" + child.event.replace(" ", "");
+                            })
                                 .attr('d', d3.arc()
                                     .innerRadius(Math.abs(signedOrienation) * group_rect_height / 2 - 1)
                                     .outerRadius(Math.abs(signedOrienation) * group_rect_height / 2)
@@ -2307,9 +2354,10 @@ function applicationManager(globalData) {
                                 .attr("marker-end", "url(#arrow_" + pIndex + "_" + cIndex + "_" + i + ")")
                                 .on("mouseover", function () {
                                     d3.selectAll(".arc")
-                                        .attr("opacity", 0);
+                                        .style("visibility", "hidden");
                                     d3.selectAll('.a' + pIndex + '_' + cIndex)
-                                        .attr("opacity", 1);
+                                        .style("visibility", "visible");
+
                                     div3.transition()
                                         .duration(200)
                                         .style("opacity", 1);
@@ -2326,8 +2374,13 @@ function applicationManager(globalData) {
                                         )
                                 })
                                 .on("mouseout", function () {
-                                    d3.selectAll(".arc")
-                                        .attr("opacity", 1);
+                                    if (arcSelect){
+                                        arcSelect.style("visibility", "visible");
+                                    }
+                                    else {
+                                        d3.selectAll(".arc")
+                                            .style("visibility", "visible");
+                                    }
 
                                     div3.style("opacity", 0);
                                 })
