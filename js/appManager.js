@@ -2045,7 +2045,6 @@ function applicationManager(globalData) {
                 });
                 maxBin = d3.max(global_data, d => d.binStep);
 
-                console.log(group);
                 var a = group.map(process => {
                     process.values.forEach(d => {
                         d.binStep = Math.round(d.Step / bin);
@@ -2079,7 +2078,7 @@ function applicationManager(globalData) {
             }
 
             var streamData = stream(group_by_process_name, globalData);
-            console.log(streamData);
+           
             // get max number of calls
             var maxCall = 0;
             streamData.forEach(record => {
