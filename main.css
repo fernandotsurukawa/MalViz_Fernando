@@ -6,6 +6,40 @@
     border: 1px solid #9a9a9a;
     padding: 10px;
 }
+.header {
+    padding: 12px;
+    border: 2px groove #c5c5c5;
+    background-color: #fff;
+    margin: 10px 0 15px 0;
+    border-style: groove;
+    box-shadow: 8px 8px 18px #cccccc;
+}
+.title {
+    font-weight: bold;
+    font-size: 23px;
+}
+.selection {
+    float: right;
+}
+legend {
+    font-weight: bold;
+    padding: 5px;
+    border-style: initial;
+    border-right: 1px solid #c9c9c9;
+    border-top: 1px solid #c9c9c9;
+    border-bottom: 1px solid #c9c9c9;
+    border-left: 4px solid #747474;
+    background-color: #ffffff;
+}
+body {
+    background-color: #eeeeee;
+}
+fieldset {
+    margin: 10px;
+    background-color: #ffffff;
+    box-shadow: 8px 8px 18px #cccccc;
+    border-style: groove;
+}
 .normV {
     visibility: visible;
 }
@@ -29,14 +63,14 @@
 .op1 {
     stroke-width: 2px;
     stroke-opacity: 1;
-    stroke: #b4b4b4;
+    stroke: #a6a6a6;
     stroke-alignment: inner;
 }
 .op2{
     stroke-width: 4px;
     stroke-opacity: 1;
     /*stroke-dasharray: 3;*/
-    stroke: #b4b4b4;
+    stroke: #9f9f9f;
     /*stroke: #ffb2ec;*/
     stroke-alignment: inner;
 }

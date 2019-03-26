@@ -561,14 +561,16 @@ function applicationManager(globalData) {
                 bottom: 0,
                 left: 250
             },
-            width = 1100,
+            // width = 1100,
             height = 250;
         var svg = d3.select("#matrix2D").append("svg")
-            .attr("width", width + margin.left + margin.right)
+            // .attr("width", width + margin.left + margin.right)
+            .attr("width", "100%")
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            .attr("transform", "translate(0," + margin.top + ")");
 
+        var width = document.getElementById("matrix2D").getBoundingClientRect().width;
         var matrix = [];
         var x_length = nodes.targets.length;
         var y_length = nodes.sources.length;
@@ -1312,8 +1314,16 @@ function applicationManager(globalData) {
             // console.log(group_by_operation, operationShown);
             var thisClass;
 
+            var padding = 10;
 
-            // group_by_operation.map(d => d.key).filter(d => d.Process !== "Profiling");
+            d3.select(position).selectAll("*").remove();
+            d3.select(position).html(function() {
+                return '<input type="checkbox" id="opSelection" onclick="selectAll()" checked> Select all'
+            });
+
+            var svgStats = d3.select(position).append('svg').attr("id", "overview").attr('width', '100%').attr('height', settings.ProcessArea.svg_height).attr("y", 0);
+
+            var overviewWidth = document.getElementById("overview").getBoundingClientRect().width;
 
             var xScale = d3.scaleLinear()
                 .domain([0, d3.max(group_by_process, function (d) {
@@ -1321,12 +1331,8 @@ function applicationManager(globalData) {
                 })])
                 .range([settings.ProcessArea.scale_xMin, settings.ProcessArea.scale_xMax]);
 
-            d3.select(position).selectAll("*").remove();
-            var svgStats = d3.select(position).append('svg').attr("id", "overview").attr('width', '100%').attr('height', settings.ProcessArea.svg_height).attr("y", 0);
-
-
             group_by_process.forEach(function (process, index) {
-                var group = svgStats.append('g').attr("transform", "translate(0," + index * bar_height + ")");
+                var group = svgStats.append('g').attr("transform", "translate(0," + (padding + index * bar_height)+ ")");
                 var child_process = d3.nest().key(function (d) {
                     return d.Operation
                 }).entries(process.values);
@@ -2046,6 +2052,9 @@ function applicationManager(globalData) {
                 maxBin = d3.max(global_data, d => d.binStep);
 
                 var a = group.map(process => {
+
+                    // categorize:
+
 
                     console.log(process);
                     process.values.forEach(d => {
