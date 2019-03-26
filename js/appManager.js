@@ -1329,7 +1329,8 @@ function applicationManager(globalData) {
                 .domain([0, d3.max(group_by_process, function (d) {
                     return d.values.length;
                 })])
-                .range([settings.ProcessArea.scale_xMin, settings.ProcessArea.scale_xMax]);
+                // .range([settings.ProcessArea.scale_xMin, settings.ProcessArea.scale_xMax]);
+                .range([settings.ProcessArea.scale_xMin, Math.min(overviewWidth - margin_left - 60,settings.ProcessArea.scale_xMax )]);
 
             group_by_process.forEach(function (process, index) {
                 var group = svgStats.append('g').attr("transform", "translate(0," + (padding + index * bar_height)+ ")");
