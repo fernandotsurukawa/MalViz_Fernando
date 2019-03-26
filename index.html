@@ -1,7 +1,3 @@
-<!--Sepideh Comments-->
-<!--Highlight unusual network activities, it hards for normal eyes-->
-<!--Moouse over process -> activities, its name should be showed up-->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,88 +19,92 @@
 
 </head>
 <body>
+<div class="header">
+    <span class="title">
+        MalViz - Malware visualization
+    </span>
 
-Please select dataset:
-<select id="selectmalware" class="selectmalware">
-    <option>--Select dataset--</option>
+    <span class="selection">
+    <label for="selectmalware">Please select dataset:</label>
+    <select id="selectmalware" class="selectmalware">
+        <option>--Select dataset--</option>
 
-    <option value="Vung-Win7-Bladabindi.CSV">Vung-Win7-Bladabindi</option>
-    <option value="Vung-Win7-Cryptowall.CSV">Vung-Win7-Cryptowall</option>
-    <option value="Vung-Win7-Locky.Gen.CSV">Vung-Win7-Locky.Gen</option>
-    <option value="Vung-Win7-Teerac.B.CSV">Vung-Win7-Teerac.B</option>
+        <option value="Vung-Win7-Bladabindi.CSV">Vung-Win7-Bladabindi</option>
+        <option value="Vung-Win7-Cryptowall.CSV">Vung-Win7-Cryptowall</option>
+        <option value="Vung-Win7-Locky.Gen.CSV">Vung-Win7-Locky.Gen</option>
+        <option value="Vung-Win7-Teerac.B.CSV">Vung-Win7-Teerac.B</option>
 
-    <option value="Kovter1.CSV">Kovter1</option>
-    <option value="Kovter2.CSV">Kovter2</option>
-    <option value="Ransomware.CSV">Ransomware</option>
-    <option value="wwwlgoogle.CSV">wwwlgoogle</option>
-    <option value="Moi-XP-RemoteAccess_1.CSV">Moi-XP-RemoteAccess_1</option>
-    <option value="Moi-XP-RemoteAccess_2.CSV">Moi-XP-RemoteAccess_2</option>
-    <option value="Moi-XP-RemoteAccess_3.CSV">Moi-XP-RemoteAccess_3</option>
-    <option value="Moi-XP-RemoteAccess_4.CSV">Moi-XP-RemoteAccess_4</option>
-    <option value="Moi-XP-RemoteAccess_5.CSV">Moi-XP-RemoteAccess_5</option>
-    <option value="Moi-XP-RemoteAccess_6.CSV">Moi-XP-RemoteAccess_6</option>
-    <option value="Moi-XP-RemoteAccess_7_exec.CSV">Moi-XP-RemoteAccess_7_exec</option>
-    <option value="Moi-XP-RemoteAccess_7_install.CSV">Moi-XP-RemoteAccess_7_install</option>
-    <option value="faran-7-vs-backdoor-9.CSV">faran-7-vs-backdoor-9</option>
-    <option value="faran-7-vs-backdoor-10.CSV">faran-7-vs-backdoor-10</option>
-    <option value="faran-7-vs-backdoor-11.CSV">faran-7-vs-backdoor-11</option>
-    <option value="faran-7-vs-backdoor-12.CSV">faran-7-vs-backdoor-12</option>
-    <option value="faran-7-vs-backdoor-13.CSV">faran-7-vs-backdoor-13</option>
-    <option value="faran-7-vs-backdoor-14.CSV">faran-7-vs-backdoor-14</option>
-    <option value="faran-7-vs-backdoor-15.CSV">faran-7-vs-backdoor-15</option>
+        <option value="Kovter1.CSV">Kovter1</option>
+        <option value="Kovter2.CSV">Kovter2</option>
+        <option value="Ransomware.CSV">Ransomware</option>
+        <option value="wwwlgoogle.CSV">wwwlgoogle</option>
+        <option value="Moi-XP-RemoteAccess_1.CSV">Moi-XP-RemoteAccess_1</option>
+        <option value="Moi-XP-RemoteAccess_2.CSV">Moi-XP-RemoteAccess_2</option>
+        <option value="Moi-XP-RemoteAccess_3.CSV">Moi-XP-RemoteAccess_3</option>
+        <option value="Moi-XP-RemoteAccess_4.CSV">Moi-XP-RemoteAccess_4</option>
+        <option value="Moi-XP-RemoteAccess_5.CSV">Moi-XP-RemoteAccess_5</option>
+        <option value="Moi-XP-RemoteAccess_6.CSV">Moi-XP-RemoteAccess_6</option>
+        <option value="Moi-XP-RemoteAccess_7_exec.CSV">Moi-XP-RemoteAccess_7_exec</option>
+        <option value="Moi-XP-RemoteAccess_7_install.CSV">Moi-XP-RemoteAccess_7_install</option>
+        <option value="faran-7-vs-backdoor-9.CSV">faran-7-vs-backdoor-9</option>
+        <option value="faran-7-vs-backdoor-10.CSV">faran-7-vs-backdoor-10</option>
+        <option value="faran-7-vs-backdoor-11.CSV">faran-7-vs-backdoor-11</option>
+        <option value="faran-7-vs-backdoor-12.CSV">faran-7-vs-backdoor-12</option>
+        <option value="faran-7-vs-backdoor-13.CSV">faran-7-vs-backdoor-13</option>
+        <option value="faran-7-vs-backdoor-14.CSV">faran-7-vs-backdoor-14</option>
+        <option value="faran-7-vs-backdoor-15.CSV">faran-7-vs-backdoor-15</option>
 
-    <option value="VungPham-Behavior-Bladabindi.gen-XP.CSV">VungPham-Behavior-Bladabindi.gen-XP</option>
-    <option value="VungPham-Behavior-MultiInjector-XP.CSV">VungPham-Behavior-MultiInjector-XP</option>
-    <option value="VungPham-Behavior-Vawtrak.A-XP.CSV">VungPham-Behavior-Vawtrak.A-XP</option>
-    <option value="VungPham-Behavior-Winwebsec.I.CSV">VungPham-Behavior-Winwebsec.I</option>
-    <option value="Vung-Behavior-XP-Payment-copy.CSV">Vung-Behavior-XP-Payment-copy</option>
-    <option value="Vung-Behavior-XP-RemR.CSV">Vung-Behavior-XP-RemR</option>
-    <option value="Vung-Behavior-XP-Scan-copy-(alloyanycut).CSV">Vung-Behavior-XP-Scan-copy-(alloyanycut)</option>
-    <option value="Vung-Email-Flooder-Absolut-XP.CSV">Vung-Email-Flooder-Absolut-XP</option>
-    <option value="Vung-Email-Flooder-Achis-Win10.CSV">Vung-Email-Flooder-Achis-Win10</option>
-    <option value="Vung-Email-Flooder-Achis-XP.CSV">Vung-Email-Flooder-Achis-XP</option>
-    <option value="Vung-Email-Flooder-Archis-Win7.CSV">Vung-Email-Flooder-Archis-Win7</option>
-    <option value="Vung-HackTool-BackSteal-Win10.CSV">Vung-HackTool-BackSteal-Win10</option>
-    <option value="Vung-HackTool-EmailCrack1-Win10.CSV">Vung-HackTool-EmailCrack1-Win10</option>
-    <option value="Vung-HackTool-EmailCrack-Win10.CSV">Vung-HackTool-EmailCrack-Win10</option>
-    <option value="Vung-HackTool-EmailCrack-XP.CSV">Vung-HackTool-EmailCrack-XP</option>
-    <option value="Vung-HackTool-Stealm1-Win10.CSV">Vung-HackTool-Stealm1-Win10</option>
-    <option value="Vung-HackTool-Stealm-Win10.CSV">Vung-HackTool-Stealm-Win10</option>
-    <option value="Huyen-Ransomware-WannaPeace.csv">Huyen-Ransomware-WannaPeace-Win7</option>
-    <option value="Huyen-Trojan-Infostealer.Dexter.csv">Huyen-Trojan-Infostealer-Win7.Dexter</option>
-    <option value="Faran-Trojan-Backdoor.win32.BlueIce.CSV">Faran-Trojan-Backdoor.win32.BlueIce</option>
-    <option value="Faran-Trojan-Backdoor.Win32.CyberSpy.13.b.CSV">Faran-Trojan-Backdoor.Win32.CyberSpy.13.b</option>
-    <option value="Faran-Trojan-Backdoor.win32.Death.25.i.CSV">Faran-Trojan-Backdoor.win32.Death.25.i</option>
-    <option value="Faran-Trojan-Backdoor.win32.executor.a.CSV">Faran-Trojan-Backdoor.win32.executor.a</option>
-    <option value="Faran-win7-Trojan-Backdoor.Win32.Alicia.o.CSV">Faran-win7-Trojan-Backdoor.Win32.Alicia.o</option>
-    <option value="Faran-win7-Trojan-Backdoor.win32.Executor.a.CSV">Faran-win7-Trojan-Backdoor.win32.Executor.a</option>
-    <option value="Win7_WannaPeace.CSV">Win7-WannaPeace-NoFilter</option>
-    <option value="Logfile_Zulfi.CSV">Zulfi-Logfile-NoFilter</option>
-    <option value="Logfile_V1.CSV">Cerber</option>
+        <option value="VungPham-Behavior-Bladabindi.gen-XP.CSV">VungPham-Behavior-Bladabindi.gen-XP</option>
+        <option value="VungPham-Behavior-MultiInjector-XP.CSV">VungPham-Behavior-MultiInjector-XP</option>
+        <option value="VungPham-Behavior-Vawtrak.A-XP.CSV">VungPham-Behavior-Vawtrak.A-XP</option>
+        <option value="VungPham-Behavior-Winwebsec.I.CSV">VungPham-Behavior-Winwebsec.I</option>
+        <option value="Vung-Behavior-XP-Payment-copy.CSV">Vung-Behavior-XP-Payment-copy</option>
+        <option value="Vung-Behavior-XP-RemR.CSV">Vung-Behavior-XP-RemR</option>
+        <option value="Vung-Behavior-XP-Scan-copy-(alloyanycut).CSV">Vung-Behavior-XP-Scan-copy-(alloyanycut)</option>
+        <option value="Vung-Email-Flooder-Absolut-XP.CSV">Vung-Email-Flooder-Absolut-XP</option>
+        <option value="Vung-Email-Flooder-Achis-Win10.CSV">Vung-Email-Flooder-Achis-Win10</option>
+        <option value="Vung-Email-Flooder-Achis-XP.CSV">Vung-Email-Flooder-Achis-XP</option>
+        <option value="Vung-Email-Flooder-Archis-Win7.CSV">Vung-Email-Flooder-Archis-Win7</option>
+        <option value="Vung-HackTool-BackSteal-Win10.CSV">Vung-HackTool-BackSteal-Win10</option>
+        <option value="Vung-HackTool-EmailCrack1-Win10.CSV">Vung-HackTool-EmailCrack1-Win10</option>
+        <option value="Vung-HackTool-EmailCrack-Win10.CSV">Vung-HackTool-EmailCrack-Win10</option>
+        <option value="Vung-HackTool-EmailCrack-XP.CSV">Vung-HackTool-EmailCrack-XP</option>
+        <option value="Vung-HackTool-Stealm1-Win10.CSV">Vung-HackTool-Stealm1-Win10</option>
+        <option value="Vung-HackTool-Stealm-Win10.CSV">Vung-HackTool-Stealm-Win10</option>
+        <option value="Huyen-Ransomware-WannaPeace.csv">Huyen-Ransomware-WannaPeace-Win7</option>
+        <option value="Huyen-Trojan-Infostealer.Dexter.csv">Huyen-Trojan-Infostealer-Win7.Dexter</option>
+        <option value="Faran-Trojan-Backdoor.win32.BlueIce.CSV">Faran-Trojan-Backdoor.win32.BlueIce</option>
+        <option value="Faran-Trojan-Backdoor.Win32.CyberSpy.13.b.CSV">Faran-Trojan-Backdoor.Win32.CyberSpy.13.b</option>
+        <option value="Faran-Trojan-Backdoor.win32.Death.25.i.CSV">Faran-Trojan-Backdoor.win32.Death.25.i</option>
+        <option value="Faran-Trojan-Backdoor.win32.executor.a.CSV">Faran-Trojan-Backdoor.win32.executor.a</option>
+        <option value="Faran-win7-Trojan-Backdoor.Win32.Alicia.o.CSV">Faran-win7-Trojan-Backdoor.Win32.Alicia.o</option>
+        <option value="Faran-win7-Trojan-Backdoor.win32.Executor.a.CSV">Faran-win7-Trojan-Backdoor.win32.Executor.a
+        </option>
+        <option value="Win7_WannaPeace.CSV">Win7-WannaPeace-NoFilter</option>
+        <option value="Logfile_Zulfi.CSV">Zulfi-Logfile-NoFilter</option>
+        <option value="Logfile_V1.CSV">Cerber</option>
 
 
-</select>
+    </select>
+        </span>
+</div>
 <fieldset>
     <legend>Data Overview - Number of API calls in each type</legend>
+
     <table width="100%" border="0px" style="height: 100px">
         <tr>
-            <td width="65%">
+            <td width="75%">
                 <div id="stats"></div>
-                <input type="checkbox" id="opSelection" onclick="selectAll()" checked> Select all
             </td>
-            <td width="1%">
 
-            </td>
             <td width="15%">
                 List of Operations:
                 <div id="OperationList" class="content">
 
                 </div>
             </td>
-            <td width="1%">
 
-            </td>
-            <td width="20%">
+            <td width="15%">
                 Connecting domains:
                 <div>
                     <select id="maliciousdomain" class="malware" size="15"></select>
@@ -130,31 +130,39 @@ Please select dataset:
         </tr>
         </tbody>
     </table>
-
-
 </fieldset>
 <fieldset>
     <legend>
         Libraries called
     </legend>
-    <div>
-        <p>
-            <label for="amount">Number of libraries called:</label>
-            <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-        </p>
-        <div id="slider" style="width: 400px; background: linear-gradient(to right, #ffffff 0%, #000000 100%);">
-            <div id="custom-handle" class="ui-slider-handle"></div>
-        </div>
-        <aside>
-            <p>Order: <select id="order">
-                <option value="similarity">By Similarity</option>
-                <option value="name">By name</option>
-                <option value="frequency">By Frequency</option>
-                <option value="linkDiff">By Different libraries called</option>
-            </select>
-        </aside>
-    </div>
-    <div id="matrix2D"></div>
+    <table width="100%" border="0px">
+        <tbody>
+        <tr>
+            <td width="100%">
+                <div>
+                    <p>
+                        <label for="amount">Number of libraries called:</label>
+                        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                    </p>
+                    <div id="slider"
+                         style="width: 400px; background: linear-gradient(to right, #ffffff 0%, #000000 100%);">
+                        <div id="custom-handle" class="ui-slider-handle"></div>
+                    </div>
+                    <aside>
+                        <p>Order: <select id="order">
+                            <option value="similarity">By Similarity</option>
+                            <option value="name">By name</option>
+                            <option value="frequency">By Frequency</option>
+                            <option value="linkDiff">By Different libraries called</option>
+                        </select>
+                    </aside>
+                </div>
+                <div id="matrix2D"></div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
 
 </fieldset>
 <div id="loading">

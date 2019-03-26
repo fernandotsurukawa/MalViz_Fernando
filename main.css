@@ -6,6 +6,41 @@
     border: 1px solid #9a9a9a;
     padding: 10px;
 }
+.header {
+    padding: 12px;
+    border: 2px groove #dadada;
+    background-color: #fff;
+    margin: 10px 0 15px 0;
+    border-style: groove;
+    /*box-shadow: 8px 8px 18px #cccccc;*/
+}
+.title {
+    font-weight: bold;
+    font-size: 23px;
+}
+.selection {
+    float: right;
+}
+legend {
+    font-weight: bold;
+    padding: 5px;
+    border-style: initial;
+    border-right: 2px groove #d6d6d6;
+    border-top: 2px groove #D6D6D6;
+    border-bottom: 2px groove #D6D6D6;
+    border-left: 5px solid #747474;
+    background-color: #ffffff;
+}
+body {
+    background-color: #eeeeee;
+}
+fieldset {
+    border: 2px groove #D6D6D6;
+    margin: 10px;
+    background-color: #ffffff;
+    box-shadow: 8px 8px 18px #cccccc;
+    /*border-style: solid;*/
+}
 .normV {
     visibility: visible;
 }
@@ -27,16 +62,16 @@
     stroke-width: 0px;
 }
 .op1 {
-    stroke-width: 3px;
+    stroke-width: 2px;
     stroke-opacity: 1;
-    stroke: #fffd00;
+    stroke: #a6a6a6;
     stroke-alignment: inner;
 }
 .op2{
     stroke-width: 4px;
     stroke-opacity: 1;
-    stroke-dasharray: 3;
-    stroke: #fffd00;
+    /*stroke-dasharray: 3;*/
+    stroke: #9f9f9f;
     /*stroke: #ffb2ec;*/
     stroke-alignment: inner;
 }
@@ -234,7 +269,8 @@ text.active {
 }
 
 select.malware {
-    width: 200px;
+    margin: 0;
+    width: 150px;
     height: 200px;
 }
 
