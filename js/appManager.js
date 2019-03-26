@@ -2042,24 +2042,21 @@ function applicationManager(globalData) {
             var maxBin;
 
             function stream(group_by_process_name, globalData) {
+                var categories = ["FileSystem", "ProcessThread", "Registry", "Network","Profiling", "Others"];
                 var group = JSON.parse(JSON.stringify(group_by_process_name));
                 var global_data = JSON.parse(JSON.stringify(globalData));
                 var ref = {};
                 var defaultValue = 0;
-                var bin = 20000;
+                var binSize = 20000;
                 global_data.forEach(d => {
-                    d.binStep = Math.round(d.Step / bin);
+                    d.binStep = Math.round(d.Step / binSize);
                 });
                 maxBin = d3.max(global_data, d => d.binStep);
 
                 var a = group.map(process => {
 
-                    // categorize:
-
-
-                    console.log(process);
                     process.values.forEach(d => {
-                        d.binStep = Math.round(d.Step / bin);
+                        d.binStep = Math.round(d.Step / binSize);
                     });
                     process.values.forEach(d => {
                         if (d.Path.length > 0) {
@@ -2069,11 +2066,40 @@ function applicationManager(globalData) {
 
                     var binData = d3.nest()
                         .key(d => d.binStep)
-                        .rollup(v => v.length)
+                        // .rollup(v => v.length)
                         .entries(process.values
                             .filter(d => d.Path.length > 0)
                         );
 
+                    binData.forEach(bin => {
+                        bin.grouping = {
+                            Registry: 0,
+                            Network: 0,
+                            exe: 0,
+                            dll: 0,
+                            File: 0
+                        };
+                        let nest = d3.nest().key(d => d.Process)
+                            .rollup(v => v.length)
+                            .entries(bin.values);
+
+                        bin.grouping["Registry"] = nest.find(d => d.key === "Registry") ? nest.find(d => d.key === "Registry").value : 0;
+                        bin.grouping["Network"] = nest.find(d => d.key === "Network") ? nest.find(d => d.key === "Network").value : 0;
+
+                        let rest = bin.values.filter(d => (d.Process !== "Registry") && (d.Process !== "Network"));
+                        rest.forEach(rec => {
+                            if (rec.Path.endsWith(".exe")){
+                                bin.grouping.exe += 1;
+                            }
+                            else if (rec.Path.endsWith(".dll")){
+                                bin.grouping.dll += 1;
+                            }
+                            else {
+                                bin.grouping.File
+                            }
+                        })
+
+                    });
                     // add dummy points
                     process.calls = [];
                     for (var i = 0; i < maxBin + 1; i++) {
