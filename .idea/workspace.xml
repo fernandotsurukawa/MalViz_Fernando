@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d8b82504-1950-4318-aa3d-f800f494b894" name="Default Changelist" comment="" />
+    <list default="true" id="d8b82504-1950-4318-aa3d-f800f494b894" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/js/appManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/appManager.js" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -70,7 +72,7 @@
         <counts>
           <entry key="css" value="498" />
           <entry key="html" value="367" />
-          <entry key="js" value="10124" />
+          <entry key="js" value="10143" />
           <entry key="md" value="2052" />
         </counts>
       </usages-collector>
@@ -78,7 +80,7 @@
         <counts>
           <entry key="CSS" value="498" />
           <entry key="HTML" value="367" />
-          <entry key="JavaScript" value="10124" />
+          <entry key="JavaScript" value="10143" />
           <entry key="Markdown" value="2052" />
         </counts>
       </usages-collector>
@@ -112,8 +114,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/ultility.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4344">
-              <caret line="181" selection-start-line="181" selection-end-line="181" />
+            <state relative-caret-position="295">
+              <caret line="162" column="25" lean-forward="true" selection-start-line="162" selection-start-column="25" selection-end-line="162" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -121,8 +123,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="86">
-              <caret line="5" column="54" lean-forward="true" selection-start-line="5" selection-start-column="54" selection-end-line="5" selection-end-column="54" />
+            <state relative-caret-position="205">
+              <caret line="87" column="13" lean-forward="true" selection-start-line="87" selection-start-column="13" selection-end-line="87" selection-end-column="13" />
+              <folding>
+                <element signature="n#style#0;n#table#0;n#fieldset#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#0;n#p#0;n#div#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#fieldset#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#fieldset#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -130,8 +137,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="473">
-              <caret line="34" column="29" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
+            <state relative-caret-position="1056">
+              <caret line="44" column="15" selection-start-line="44" selection-start-column="15" selection-end-line="44" selection-end-column="15" />
             </state>
           </provider>
         </entry>
@@ -139,8 +146,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/appManager.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="731">
-              <caret line="2097" column="49" selection-start-line="2097" selection-start-column="49" selection-end-line="2097" selection-end-column="49" />
+            <state relative-caret-position="498">
+              <caret line="2103" column="44" lean-forward="true" selection-start-line="2103" selection-start-column="44" selection-end-line="2103" selection-end-column="44" />
               <folding>
                 <element signature="e#6#12#0" expanded="true" />
                 <element signature="e#6#12#0" expanded="true" />
@@ -163,12 +170,10 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>arcs</find>
       <find>hide al</find>
       <find>bold</find>
       <find>hide a</find>
       <find>.arc</find>
-      <find>hide all</find>
       <find>rectdr</find>
       <find>opselect</find>
       <find>svgStats</find>
@@ -193,6 +198,8 @@
       <find>conn</find>
       <find>mal</find>
       <find>Math.min</find>
+      <find>hide all</find>
+      <find>bindata</find>
     </findStrings>
     <replaceStrings>
       <replace>op0</replace>
@@ -254,7 +261,20 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="MalViz" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MalViz" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
@@ -333,19 +353,19 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="197680000" />
+    <option name="totallyTimeSpent" value="199732000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="2" y="23" width="1022" height="1417" extended-state="0" />
+    <frame x="2" y="23" width="1213" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.14273505" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.14261745" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3295107" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.17341483" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.17341483" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -369,15 +389,9 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/js/appManager.js</url>
-          <line>2108</line>
+          <line>2114</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/js/appManager.js</url>
-          <line>2103</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="3" />
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -469,32 +483,37 @@
     <entry file="file://$PROJECT_DIR$/lib/underscore.js" />
     <entry file="file://$PROJECT_DIR$/js/ultility.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4344">
-          <caret line="181" selection-start-line="181" selection-end-line="181" />
+        <state relative-caret-position="295">
+          <caret line="162" column="25" lean-forward="true" selection-start-line="162" selection-start-column="25" selection-end-line="162" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="https://d3js.org/d3.v4.js">
       <provider selected="true" editor-type-id="httpFileEditor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/main.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="86">
-          <caret line="5" column="54" lean-forward="true" selection-start-line="5" selection-start-column="54" selection-end-line="5" selection-end-column="54" />
+        <state relative-caret-position="1056">
+          <caret line="44" column="15" selection-start-line="44" selection-start-column="15" selection-end-line="44" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.css">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="473">
-          <caret line="34" column="29" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
+        <state relative-caret-position="205">
+          <caret line="87" column="13" lean-forward="true" selection-start-line="87" selection-start-column="13" selection-end-line="87" selection-end-column="13" />
+          <folding>
+            <element signature="n#style#0;n#table#0;n#fieldset#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#p#0;n#div#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#fieldset#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#fieldset#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/appManager.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="731">
-          <caret line="2097" column="49" selection-start-line="2097" selection-start-column="49" selection-end-line="2097" selection-end-column="49" />
+        <state relative-caret-position="498">
+          <caret line="2103" column="44" lean-forward="true" selection-start-line="2103" selection-start-column="44" selection-end-line="2103" selection-end-column="44" />
           <folding>
             <element signature="e#6#12#0" expanded="true" />
             <element signature="e#6#12#0" expanded="true" />

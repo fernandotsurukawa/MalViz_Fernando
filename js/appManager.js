@@ -2046,7 +2046,13 @@ function applicationManager(globalData) {
                 var group = JSON.parse(JSON.stringify(group_by_process_name));
                 var global_data = JSON.parse(JSON.stringify(globalData));
                 var ref = {};
-                var defaultValue = 0;
+                var defaultValue = {
+                    Registry: 0,
+                    Network: 0,
+                    exe: 0,
+                    dll: 0,
+                    File: 0
+                };
                 var binSize = 20000;
                 global_data.forEach(d => {
                     d.binStep = Math.round(d.Step / binSize);
@@ -2095,7 +2101,7 @@ function applicationManager(globalData) {
                                 bin.grouping.dll += 1;
                             }
                             else {
-                                bin.grouping.File
+                                bin.grouping.File += 1;
                             }
                         })
 
@@ -2104,7 +2110,7 @@ function applicationManager(globalData) {
                     process.calls = [];
                     for (var i = 0; i < maxBin + 1; i++) {
                         process.calls.push(binData.find(d => d.key == i) ?
-                            binData.find(d => d.key == i).value : defaultValue)
+                            binData.find(d => d.key == i).grouping : defaultValue)
                     }
                     return {
                         process: process.key,
