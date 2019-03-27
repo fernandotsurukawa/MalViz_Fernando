@@ -564,7 +564,7 @@ function applicationManager(globalData) {
             // width = 1100,
             height = 250;
         var svg = d3.select("#matrix2D").append("svg")
-            // .attr("width", width + margin.left + margin.right)
+        // .attr("width", width + margin.left + margin.right)
             .attr("width", "100%")
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
@@ -1317,7 +1317,7 @@ function applicationManager(globalData) {
             var padding = 10;
 
             d3.select(position).selectAll("*").remove();
-            d3.select(position).html(function() {
+            d3.select(position).html(function () {
                 return '<input type="checkbox" id="opSelection" onclick="selectAll()" checked> Select all'
             });
 
@@ -1330,10 +1330,10 @@ function applicationManager(globalData) {
                     return d.values.length;
                 })])
                 // .range([settings.ProcessArea.scale_xMin, settings.ProcessArea.scale_xMax]);
-                .range([settings.ProcessArea.scale_xMin, Math.min(overviewWidth - margin_left - 50,settings.ProcessArea.scale_xMax )]);
+                .range([settings.ProcessArea.scale_xMin, Math.min(overviewWidth - margin_left - 50, settings.ProcessArea.scale_xMax)]);
 
             group_by_process.forEach(function (process, index) {
-                var group = svgStats.append('g').attr("transform", "translate(0," + (padding + index * bar_height)+ ")");
+                var group = svgStats.append('g').attr("transform", "translate(0," + (padding + index * bar_height) + ")");
                 var child_process = d3.nest().key(function (d) {
                     return d.Operation
                 }).entries(process.values);
@@ -2040,20 +2040,20 @@ function applicationManager(globalData) {
             // ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～
 
             var maxBin;
+            var maxCall = 0, minCall = 0;
 
             function stream(group_by_process_name, globalData) {
-                var categories = ["FileSystem", "ProcessThread", "Registry", "Network","Profiling", "Others"];
                 var group = JSON.parse(JSON.stringify(group_by_process_name));
                 var global_data = JSON.parse(JSON.stringify(globalData));
                 var ref = {};
                 var defaultValue = {
                     Registry: 0,
                     Network: 0,
+                    File: 0,
                     exe: 0,
                     dll: 0,
-                    File: 0
                 };
-                var binSize = 20000;
+                var binSize = 40000;
                 global_data.forEach(d => {
                     d.binStep = Math.round(d.Step / binSize);
                 });
@@ -2078,58 +2078,60 @@ function applicationManager(globalData) {
                         );
 
                     binData.forEach(bin => {
-                        bin.grouping = {
+                        bin.group = {
                             Registry: 0,
                             Network: 0,
+                            File: 0,
                             exe: 0,
                             dll: 0,
-                            File: 0
                         };
                         let nest = d3.nest().key(d => d.Process)
                             .rollup(v => v.length)
                             .entries(bin.values);
 
-                        bin.grouping["Registry"] = nest.find(d => d.key === "Registry") ? nest.find(d => d.key === "Registry").value : 0;
-                        bin.grouping["Network"] = nest.find(d => d.key === "Network") ? nest.find(d => d.key === "Network").value : 0;
+                        bin.group["Registry"] = nest.find(d => d.key === "Registry") ? nest.find(d => d.key === "Registry").value : 0;
+                        bin.group["Network"] = nest.find(d => d.key === "Network") ? nest.find(d => d.key === "Network").value : 0;
 
                         let rest = bin.values.filter(d => (d.Process !== "Registry") && (d.Process !== "Network"));
                         rest.forEach(rec => {
-                            if (rec.Path.endsWith(".exe")){
-                                bin.grouping.exe += 1;
+                            if (rec.Path.endsWith(".exe")) {
+                                bin.group.exe += 1;
                             }
-                            else if (rec.Path.endsWith(".dll")){
-                                bin.grouping.dll += 1;
+                            else if (rec.Path.endsWith(".dll")) {
+                                bin.group.dll += 1;
                             }
                             else {
-                                bin.grouping.File += 1;
+                                bin.group.File += 1;
                             }
-                        })
+                        });
+                        categories.forEach(d => {
+                            if (bin.group[d] > maxCall) {
+                                maxCall = bin.group[d]
+                            }
+                            if (bin.group[d] < minCall) {
+                                minCall = bin.group[d]
+                            }
 
+                        })
                     });
                     // add dummy points
                     process.calls = [];
                     for (var i = 0; i < maxBin + 1; i++) {
                         process.calls.push(binData.find(d => d.key == i) ?
-                            binData.find(d => d.key == i).grouping : defaultValue)
+                            binData.find(d => d.key == i).group : defaultValue)
                     }
                     return {
                         process: process.key,
                         calls: process.calls
                     }
                 });
-                // console.log(d3.keys(ref).sort((a,b) => {return a.length - b.length}));
+
                 return a;
             }
 
+            const categories = ["Registry", "Network", "File", "exe", "dll"];
+            const stackColor = ["#468044","#8f4447", "#af682f", "#39708b", "#7e7e7e"];
             var streamData = stream(group_by_process_name, globalData);
-           
-            // get max number of calls
-            var maxCall = 0;
-            streamData.forEach(record => {
-                if (d3.max(record.calls) > maxCall) {
-                    maxCall = d3.max(record.calls)
-                }
-            });
 
             var xScale = d3.scaleLinear()
                 .domain([0, maxBin])
@@ -2141,28 +2143,31 @@ function applicationManager(globalData) {
 
             var streamHeightScale =
                 d3.scaleSqrt()
-                    .domain([0, maxCall])
-                    .range([0, 2 * rect_normal_height]);
+                    .domain([minCall, maxCall])
+                    .range([-rect_normal_height/2, rect_normal_height/2]);
+
+            const stack = d3.stack().keys(categories)     // create stack function
+                .offset(d3.stackOffsetSilhouette)
+            ;
 
             var area = d3.area()
-                .curve(d3.curveNatural)
                 .x(function (d, i) {
                     return StepScale(xScale(i)) + margin_left;
                 })
                 .y0(function (d) {
-                    return -streamHeightScale(d) / 2;
+                    return streamHeightScale(d[0])
                 })
                 .y1(function (d) {
-                    return streamHeightScale(d) / 2;
-                });
+                    return streamHeightScale(d[1])
+                })
+                .curve(d3.curveCardinal);
+
 
             group_by_process_name.forEach(function (row, index) {
                 var group = svg_process_name.append('g')
                     .attr("transform", "translate(0," + index * group_rect_height + ")");
 
                 group.append('line').attr('stroke-dasharray', '2, 5').attr('stroke', 'black').attr('stroke-width', 0.5)
-                // .attr('x1', (StepScale(row.values[0].Step) * rect_width + margin_left + 10)).attr('y1', rect_height / 2)
-                // .attr('x2', (((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 10)).attr('y2', rect_height / 2);
                     .attr('x1', (StepScale(minStep) * rect_width + margin_left + 10))
                     .attr('y1', rect_height / 2)
                     .attr('x2', (((StepScale(maxStep)) * rect_width + margin_left) + 10))
@@ -2185,21 +2190,21 @@ function applicationManager(globalData) {
                 })
 
                 // streamDraw =========================
-                var stream = group.selectAll("path").data([streamData[index].calls])
+                var stacks = stack(streamData[index].calls);
+                group.selectAll("path")
+                    .data(stacks)
                     .enter().append("path")
-                    .style("fill", "#9d9d9d")
-                    .attr("transform", function (d, i) {
-                        return "translate(0" + "," + yScale(i) + (rectSpacing + rect_normal_height / 2) + ")";
-                    })
+                    .attr("transform", "translate(0" + "," + (rectSpacing + rect_normal_height) + ")")
                     .attr("class", "stream")
-                    .attr("d", area);
+                    .attr("d", area)
+                    .attr("fill", (d, i)=> stackColor[i]);
 
                 // textDraw
                 group.append('text').attr("class", "malName" + index).text(row.key.substring(0, 20))
                     .attr('x', ((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 5).attr('y', group_rect_height / 2)
                     .attr('text-anchor', 'start');
 
-                //======================= rectDraw for process here ================================
+                //================== rectDraw for process here =================
                 var rect = group.selectAll('rect')
                     .data(row.values
                         // .filter(d => d["Process"] !== "Profiling")
@@ -2587,6 +2592,7 @@ function applicationManager(globalData) {
     }
 
 }
+
 var operationShown;
 var active = {};
 var firstClick;
@@ -2594,7 +2600,7 @@ var firstClick;
 function selectAll() {
     var selectAll = document.getElementById("opSelection").checked;
     firstClick = true;
-    if (selectAll){
+    if (selectAll) {
         // show all rect
         d3.select("#heatmap").selectAll('rect[group=detail]')
             .style('visibility', "visible");
