@@ -1830,7 +1830,7 @@ function applicationManager(globalData) {
             // SVG =======================================================================
             // Outline -----------------------------------------------------------
             const categories = ["Registry", "Network", "File", "exe", "dll"];
-            const stackColor = ["#468044","#8f4447", "#af682f", "#39708b", "#7e7e7e"];
+            const stackColor = ["#3d6c40","#8f4447", "#af7131", "#39708b", "#7e7e7e"];
             // legend
             var legend = d3.select("#heatmap")
                 .append("svg")
@@ -1845,24 +1845,26 @@ function applicationManager(globalData) {
                 .data(stackColor)
                 .enter()
                 .append("circle")
-                .attr("cx", 20)
+                .attr("cx", 50)
                 .attr("cy", (d,i) => 20 +i * 12)
-                .attr("r", 5)
+                .attr("r", 4.5)
                 .attr("fill", d => d);
 
-
             legend.append("text")
-                // .attr("x", -20)
-                .attr("y", 12)
+                .attr("x", 10)
+                .attr("y", 10)
+                .attr("font-size","15px")
                 .text("References stream");
+
             legend.selectAll(".textLegend")
                 .data(categories)
                 .enter()
                 .append("text")
                 .attr("class", "textLegend")
                 .text(d => d)
-                .attr("font-size","15px")
-                .attr("x", 40)
+                .attr("font-size","13px")
+                // .attr("font-family", "sans-serif")
+                .attr("x", 70)
                 .attr("y", (d,i) => 25 +i * 12);
 
             getTimeBoxData();
@@ -2153,7 +2155,6 @@ function applicationManager(globalData) {
 
                 return a;
             }
-
             var streamData = stream(group_by_process_name, globalData);
 
             var xScale = d3.scaleLinear()
@@ -2210,7 +2211,7 @@ function applicationManager(globalData) {
                     obj.value = d.values;
 
                     lines.push(obj);
-                })
+                });
 
                 // streamDraw =========================
                 var stacks = stack(streamData[index].calls);
@@ -2220,7 +2221,26 @@ function applicationManager(globalData) {
                     .attr("transform", "translate(0" + "," + (rectSpacing + rect_normal_height) + ")")
                     .attr("class", "stream")
                     .attr("d", area)
-                    .attr("fill", (d, i)=> stackColor[i]);
+                    .attr("fill", (d, i)=> stackColor[i])
+                    // .on("mouseover", function () {
+                    //     div3.transition()
+                    //         .duration(200)
+                    //         .style("opacity", 1);
+                    //
+                    //     div3.html((d,i) => categories[i])
+                    //         .style("left", (d3.event.pageX) + 20 + "px")
+                    //         .style("top", (d3.event.pageY - 30) + "px")
+                    //         .style("pointer-events", "none")
+                    //         .style("background-color", () => {
+                    //                 // return colorPicker(child.event).replace("(", "a(").replace(")", ", 0.8)");
+                    //                 return "#dddddd"
+                    //             }
+                    //         )
+                    // })
+                    // .on("mouseout", function () {
+                    //     div3.style("opacity", 0);
+                    // })
+                ;
 
                 // textDraw
                 group.append('text').attr("class", "malName" + index).text(row.key.substring(0, 20))
