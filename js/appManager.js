@@ -1809,22 +1809,61 @@ function applicationManager(globalData) {
                 d3.select("#sliderValue").text(h.toFixed(0));
             }
 
+
             // granularity ------------------------------------------------------------------
             var graContainer = d3.select("#heatmap")
                 .append("svg").attr("id", "magContainer")
                 .attr("x", "50")
                 .attr("y", "100")
-                .attr("width", "800")
+                .attr("width", "400")
                 .attr("height", "70");
 
             graContainer.append("svg:text").attr("display", "block")
-                .append("svg:tspan").attr("id", "graValue").attr('x', 0).attr('dy', 25).text("Mouse over" +
-                " timeline for magnification. ").attr("font-weight", "bold")
-                .append("svg:tspan").attr("id", "graValue").attr('x', 320).attr('dy', 0).text(" Granularity: " + granularity + ". Each magnified gap equals to " + each.toFixed(2) + " seconds.").attr("font-weight", "normal")
-            // .attr("font-family", "sans-serif").attr("font-size","15px")
+                // .append("svg:tspan").attr("id", "graValue").attr('x', 0).attr('dy', 25).text("Mouse over timeline for magnification. ").attr("font-weight", "bold")
+                .append("svg:tspan").attr("id", "graValue")
+
+                .attr("y", 30)
+                .text(" Granularity: " + granularity + ". Each magnified gap equals to " + each.toFixed(2) + " seconds.").attr("font-weight", "normal")
+            // .attr("font-family", "sans-serif")
+                .attr("font-size","15px")
             ;
             // SVG =======================================================================
             // Outline -----------------------------------------------------------
+            const categories = ["Registry", "Network", "File", "exe", "dll"];
+            const stackColor = ["#468044","#8f4447", "#af682f", "#39708b", "#7e7e7e"];
+            // legend
+            var legend = d3.select("#heatmap")
+                .append("svg")
+                // .attr("x", 100)
+                // .attr("y", 100)
+                .attr("width", 150)
+                .attr("height", 80)
+                .style("float", "right")
+                .attr("id", "legend");
+
+            legend.selectAll("circle")
+                .data(stackColor)
+                .enter()
+                .append("circle")
+                .attr("cx", 20)
+                .attr("cy", (d,i) => 20 +i * 12)
+                .attr("r", 5)
+                .attr("fill", d => d);
+
+
+            legend.append("text")
+                // .attr("x", -20)
+                .attr("y", 12)
+                .text("References stream");
+            legend.selectAll(".textLegend")
+                .data(categories)
+                .enter()
+                .append("text")
+                .attr("class", "textLegend")
+                .text(d => d)
+                .attr("font-size","15px")
+                .attr("x", 40)
+                .attr("y", (d,i) => 25 +i * 12);
 
             getTimeBoxData();
 
@@ -2009,20 +2048,6 @@ function applicationManager(globalData) {
                                 return 0.2;
                             }
                         })
-                        // .style("visibility", function (d, i) {
-                        //     if (d.main) {
-                        //         return "visible"
-                        //     }    // main ticks
-                        //     else if (d.step < leftBound) {
-                        //         return "hidden";
-                        //     }
-                        //     else if (d.step > rightBound) {
-                        //         return "hidden";
-                        //     }
-                        //     else {
-                        //         return "visible";
-                        //     }
-                        // })
                         .style("stroke-width", 1)
                         .style("stroke-dasharray", function (d, i) {
                             if (d.main) {
@@ -2129,8 +2154,6 @@ function applicationManager(globalData) {
                 return a;
             }
 
-            const categories = ["Registry", "Network", "File", "exe", "dll"];
-            const stackColor = ["#468044","#8f4447", "#af682f", "#39708b", "#7e7e7e"];
             var streamData = stream(group_by_process_name, globalData);
 
             var xScale = d3.scaleLinear()
@@ -2160,7 +2183,7 @@ function applicationManager(globalData) {
                 .y1(function (d) {
                     return streamHeightScale(d[1])
                 })
-                .curve(d3.curveCardinal);
+                .curve(d3.curveCatmullRom);
 
 
             group_by_process_name.forEach(function (row, index) {
