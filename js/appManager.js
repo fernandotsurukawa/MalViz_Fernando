@@ -17,7 +17,7 @@ function applicationManager(globalData) {
 
     var settings = {
         ProcessArea: {
-            svg_height: 200,
+            svg_height: 220,
             left: 150,
             bar_height: 35,
             scale_xMin: 10,
