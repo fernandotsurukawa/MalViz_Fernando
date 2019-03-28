@@ -1,5 +1,5 @@
 function applicationManager(globalData) {
-    var arcSelect;
+     var arcSelect;
     var [minStep, maxStep] = d3.extent(globalData, d => d.Step);
     var svgActionWidth;
     //var initStamp, maxStamp;
@@ -223,7 +223,6 @@ function applicationManager(globalData) {
             else {
                 return 0;
             }
-
         }
 
         function getDif(count1, count2) { // penalty function
@@ -239,7 +238,7 @@ function applicationManager(globalData) {
             processArray[firstProcessIndex].isUsed = true;
             processArray[firstProcessIndex].indexSimilarity = 0;
 
-            var startIndex = firstProcessIndex
+            var startIndex = firstProcessIndex;
             var count = 1;
             while (count < processArray.length) {
                 var minDif = 100000000;
@@ -1537,32 +1536,31 @@ function applicationManager(globalData) {
                 });
             }
 
-            updated_data.sort(function (a, b) {
-                if (getSuccessors(a, []).length < getSuccessors(b, []).length) {
-                    return 1;
-                }
-                else if (getSuccessors(a, []).length > getSuccessors(b, []).length) {
-                    return -1;
-                }
-                else {
-                    if (a.values[0].Step < b.values[0].Step) {
-                        return -1;
-                    }
-                    else if (a.values[0].Step > b.values[0].Step) {
-                        return 1;
-                    }
-                    else
-                        return 0;
-                }
-            });
+            // updated_data.sort(function (a, b) {
+            //     if (getSuccessors(a, []).length < getSuccessors(b, []).length) {
+            //         return 1;
+            //     }
+            //     else if (getSuccessors(a, []).length > getSuccessors(b, []).length) {
+            //         return -1;
+            //     }
+            //     else {
+            //         if (a.values[0].Step < b.values[0].Step) {
+            //             return -1;
+            //         }
+            //         else if (a.values[0].Step > b.values[0].Step) {
+            //             return 1;
+            //         }
+            //         else
+            //             return 0;
+            //     }
+            // });
 
             var orderedArray = [];
 
-            for (var i = 0; i < updated_data.length; i++) {
-                dfs(updated_data[i], orderedArray);
-            }
-            // orderedArray = updated_data;
-
+            // for (var i = 0; i < updated_data.length; i++) {
+            //     dfs(updated_data[i], orderedArray);
+            // }
+            orderedArray = updated_data;
             // console.log(calculateDistance(orderedArray));
 
             // DFS - convert tree to array using DFS
@@ -2070,8 +2068,8 @@ function applicationManager(globalData) {
             var maxCall = 0, minCall = 0;
 
             function stream(group_by_process_name, globalData) {
-                var group = JSON.parse(JSON.stringify(group_by_process_name));
-                var global_data = JSON.parse(JSON.stringify(globalData));
+                var group = group_by_process_name
+                var global_data = globalData
                 var ref = {};
                 var defaultValue = {
                     Registry: 0,
@@ -2545,7 +2543,8 @@ function applicationManager(globalData) {
             globalgroupbyprocessname = group_by_process_name;
 
             //drawMatrixOld(matrix, libarr, group_by_process_name);
-
+            var t1 = performance.now();
+            console.log("Call took " + (t1 - t0) + " milliseconds.");
         },
         draw2DMatrix: function (position) {
             var graphs = ExtractGraph(globalData);
@@ -2598,7 +2597,7 @@ function applicationManager(globalData) {
             });
             var max = d3.max(graphs.links, function (d) {
                 return d.value.length;
-            })
+            });
             return {mincall: min, maxcall: max}
         },
         updateRangeFilter: function (min, max) {
