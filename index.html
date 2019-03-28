@@ -29,8 +29,8 @@
     <select id="selectmalware" class="selectmalware">
         <option>--Select dataset--</option>
 
-        <!--<option value="Vung-Win7-Bladabindi.CSV">Vung-Win7-Bladabindi</option>-->
-        <!--<option value="Vung-Win7-Cryptowall.CSV">Vung-Win7-Cryptowall</option>-->
+        <option value="Vung-Win7-Bladabindi.CSV">Vung-Win7-Bladabindi</option>
+        <option value="Vung-Win7-Cryptowall.CSV">Vung-Win7-Cryptowall</option>
 
                  <option value="Moi-Win7-RemoteAccess_2.CSV">Moi-Win7-RemoteAccess_2</option>
         <option value="Moi-Win7-RemoteAccess_6.CSV">Moi-Win7-RemoteAccess_6</option>
@@ -176,6 +176,7 @@
 <script src="js/ultility.js"></script>
 <script src="js/appManager.js"></script>
 <script>
+    var t0;
     let divOperation = d3.select("body").append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
@@ -201,6 +202,7 @@
 
     });
     let init = function (filePath) {
+        t0 = performance.now();
         d3.queue()
             .defer(d3.csv, "data/" + filePath, function (d) {
                 return {

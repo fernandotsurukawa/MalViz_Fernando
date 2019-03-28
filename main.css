@@ -63,17 +63,16 @@ fieldset {
     stroke-width: 0px;
 }
 .op1 {
-    stroke-width: 2px;
+    stroke-width: 1px;
     stroke-opacity: 1;
-    stroke: #a6a6a6;
+    stroke: #292929;
     stroke-alignment: inner;
 }
 .op2{
-    stroke-width: 4px;
+    stroke-width: 1px;
     stroke-opacity: 1;
-    /*stroke-dasharray: 3;*/
-    stroke: #9f9f9f;
-    /*stroke: #ffb2ec;*/
+    stroke-dasharray: 3;
+    stroke: #292929;
     stroke-alignment: inner;
 }
 .track,
