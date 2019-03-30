@@ -188,3 +188,11 @@ function getProcessNameIndex(processlst, key) {
     });
     return index;
 }
+
+function processMalist(malist) {
+    var array = [];
+    malist.forEach(d => {
+        array.push(d.Name);
+    });
+    return array;
+}

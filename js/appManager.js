@@ -1,4 +1,6 @@
-function applicationManager(globalData) {
+var svgStats;
+function applicationManager(globalData, malist) {
+    console.log(malist);
     var arcSelect;
     var [minStep, maxStep] = d3.extent(globalData, d => d.Step);
     var svgActionWidth;
@@ -126,6 +128,7 @@ function applicationManager(globalData) {
             });
             return domains;
         })();
+        console.log(groupbyOperation);
         return {
             getdatabyOperation: groupbyOperation,
             getdatabyProcessName: group_by_process_name,
@@ -1320,7 +1323,7 @@ function applicationManager(globalData) {
                 return '<input type="checkbox" id="opSelection" onclick="selectAll()" checked> Select all'
             });
 
-            var svgStats = d3.select(position).append('svg').attr("id", "overview").attr('width', '100%').attr('height', settings.ProcessArea.svg_height).attr("y", 0);
+            svgStats = d3.select(position).append('svg').attr("id", "overview").attr('width', '100%').attr('height', settings.ProcessArea.svg_height).attr("y", 0);
 
             var overviewWidth = document.getElementById("overview").getBoundingClientRect().width;
 
@@ -1745,10 +1748,10 @@ function applicationManager(globalData) {
                 .append("svg").attr("id", "magContainer")
                 .attr("x", "100")
                 .attr("y", "100")
-                .attr("width", "650")
+                .attr("width", "500")
                 .attr("height", "70");
 
-            var magwidth = 400;
+            var magwidth = 250;
 
             magContainer.append("svg:text").attr("display", "inline-block")
                 .append("svg:tspan").attr('x', 0).attr('dy', 25).text("Magnification rate: ")
@@ -1810,22 +1813,21 @@ function applicationManager(globalData) {
 
 
             // granularity ------------------------------------------------------------------
-            var graContainer = d3.select("#heatmap")
-                .append("svg").attr("id", "magContainer")
-                .attr("x", "50")
-                .attr("y", "100")
-                .attr("width", "400")
-                .attr("height", "70");
+            // var graContainer = d3.select("#heatmap")
+            //     .append("svg").attr("id", "magContainer")
+            //     .attr("x", "50")
+            //     .attr("y", "100")
+            //     .attr("width", "400")
+            //     .attr("height", "70");
 
-            graContainer.append("svg:text").attr("display", "block")
-            // .append("svg:tspan").attr("id", "graValue").attr('x', 0).attr('dy', 25).text("Mouse over timeline for magnification. ").attr("font-weight", "bold")
-                .append("svg:tspan").attr("id", "graValue")
-
-                .attr("y", 30)
-                .text(" Granularity: " + granularity + ". Each magnified gap equals to " + each.toFixed(2) + " seconds.").attr("font-weight", "normal")
-            // .attr("font-family", "sans-serif")
-                .attr("font-size", "15px")
-            ;
+            // graContainer.append("svg:text").attr("display", "block")
+            // // .append("svg:tspan").attr("id", "graValue").attr('x', 0).attr('dy', 25).text("Mouse over timeline for magnification. ").attr("font-weight", "bold")
+            //     .append("svg:tspan").attr("id", "graValue")
+            //     .attr("y", 30)
+            //     .text(" Granularity: " + granularity + ". Each magnified gap equals to " + each.toFixed(2) + " seconds.").attr("font-weight", "normal")
+            // // .attr("font-family", "sans-serif")
+            //     .attr("font-size", "15px")
+            // ;
             // SVG =======================================================================
             // Outline -----------------------------------------------------------
             const categories = ["Registry", "Network", "File", "exe", "dll"];
@@ -2570,6 +2572,62 @@ function applicationManager(globalData) {
 
             //drawMatrixOld(matrix, libarr, group_by_process_name);
 
+        },
+        highlight: function(position){
+            var opList = getData.getdatabyOperation.map(d => d.key);
+            var avaiop = [];
+
+            opList.forEach(o => {
+                malist.forEach(m => {
+                    if (o === m){
+                        avaiop.push(o);
+                    }
+                })
+            });
+            d3.select(position).selectAll("*").remove();
+            var svgList = d3.select(position).append('svg').attr('width', '100%').attr('height', 600);
+            var group_O = svgList.append('g');
+
+            var active = {};
+            avaiop.forEach(function (operation, index) {
+                var rect = group_O.append('g').attr('transform', 'translate(0,' + (20 + index * 20) + ')');
+
+                rect.append('text').text(operation).attr('x', '30px')
+                    .style('color', 'black')
+                    .style('font-size', '16px').attr('y', '15px')
+                    .on("click", function(){
+                        d3.select("#heatmap").selectAll('rect[group=detail]')
+                            .style('visibility', "hidden");
+
+                        // hide arc
+                        d3.selectAll(".arc")
+                            .classed("hidden", true);
+
+                        // unselect group
+                        svgStats.selectAll("rect")
+                            .classed("op0", true)
+                            .classed("op1 op2", false);
+
+                        // then, visible selection
+                        //show rect
+                        d3.select("#heatmap").selectAll('rect.' + operation)
+                            .style('visibility', "visible")
+                            .raise();
+
+                        //show arc
+                        arcSelect = d3.selectAll("[class*=o" + operation + "]");
+                        arcSelect
+                            .classed("visible", !active[operation])
+                            .classed("hidden", !!active[operation])
+                            .raise();
+
+                        d3.select(this)
+                            .classed("op1", true)
+                            .classed("op0 op2", false);
+                    })
+            });
+
+            console.log(avaiop);
         },
         draw2DMatrix: function (position) {
             var graphs = ExtractGraph(globalData);

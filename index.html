@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Malware Visualization</title>
     <link rel="shortcut icon" href="images/icon.png"/>
     <script src="lib/d3.v5.min.js"></script>
@@ -15,13 +16,14 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/sidebar.css">
 
 </head>
 <body>
 <div class="header">
     <span class="title">
-        MalViz - Malware Visualization
+        Malware Visualization
     </span>
 
     <span class="selection">
@@ -90,7 +92,7 @@
 <fieldset>
     <legend>Data Overview - Number of API calls in each type</legend>
 
-    <table width="100%" border="0px" style="height: 100px">
+    <table width="100%" border="0px" style="height: 100px" id="tableHeatmap">
         <tr>
             <td width="75%">
                 <div id="stats"></div>
@@ -116,7 +118,7 @@
 
 </fieldset>
 
-<fieldset>
+<fieldset id="fsHeatmap">
     <legend>
         Heat Map
     </legend>
@@ -124,12 +126,31 @@
         <tbody>
         <tr>
             <td width="100%">
-                <div id="heatmap"></div>
+                <div id="mySidenav" class="sidenav">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                    <div style="height: 50px">
+
+                    </div>
+                    <a href="#" style="font-weight: bold">Operation</a>
+                    <a href="#">References</a>
+                    <a href="#">Self-call</a>
+                    <!--<a href="#">Contact</a>-->
+                    <div style="width: 200px; height: 300px; background-color: #ffffff" id="avaiop">
+
+                    </div>
+                </div>
+
+                <span class="textClick" onclick="openNav()"> &#9776; Highlight</span>
+
+                <div id="heatmap">
+                </div>
             </td>
         </tr>
         </tbody>
     </table>
 </fieldset>
+
+
 <fieldset>
     <legend>
         Libraries called
@@ -145,7 +166,7 @@
                     </p>
                     <div id="slider"
                          style="width: 400px; background: linear-gradient(to right, #ffffff 0%, #000000 100%);">
-                        <div id="custom-handle" class="ui-slider-handle"></div>
+                        <div id="custom-handle" class="ui-slider-handle" style="z-index: auto"></div>
                     </div>
                     <aside>
                         <p>Order: <select id="order">
@@ -169,7 +190,30 @@
 <script src="js/ultility.js"></script>
 <script src="js/appManager.js"></script>
 <script>
-    var t0;
+    // side bar
+    var open;
+    function openNav() {
+        document.getElementById("mySidenav").style.height =
+            document.getElementById("heatmap").getBoundingClientRect().height +"px";
+
+        if (open){
+            document.getElementById("mySidenav").style.width = "400px";
+            document.getElementById("heatmap").style.marginLeft = "400px";
+        } else{
+            document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("heatmap").style.marginLeft= "0";
+        }
+        open = !open;
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("heatmap").style.marginLeft= "0";
+        open = !open;
+    }
+
+</script>
+<script>
     let divOperation = d3.select("body").append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
@@ -207,16 +251,19 @@
                 }
             })
             .defer(d3.csv, "data/domain.csv")
-            .await(function (error, original_data, domain) {
+            .defer(d3.csv, "metadata/infosec.csv")
+            .await(function (error, original_data, domain, rawList) {
                 if (error) {
                     console.error('Oh dear, something went wrong: ' + error);
                 }
                 else {
                     let data = ProcessDataV2(original_data, domain);
-                    let SiteManager = applicationManager(data); //Initialize application
+                    let malist = processMalist(rawList);
+                    let SiteManager = applicationManager(data, malist); //Initialize application
                     SiteManager.drawStats('#stats'); //Draw statistic map
                     SiteManager.drawStats2('#OperationList'); //Draw statistic map
                     SiteManager.drawMain('#heatmap');//Draw mainMap
+                    SiteManager.highlight('#avaiop'); // hightlight
                     let maxcalls = SiteManager.getCallRange().maxcall;
                     SiteManager.updateDomainBox('#maliciousdomain');
                     $("#btnName").click(function () {
