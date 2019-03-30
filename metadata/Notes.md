@@ -58,3 +58,7 @@ Question: Is there any difference between them?
 | Activity      | Runs an executable file **as a process**, it will not create a file.| Opens or creates a file. It will not execute that file as a process. |
 | Return value (succesfully) |Two separate handles, one each for the process and the thread       |An open handle to the specified file,  which you can then use, e.g., to read the contents of the file |
 |Answer |The new process runs in the security context of the calling process.  |The file extension is irrelevant.|
+
+5. Filter 
+By regex expression ^.*(procmon.exe|procmon64.exe|Profiling|procexp.exe|procexp64.exe).*\n [Sublime]
+
