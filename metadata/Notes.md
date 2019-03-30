@@ -60,5 +60,7 @@ Question: Is there any difference between them?
 |Answer |The new process runs in the security context of the calling process.  |The file extension is irrelevant.|
 
 5. Filter 
-By regex expression ^.*(procmon.exe|procmon64.exe|Profiling|procexp.exe|procexp64.exe).*\n [Sublime]
+By regex expression 
+
+`^.*(procmon.exe|procmon64.exe|Profiling|procexp.exe|procexp64.exe).*\n` [Sublime]
 
