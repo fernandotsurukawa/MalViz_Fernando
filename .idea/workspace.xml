@@ -2,40 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8b82504-1950-4318-aa3d-f800f494b894" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/data/csvMedium.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/processData.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Huyen-Win7-Ransomware-WannaPeace.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Huyen-Win7-Trojan-Infostealer.Dexter.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Kovter1.CSV" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Kovter2.CSV" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Logfile_Test2.XML" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Logfile_V1.CSV" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Logfile_V1.XML" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Logfile_V2.CSV" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Logfile_Zulfi.CSV" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Normal.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/NormalActivity.CSV" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Original_Data.CSV" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Ransomware.CSV" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Untitled.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Update_Malware.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Vung-Behavior-XP-Payment-copy.CSV" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Vung-Behavior-XP-Scan-copy-(alloyanycut).CSV" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Vung-Win7-Fareit.CSV" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Vung-Win7-Generic.CSV" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/VungPham-Behavior-MultiInjector-XP.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/VungPham-Behavior-MultiInjector-XP.CSV" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Win7_WannaPeace.CSV" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/domain.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/log1data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/malwaredata.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/miserables.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/test.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/wwwlgoogle.CSV" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/appManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/appManager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/ultility.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/ultility.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/faran-7-vs-backdoor-11.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/faran-7-vs-backdoor-11.CSV" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -151,11 +119,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/ultility.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="43">
-              <caret line="28" selection-start-line="28" selection-end-line="28" />
+            <state relative-caret-position="316">
+              <caret line="36" column="62" selection-start-line="36" selection-start-column="49" selection-end-line="36" selection-end-column="62" />
             </state>
           </provider>
         </entry>
@@ -172,11 +140,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="790">
-              <caret line="215" column="50" selection-start-line="215" selection-start-column="50" selection-end-line="215" selection-end-column="50" />
+            <state relative-caret-position="4064">
+              <caret line="216" column="49" selection-start-line="216" selection-start-column="44" selection-end-line="216" selection-end-column="49" />
               <folding>
                 <element signature="n#style#0;n#table#0;n#fieldset#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#input#0;n#p#0;n#div#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#fieldset#2;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -189,7 +157,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/appManager.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21211">
+            <state relative-caret-position="22281">
               <caret line="2471" column="5" selection-start-line="2471" selection-start-column="5" selection-end-line="2471" selection-end-column="5" />
               <folding>
                 <element signature="e#6#12#0" expanded="true" />
@@ -288,6 +256,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="1254" />
     <option name="y" value="23" />
     <option name="width" value="1253" />
     <option name="height" value="1417" />
@@ -412,15 +381,15 @@
       <workItem from="1553625612586" duration="1189000" />
       <workItem from="1553700408148" duration="17728000" />
       <workItem from="1553874373014" duration="640000" />
-      <workItem from="1553875321220" duration="19904000" />
+      <workItem from="1553875321220" duration="20252000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="247227000" />
+    <option name="totallyTimeSpent" value="247575000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1253" height="1417" extended-state="0" />
+    <frame x="1254" y="23" width="1253" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28246754" />
@@ -590,26 +559,6 @@
     <entry file="file://$PROJECT_DIR$/data/faran-7-vs-backdoor-10.CSV">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/ultility.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="43">
-          <caret line="28" selection-start-line="28" selection-end-line="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/appManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21211">
-          <caret line="2471" column="5" selection-start-line="2471" selection-start-column="5" selection-end-line="2471" selection-end-column="5" />
-          <folding>
-            <element signature="e#6#12#0" expanded="true" />
-            <element signature="e#6#12#0" expanded="true" />
-            <element signature="e#6#12#0" expanded="true" />
-            <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/processData.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -622,13 +571,33 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="790">
-          <caret line="215" column="50" selection-start-line="215" selection-start-column="50" selection-end-line="215" selection-end-column="50" />
+        <state relative-caret-position="4064">
+          <caret line="216" column="49" selection-start-line="216" selection-start-column="44" selection-end-line="216" selection-end-column="49" />
           <folding>
             <element signature="n#style#0;n#table#0;n#fieldset#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#p#0;n#div#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#fieldset#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#0;n#td#0;n#tr#0;n#tbody#0;n#table#0;n#fieldset#2;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/appManager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22281">
+          <caret line="2471" column="5" selection-start-line="2471" selection-start-column="5" selection-end-line="2471" selection-end-column="5" />
+          <folding>
+            <element signature="e#6#12#0" expanded="true" />
+            <element signature="e#6#12#0" expanded="true" />
+            <element signature="e#6#12#0" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ultility.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="316">
+          <caret line="36" column="62" selection-start-line="36" selection-start-column="49" selection-end-line="36" selection-end-column="62" />
         </state>
       </provider>
     </entry>
