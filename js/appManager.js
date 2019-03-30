@@ -1745,10 +1745,10 @@ function applicationManager(globalData) {
                 .append("svg").attr("id", "magContainer")
                 .attr("x", "100")
                 .attr("y", "100")
-                .attr("width", "650")
+                .attr("width", "500")
                 .attr("height", "70");
 
-            var magwidth = 400;
+            var magwidth = 250;
 
             magContainer.append("svg:text").attr("display", "inline-block")
                 .append("svg:tspan").attr('x', 0).attr('dy', 25).text("Magnification rate: ")
@@ -1810,22 +1810,21 @@ function applicationManager(globalData) {
 
 
             // granularity ------------------------------------------------------------------
-            var graContainer = d3.select("#heatmap")
-                .append("svg").attr("id", "magContainer")
-                .attr("x", "50")
-                .attr("y", "100")
-                .attr("width", "400")
-                .attr("height", "70");
+            // var graContainer = d3.select("#heatmap")
+            //     .append("svg").attr("id", "magContainer")
+            //     .attr("x", "50")
+            //     .attr("y", "100")
+            //     .attr("width", "400")
+            //     .attr("height", "70");
 
-            graContainer.append("svg:text").attr("display", "block")
-            // .append("svg:tspan").attr("id", "graValue").attr('x', 0).attr('dy', 25).text("Mouse over timeline for magnification. ").attr("font-weight", "bold")
-                .append("svg:tspan").attr("id", "graValue")
-
-                .attr("y", 30)
-                .text(" Granularity: " + granularity + ". Each magnified gap equals to " + each.toFixed(2) + " seconds.").attr("font-weight", "normal")
-            // .attr("font-family", "sans-serif")
-                .attr("font-size", "15px")
-            ;
+            // graContainer.append("svg:text").attr("display", "block")
+            // // .append("svg:tspan").attr("id", "graValue").attr('x', 0).attr('dy', 25).text("Mouse over timeline for magnification. ").attr("font-weight", "bold")
+            //     .append("svg:tspan").attr("id", "graValue")
+            //     .attr("y", 30)
+            //     .text(" Granularity: " + granularity + ". Each magnified gap equals to " + each.toFixed(2) + " seconds.").attr("font-weight", "normal")
+            // // .attr("font-family", "sans-serif")
+            //     .attr("font-size", "15px")
+            // ;
             // SVG =======================================================================
             // Outline -----------------------------------------------------------
             const categories = ["Registry", "Network", "File", "exe", "dll"];

@@ -35,6 +35,9 @@ legend {
 body {
     background-color: #dfdfdf;
 }
+#heatmap{
+    transition: 0.5s;
+}
 fieldset {
     border: 2px groove #D6D6D6;
     margin: 10px;
