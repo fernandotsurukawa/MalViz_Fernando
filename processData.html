@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Malware Visualization</title>
+    <link rel="shortcut icon" href="images/icon.png"/>
+    <script src="lib/d3.v5.min.js"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <!--<script src="lib/underscore.js"></script>-->
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://d3js.org/d3-scale.v3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<div class="header">
+    <span class="title">
+        MalViz - Malware Visualization
+    </span>
+
+    <span class="selection">
+    <label for="selectmalware">Please select dataset:</label>
+    <select id="selectmalware" class="selectmalware">
+        <option>--Select dataset--</option>
+
+    </select>
+        </span>
+</div>
+<script src="js/appManager.js"></script>
+<script>
+    $('select#selectmalware').on('change', function (e) {
+        let optionSelected = $("option:selected", this);
+        let valueSelected = this.value;
+        let loading = d3.select('body').append('div').attr('id', 'loading');
+        loading.append('img').attr('id', 'loading-image').attr('src', 'images/loader2.gif');
+        init(valueSelected);
+
+    });
+    function getProcessName(operation) {
+        if (!list[operation]) {
+            return "Others"
+        } else return list[operation]["operation"]
+            ;
+    }
+    var list = {
+        "CloseFile": {"operation": "FileSystem", "index": 0},
+        "CreateFile": {"operation": "FileSystem", "index": 1},
+        "CreateFileMapping": {"operation": "FileSystem", "index": 2},
+        "DeviceIoControl": {"operation": "FileSystem", "index": 3},
+        "FileSystemControl": {"operation": "FileSystem", "index": 4},
+        "FlushBuffersFile": {"operation": "FileSystem", "index": 5},
+        "LockFile": {"operation": "FileSystem", "index": 6},
+        "NotifyChangeDirectory": {"operation": "FileSystem", "index": 7},
+        "QueryAllInformationFile": {"operation": "FileSystem", "index": 8},
+        "QueryAttributeInformationVolume": {"operation": "FileSystem", "index": 9},
+        "QueryAttributeTagFile": {"operation": "FileSystem", "index": 10},
+        "QueryBasicInformationFile": {"operation": "FileSystem", "index": 11},
+        "QueryDeviceRelations": {"operation": "FileSystem", "index": 12},
+        "QueryDirectory": {"operation": "FileSystem", "index": 13},
+        "QueryEAFile": {"operation": "FileSystem", "index": 14},
+        "QueryEaInformationFile": {"operation": "FileSystem", "index": 15},
+        "QueryFileInternalInformationFile": {"operation": "FileSystem", "index": 16},
+        "QueryFullSizeInformationVolume": {"operation": "FileSystem", "index": 17},
+        "QueryInformationVolume": {"operation": "FileSystem", "index": 18},
+        "QueryNameInformationFile": {"operation": "FileSystem", "index": 19},
+        "QueryNetworkOpenInformationFile": {"operation": "FileSystem", "index": 20},
+        "QueryNormalizedNameInformationFile": {"operation": "FileSystem", "index": 21},
+        "QueryObjectIdInformationVolume": {"operation": "FileSystem", "index": 22},
+        "QueryOpen": {"operation": "FileSystem", "index": 23},
+        "QueryPositionInformationFile": {"operation": "FileSystem", "index": 24},
+        "QueryRemoteProtocolInformation": {"operation": "FileSystem", "index": 25},
+        "QuerySecurityFile": {"operation": "FileSystem", "index": 26},
+        "QuerySizeInformationVolume": {"operation": "FileSystem", "index": 27},
+        "QueryStandardInformationFile": {"operation": "FileSystem", "index": 28},
+        "QueryStreamInformationFile": {"operation": "FileSystem", "index": 29},
+        "ReadFile": {"operation": "FileSystem", "index": 30},
+        "SetAllocationInformationFile": {"operation": "FileSystem", "index": 31},
+        "SetBasicInformationFile": {"operation": "FileSystem", "index": 32},
+        "SetDispositionInformationFile": {"operation": "FileSystem", "index": 33},
+        "SetEndOfFileInformationFile": {"operation": "FileSystem", "index": 34},
+        "SetPositionInformationFile": {"operation": "FileSystem", "index": 35},
+        "SetRenameInformationFile": {"operation": "FileSystem", "index": 36},
+        "SetSecurityFile": {"operation": "FileSystem", "index": 37},
+        "UnlockFileSingle": {"operation": "FileSystem", "index": 38},
+        "WriteFile": {"operation": "FileSystem", "index": 39},
+        "Load Image": {"operation": "ProcessThread", "index": 0},
+        "Process Create": {"operation": "ProcessThread", "index": 1},
+        "Process Exit": {"operation": "ProcessThread", "index": 2},
+        "Process Start": {"operation": "ProcessThread", "index": 3},
+        "Thread Create": {"operation": "ProcessThread", "index": 4},
+        "Thread Exit": {"operation": "ProcessThread", "index": 5},
+        "RegCloseKey": {"operation": "Registry", "index": 0},
+        "RegCreateKey": {"operation": "Registry", "index": 1},
+        "RegDeleteKey": {"operation": "Registry", "index": 2},
+        "RegDeleteValue": {"operation": "Registry", "index": 3},
+        "RegEnumKey": {"operation": "Registry", "index": 4},
+        "RegEnumValue": {"operation": "Registry", "index": 5},
+        "RegFlushKey": {"operation": "Registry", "index": 6},
+        "RegLoadKey": {"operation": "Registry", "index": 7},
+        "RegOpenKey": {"operation": "Registry", "index": 8},
+        "RegQueryKey": {"operation": "Registry", "index": 9},
+        "RegQueryKeySecurity": {"operation": "Registry", "index": 10},
+        "RegQueryMultipleValueKey": {"operation": "Registry", "index": 11},
+        "RegQueryValue": {"operation": "Registry", "index": 12},
+        "RegSetInfoKey": {"operation": "Registry", "index": 13},
+        "RegSetKeySecurity": {"operation": "Registry", "index": 14},
+        "RegSetValue": {"operation": "Registry", "index": 15},
+        "TCP Accept": {"operation": "Network", "index": 0},
+        "TCP Connect": {"operation": "Network", "index": 1},
+        "TCP Disconnect": {"operation": "Network", "index": 2},
+        "TCP Receive": {"operation": "Network", "index": 3},
+        "TCP Reconnect": {"operation": "Network", "index": 4},
+        "TCP Retransmit": {"operation": "Network", "index": 5},
+        "TCP Send": {"operation": "Network", "index": 6},
+        "TCP TCPCopy": {"operation": "Network", "index": 7},
+        "UDP Receive": {"operation": "Network", "index": 8},
+        "UDP Send": {"operation": "Network", "index": 9},
+        "Process Profiling": {"operation": "Profiling", "index": 0},
+        "Others": {"operation": "Others", "index": 0}
+    };
+    function ProcessDataV2(orginalData, domain) {
+        console.log(orginalData);
+        var medium = [];
+        orginalData.forEach(function (row, index) {
+            if ((getProcessName(row.Operation) !== "Profiling") &&
+                (row.Process_Name.toLowerCase() !== "procmon.exe") &&
+                (row.Process_Name.toLowerCase() !== "procmon64.exe") &&
+                (row.Process_Name.toLowerCase() !== "procexp.exe") &&
+                (row.Process_Name.toLowerCase() !== "procexp64.exe")) {
+                medium.push(row);
+            }
+        });
+        console.log(medium);
+        console.log(d3.csvFormat(medium));
+
+        t0 = performance.now();
+        var processNameList = d3.nest().key(d => d.Process_Name).entries(orginalData).map(d => d.key).filter(d => d.toLowerCase() !== "procmon.exe");
+
+        var globalData = [];
+        var domainFormat = /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+/;
+        var previoustime;
+        var previoustep = 0;
+        orginalData.forEach(function (row, index) {
+            //Preprocess Data
+            var time = row.Timestamp.split(':');
+            var hour = +time[0];
+            var minute = +time[1];
+            var second = +time[2].split('.')[0];
+            var milisecond = +time[2].split('.')[1].split(' ')[0].slice(0, 5);
+            var currentTimeStamp = (hour * 3600 + minute * 60 + second) * 100000 + milisecond;
+
+            if (index == 0) {
+                previoustime = currentTimeStamp;
+            }
+            var timediff = currentTimeStamp - previoustime;
+            var currentStep = previoustep + timediff;
+
+            //Assign value
+            var obj = new Object();
+            obj.Timestamp = row.Timestamp;
+            obj.Process_Name = row.Process_Name;
+            obj.Path = row.Path;
+            obj.PID = row.PID;
+            obj.Operation = row.Operation;
+            obj.Detail = row.Detail;
+            obj.Hour = hour;
+            obj.Minute = minute;
+            obj.Second = second;
+            obj.Milisecond = milisecond;
+            obj.previoustimestamp = previoustime;
+            obj.currenttimestamp = currentTimeStamp;
+            obj.timeDiff = timediff;
+            obj.Step = currentStep;
+            obj.Process = getProcessName(row.Operation);
+
+            for (var i = 0; i < processNameList.length; i++) {
+                if (row.Path.endsWith("\\" + processNameList[i])) {
+                    obj.targetProcessName = row.Path.replace(/^.*[\\\/]/, '');
+                }
+            }
+
+            if (row.Operation == 'UDP Send') {
+
+                var getdomain = row.Path.slice(row.Path.indexOf('->') + 3, -5);
+
+                if (getdomain.match(domainFormat)) {
+                    if (getdomain.split('.').length > 2) {
+                        getdomain = getdomain.slice(getdomain.indexOf('.') + 1);
+                        obj.Domain = getdomain;
+                    } else {
+                        obj.Domain = getdomain;
+                    }
+                    domain.forEach(function (dm_value) {
+                        if (dm_value.domain == obj.Domain) {
+
+                            var obj_child = {}
+                            obj_child.count = +dm_value.count;
+                            obj_child.harmless = +dm_value.harmless;
+                            obj_child.malicious = +dm_value.malicious;
+                            obj_child.suspicious = +dm_value.suspicious;
+                            obj_child.undetected = +dm_value.undetected;
+                            obj.VirusTotal = obj_child;
+                        }
+                    })
+                }
+
+            }
+            if (row.Path.slice(-3).toLowerCase() == 'dll') {
+                obj.library = row.Path.replace(/^.*[\\\/]/, '')
+            }
+            //Push value
+            if ((getProcessName(row.Operation) !== "Profiling") &&
+                (row.Process_Name.toLowerCase() !== "procmon.exe") &&
+                (row.Process_Name.toLowerCase() !== "procmon64.exe") &&
+                (row.Process_Name.toLowerCase() !== "procexp.exe") &&
+                (row.Process_Name.toLowerCase() !== "procexp64.exe")) {
+                globalData.push(obj);
+            }
+
+            //After pushing data update previous time
+            previoustime = currentTimeStamp;
+            previoustep = currentStep;
+        });
+        return globalData;
+    }
+
+    let init = function (filePath) {
+        d3.queue()
+            .defer(d3.csv, "data/" + filePath, function (d) {
+                return {
+                    Timestamp: d['Timestamp'],
+                    PID: d['PID'],
+                    Process_Name: d['Process_Name'],
+                    Operation: d["Operation"],
+                    Path: d["Path"],
+                    Detail: d["Detail"]
+                }
+            })
+            .defer(d3.csv, "data/domain.csv")
+            .await(function (error, original_data, domain) {
+                if (error) {
+                    console.error('Error: ' + error);
+                }
+                else {
+                    let data = ProcessDataV2(original_data, domain);
+                }
+            });
+
+    };
+    init("csvMedium.csv");
+
+</script>
+</body>
+</html>
