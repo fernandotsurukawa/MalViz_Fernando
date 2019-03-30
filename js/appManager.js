@@ -1,5 +1,5 @@
 function applicationManager(globalData) {
-     var arcSelect;
+    var arcSelect;
     var [minStep, maxStep] = d3.extent(globalData, d => d.Step);
     var svgActionWidth;
     //var initStamp, maxStamp;
@@ -1590,6 +1590,7 @@ function applicationManager(globalData) {
                 return array;
             }
 
+
             function calculateDistance(orderedArray) {
                 var sum = 0;
                 orderedArray.forEach((parentProcess, pIndex) => {
@@ -1817,18 +1818,18 @@ function applicationManager(globalData) {
                 .attr("height", "70");
 
             graContainer.append("svg:text").attr("display", "block")
-                // .append("svg:tspan").attr("id", "graValue").attr('x', 0).attr('dy', 25).text("Mouse over timeline for magnification. ").attr("font-weight", "bold")
+            // .append("svg:tspan").attr("id", "graValue").attr('x', 0).attr('dy', 25).text("Mouse over timeline for magnification. ").attr("font-weight", "bold")
                 .append("svg:tspan").attr("id", "graValue")
 
                 .attr("y", 30)
                 .text(" Granularity: " + granularity + ". Each magnified gap equals to " + each.toFixed(2) + " seconds.").attr("font-weight", "normal")
             // .attr("font-family", "sans-serif")
-                .attr("font-size","15px")
+                .attr("font-size", "15px")
             ;
             // SVG =======================================================================
             // Outline -----------------------------------------------------------
             const categories = ["Registry", "Network", "File", "exe", "dll"];
-            const stackColor = ["#3d6c40","#8f4447", "#af7131", "#39708b", "#7e7e7e"];
+            const stackColor = ["#3d6c40", "#8f4447", "#af7131", "#39708b", "#7e7e7e"];
             // legend
             var legend = d3.select("#heatmap")
                 .append("svg")
@@ -1844,14 +1845,14 @@ function applicationManager(globalData) {
                 .enter()
                 .append("circle")
                 .attr("cx", 50)
-                .attr("cy", (d,i) => 20 +i * 12)
+                .attr("cy", (d, i) => 20 + i * 12)
                 .attr("r", 4.5)
                 .attr("fill", d => d);
 
             legend.append("text")
                 .attr("x", 10)
                 .attr("y", 10)
-                .attr("font-size","15px")
+                .attr("font-size", "15px")
                 .text("References stream");
 
             legend.selectAll(".textLegend")
@@ -1860,10 +1861,10 @@ function applicationManager(globalData) {
                 .append("text")
                 .attr("class", "textLegend")
                 .text(d => d)
-                .attr("font-size","13px")
+                .attr("font-size", "13px")
                 // .attr("font-family", "sans-serif")
                 .attr("x", 70)
-                .attr("y", (d,i) => 25 +i * 12);
+                .attr("y", (d, i) => 25 + i * 12);
 
             getTimeBoxData();
 
@@ -2153,6 +2154,7 @@ function applicationManager(globalData) {
 
                 return a;
             }
+
             var streamData = stream(group_by_process_name, globalData);
 
             var xScale = d3.scaleLinear()
@@ -2166,7 +2168,7 @@ function applicationManager(globalData) {
             var streamHeightScale =
                 d3.scaleSqrt()
                     .domain([minCall, maxCall])
-                    .range([-rect_normal_height/2, rect_normal_height/2]);
+                    .range([-rect_normal_height / 2, rect_normal_height / 2]);
 
             const stack = d3.stack().keys(categories)     // create stack function
                 .offset(d3.stackOffsetSilhouette)
@@ -2219,31 +2221,46 @@ function applicationManager(globalData) {
                     .attr("transform", "translate(0" + "," + (rectSpacing + rect_normal_height) + ")")
                     .attr("class", "stream")
                     .attr("d", area)
-                    .attr("fill", (d, i)=> stackColor[i])
-                    // .on("mouseover", function () {
-                    //     div3.transition()
-                    //         .duration(200)
-                    //         .style("opacity", 1);
-                    //
-                    //     div3.html((d,i) => categories[i])
-                    //         .style("left", (d3.event.pageX) + 20 + "px")
-                    //         .style("top", (d3.event.pageY - 30) + "px")
-                    //         .style("pointer-events", "none")
-                    //         .style("background-color", () => {
-                    //                 // return colorPicker(child.event).replace("(", "a(").replace(")", ", 0.8)");
-                    //                 return "#dddddd"
-                    //             }
-                    //         )
-                    // })
-                    // .on("mouseout", function () {
-                    //     div3.style("opacity", 0);
-                    // })
+                    .attr("fill", (d, i) => stackColor[i])
+                // .on("mouseover", function () {
+                //     div3.transition()
+                //         .duration(200)
+                //         .style("opacity", 1);
+                //
+                //     div3.html((d,i) => categories[i])
+                //         .style("left", (d3.event.pageX) + 20 + "px")
+                //         .style("top", (d3.event.pageY - 30) + "px")
+                //         .style("pointer-events", "none")
+                //         .style("background-color", () => {
+                //                 // return colorPicker(child.event).replace("(", "a(").replace(")", ", 0.8)");
+                //                 return "#dddddd"
+                //             }
+                //         )
+                // })
+                // .on("mouseout", function () {
+                //     div3.style("opacity", 0);
+                // })
                 ;
 
                 // textDraw
-                group.append('text').attr("class", "malName" + index).text(row.key.substring(0, 20))
+                var arcActive, firstClick;
+                group.append('text').attr("class", "malName" + index)
+                    .text(row.key)
                     .attr('x', ((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 5).attr('y', group_rect_height / 2)
-                    .attr('text-anchor', 'start');
+                    .attr('text-anchor', 'start')
+                    .on("click", function () {
+                        d3.selectAll(".arc")
+                            .classed("hidden", !arcActive)
+                            .classed("visible", !!arcActive);
+
+                        //show arc
+                        d3.selectAll("[class*=a" + row.key.split(".").join("") + "]")
+                            .classed("visible", !arcActive)
+                            .classed("hidden", false)
+                            .raise();
+
+                        arcActive = !arcActive;
+                    });
 
                 //================== rectDraw for process here =================
                 var rect = group.selectAll('rect')
@@ -2452,8 +2469,12 @@ function applicationManager(globalData) {
                         parentProcess.childInfo[childProcess.key].forEach((child, i) => {
                             svg_process_name
                                 .append('path').attr("class", () => {
-                                return 'arc a' + pIndex + "_" + cIndex + ' path_' + pIndex + "_" + cIndex + "_" + i + " o" + child.event.replace(" ", "");
+                                return 'arc'
+                                    + ' a' + parentProcess.key.split(".").join("") + "_a" + childProcess.key.split(".").join("")
+                                    + ' path_' + pIndex + "_" + cIndex + "_" + i
+                                    + " o" + child.event.replace(" ", "");
                             })
+                                .attr("id", 'path_' + pIndex + "_" + cIndex + "_" + i)
                                 .attr('d', d3.arc()
                                     .innerRadius(Math.abs(signedOrienation) * group_rect_height / 2 - 1)
                                     .outerRadius(Math.abs(signedOrienation) * group_rect_height / 2)
@@ -2484,11 +2505,16 @@ function applicationManager(globalData) {
                                     }
 
                                     div3.transition()
-                                        .duration(200)
+                                        // .duration(200)
                                         .style("opacity", 1);
 
                                     div3.html('Source: ' +
-                                        '<text class = "bold">' + parentProcess.key + "</text><br/> Target: " + '<text class = "bold">' + childProcess.key + "</text><br/>")
+                                        '<text class = "bold">' + parentProcess.key + "</text>" +
+                                        "<br/> Target: " + '' +
+                                        '<text class = "bold">' + childProcess.key + "</text>" +
+                                        "<br/> Operation: " +
+                                        '<text class = "bold">' + child.event + "</text>"
+                                    )
                                         .style("left", (d3.event.pageX) + 20 + "px")
                                         .style("top", (d3.event.pageY - 30) + "px")
                                         .style("pointer-events", "none")
@@ -2543,8 +2569,7 @@ function applicationManager(globalData) {
             globalgroupbyprocessname = group_by_process_name;
 
             //drawMatrixOld(matrix, libarr, group_by_process_name);
-            var t1 = performance.now();
-            console.log("Call took " + (t1 - t0) + " milliseconds.");
+
         },
         draw2DMatrix: function (position) {
             var graphs = ExtractGraph(globalData);

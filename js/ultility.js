@@ -28,13 +28,24 @@ function convertToMilis(row) {
 }
 
 function ProcessDataV2(orginalData, domain) {
-    var processNameList = d3.nest().key(d => d.Process_Name).entries(orginalData).map(d => d.key).filter(d => d.toLowerCase() !== "procmon.exe");
+    var medium = [];
+    orginalData.forEach(function (row) {
+        if ((getProcessName(row.Operation) !== "Profiling") &&
+            (row.Process_Name.toLowerCase() !== "procmon.exe") &&
+            (row.Process_Name.toLowerCase() !== "procmon64.exe") &&
+            (row.Process_Name.toLowerCase() !== "procexp.exe") &&
+            (row.Process_Name.toLowerCase() !== "procexp64.exe")) {
+            medium.push(row);
+        }
+    });
+
+    var processNameList = d3.nest().key(d => d.Process_Name).entries(medium).map(d => d.key).filter(d => d.toLowerCase() !== "procmon.exe");
 
     var globalData = [];
     var domainFormat = /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+/;
     var previoustime;
     var previoustep = 0;
-    orginalData.forEach(function (row, index) {
+    medium.forEach(function (row, index) {
         //Preprocess Data
         var time = row.Timestamp.split(':');
         var hour = +time[0];
@@ -103,9 +114,7 @@ function ProcessDataV2(orginalData, domain) {
             obj.library = row.Path.replace(/^.*[\\\/]/, '')
         }
         //Push value
-        if (row.Process_Name.toLowerCase() !== "procmon.exe") {
-            globalData.push(obj);
-        }
+        globalData.push(obj);
 
         //After pushing data update previous time
         previoustime = currentTimeStamp;
