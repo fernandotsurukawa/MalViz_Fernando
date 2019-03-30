@@ -1602,7 +1602,7 @@ function applicationManager(globalData) {
             }
 
             var margin_left = 30;  // min margin = 30
-            var rect_height = 30, rect_margin_top = 5, group_rect_height = rect_height + rect_margin_top;
+            var rect_height = 30, rect_margin_top = 5, group_rect_height = rect_height ;
             var rect_normal_height = rect_height - 8;
             var rectSpacing = 2.5;
 
@@ -2486,7 +2486,7 @@ function applicationManager(globalData) {
                                 .attr('transform', function () {
 
                                     var posX = (StepScale(child.step)) * rect_width + margin_left;
-                                    var posY = (getProcessNameIndex(updated_data, childProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
+                                    var posY = (getProcessNameIndex(updated_data, childProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height /2;
 
                                     return 'translate(' + posX + ',' + posY + ')';
                                 })
@@ -2496,12 +2496,12 @@ function applicationManager(globalData) {
                                     }
                                     else {
                                         d3.selectAll(".arc")
-                                            .classed("normV", false)
-                                            .classed("normH", true);
+                                            .classed("visible", false)
+                                            .classed("hidden", true);
 
                                         d3.select('.path_' + pIndex + "_" + cIndex + "_" + i)
-                                            .classed("normV", true)
-                                            .classed("normH", false);
+                                            .classed("visible", true)
+                                            .classed("hidden", false);
                                     }
 
                                     div3.transition()
@@ -2510,10 +2510,10 @@ function applicationManager(globalData) {
 
                                     div3.html('Source: ' +
                                         '<text class = "bold">' + parentProcess.key + "</text>" +
-                                        "<br/> Target: " + '' +
-                                        '<text class = "bold">' + childProcess.key + "</text>" +
                                         "<br/> Operation: " +
-                                        '<text class = "bold">' + child.event + "</text>"
+                                        '<text class = "bold">' + child.event + "</text>" +
+                                        "<br/> Target: " + '' +
+                                        '<text class = "bold">' + childProcess.key + "</text>"
                                     )
                                         .style("left", (d3.event.pageX) + 20 + "px")
                                         .style("top", (d3.event.pageY - 30) + "px")
@@ -2532,8 +2532,8 @@ function applicationManager(globalData) {
                                     }
                                     else {
                                         d3.selectAll(".arc")
-                                            .classed("normV", true)
-                                            .classed("normH", false);
+                                            .classed("visible", true)
+                                            .classed("hidden", false);
                                     }
 
                                     div3.style("opacity", 0);
