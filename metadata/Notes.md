@@ -63,4 +63,5 @@ Question: Is there any difference between them?
 By regex expression 
 
 `^.*(procmon.exe|procmon64.exe|Profiling|procexp.exe|procexp64.exe).*\n` [Sublime]
+`^.*(procmon|profiling|processmonitor).*\n`
 
