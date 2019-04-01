@@ -125,6 +125,7 @@ function ProcessDataV2(orginalData, domain) {
 
 function UpdateProcessNameWithChild(processLst, links) {
     processLst.forEach(function (proc, parentIndex) {
+        proc.selfCalls = [];
         proc.childs = [];
         proc.childInfo = {};
         links.forEach(function (link) {
@@ -172,8 +173,17 @@ function UpdateProcessNameWithChild(processLst, links) {
                         }
                     }
                 }
+                else {
+                    // console.log("link.targetProcessName: ", link.targetProcessName);
+                    // console.log("processLst[index]: ", processLst[index].key);
+                    // console.log(" ");
+                    proc.selfCalls.push({
+                        event: link.Operation,
+                        step: link.Step
+                    });
+                }
             }
-        })
+        });
     });
     return processLst;
 }

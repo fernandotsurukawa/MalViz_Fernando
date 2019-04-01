@@ -1482,18 +1482,18 @@ function applicationManager(globalData) {
             d3.select(position).selectAll("*").remove();
             var lines = [];
             var group_by_process_name = getData.getdatabyProcessName;
-            var haveExeChild = [];
+            var haveChild = [];
             var operationKeys = group_by_process_name.map(d => d.key);
 
             globalData.forEach(d => {
                 for (var i = 0; i < operationKeys.length; i++) {
                     if (d.Path.endsWith("\\" + operationKeys[i])) {
-                        haveExeChild.push(d);
+                        haveChild.push(d);
                     }
                 }
             });
 
-            var updated_data = UpdateProcessNameWithChild(group_by_process_name, haveExeChild);
+            var updated_data = UpdateProcessNameWithChild(group_by_process_name, haveChild);
 
             for (var i = 0; i < updated_data.length; i++) {
                 updated_data[i].children = [];
@@ -1576,7 +1576,7 @@ function applicationManager(globalData) {
                 return array;
             }
 
-
+            // get sum of distance of arcs
             function calculateDistance(orderedArray) {
                 var sum = 0;
                 orderedArray.forEach((parentProcess, pIndex) => {
@@ -2019,36 +2019,36 @@ function applicationManager(globalData) {
                     });
 
                     outline.selectAll(".verticalBars")
-                        // .transition().duration(200)
+                    // .transition().duration(200)
                         .attr("x1", d => StepScale(d.step, true) + margin_left)
                         .attr("x2", d => StepScale(d.step, true) + margin_left);
 
-                    if (lensingStatus){
-                       outline
-                           .selectAll(".verticalBars")
-                           .style("stroke-opacity", function (d, i) {
-                           if (d.main) {
-                               return 0.4
-                           }    // main ticks
-                           else if (d.step < leftBound) {
-                               return 0;
-                           }
-                           else if (d.step > rightBound) {
-                               return 0;
-                           }
-                           else {
-                               return 0.2;
-                           }
-                       })
-                           .style("stroke-width", 1)
-                           .style("stroke-dasharray", function (d, i) {
-                               if (d.main) {
-                                   return "3,2"
-                               }
-                               else {
-                                   return "1,3"
-                               }
-                           });
+                    if (lensingStatus) {
+                        outline
+                            .selectAll(".verticalBars")
+                            .style("stroke-opacity", function (d, i) {
+                                if (d.main) {
+                                    return 0.4
+                                }    // main ticks
+                                else if (d.step < leftBound) {
+                                    return 0;
+                                }
+                                else if (d.step > rightBound) {
+                                    return 0;
+                                }
+                                else {
+                                    return 0.2;
+                                }
+                            })
+                            .style("stroke-width", 1)
+                            .style("stroke-dasharray", function (d, i) {
+                                if (d.main) {
+                                    return "3,2"
+                                }
+                                else {
+                                    return "1,3"
+                                }
+                            });
                     }
 
                 })
@@ -2062,8 +2062,8 @@ function applicationManager(globalData) {
             var maxCall = 0, minCall = 0;
 
             function stream(group_by_process_name, globalData) {
-                var group = group_by_process_name
-                var global_data = globalData
+                var group = group_by_process_name;
+                var global_data = globalData;
                 var ref = {};
                 var defaultValue = {
                     Registry: 0,
@@ -2536,6 +2536,55 @@ function applicationManager(globalData) {
 
                     })
                 }
+                if (parentProcess.selfCalls.length > 0) {
+                    parentProcess.selfCalls.forEach((self, i) => {
+                        svg_process_name
+                            .append("svg:defs")
+                            .selectAll(".arrow")
+                            .data([self])
+                            .enter()
+                            .append("svg:marker")
+                            .attr("id", () => {
+                                return "arrow_" + pIndex + "_" + pIndex + "_" + i
+                            })
+                            .attr("class", "arrow")
+                            .attr("refX", 8)
+                            .attr("refY", 20)
+                            .attr("markerWidth", 8)
+                            .attr("markerHeight", 8)
+                            .style("fill", d => colorPicker(d.event))
+                            .attr("orient", 0)
+                            .append('path')
+                            .attr('d', 'M0,0 L8,0 L4,8 z');
+
+                        svg_process_name
+                            .append('path').attr("class", () => {
+                            return 'arc'
+                                + ' a' + parentProcess.key.split(".").join("")
+                                + ' path_' + pIndex + "_" + pIndex + "_" + i
+                                + " o" + self.event.replace(" ", "");
+                        })
+                            .attr("id", 'path_' + pIndex + "_" + pIndex + "_" + i)
+                            .attr("d", d3.arc()
+                                .innerRadius(2 * group_rect_height / 2 - 1)
+                                .outerRadius(2 * group_rect_height / 2)
+                                .startAngle(100 * (Math.PI / 180)) //converting from degs to radians
+                                .endAngle(7.5))
+                            .attr("marker-end", "url(#arrow_" + pIndex + "_" + pIndex + "_" + i + ")")
+                            .attr('fill', colorPicker(self.event))
+                            .attr('source', pIndex)
+                            .attr('target', pIndex)
+                            .attr('transform', function () {
+
+                                var posX = (StepScale(self.step)) * rect_width + margin_left;
+                                var posY = (getProcessNameIndex(updated_data, parentProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
+
+                                return 'translate(' + posX + ',' + posY + ')';
+                            })
+
+
+                    })
+                }
             });
 
             function hexToRgb(hex) {
@@ -2596,7 +2645,7 @@ function applicationManager(globalData) {
                     .style("cursor", "pointer")
                     .on("click", function () {
                         var operation = rawOperation.replace(" ", "");
-                        if (!active[operation]){
+                        if (!active[operation]) {
                             document.getElementById("opSelection").checked = false;
                             d3.select("#heatmap").selectAll('rect[group=detail]')
                                 .style('visibility', "hidden");
@@ -2655,12 +2704,11 @@ function applicationManager(globalData) {
                     })
             });
 
-
             // FORCE-DIRECTED GRAPH
             group1.append("text")
                 .text("Hola")
                 .attr('transform', 'translate(50,50)');
-            
+
 
             group1.style("opacity", 0);
 
