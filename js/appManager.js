@@ -1541,7 +1541,7 @@ function applicationManager(globalData) {
             //     }
             // });
 
-            var orderedArray = [];
+            orderedArray = [];
 
             // for (var i = 0; i < updated_data.length; i++) {
             //     dfs(updated_data[i], orderedArray);
@@ -2705,12 +2705,16 @@ function applicationManager(globalData) {
             });
 
             // FORCE-DIRECTED GRAPH
-            group1.append("text")
-                .text("Hola")
-                .attr('transform', 'translate(50,50)');
+            console.log(orderedArray);
+            group1.selectAll(".selfcall")
+                .data(orderedArray.filter(d => d.selfCalls.length > 0))
+                .append("text")
+                .text(d => d.key + ": " + d.selfCalls.length)
+                .attr('transform', (d,i) => 'translate(20,'+ (10 + i * 20) +')')
+                .attr("class", "selfcall");
 
 
-            group1.style("opacity", 0);
+            // group1.style("opacity", 0);
 
             d3.select("#operationBtn").on("click", () => {
                 d3.select("#operationBtn").classed("focus", true);
@@ -2853,7 +2857,7 @@ var active = {};
 var firstClick;
 var svgStats;
 var lensingStatus = false;
-
+var orderedArray = []
 function setLensing() {
     if (!lensingStatus) {
         document.getElementById("lensingBtn").classList.add('selected');
