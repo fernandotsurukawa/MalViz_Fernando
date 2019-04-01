@@ -185,23 +185,24 @@
 <script>
     // side bar
     var open;
+
     function openNav() {
         document.getElementById("mySidenav").style.height =
-            document.getElementById("heatmap").getBoundingClientRect().height +"px";
+            document.getElementById("heatmap").getBoundingClientRect().height + "px";
 
-        if (open){
+        if (open) {
             document.getElementById("mySidenav").style.width = "400px";
             document.getElementById("heatmap").style.marginLeft = "400px";
-        } else{
+        } else {
             document.getElementById("mySidenav").style.width = "0";
-            document.getElementById("heatmap").style.marginLeft= "0";
+            document.getElementById("heatmap").style.marginLeft = "0";
         }
         open = !open;
     }
 
     function closeNav() {
         document.getElementById("mySidenav").style.width = "0";
-        document.getElementById("heatmap").style.marginLeft= "0";
+        document.getElementById("heatmap").style.marginLeft = "0";
         open = !open;
     }
 
@@ -234,66 +235,26 @@
     });
     let init = function (filePath) {
         d3.queue()
-            .defer(d3.csv, "data/" + filePath, function (d) {
-                return {
-                    Timestamp: d['Time_of_Day'],
-                    PID: d['PID'],
-                    Process_Name: d['Process_Name'],
-                    Operation: d["Operation"],
-                    Path: d["Path"],
-                    Detail: d["Detail"]
-                }
-            })
-            .defer(d3.csv, "data/domain.csv")
-            .await(function (error, original_data, domain) {
+            .defer(d3.csv, "metadata/infosec.csv")
+            .defer(d3.csv, "metadata/procmon.csv")
+            .await(function (error, info, proc) {
                 if (error) {
                     console.error('Oh dear, something went wrong: ' + error);
                 }
                 else {
-                    let data = ProcessDataV2(original_data, domain);
-                    let SiteManager = applicationManager(data); //Initialize application
-                    SiteManager.drawStats('#stats'); //Draw statistic map
-                    SiteManager.drawStats2('#OperationList'); //Draw statistic map
-                    SiteManager.drawMain('#heatmap');//Draw mainMap
-                    let maxcalls = SiteManager.getCallRange().maxcall;
-                    SiteManager.updateDomainBox('#maliciousdomain');
-                    $("#btnName").click(function () {
-                            SiteManager.sort2DMatrix('similarity')
-                        }
-                    );
-                    $("#btnNum").click(function () {
-                            SiteManager.sort2DMatrix('numlinks')
-                        }
-                    );
-                    $("#btnCount").click(function () {
-                            SiteManager.sort2DMatrix('numcount')
-                        }
-                    );
-                    // $("#btnSimilarity").click( function()
-                    //     {
-                    //         SiteManager.sort2DMatrix('similarity')
-                    //     }
-                    // );
-                    $(function () {
-                        let handle = $("#custom-handle");
-                        $("#slider").slider({
-                            min: 0,
-                            value: 3,
-                            max: maxcalls,
-                            create: function () {
-                                handle.text($(this).slider("value"));
-                            },
-                            slide: function (event, ui) {
-                                $("#amount").val("Min: " + ui.value + " - Max: " + maxcalls);
-                                handle.text(ui.value);
-                                SiteManager.updateRangeFilter(ui.value, maxcalls)
+                    var infosec = handleOperation(info);
+                    var procmon = handleOperation(proc);
+                    var count = 0;
+                    procmon.forEach(d => {
+                        infosec.forEach(p => {
+                            // if (d.toLowerCase().indexOf(p.toLowerCase()) >= 0) {
+                            if (d.indexOf(p) >= 0) {
+                                console.log(d, getProcessName(d) === "Others" ? "Others" : null);
+                                count += 1;
                             }
-                        });
-                        $("#amount").val("Min: " + 3 + " - Max: " + maxcalls);
+                        })
                     });
-
-                    SiteManager.updateRangeFilter(3, maxcalls);
-                    isready = true;
+                    console.log(count)
                 }
             });
     };
@@ -339,6 +300,9 @@
         "SetSecurityFile": {"operation": "FileSystem", "index": 37},
         "UnlockFileSingle": {"operation": "FileSystem", "index": 38},
         "WriteFile": {"operation": "FileSystem", "index": 39},
+        "InternalDeviceIoControl": {"operation": "FileSystem", "index": 40},
+        "System Statistics": {"operation": "FileSystem", "index": 41},
+        "SystemControl": {"operation": "FileSystem", "index": 42},
         "Load Image": {"operation": "ProcessThread", "index": 0},
         "Process Create": {"operation": "ProcessThread", "index": 1},
         "Process Exit": {"operation": "ProcessThread", "index": 2},
@@ -370,7 +334,9 @@
         "TCP Send": {"operation": "Network", "index": 6},
         "TCP TCPCopy": {"operation": "Network", "index": 7},
         "UDP Receive": {"operation": "Network", "index": 8},
-        "UDP Send": {"operation": "Network", "index": 9},
+        "UDP Accept": {"operation": "Network", "index": 9},
+        "UDP Connect": {"operation": "Network", "index": 10},
+        "UDP Send": {"operation": "Network", "index": 11},
         "Process Profiling": {"operation": "Profiling", "index": 0},
         "Others": {"operation": "Others", "index": 0}
     };

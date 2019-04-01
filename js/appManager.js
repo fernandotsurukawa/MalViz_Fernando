@@ -1,6 +1,4 @@
-var svgStats;
 function applicationManager(globalData, malist) {
-    console.log(malist);
     var arcSelect;
     var [minStep, maxStep] = d3.extent(globalData, d => d.Step);
     var svgActionWidth;
@@ -1479,7 +1477,7 @@ function applicationManager(globalData, malist) {
         // List of Operations (legend)
         drawStats2: function (position) {
             d3.select(position).selectAll("*").remove();
-            var svgStats = d3.select(position).append('svg').attr('width', '100%').attr('height', 1110);
+            var svgStats = d3.select(position).append('svg').attr('width', '100%').attr('height', 1190);
             var group_O = svgStats.append('g');
 
             var group_by_operation = d3.keys(list);
@@ -1605,7 +1603,7 @@ function applicationManager(globalData, malist) {
             }
 
             var margin_left = 30;  // min margin = 30
-            var rect_height = 30, rect_margin_top = 5, group_rect_height = rect_height ;
+            var rect_height = 30, rect_margin_top = 5, group_rect_height = rect_height;
             var rect_normal_height = rect_height - 8;
             var rectSpacing = 2.5;
 
@@ -1706,7 +1704,7 @@ function applicationManager(globalData, malist) {
                 var roundedSecond2 = ~~addTime2;
                 var roundedStep2 = roundedSecond2 * 100000 / gra; // to add to each step
 
-                if (isLensing === true) {
+                if (isLensing && lensingStatus) {
 
                     var stepPosition = ~~(pointer / roundedStep2);
                     leftBound = Math.max(0, roundedStep2 * (stepPosition - lensRadius));
@@ -1733,6 +1731,7 @@ function applicationManager(globalData, malist) {
                         return posInLens;
 
                 }
+
                 else {
                     return xStep * norm;
                 }
@@ -2034,32 +2033,39 @@ function applicationManager(globalData, malist) {
                             .attr('y', group_rect_height / 2)
                     });
 
-                    outline.selectAll(".verticalBars").transition().duration(200)
+                    outline.selectAll(".verticalBars")
+                        // .transition().duration(200)
                         .attr("x1", d => StepScale(d.step, true) + margin_left)
-                        .attr("x2", d => StepScale(d.step, true) + margin_left)
-                        .style("stroke-opacity", function (d, i) {
-                            if (d.main) {
-                                return 0.4
-                            }    // main ticks
-                            else if (d.step < leftBound) {
-                                return 0;
-                            }
-                            else if (d.step > rightBound) {
-                                return 0;
-                            }
-                            else {
-                                return 0.2;
-                            }
-                        })
-                        .style("stroke-width", 1)
-                        .style("stroke-dasharray", function (d, i) {
-                            if (d.main) {
-                                return "3,2"
-                            }
-                            else {
-                                return "1,3"
-                            }
-                        });
+                        .attr("x2", d => StepScale(d.step, true) + margin_left);
+
+                    if (lensingStatus){
+                       outline
+                           .selectAll(".verticalBars")
+                           .style("stroke-opacity", function (d, i) {
+                           if (d.main) {
+                               return 0.4
+                           }    // main ticks
+                           else if (d.step < leftBound) {
+                               return 0;
+                           }
+                           else if (d.step > rightBound) {
+                               return 0;
+                           }
+                           else {
+                               return 0.2;
+                           }
+                       })
+                           .style("stroke-width", 1)
+                           .style("stroke-dasharray", function (d, i) {
+                               if (d.main) {
+                                   return "3,2"
+                               }
+                               else {
+                                   return "1,3"
+                               }
+                           });
+                    }
+
                 })
             ;
 
@@ -2488,7 +2494,7 @@ function applicationManager(globalData, malist) {
                                 .attr('transform', function () {
 
                                     var posX = (StepScale(child.step)) * rect_width + margin_left;
-                                    var posY = (getProcessNameIndex(updated_data, childProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height /2;
+                                    var posY = (getProcessNameIndex(updated_data, childProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
 
                                     return 'translate(' + posX + ',' + posY + ')';
                                 })
@@ -2507,7 +2513,7 @@ function applicationManager(globalData, malist) {
                                     }
 
                                     div3.transition()
-                                        // .duration(200)
+                                    // .duration(200)
                                         .style("opacity", 1);
 
                                     div3.html('Source: ' +
@@ -2573,19 +2579,19 @@ function applicationManager(globalData, malist) {
             //drawMatrixOld(matrix, libarr, group_by_process_name);
 
         },
-        highlight: function(position){
+        highlight: function (position) {
             var opList = getData.getdatabyOperation.map(d => d.key);
             var avaiop = [];
 
             opList.forEach(o => {
                 malist.forEach(m => {
-                    if (o === m){
+                    if (o === m) {
                         avaiop.push(o);
                     }
                 })
             });
             d3.select(position).selectAll("*").remove();
-            var svgList = d3.select(position).append('svg').attr('width', '100%').attr('height', 600);
+            var svgList = d3.select(position).append('svg').attr('width', '100%').attr('height', 300);
             var group_O = svgList.append('g');
 
             var active = {};
@@ -2595,7 +2601,7 @@ function applicationManager(globalData, malist) {
                 rect.append('text').text(operation).attr('x', '30px')
                     .style('color', 'black')
                     .style('font-size', '16px').attr('y', '15px')
-                    .on("click", function(){
+                    .on("click", function () {
                         d3.select("#heatmap").selectAll('rect[group=detail]')
                             .style('visibility', "hidden");
 
@@ -2721,6 +2727,22 @@ function applicationManager(globalData, malist) {
 var operationShown;
 var active = {};
 var firstClick;
+var svgStats;
+var lensingStatus = false;
+
+function setLensing() {
+    if (!lensingStatus) {
+        console.log(lensingStatus);
+        document.getElementById("lensingBtn").classList.add('selected');
+        lensingStatus = !lensingStatus;
+        return true;
+    } else {
+        console.log(lensingStatus);
+        document.getElementById("lensingBtn").classList.remove('selected');
+        lensingStatus = !lensingStatus;
+        return false;
+    }
+}
 
 function selectAll() {
     var selectAll = document.getElementById("opSelection").checked;

@@ -135,12 +135,13 @@
                     <a href="#">References</a>
                     <a href="#">Self-call</a>
                     <!--<a href="#">Contact</a>-->
-                    <div style="width: 200px; height: 300px; background-color: #ffffff" id="avaiop">
+                    <div style="width: 200px; background-color: #ffffff" id="avaiop">
 
                     </div>
                 </div>
 
-                <span class="textClick" onclick="openNav()"> &#9776; Highlight</span>
+                <span class="textClick" id="highlightBtn" onclick="openNav()"> &#9776; Highlight</span>
+                <span class="textClick" id="lensingBtn" onclick="setLensing()">&#x1F50E;Lensing</span>
 
                 <div id="heatmap">
                 </div>
@@ -197,9 +198,11 @@
             document.getElementById("heatmap").getBoundingClientRect().height +"px";
 
         if (open){
+            document.getElementById("highlightBtn").classList.add('selected');
             document.getElementById("mySidenav").style.width = "400px";
             document.getElementById("heatmap").style.marginLeft = "400px";
         } else{
+            document.getElementById("highlightBtn").classList.remove('selected');
             document.getElementById("mySidenav").style.width = "0";
             document.getElementById("heatmap").style.marginLeft= "0";
         }
@@ -258,7 +261,7 @@
                 }
                 else {
                     let data = ProcessDataV2(original_data, domain);
-                    let malist = processMalist(rawList);
+                    let malist = handleOperation(rawList);
                     let SiteManager = applicationManager(data, malist); //Initialize application
                     SiteManager.drawStats('#stats'); //Draw statistic map
                     SiteManager.drawStats2('#OperationList'); //Draw statistic map
@@ -348,6 +351,9 @@
         "SetSecurityFile": {"operation": "FileSystem", "index": 37},
         "UnlockFileSingle": {"operation": "FileSystem", "index": 38},
         "WriteFile": {"operation": "FileSystem", "index": 39},
+        "InternalDeviceIoControl": {"operation": "FileSystem", "index": 40},
+        "System Statistics": {"operation": "FileSystem", "index": 41},
+        "SystemControl": {"operation": "FileSystem", "index": 42},
         "Load Image": {"operation": "ProcessThread", "index": 0},
         "Process Create": {"operation": "ProcessThread", "index": 1},
         "Process Exit": {"operation": "ProcessThread", "index": 2},
@@ -379,7 +385,9 @@
         "TCP Send": {"operation": "Network", "index": 6},
         "TCP TCPCopy": {"operation": "Network", "index": 7},
         "UDP Receive": {"operation": "Network", "index": 8},
-        "UDP Send": {"operation": "Network", "index": 9},
+        "UDP Accept": {"operation": "Network", "index": 9},
+        "UDP Connect": {"operation": "Network", "index": 10},
+        "UDP Send": {"operation": "Network", "index": 11},
         "Process Profiling": {"operation": "Profiling", "index": 0},
         "Others": {"operation": "Others", "index": 0}
     };
