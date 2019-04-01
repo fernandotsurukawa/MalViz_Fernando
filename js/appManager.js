@@ -1,4 +1,4 @@
-function applicationManager(globalData, malist) {
+function applicationManager(globalData) {
     var arcSelect;
     var [minStep, maxStep] = d3.extent(globalData, d => d.Step);
     var svgActionWidth;
@@ -126,7 +126,7 @@ function applicationManager(globalData, malist) {
             });
             return domains;
         })();
-        console.log(groupbyOperation);
+
         return {
             getdatabyOperation: groupbyOperation,
             getdatabyProcessName: group_by_process_name,
@@ -1232,22 +1232,7 @@ function applicationManager(globalData, malist) {
                             d3.selectAll(".colLabel.mono.c" + c).style("opacity", 0.2);
                     }
 
-                    //
-                    // svgMatrix.append('rect')
-                    //     .attr('x',200+i*(rect_height+spacing))
-                    //     .attr('width',rect_width)
-                    //     .attr('height',svgheight - (rect_height+spacing)*(index+1))
-                    //     .attr('class','highlight-bar').attr('y',(rect_height+spacing)*(index+1));
-                    //
-                    // svgMatrix.append('rect')
-                    //     .attr('x',200)
-                    //     .attr('width',function () {
-                    //       return (i)*(rect_width+spacing);
-                    //     })
-                    //
-                    //     .attr('height',rect_height)
-                    //     .attr('class','highlight-bar')
-                    //     .attr('y',index*(rect_height+spacing));
+
                     div.transition()
                     // .duration(200)
                         .style("opacity", 1);
@@ -1354,7 +1339,7 @@ function applicationManager(globalData, malist) {
                         .attr('fill', function (d) {
                             return colorPicker(child.key);
                         })
-                        .classed(child.key.replace(" ", ""), true)
+                        .classed("g" + child.key.replace(" ", ""), true)
                         .classed("op0", child.key === "Process Profiling")
                         .classed("op1", !(child.key === "Process Profiling"))
 
@@ -2583,6 +2568,8 @@ function applicationManager(globalData, malist) {
             var opList = getData.getdatabyOperation.map(d => d.key);
             var avaiop = [];
 
+            var malist = ["CreateFile", "CreateFileMapping", "CreateFileMapping", "DeviceIoControl", "FileSystemControl", "InternalDeviceIoControl", "RegOpenKey", "System Statistics", "SystemControl", "TCP Accept", "TCP Connect", "TCP Send", "UDP Accept", "UDP Connect", "UDP Send"];
+
             opList.forEach(o => {
                 malist.forEach(m => {
                     if (o === m) {
@@ -2592,48 +2579,137 @@ function applicationManager(globalData, malist) {
             });
             d3.select(position).selectAll("*").remove();
             var svgList = d3.select(position).append('svg').attr('width', '100%').attr('height', 300);
-            var group_O = svgList.append('g');
 
+            var group0 = svgList.append('g').attr("id", "group0");
+            var group1 = svgList.append('g').attr("id", "group1");
+            var group2 = svgList.append('g').attr("id", "group1");
+
+            // OPERATION
+            d3.select("#operationBtn").classed("focus", true);
             var active = {};
-            avaiop.forEach(function (operation, index) {
-                var rect = group_O.append('g').attr('transform', 'translate(0,' + (20 + index * 20) + ')');
+            avaiop.forEach(function (rawOperation, index) {
+                var rect = group0.append('g').attr('transform', 'translate(0,' + (10 + index * 20) + ')');
 
-                rect.append('text').text(operation).attr('x', '30px')
+                rect.append('text').text(rawOperation).attr('x', '30px')
                     .style('color', 'black')
                     .style('font-size', '16px').attr('y', '15px')
+                    .style("cursor", "pointer")
                     .on("click", function () {
-                        d3.select("#heatmap").selectAll('rect[group=detail]')
-                            .style('visibility', "hidden");
+                        var operation = rawOperation.replace(" ", "");
+                        if (!active[operation]){
+                            document.getElementById("opSelection").checked = false;
+                            d3.select("#heatmap").selectAll('rect[group=detail]')
+                                .style('visibility', "hidden");
 
-                        // hide arc
-                        d3.selectAll(".arc")
-                            .classed("hidden", true);
+                            // hide arc
+                            d3.selectAll(".arc")
+                                .classed("hidden", true);
 
-                        // unselect group
-                        svgStats.selectAll("rect")
-                            .classed("op0", true)
-                            .classed("op1 op2", false);
+                            // unselect group
+                            svgStats.selectAll("rect")
+                                .classed("op0", true)
+                                .classed("op1 op2", false);
 
-                        // then, visible selection
-                        //show rect
-                        d3.select("#heatmap").selectAll('rect.' + operation)
-                            .style('visibility', "visible")
-                            .raise();
+                            // then, visible selection
+                            //show rect
+                            d3.select("#heatmap").selectAll('rect.' + operation)
+                                .style('visibility', "visible")
+                                .raise();
 
-                        //show arc
-                        arcSelect = d3.selectAll("[class*=o" + operation + "]");
-                        arcSelect
-                            .classed("visible", !active[operation])
-                            .classed("hidden", !!active[operation])
-                            .raise();
+                            //show arc
+                            arcSelect = d3.selectAll("[class*=o" + operation + "]");
+                            arcSelect
+                                .classed("visible", !active[operation])
+                                .classed("hidden", !!active[operation])
+                                .raise();
 
-                        d3.select(this)
-                            .classed("op1", true)
-                            .classed("op0 op2", false);
+                            d3.select(this)
+                                .classed("op1", true);
+
+                            d3.select("[class*=g" + operation + "]")
+                                .classed("op1", true);
+
+
+                        } else {
+                            document.getElementById("opSelection").checked = true;
+                            d3.select("#heatmap").selectAll('rect[group=detail]')
+                                .style('visibility', "visible");
+
+                            // hide arc
+                            d3.selectAll(".arc")
+                                .classed("visible", true)
+                                .classed("hidden", false);
+
+                            // unselect group
+                            svgStats.selectAll("rect")
+                                .classed("op1", true)
+                                .classed("op0 op2", false);
+
+                            d3.select(this)
+                                .classed("op1", false)
+
+                        }
+
+                        active[operation] = !active[operation];
+
                     })
             });
 
-            console.log(avaiop);
+
+            // FORCE-DIRECTED GRAPH
+            group1.append("text")
+                .text("Hola")
+                .attr('transform', 'translate(50,50)');
+            
+
+            group1.style("opacity", 0);
+
+            d3.select("#operationBtn").on("click", () => {
+                d3.select("#operationBtn").classed("focus", true);
+                d3.select("#refBtn").classed("focus", false);
+                d3.select("#selfBtn").classed("focus", false);
+
+                group1
+                    .transition()
+                    .duration(200)
+                    .style("opacity", 0);
+                group0
+                    .transition()
+                    .duration(200)
+                    .style("opacity", 1);
+
+            })
+
+            d3.select("#refBtn").on("click", () => {
+                d3.select("#operationBtn").classed("focus", false);
+                d3.select("#refBtn").classed("focus", true);
+                d3.select("#selfBtn").classed("focus", false);
+
+                group0
+                    .transition()
+                    .duration(200).style("opacity", 0);
+                group1
+                    .transition()
+                    .duration(200)
+                    .style("opacity", 1);
+
+            });
+
+            d3.select("#selfBtn").on("click", () => {
+                d3.select("#operationBtn").classed("focus", false);
+                d3.select("#refBtn").classed("focus", false);
+                d3.select("#selfBtn").classed("focus", true);
+
+                group0
+                    .transition()
+                    .duration(200).style("opacity", 0);
+                group1
+                    .transition()
+                    .duration(200)
+                    .style("opacity", 1);
+
+            });
+
         },
         draw2DMatrix: function (position) {
             var graphs = ExtractGraph(globalData);
@@ -2732,12 +2808,10 @@ var lensingStatus = false;
 
 function setLensing() {
     if (!lensingStatus) {
-        console.log(lensingStatus);
         document.getElementById("lensingBtn").classList.add('selected');
         lensingStatus = !lensingStatus;
         return true;
     } else {
-        console.log(lensingStatus);
         document.getElementById("lensingBtn").classList.remove('selected');
         lensingStatus = !lensingStatus;
         return false;

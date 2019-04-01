@@ -4,7 +4,7 @@
     width: 0; /* 0 width - change this with JavaScript */
     position: absolute; /* Stay in place */
     z-index: 10; /* Stay on top */
-    top: 462px; /* Stay at the top */
+    top: 466px; /* Stay at the top */
     left: 20px;
     background-color: #e6e6e6; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
@@ -25,6 +25,16 @@
 /* When you mouse over the navigation links, change their color */
 .sidenav a:hover {
     color: #f1f1f1;
+}
+
+.sidenav a:focus {
+    color: #000;
+    font-weight: bold;
+}
+
+.sidenav .focus{
+    color: #000;
+    font-weight: bold;
 }
 
 /* Position and style the close button (top right corner) */

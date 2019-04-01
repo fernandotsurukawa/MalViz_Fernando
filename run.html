@@ -245,15 +245,17 @@
                     var infosec = handleOperation(info);
                     var procmon = handleOperation(proc);
                     var count = 0;
+                    var array = [];
                     procmon.forEach(d => {
                         infosec.forEach(p => {
                             // if (d.toLowerCase().indexOf(p.toLowerCase()) >= 0) {
                             if (d.indexOf(p) >= 0) {
-                                console.log(d, getProcessName(d) === "Others" ? "Others" : null);
-                                count += 1;
+                                 count += 1;
+                                array.push(d);
                             }
                         })
                     });
+                    console.log(array);
                     console.log(count)
                 }
             });
