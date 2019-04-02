@@ -1522,30 +1522,30 @@ function applicationManager(globalData) {
                 });
             }
 
-            // updated_data.sort(function (a, b) {
-            //     if (getSuccessors(a, []).length < getSuccessors(b, []).length) {
-            //         return 1;
-            //     }
-            //     else if (getSuccessors(a, []).length > getSuccessors(b, []).length) {
-            //         return -1;
-            //     }
-            //     else {
-            //         if (a.values[0].Step < b.values[0].Step) {
-            //             return -1;
-            //         }
-            //         else if (a.values[0].Step > b.values[0].Step) {
-            //             return 1;
-            //         }
-            //         else
-            //             return 0;
-            //     }
-            // });
+            updated_data.sort(function (a, b) {
+                if (getSuccessors(a, [], 0).length < getSuccessors(b, [], 0).length) {
+                    return 1;
+                }
+                else if (getSuccessors(a, [], 0).length > getSuccessors(b, [], 0).length) {
+                    return -1;
+                }
+                else {
+                    if (a.values[0].Step < b.values[0].Step) {
+                        return -1;
+                    }
+                    else if (a.values[0].Step > b.values[0].Step) {
+                        return 1;
+                    }
+                    else
+                        return 0;
+                }
+            });
 
             orderedArray = [];
 
-            // for (var i = 0; i < updated_data.length; i++) {
-            //     dfs(updated_data[i], orderedArray);
-            // }
+            for (var i = 0; i < updated_data.length; i++) {
+                dfs(updated_data[i], orderedArray);
+            }
             orderedArray = updated_data;
             // console.log(calculateDistance(orderedArray));
 
@@ -1564,14 +1564,18 @@ function applicationManager(globalData) {
             }
 
             // DFS
-            function getSuccessors(o, array) {
+            function getSuccessors(o, array, count) {
                 if (o.children != undefined) {
                     for (var i = 0; i < o.children.length; i++) {
                         array.push(o.children[i]);
                     }
-                    for (var i = 0; i < o.children.length; i++) {
-                        getSuccessors(o.children[i], array)
+                    count += 1;
+                    if (count < 3){
+                        for (var i = 0; i < o.children.length; i++) {
+                            getSuccessors(o.children[i], array)
+                        }
                     }
+
                 }
                 return array;
             }
@@ -2003,6 +2007,19 @@ function applicationManager(globalData) {
                                 })
                             })
                         }
+                        if (parentProcess.selfCalls.length > 0) {
+                            parentProcess.selfCalls.forEach((self, i) => {
+                                svg_process_name.selectAll('.path_' + pIndex + "_" + pIndex + "_" + i)
+                                    .transition().duration(200)
+                                    .attr('transform', function () {
+
+                                        var posX = (StepScale(self.step, true)) * rect_width + margin_left;
+                                        var posY = (getProcessNameIndex(updated_data, parentProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
+
+                                        return 'translate(' + posX + ',' + posY + ')';
+                                    })
+                            })
+                        }
                     });
 
                     svg_process_name.selectAll(".stream")
@@ -2419,7 +2436,21 @@ function applicationManager(globalData) {
                             })
                         })
                     }
+                    if (parentProcess.selfCalls.length > 0) {
+                        parentProcess.selfCalls.forEach((self, i) => {
+                            svg_process_name.selectAll('.path_' + pIndex + "_" + pIndex + "_" + i)
+                                .transition().duration(200)
+                                .attr('transform', function () {
+
+                                    var posX = (StepScale(self.step)) * rect_width + margin_left;
+                                    var posY = (getProcessNameIndex(updated_data, parentProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
+
+                                    return 'translate(' + posX + ',' + posY + ')';
+                                })
+                        })
+                    }
                 });
+
                 svg_process_name.selectAll(".stream")
                     .transition().duration(200)
                     .attr("d", area.x(function (d, i) {
@@ -2548,12 +2579,12 @@ function applicationManager(globalData) {
                                 return "arrow_" + pIndex + "_" + pIndex + "_" + i
                             })
                             .attr("class", "arrow")
-                            .attr("refX", 8)
-                            .attr("refY", 20)
+                            .attr("refX", 4)
+                            .attr("refY", 6)
                             .attr("markerWidth", 8)
                             .attr("markerHeight", 8)
                             .style("fill", d => colorPicker(d.event))
-                            .attr("orient", 0)
+                            .attr("orient", -150)
                             .append('path')
                             .attr('d', 'M0,0 L8,0 L4,8 z');
 
@@ -2566,10 +2597,10 @@ function applicationManager(globalData) {
                         })
                             .attr("id", 'path_' + pIndex + "_" + pIndex + "_" + i)
                             .attr("d", d3.arc()
-                                .innerRadius(2 * group_rect_height / 2 - 1)
-                                .outerRadius(2 * group_rect_height / 2)
+                                .innerRadius(group_rect_height / 2 - 1)
+                                .outerRadius( group_rect_height / 2)
                                 .startAngle(100 * (Math.PI / 180)) //converting from degs to radians
-                                .endAngle(7.5))
+                                .endAngle(7))
                             .attr("marker-end", "url(#arrow_" + pIndex + "_" + pIndex + "_" + i + ")")
                             .attr('fill', colorPicker(self.event))
                             .attr('source', pIndex)
@@ -2580,6 +2611,51 @@ function applicationManager(globalData) {
                                 var posY = (getProcessNameIndex(updated_data, parentProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
 
                                 return 'translate(' + posX + ',' + posY + ')';
+                            })
+                            .on("mouseover", function () {
+                                if (arcSelect) {
+                                }
+                                else {
+                                    d3.selectAll(".arc")
+                                        .classed("visible", false)
+                                        .classed("hidden", true);
+
+                                    d3.select('.path_' + pIndex + "_" + pIndex + "_" + i)
+                                        .classed("visible", true)
+                                        .classed("hidden", false);
+                                }
+
+                                div3.transition()
+                                // .duration(200)
+                                    .style("opacity", 1);
+
+                                div3.html('Self-called: ' +
+                                    '<text class = "bold">' + parentProcess.key + "</text>" +
+                                    "<br/> Operation: " +
+                                    '<text class = "bold">' + self.event + "</text>"
+                                )
+                                    .style("left", (d3.event.pageX) + 20 + "px")
+                                    .style("top", (d3.event.pageY - 30) + "px")
+                                    .style("pointer-events", "none")
+                                    .style("background-color", () => {
+                                            // return colorPicker(child.event).replace("(", "a(").replace(")", ", 0.8)");
+                                            return "#dddddd"
+                                        }
+                                    )
+                            })
+                            .on("mouseout", function () {
+                                if (arcSelect) {
+                                    d3.selectAll(".arc.visible")
+                                        .classed("visible", true)
+                                        .classed("hidden", false);
+                                }
+                                else {
+                                    d3.selectAll(".arc")
+                                        .classed("visible", true)
+                                        .classed("hidden", false);
+                                }
+
+                                div3.style("opacity", 0);
                             })
 
 
@@ -2705,16 +2781,20 @@ function applicationManager(globalData) {
             });
 
             // FORCE-DIRECTED GRAPH
-            console.log(orderedArray);
-            group1.selectAll(".selfcall")
-                .data(orderedArray.filter(d => d.selfCalls.length > 0))
+            console.log(orderedArray.filter(d => d.selfCalls.length > 0));
+
+
+            group1
+                .selectAll(".selfcall")
+                .data(orderedArray.filter(d => d.selfCalls.length > 0)
+                    .sort((a,b) => b.selfCalls.length - a.selfCalls.length))
+                .enter()
                 .append("text")
                 .text(d => d.key + ": " + d.selfCalls.length)
-                .attr('transform', (d,i) => 'translate(20,'+ (10 + i * 20) +')')
+                .attr('transform', (d,i) => 'translate(30,'+ (30 + i * 20) +')')
                 .attr("class", "selfcall");
 
-
-            // group1.style("opacity", 0);
+            group1.style("opacity", 0);
 
             d3.select("#operationBtn").on("click", () => {
                 d3.select("#operationBtn").classed("focus", true);
@@ -2730,7 +2810,7 @@ function applicationManager(globalData) {
                     .duration(200)
                     .style("opacity", 1);
 
-            })
+            });
 
             d3.select("#refBtn").on("click", () => {
                 d3.select("#operationBtn").classed("focus", false);
