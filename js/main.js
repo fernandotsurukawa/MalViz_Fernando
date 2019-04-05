@@ -1570,7 +1570,7 @@ function applicationManager(globalData) {
                         array.push(o.children[i]);
                     }
                     count += 1;
-                    if (count < 3){
+                    if (count < 3) {
                         for (var i = 0; i < o.children.length; i++) {
                             getSuccessors(o.children[i], array)
                         }
@@ -2596,7 +2596,7 @@ function applicationManager(globalData) {
                             .attr("id", 'path_' + pIndex + "_" + pIndex + "_" + i)
                             .attr("d", d3.arc()
                                 .innerRadius(group_rect_height / 2 - 1)
-                                .outerRadius( group_rect_height / 2)
+                                .outerRadius(group_rect_height / 2)
                                 .startAngle(100 * (Math.PI / 180)) //converting from degs to radians
                                 .endAngle(7))
                             .attr("marker-end", "url(#arrow_" + pIndex + "_" + pIndex + "_" + i + ")")
@@ -2605,7 +2605,7 @@ function applicationManager(globalData) {
                             .attr('target', pIndex)
                             .attr('transform', function () {
 
-                                var posX = (StepScale(self.step)) * rect_width + margin_left-9;
+                                var posX = (StepScale(self.step)) * rect_width + margin_left - 9;
                                 var posY = (getProcessNameIndex(updated_data, parentProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
 
                                 return 'translate(' + posX + ',' + posY + ')';
@@ -2702,7 +2702,7 @@ function applicationManager(globalData) {
             });
             d3.select(position).selectAll("*").remove();
             var svgList = d3.select(position)
-                // .append('svg').attr('width', '100%').attr('height', 300);
+            // .append('svg').attr('width', '100%').attr('height', 300);
 
             var group0 = svgList.append('g').attr("id", "group0");
             var group1 = svgList.append('g').attr("id", "group1");
@@ -2782,14 +2782,14 @@ function applicationManager(globalData) {
 
             // FORCE-DIRECTED GRAPH ==========================================
             d3.select("#refBtn").classed("focus", true);
-           console.log(globalgroupbyprocessname);
+            console.log(globalgroupbyprocessname);
 
-           var list = globalgroupbyprocessname.map(d => d.key.toLowerCase());
-           var nodes = {};
-           var links = {};
+            var list = globalgroupbyprocessname.map(d => d.key.toLowerCase());
+            var nodes = {};
+            var links = {};
             var maxLink = 0, minLink = 100;
-           var secondaryNodes = {};
-           var nodeObjTotal = {};
+            var secondaryNodes = {};
+            var nodeObjTotal = {};
 
             globalgroupbyprocessname.forEach((process, i) => {
                 var keyName = process.key.toLowerCase();
@@ -2803,17 +2803,17 @@ function applicationManager(globalData) {
                 // first level
                 process.values.forEach(ref => {
                     //add node
-                    if (ref.Path.length > 0){   // exist path
+                    if (ref.Path.length > 0) {   // exist path
                         if (ref.Process === "Registry") {   // registry -------------
                             computeNodes(nodeObj, nodes[keyName], "Registry", ref.Path);
                         }
-                        else if (ref.Process === "Network"){
+                        else if (ref.Process === "Network") {
                             computeNodes(nodeObj, nodes[keyName], "Network", ref.Path);
                         }
-                        else if (ref.Path.toLowerCase().endsWith(".dll")){
+                        else if (ref.Path.toLowerCase().endsWith(".dll")) {
                             computeNodes(nodeObj, nodes[keyName], "dll", ref.Path);
                         }
-                        else if (ref.Path.toLowerCase().endsWith(".exe")){
+                        else if (ref.Path.toLowerCase().endsWith(".exe")) {
                             let linkExe = ref.Path.split(/\\/);
                             let exeName = linkExe[linkExe.length - 1];
 
@@ -2822,7 +2822,7 @@ function applicationManager(globalData) {
                             list.forEach(d => {
                                 if ((d.toLowerCase() !== keyName) &&  // second != primary
                                     (!secondNodeObj[d]) &&  // havent met
-                                    (exeName.toLowerCase() === d.toLowerCase())){
+                                    (exeName.toLowerCase() === d.toLowerCase())) {
                                     secondaryNodes[keyName].push(d);
                                     secondNodeObj[d] = true;
                                 }
@@ -2835,7 +2835,7 @@ function applicationManager(globalData) {
                     }
                 });
 
-                if (!nodeObj[keyName]){
+                if (!nodeObj[keyName]) {
                     nodes[keyName].push({
                         id: keyName,
                         type: "exe"
@@ -2848,31 +2848,35 @@ function applicationManager(globalData) {
                         source: keyName,
                         target: target,
                         value: nodeObj[target]
-                    })
+                    });
 
-                    if (nodeObj[target] > maxLink){
+                    if (nodeObj[target] > maxLink) {
                         maxLink = nodeObj[target]
                     }
 
-                    if (nodeObj[target] < minLink){
+                    if (nodeObj[target] < minLink) {
                         minLink = nodeObj[target]
                     }
                 })
             });
 
             // half level
+
             list.forEach(host => {
-                if (secondaryNodes[host].length > 0){
+                if (secondaryNodes[host].length > 0) {
                     secondaryNodes[host].forEach(guest => {
-                       d3.keys(nodeObjTotal[host]).forEach(h => {
-                           if (nodeObjTotal[guest][h]){
-                               links[host].push(links[guest].find(d => d.target === h))
-                           }
-                       })
+                        d3.keys(nodeObjTotal[host]).forEach(refer => {
+                            if (nodeObjTotal[guest][refer]) {
+                                links[host].push({
+                                    source: guest,
+                                    target: refer,
+                                    value: links[guest].find(d => d.target === refer).value
+                                })
+                            }
+                        })
                     })
                 }
             });
-
 
             console.log(nodes);
             console.log(links);
@@ -2880,19 +2884,23 @@ function applicationManager(globalData) {
 
             // DONE computing nodes and links
             // sort processes based on number of links
-            var sortedList = list.sort((a,b) => (links[b].length - links[a].length));
+            var sortedList = list.sort((a, b) => (links[b].length - links[a].length));
 
             var scaleStroke = d3.scaleSqrt()
                 .domain([minLink, maxLink])
-                .range([1,6]);
+                .range([1, 6]);
 
             var opacity = d3.scaleSqrt()
                 .domain([minLink, maxLink])
                 .range([0.5, 1]);
 
+            var scaleWidth = d3.scaleThreshold()
+                .domain([10, 40, 150, 500, 1300, 2500])
+                .range([80, 150, 220, 350, 600, 1000, 1500]);
+
             sortedList.forEach(item => {
-                var width = 650;
-                var height = 300;
+                var width = 700;
+                var height = scaleWidth(nodes[item].length);
 
                 let svg = d3.select("#group1").append("svg")
                     .attr("width", width)
@@ -2901,10 +2909,12 @@ function applicationManager(globalData) {
                 svg.append("text")
                     .text(item)
                     .attr("x", 20)
-                    .attr("y", 20);
+                    .attr("y", height/2);
 
                 var simulation = d3.forceSimulation()
-                    .force("link", d3.forceLink().id(function(d) { return d.id; }))
+                    .force("link", d3.forceLink().id(function (d) {
+                        return d.id;
+                    }))
                     .force("charge", d3.forceManyBody())
                     .force("center", d3.forceCenter(width / 2, height / 2));
 
@@ -2914,8 +2924,8 @@ function applicationManager(globalData) {
                     .data(links[item])
                     .enter()
                     .append("line")
-                    .attr("id", d => d.source.id + d.target.id)
-                    .style("stroke", "#303030")
+                    .attr("id", d => d.source + d.target)
+                    .style("stroke", "#202020")
                     .attr("opacity", d => opacity(d.value))
                     .attr("stroke-width", d => scaleStroke(d.value));
 
@@ -2936,7 +2946,9 @@ function applicationManager(globalData) {
                         .on("end", dragended));
 
                 node.append("title")
-                    .text(function(d) { return d.id; });
+                    .text(function (d) {
+                        return d.id;
+                    });
 
                 simulation
                     .nodes(nodes[item])
@@ -2947,18 +2959,30 @@ function applicationManager(globalData) {
 
                 function ticked() {
                     link
-                        .attr("x1", function(d) { return d.source.x; })
-                        .attr("y1", function(d) { return d.source.y; })
-                        .attr("x2", function(d) { return d.target.x; })
-                        .attr("y2", function(d) { return d.target.y; });
+                        .attr("x1", function (d) {
+                            return d.source.x;
+                        })
+                        .attr("y1", function (d) {
+                            return d.source.y;
+                        })
+                        .attr("x2", function (d) {
+                            return d.target.x;
+                        })
+                        .attr("y2", function (d) {
+                            return d.target.y;
+                        });
 
                     node
-                        .attr("cx", function(d) { return d.x; })
-                        .attr("cy", function(d) { return d.y; });
+                        .attr("cx", function (d) {
+                            return d.x;
+                        })
+                        .attr("cy", function (d) {
+                            return d.y;
+                        });
                 }
 
                 function dragstarted(d) {
-                    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+                    if (!d3.event.active) simulation.alphaTarget(0.8).restart();
                     d.fx = d.x;
                     d.fy = d.y;
                 }
@@ -2977,15 +3001,17 @@ function applicationManager(globalData) {
 
 
             // Self-call ==========================================
-            var svg2 = group2.append('svg').attr('width', '100%').attr('height', 300);
+            var svg2 = group2.append('svg')
+                .attr('width', '100%').attr('height', 300)
+                .attr("id", "selfGroup");
             svg2
                 .selectAll(".selfcall")
                 .data(orderedArray.filter(d => d.selfCalls.length > 0)
-                    .sort((a,b) => b.selfCalls.length - a.selfCalls.length))
+                    .sort((a, b) => b.selfCalls.length - a.selfCalls.length))
                 .enter()
                 .append("text")
                 .text(d => d.key + ": " + d.selfCalls.length)
-                .attr('transform', (d,i) => 'translate(30,'+ (30 + i * 20) +')')
+                .attr('transform', (d, i) => 'translate(30,' + (30 + i * 20) + ')')
                 .attr("class", "selfcall");
 
             group2.style("visibility", "hidden");
@@ -3155,9 +3181,10 @@ var orderedArray = [];
 const categories = ["Registry", "Network", "File", "exe", "dll"];
 const stackColor = ["#3d6c40", "#8f3a47", "#af7131", "#2e578b", "#7e7e7e"];
 
-function getColor(type){
+function getColor(type) {
     return stackColor[categories.indexOf(type)];
 }
+
 function setLensing() {
     if (!lensingStatus) {
         document.getElementById("lensingBtn").classList.add('selected');

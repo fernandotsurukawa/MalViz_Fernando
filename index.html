@@ -140,7 +140,7 @@
                     </div>
                     <a href="#" id="operationBtn" >Operation</a>
                     <a href="#" id="refBtn" >References</a>
-                    <a href="#" id="selfBtn" >Self-call</a>
+                    <a href="#selfGroup" id="selfBtn" >Self-call</a>
                     <!--<a href="#">Contact</a>-->
                     <div style="width: 700px; background-color: #ffffff" id="avaiop">
 
@@ -198,6 +198,7 @@
 <script src="js/ultility.js"></script>
 <script src="js/main.js"></script>
 <script>
+
     // side bar
     var open;
 
@@ -317,6 +318,7 @@
                     isready = true;
                 }
             });
+
     };
     init("Huyen-Ransomware-WannaPeace.csv");
     var list = {
@@ -439,8 +441,9 @@
             }
         } else return "#5d5d5d"
     }
-
-
+    // document.getElementById("highlightBtn").classList.add('selected');
+    // document.getElementById("mySidenav").style.width = "800px";
+    // document.getElementById("heatmap").style.marginLeft = "800px";
 </script>
 
 </body>
