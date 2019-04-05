@@ -123,7 +123,6 @@
         </tr>
     </table>
 
-
 </fieldset>
 
 <fieldset id="fsHeatmap">
@@ -141,9 +140,9 @@
                     </div>
                     <a href="#" id="operationBtn" >Operation</a>
                     <a href="#" id="refBtn" >References</a>
-                    <a href="#" id="selfBtn" >Self-call</a>
+                    <a href="#selfGroup" id="selfBtn" >Self-call</a>
                     <!--<a href="#">Contact</a>-->
-                    <div style="width: 300px; background-color: #ffffff" id="avaiop">
+                    <div style="width: 700px; background-color: #ffffff" id="avaiop">
 
                     </div>
                 </div>
@@ -197,8 +196,9 @@
     <img id="loading-image" src="images/loader2.gif" alt="Loading..."/>
 </div>
 <script src="js/ultility.js"></script>
-<script src="js/appManager.js"></script>
+<script src="js/main.js"></script>
 <script>
+
     // side bar
     var open;
 
@@ -208,8 +208,8 @@
 
         if (open) {
             document.getElementById("highlightBtn").classList.add('selected');
-            document.getElementById("mySidenav").style.width = "400px";
-            document.getElementById("heatmap").style.marginLeft = "400px";
+            document.getElementById("mySidenav").style.width = "800px";
+            document.getElementById("heatmap").style.marginLeft = "800px";
         } else {
             document.getElementById("highlightBtn").classList.remove('selected');
             document.getElementById("mySidenav").style.width = "0";
@@ -318,6 +318,7 @@
                     isready = true;
                 }
             });
+
     };
     init("Huyen-Ransomware-WannaPeace.csv");
     var list = {
@@ -440,8 +441,9 @@
             }
         } else return "#5d5d5d"
     }
-
-
+    // document.getElementById("highlightBtn").classList.add('selected');
+    // document.getElementById("mySidenav").style.width = "800px";
+    // document.getElementById("heatmap").style.marginLeft = "800px";
 </script>
 
 </body>
