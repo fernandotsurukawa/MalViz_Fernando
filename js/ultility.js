@@ -174,9 +174,6 @@ function UpdateProcessNameWithChild(processLst, links) {
                     }
                 }
                 else {
-                    // console.log("link.targetProcessName: ", link.targetProcessName);
-                    // console.log("processLst[index]: ", processLst[index].key);
-                    // console.log(" ");
                     proc.selfCalls.push({
                         event: link.Operation,
                         step: link.Step

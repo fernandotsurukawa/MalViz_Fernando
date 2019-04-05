@@ -1498,7 +1498,7 @@ function applicationManager(globalData) {
             for (var i = 0; i < updated_data.length; i++) {
                 updated_data[i].children = [];
                 for (var j = 0; j < updated_data[i].childs.length; j++) {
-                    updated_data[i].children[j] = updated_data[updated_data[i].childs[j]];
+                    updated_data[i].children.push(updated_data[updated_data[i].childs[j]]);
                 }
 
                 // sort children
@@ -1818,8 +1818,6 @@ function applicationManager(globalData) {
             // ;
             // SVG =======================================================================
             // Outline -----------------------------------------------------------
-            const categories = ["Registry", "Network", "File", "exe", "dll"];
-            const stackColor = ["#3d6c40", "#8f4447", "#af7131", "#39708b", "#7e7e7e"];
             // legend
             var legend = d3.select("#heatmap")
                 .append("svg")
@@ -2013,7 +2011,7 @@ function applicationManager(globalData) {
                                     .transition().duration(200)
                                     .attr('transform', function () {
 
-                                        var posX = (StepScale(self.step, true)) * rect_width + margin_left;
+                                        var posX = (StepScale(self.step, true)) * rect_width + margin_left - 9;
                                         var posY = (getProcessNameIndex(updated_data, parentProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
 
                                         return 'translate(' + posX + ',' + posY + ')';
@@ -2442,7 +2440,7 @@ function applicationManager(globalData) {
                                 .transition().duration(200)
                                 .attr('transform', function () {
 
-                                    var posX = (StepScale(self.step)) * rect_width + margin_left;
+                                    var posX = (StepScale(self.step)) * rect_width + margin_left - 9;
                                     var posY = (getProcessNameIndex(updated_data, parentProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
 
                                     return 'translate(' + posX + ',' + posY + ')';
@@ -2607,7 +2605,7 @@ function applicationManager(globalData) {
                             .attr('target', pIndex)
                             .attr('transform', function () {
 
-                                var posX = (StepScale(self.step)) * rect_width + margin_left;
+                                var posX = (StepScale(self.step)) * rect_width + margin_left-9;
                                 var posY = (getProcessNameIndex(updated_data, parentProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
 
                                 return 'translate(' + posX + ',' + posY + ')';
@@ -2693,7 +2691,7 @@ function applicationManager(globalData) {
             var opList = getData.getdatabyOperation.map(d => d.key);
             var avaiop = [];
 
-            var malist = ["CreateFile", "CreateFileMapping", "CreateFileMapping", "DeviceIoControl", "FileSystemControl", "InternalDeviceIoControl", "RegOpenKey", "System Statistics", "SystemControl", "TCP Accept", "TCP Connect", "TCP Send", "UDP Accept", "UDP Connect", "UDP Send"];
+            var malist = ["CreateFile", "CreateFileMapping", "DeviceIoControl", "FileSystemControl", "InternalDeviceIoControl", "RegOpenKey", "System Statistics", "SystemControl", "TCP Accept", "TCP Connect", "TCP Send", "UDP Accept", "UDP Connect", "UDP Send"];
 
             opList.forEach(o => {
                 malist.forEach(m => {
@@ -2703,19 +2701,21 @@ function applicationManager(globalData) {
                 })
             });
             d3.select(position).selectAll("*").remove();
-            var svgList = d3.select(position).append('svg').attr('width', '100%').attr('height', 300);
+            var svgList = d3.select(position)
+                // .append('svg').attr('width', '100%').attr('height', 300);
 
             var group0 = svgList.append('g').attr("id", "group0");
             var group1 = svgList.append('g').attr("id", "group1");
-            var group2 = svgList.append('g').attr("id", "group1");
+            var group2 = svgList.append('g').attr("id", "group2");
 
-            // OPERATION
-            d3.select("#operationBtn").classed("focus", true);
+            // OPERATION =============================================================
+
             var active = {};
+            var svg0 = group0.append('svg').attr('width', '100%').attr('height', 100);
             avaiop.forEach(function (rawOperation, index) {
-                var rect = group0.append('g').attr('transform', 'translate(0,' + (10 + index * 20) + ')');
+                var text = svg0.append('g').attr('transform', 'translate(0,' + (10 + index * 20) + ')');
 
-                rect.append('text').text(rawOperation).attr('x', '30px')
+                text.append('text').text(rawOperation).attr('x', '30px')
                     .style('color', 'black')
                     .style('font-size', '16px').attr('y', '15px')
                     .style("cursor", "pointer")
@@ -2772,19 +2772,213 @@ function applicationManager(globalData) {
 
                             d3.select(this)
                                 .classed("op1", false)
-
                         }
 
                         active[operation] = !active[operation];
 
                     })
             });
+            group0.style("visibility", "hidden");
 
-            // FORCE-DIRECTED GRAPH
-            console.log(orderedArray.filter(d => d.selfCalls.length > 0));
+            // FORCE-DIRECTED GRAPH ==========================================
+            d3.select("#refBtn").classed("focus", true);
+           console.log(globalgroupbyprocessname);
+
+           var list = globalgroupbyprocessname.map(d => d.key.toLowerCase());
+           var nodes = {};
+           var links = {};
+            var maxLink = 0, minLink = 100;
+           var secondaryNodes = {};
+           var nodeObjTotal = {};
+
+            globalgroupbyprocessname.forEach((process, i) => {
+                var keyName = process.key.toLowerCase();
+                nodeObjTotal[keyName] = {};
+                var nodeObj = nodeObjTotal[keyName];
+                var secondNodeObj = {};
+                nodes[keyName] = [];
+                links[keyName] = [];
+                secondaryNodes[keyName] = [];
+
+                // first level
+                process.values.forEach(ref => {
+                    //add node
+                    if (ref.Path.length > 0){   // exist path
+                        if (ref.Process === "Registry") {   // registry -------------
+                            computeNodes(nodeObj, nodes[keyName], "Registry", ref.Path);
+                        }
+                        else if (ref.Process === "Network"){
+                            computeNodes(nodeObj, nodes[keyName], "Network", ref.Path);
+                        }
+                        else if (ref.Path.toLowerCase().endsWith(".dll")){
+                            computeNodes(nodeObj, nodes[keyName], "dll", ref.Path);
+                        }
+                        else if (ref.Path.toLowerCase().endsWith(".exe")){
+                            let linkExe = ref.Path.split(/\\/);
+                            let exeName = linkExe[linkExe.length - 1];
+
+                            computeNodes(nodeObj, nodes[keyName], "exe", exeName);
+
+                            list.forEach(d => {
+                                if ((d.toLowerCase() !== keyName) &&  // second != primary
+                                    (!secondNodeObj[d]) &&  // havent met
+                                    (exeName.toLowerCase() === d.toLowerCase())){
+                                    secondaryNodes[keyName].push(d);
+                                    secondNodeObj[d] = true;
+                                }
+                            })
+                        }
+                        else {
+                            let path = ref.Path.toLowerCase();
+                            computeNodes(nodeObj, nodes[keyName], "File", path);
+                        }
+                    }
+                });
+
+                if (!nodeObj[keyName]){
+                    nodes[keyName].push({
+                        id: keyName,
+                        type: "exe"
+                    })
+                }
+
+                // compute links
+                d3.keys(nodeObj).forEach(target => {
+                    links[keyName].push({
+                        source: keyName,
+                        target: target,
+                        value: nodeObj[target]
+                    })
+
+                    if (nodeObj[target] > maxLink){
+                        maxLink = nodeObj[target]
+                    }
+
+                    if (nodeObj[target] < minLink){
+                        minLink = nodeObj[target]
+                    }
+                })
+            });
+
+            // half level
+            list.forEach(host => {
+                if (secondaryNodes[host].length > 0){
+                    secondaryNodes[host].forEach(guest => {
+                       d3.keys(nodeObjTotal[host]).forEach(h => {
+                           if (nodeObjTotal[guest][h]){
+                               links[host].push(links[guest].find(d => d.target === h))
+                           }
+                       })
+                    })
+                }
+            });
 
 
-            group1
+            console.log(nodes);
+            console.log(links);
+            console.log(secondaryNodes);
+
+            // DONE computing nodes and links
+            // sort processes based on number of links
+            var sortedList = list.sort((a,b) => (links[b].length - links[a].length));
+
+            var scaleStroke = d3.scaleSqrt()
+                .domain([minLink, maxLink])
+                .range([1,6]);
+
+            var opacity = d3.scaleSqrt()
+                .domain([minLink, maxLink])
+                .range([0.5, 1]);
+
+            sortedList.forEach(item => {
+                var width = 650;
+                var height = 300;
+
+                let svg = d3.select("#group1").append("svg")
+                    .attr("width", width)
+                    .attr("height", height);
+
+                svg.append("text")
+                    .text(item)
+                    .attr("x", 20)
+                    .attr("y", 20);
+
+                var simulation = d3.forceSimulation()
+                    .force("link", d3.forceLink().id(function(d) { return d.id; }))
+                    .force("charge", d3.forceManyBody())
+                    .force("center", d3.forceCenter(width / 2, height / 2));
+
+                var link = svg.append("g")
+                    .attr("class", "links")
+                    .selectAll("line")
+                    .data(links[item])
+                    .enter()
+                    .append("line")
+                    .attr("id", d => d.source.id + d.target.id)
+                    .style("stroke", "#303030")
+                    .attr("opacity", d => opacity(d.value))
+                    .attr("stroke-width", d => scaleStroke(d.value));
+
+                var node = svg.append("g")
+                    .attr("class", "nodes")
+                    .selectAll("circle")
+                    .data(nodes[item])
+                    .enter().append("circle")
+                    .attr("r", 3)
+                    .attr("stroke", "white")
+                    .attr("stroke-width", 0.5)
+                    .attr("fill", d => {
+                        return getColor(d.type)
+                    })
+                    .call(d3.drag()
+                        .on("start", dragstarted)
+                        .on("drag", dragged)
+                        .on("end", dragended));
+
+                node.append("title")
+                    .text(function(d) { return d.id; });
+
+                simulation
+                    .nodes(nodes[item])
+                    .on("tick", ticked);
+
+                simulation.force("link")
+                    .links(links[item]);
+
+                function ticked() {
+                    link
+                        .attr("x1", function(d) { return d.source.x; })
+                        .attr("y1", function(d) { return d.source.y; })
+                        .attr("x2", function(d) { return d.target.x; })
+                        .attr("y2", function(d) { return d.target.y; });
+
+                    node
+                        .attr("cx", function(d) { return d.x; })
+                        .attr("cy", function(d) { return d.y; });
+                }
+
+                function dragstarted(d) {
+                    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+                    d.fx = d.x;
+                    d.fy = d.y;
+                }
+
+                function dragged(d) {
+                    d.fx = d3.event.x;
+                    d.fy = d3.event.y;
+                }
+
+                function dragended(d) {
+                    if (!d3.event.active) simulation.alphaTarget(0);
+                    d.fx = null;
+                    d.fy = null;
+                }
+            });
+
+
+            // Self-call ==========================================
+            var svg2 = group2.append('svg').attr('width', '100%').attr('height', 300);
+            svg2
                 .selectAll(".selfcall")
                 .data(orderedArray.filter(d => d.selfCalls.length > 0)
                     .sort((a,b) => b.selfCalls.length - a.selfCalls.length))
@@ -2794,24 +2988,9 @@ function applicationManager(globalData) {
                 .attr('transform', (d,i) => 'translate(30,'+ (30 + i * 20) +')')
                 .attr("class", "selfcall");
 
-            group1.style("opacity", 0);
+            group2.style("visibility", "hidden");
 
-            d3.select("#operationBtn").on("click", () => {
-                d3.select("#operationBtn").classed("focus", true);
-                d3.select("#refBtn").classed("focus", false);
-                d3.select("#selfBtn").classed("focus", false);
-
-                group1
-                    .transition()
-                    .duration(200)
-                    .style("opacity", 0);
-                group0
-                    .transition()
-                    .duration(200)
-                    .style("opacity", 1);
-
-            });
-
+            // INIT ==========================================
             d3.select("#refBtn").on("click", () => {
                 d3.select("#operationBtn").classed("focus", false);
                 d3.select("#refBtn").classed("focus", true);
@@ -2819,11 +2998,39 @@ function applicationManager(globalData) {
 
                 group0
                     .transition()
-                    .duration(200).style("opacity", 0);
+                    .duration(200)
+                    .style("visibility", "hidden");
+
                 group1
                     .transition()
                     .duration(200)
-                    .style("opacity", 1);
+                    .style("visibility", "visible");
+                group2
+                    .transition()
+                    .duration(200)
+                    .style("visibility", "hidden");
+
+            });
+
+            // On change
+            d3.select("#operationBtn").on("click", () => {
+                d3.select("#operationBtn").classed("focus", true);
+                d3.select("#refBtn").classed("focus", false);
+                d3.select("#selfBtn").classed("focus", false);
+
+                group0
+                    .transition()
+                    .duration(200)
+                    .style("visibility", "visible");
+
+                group1
+                    .transition()
+                    .duration(200)
+                    .style("visibility", "hidden");
+                group2
+                    .transition()
+                    .duration(200)
+                    .style("visibility", "hidden");
 
             });
 
@@ -2834,11 +3041,17 @@ function applicationManager(globalData) {
 
                 group0
                     .transition()
-                    .duration(200).style("opacity", 0);
+                    .duration(200)
+                    .style("visibility", "hidden");
+
                 group1
                     .transition()
                     .duration(200)
-                    .style("opacity", 1);
+                    .style("visibility", "hidden");
+                group2
+                    .transition()
+                    .duration(200)
+                    .style("visibility", "visible");
 
             });
 
@@ -2937,7 +3150,14 @@ var active = {};
 var firstClick;
 var svgStats;
 var lensingStatus = false;
-var orderedArray = []
+var orderedArray = [];
+
+const categories = ["Registry", "Network", "File", "exe", "dll"];
+const stackColor = ["#3d6c40", "#8f3a47", "#af7131", "#2e578b", "#7e7e7e"];
+
+function getColor(type){
+    return stackColor[categories.indexOf(type)];
+}
 function setLensing() {
     if (!lensingStatus) {
         document.getElementById("lensingBtn").classList.add('selected');
@@ -2991,3 +3211,19 @@ function selectAll() {
         })
     }
 }
+
+function computeNodes(nodeObj, miniNode, type, rawPath) {
+    let path = rawPath.toLowerCase();
+    if (!nodeObj[path]) {
+        // if havent existed
+        nodeObj[path] = 1;
+        miniNode.push({
+            id: path,
+            type: type
+        });
+
+    } else {
+        nodeObj[path] += 1;
+    }
+}
+
