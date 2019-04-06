@@ -560,23 +560,22 @@ function applicationManager(globalData) {
                 right: 0,
                 bottom: 0,
                 left: 250
-            },
-            // width = 1100,
-            height = 250;
-        var svg = d3.select("#matrix2D").append("svg")
-        // .attr("width", width + margin.left + margin.right)
-            .attr("width", "100%")
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", "translate(0," + margin.top + ")");
+            };
 
+        var height = 250;
         var width = document.getElementById("matrix2D").getBoundingClientRect().width;
         var matrix = [];
         var x_length = nodes.targets.length;
         var y_length = nodes.sources.length;
-        var x_scale = d3.scaleBand().range([0, width]).domain(d3.range(x_length));
+        var x_scale = d3.scaleBand().range([0, width-margin.left]).domain(d3.range(x_length));
         var y_scale = d3.scaleBand().range([0, height]).domain(d3.range(y_length));
 
+        var svg = d3.select("#matrix2D").append("svg")
+        // .attr("width", width + margin.left + margin.right)
+            .attr("width", width)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         nodes.targets.forEach(function (node) {
             node.linkDiff = node.links.length;
@@ -834,6 +833,7 @@ function applicationManager(globalData) {
         // rows.append("line")
         //     .attr("x2", width);
         rows.append("text")
+            .attr("class", "penguin")
             .attr("x", -6)
             .attr("y", y_scale.bandwidth() / 2)
             .attr("dy", ".32em")
@@ -1197,7 +1197,7 @@ function applicationManager(globalData) {
         var ColorScale = d3.scaleLinear()
             .domain([0, Math.sqrt(maxvalue)])
             .range([0, 1]);
-        var svgMatrix = d3.select('#matrix').append('svg').attr('height', svgheight).attr('width', "100%").attr('margin-top', "15px");
+        var svgMatrix = d3.select('#matrix').append('svg').attr('height', svgheight+300).attr('width', "100%").attr('margin-top', "15px");
         matrix.forEach(function (row, index) {
 
             var group = svgMatrix.append('g').attr('height', 12).attr('transform', 'translate(200,' + getProcessIndex(index) * (rect_height + spacing) + ')')
@@ -3073,20 +3073,6 @@ function applicationManager(globalData) {
                 d3.select("#refBtn").classed("focus", true);
                 d3.select("#selfBtn").classed("focus", false);
 
-                // group0
-                //     .transition()
-                //     .duration(200)
-                //     .style("visibility", "hidden");
-                //
-                // group1
-                //     .transition()
-                //     .duration(200)
-                //     .style("visibility", "visible");
-                // group2
-                //     .transition()
-                //     .duration(200)
-                //     .style("visibility", "hidden");
-
                 group0
                     .transition()
                     .duration(200)
@@ -3108,20 +3094,6 @@ function applicationManager(globalData) {
                 d3.select("#refBtn").classed("focus", false);
                 d3.select("#selfBtn").classed("focus", false);
 
-                // group0
-                //     .transition()
-                //     .duration(200)
-                //     .style("visibility", "visible");
-                //
-                // group1
-                //     .transition()
-                //     .duration(200)
-                //     .style("visibility", "hidden");
-                // group2
-                //     .transition()
-                //     .duration(200)
-                //     .style("visibility", "hidden");
-
                 group0
                     .transition()
                     .duration(200)
@@ -3142,20 +3114,6 @@ function applicationManager(globalData) {
                 d3.select("#operationBtn").classed("focus", false);
                 d3.select("#refBtn").classed("focus", false);
                 d3.select("#selfBtn").classed("focus", true);
-
-                // group0
-                //     .transition()
-                //     .duration(200)
-                //     .style("visibility", "hidden");
-                //
-                // group1
-                //     .transition()
-                //     .duration(200)
-                //     .style("visibility", "hidden");
-                // group2
-                //     .transition()
-                //     .duration(200)
-                //     .style("visibility", "visible");
 
                 group0
                     .transition()
