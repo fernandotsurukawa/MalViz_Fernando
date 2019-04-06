@@ -1736,20 +1736,20 @@ function applicationManager(globalData) {
                 .append("svg").attr("id", "magContainer")
                 .attr("x", "100")
                 .attr("y", "100")
-                .attr("width", "500")
+                .attr("width", "400")
                 .attr("height", "70");
 
-            var magwidth = 250;
+            var magwidth = 200;
 
             magContainer.append("svg:text").attr("display", "inline-block")
                 .append("svg:tspan").attr('x', 0).attr('dy', 25).text("Magnification rate: ")
-                .append("svg:tspan").attr("id", "sliderValue").attr('x', 138).attr('dy', 0).text(lensingMultiple)
+                .append("svg:tspan").attr("id", "sliderValue").attr('x', 135).attr('dy', 0).text(lensingMultiple)
             // .attr("font-family", "sans-serif").attr("font-size","15px")
             ;
 
             var magSlider = magContainer.append("g").attr("display", "inline-block")
                 .attr("class", "slider")
-                .attr("transform", "translate(180, 20)");
+                .attr("transform", "translate(170, 20)");
 
             var x = d3.scaleLinear()
                 .domain([5, 30])
@@ -2689,14 +2689,14 @@ function applicationManager(globalData) {
         },
         highlight: function (position) {
             var opList = getData.getdatabyOperation.map(d => d.key);
-            var avaiop = [];
+            var availableOps = [];
 
             var malist = ["CreateFile", "CreateFileMapping", "DeviceIoControl", "FileSystemControl", "InternalDeviceIoControl", "RegOpenKey", "System Statistics", "SystemControl", "TCP Accept", "TCP Connect", "TCP Send", "UDP Accept", "UDP Connect", "UDP Send"];
 
             opList.forEach(o => {
                 malist.forEach(m => {
                     if (o === m) {
-                        avaiop.push(o);
+                        availableOps.push(o);
                     }
                 })
             });
@@ -2710,15 +2710,50 @@ function applicationManager(globalData) {
 
             // OPERATION =============================================================
 
-            var active = {};
-            var svg0 = group0.append('svg').attr('width', '100%').attr('height', 100);
-            avaiop.forEach(function (rawOperation, index) {
-                var text = svg0.append('g').attr('transform', 'translate(0,' + (10 + index * 20) + ')');
+            d3.select("#operationBtn").classed("focus", true);
 
-                text.append('text').text(rawOperation).attr('x', '30px')
+            var active = {};
+            var svg0 = group0.append('svg').attr('width', '100%')
+                .attr('height', Math.max(300, availableOps.length * 50));
+
+            var title = svg0.append('g')
+                .attr('transform', 'translate(0,20)')
+                .append("text")
+               ;
+
+            title
+                .append("tspan")
+                .text("The operations that are" +
+                    " commonly encountered for malware analysis, featured on ")
+                .attr('x', '30px')
+                .attr('fill', 'black')
+                .style('font-size', '16px')
+                .attr('y', '15px');
+
+            title.append("tspan")
+                .text("Infosec Institute.")
+                .attr('fill', 'blue')
+                .attr("class", "linkText")
+                .on("click", function () {
+                    window.open("https://resources.infosecinstitute.com/windows-functions-in-malware-analysis-cheat-sheet-part-1/");
+                });
+
+            availableOps.forEach(function (rawOperation, index) {
+                var ops = svg0.append('g')
+                    .attr('transform', 'translate(50,' + (60 + index * 40) + ')')
+                    .attr("class", "linkText");
+
+                ops.append("rect")
+                    .attr("class", "rectMenu")
+
+                ops.append('text').text(rawOperation)
+                    .attr('x', '20px')
+                    .attr('y', '20px')
                     .style('color', 'black')
-                    .style('font-size', '16px').attr('y', '15px')
-                    .style("cursor", "pointer")
+                    .style('font-size', '16px')
+                    .classed("linkText", true);
+
+                ops
                     .on("click", function () {
                         var operation = rawOperation.replace(" ", "");
                         if (!active[operation]) {
@@ -2778,10 +2813,10 @@ function applicationManager(globalData) {
 
                     })
             });
-            group0.style("visibility", "hidden");
+
 
             // FORCE-DIRECTED GRAPH ==========================================
-            d3.select("#refBtn").classed("focus", true);
+            // d3.select("#refBtn").classed("focus", true);
             console.log(globalgroupbyprocessname);
 
             var list = globalgroupbyprocessname.map(d => d.key.toLowerCase());
@@ -2909,7 +2944,7 @@ function applicationManager(globalData) {
                 svg.append("text")
                     .text(item)
                     .attr("x", 20)
-                    .attr("y", height/2);
+                    .attr("y", height / 2);
 
                 var simulation = d3.forceSimulation()
                     .force("link", d3.forceLink().id(function (d) {
@@ -2998,23 +3033,39 @@ function applicationManager(globalData) {
                     d.fy = null;
                 }
             });
-
+            group1.style("display", "none");
 
             // Self-call ==========================================
+            var selfCallData = orderedArray.filter(d => d.selfCalls.length > 0);
+
             var svg2 = group2.append('svg')
-                .attr('width', '100%').attr('height', 300)
+                .attr('width', '100%').attr('height', Math.max(300, selfCallData.length*50))
                 .attr("id", "selfGroup");
+
+            svg2.selectAll("rect")
+                .data(selfCallData)
+                .enter()
+                .append("rect")
+                .attr('transform', (d, i) => 'translate(50,' + (30 + i * 40) + ')')
+                .attr("class", "rectMenu");
+
             svg2
                 .selectAll(".selfcall")
-                .data(orderedArray.filter(d => d.selfCalls.length > 0)
+                .data(selfCallData
                     .sort((a, b) => b.selfCalls.length - a.selfCalls.length))
                 .enter()
                 .append("text")
-                .text(d => d.key + ": " + d.selfCalls.length)
-                .attr('transform', (d, i) => 'translate(30,' + (30 + i * 20) + ')')
+                .text(d => {
+                    var c = d.selfCalls.length;
+                    if (c !== 1){
+                        return d.key + ": " + c + " calls"
+                    }
+                    else return d.key + ": " + c + " call"
+                })
+                .attr('transform', (d, i) => 'translate(60,' + (50 + i * 40) + ')')
                 .attr("class", "selfcall");
 
-            group2.style("visibility", "hidden");
+            group2.style("display", "none");
 
             // INIT ==========================================
             d3.select("#refBtn").on("click", () => {
@@ -3022,20 +3073,33 @@ function applicationManager(globalData) {
                 d3.select("#refBtn").classed("focus", true);
                 d3.select("#selfBtn").classed("focus", false);
 
+                // group0
+                //     .transition()
+                //     .duration(200)
+                //     .style("visibility", "hidden");
+                //
+                // group1
+                //     .transition()
+                //     .duration(200)
+                //     .style("visibility", "visible");
+                // group2
+                //     .transition()
+                //     .duration(200)
+                //     .style("visibility", "hidden");
+
                 group0
                     .transition()
                     .duration(200)
-                    .style("visibility", "hidden");
+                    .style("display", "none");
 
                 group1
                     .transition()
                     .duration(200)
-                    .style("visibility", "visible");
+                    .style("display", "block");
                 group2
                     .transition()
                     .duration(200)
-                    .style("visibility", "hidden");
-
+                    .style("display", "none");
             });
 
             // On change
@@ -3044,19 +3108,33 @@ function applicationManager(globalData) {
                 d3.select("#refBtn").classed("focus", false);
                 d3.select("#selfBtn").classed("focus", false);
 
+                // group0
+                //     .transition()
+                //     .duration(200)
+                //     .style("visibility", "visible");
+                //
+                // group1
+                //     .transition()
+                //     .duration(200)
+                //     .style("visibility", "hidden");
+                // group2
+                //     .transition()
+                //     .duration(200)
+                //     .style("visibility", "hidden");
+
                 group0
                     .transition()
                     .duration(200)
-                    .style("visibility", "visible");
+                    .style("display", "block");
 
                 group1
                     .transition()
                     .duration(200)
-                    .style("visibility", "hidden");
+                    .style("display", "none");
                 group2
                     .transition()
                     .duration(200)
-                    .style("visibility", "hidden");
+                    .style("display", "none");
 
             });
 
@@ -3065,19 +3143,33 @@ function applicationManager(globalData) {
                 d3.select("#refBtn").classed("focus", false);
                 d3.select("#selfBtn").classed("focus", true);
 
+                // group0
+                //     .transition()
+                //     .duration(200)
+                //     .style("visibility", "hidden");
+                //
+                // group1
+                //     .transition()
+                //     .duration(200)
+                //     .style("visibility", "hidden");
+                // group2
+                //     .transition()
+                //     .duration(200)
+                //     .style("visibility", "visible");
+
                 group0
                     .transition()
                     .duration(200)
-                    .style("visibility", "hidden");
+                    .style("display", "none");
 
                 group1
                     .transition()
                     .duration(200)
-                    .style("visibility", "hidden");
+                    .style("display", "none");
                 group2
                     .transition()
                     .duration(200)
-                    .style("visibility", "visible");
+                    .style("display", "block");
 
             });
 
