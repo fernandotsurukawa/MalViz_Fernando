@@ -16,6 +16,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/sidebar.css">
 
@@ -137,10 +138,11 @@
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                     <div style="height: 50px">
 
+                        <span class="menuTitle">Menu</span>
                     </div>
-                    <a href="#" id="operationBtn" >Operation</a>
+                    <a href="#" id="operationBtn" >Operations</a>
                     <a href="#" id="refBtn" >References</a>
-                    <a href="#selfGroup" id="selfBtn" >Self-call</a>
+                    <a href="#" id="selfBtn" >Self-call processes</a>
                     <!--<a href="#">Contact</a>-->
                     <div style="width: 700px; background-color: #ffffff" id="avaiop">
 
@@ -200,13 +202,13 @@
 <script>
 
     // side bar
-    var open;
+    var openSidebar;
 
     function openNav() {
         document.getElementById("mySidenav").style.height =
             document.getElementById("heatmap").getBoundingClientRect().height + "px";
 
-        if (open) {
+        if (!openSidebar) {
             document.getElementById("highlightBtn").classList.add('selected');
             document.getElementById("mySidenav").style.width = "800px";
             document.getElementById("heatmap").style.marginLeft = "800px";
@@ -215,14 +217,14 @@
             document.getElementById("mySidenav").style.width = "0";
             document.getElementById("heatmap").style.marginLeft = "0";
         }
-        open = !open;
+        openSidebar = !openSidebar;
     }
 
     function closeNav() {
         document.getElementById("highlightBtn").classList.remove('selected');
         document.getElementById("mySidenav").style.width = "0";
         document.getElementById("heatmap").style.marginLeft = "0";
-        open = !open;
+        openSidebar = !openSidebar;
     }
 
 </script>
@@ -315,12 +317,14 @@
                     });
 
                     SiteManager.updateRangeFilter(3, maxcalls);
-                    isready = true;
+                    // isready = true;
                 }
             });
-
     };
     init("Huyen-Ransomware-WannaPeace.csv");
+    window.onbeforeunload = function () {
+        window.scrollTo(0, 0);
+    }
     var list = {
         "CloseFile": {"operation": "FileSystem", "index": 0},
         "CreateFile": {"operation": "FileSystem", "index": 1},
