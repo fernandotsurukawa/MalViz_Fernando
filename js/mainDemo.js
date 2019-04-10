@@ -865,7 +865,7 @@ function applicationManager(globalData) {
         });
         var timeout = setTimeout(function () {
             order("group");
-            d3.select("#order").property("selectedIndex", 0).node().focus();
+            d3.select("#order").property("selectedIndex", 0).node();
         }, 2000);
 
         function order(value) {
