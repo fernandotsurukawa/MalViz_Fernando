@@ -2949,7 +2949,7 @@ function applicationManager(globalData) {
                 svg.append("text")
                     .text((index + 1) + ". " + item)
                     .attr("x", 20)
-                    .attr("y", height / 2);
+                    .attr("y", height/5);
 
                 var simulation = d3.forceSimulation()
                     .force("link", d3.forceLink().id(function (d) {
