@@ -1734,18 +1734,29 @@ function applicationManager(globalData) {
 
             // SVG declarations =======================================================
             // Slider -----------------------------------------------------------------
+            d3.select("#heatmap")
+                .append("span")
+                .attr("class", "textClick")
+                .attr("id", "lensingBtn")
+                .on("click", setLensing)
+                .text("Lensing")
+                .style("float", "left")
+                .style("margin-top", "10px");
 
             var magContainer = d3.select("#heatmap")
-                .append("svg").attr("id", "magContainer")
-                .attr("x", "100")
-                .attr("y", "100")
-                .attr("width", "400")
-                .attr("height", "70");
+                .append("svg")
+                .attr("id", "magContainer")
+                // .attr("x", "200")
+                // .attr("y", "100")
+                .attr("width", "500")
+                .attr("height", "70")
+                .attr("transform", "translate(20, 8)");
 
-            var magwidth = 200;
+            var magwidth = 300;
 
             magContainer.append("svg:text").attr("display", "inline-block")
-                .append("svg:tspan").attr('x', 0).attr('dy', 25).text("Magnification rate: ")
+                .append("svg:tspan").attr('x', 0).attr('dy', 25)
+                .text("Magnification rate: ")
                 .append("svg:tspan").attr("id", "sliderValue").attr('x', 135).attr('dy', 0).text(lensingMultiple)
             // .attr("font-family", "sans-serif").attr("font-size","15px")
             ;

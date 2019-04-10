@@ -1822,28 +1822,29 @@ function applicationManager(globalData) {
             // SVG =======================================================================
             // Outline -----------------------------------------------------------
             // legend
-            var legend = d3.select("#legend")
+            var legend = d3.select("#heatmap")
                 .append("svg")
                 // .attr("x", 100)
                 // .attr("y", 100)
                 .attr("width", 150)
                 .attr("height", 80)
-                .attr("id", "legend");
+                .attr("id", "legend")
+                .style("float", "right");
 
             legend.selectAll("circle")
                 .data(stackColor)
                 .enter()
                 .append("circle")
                 .attr("cx", 50)
-                .attr("cy", (d, i) =>  10 + i * 12)
+                .attr("cy", (d, i) =>  15 + i * 12)
                 .attr("r", 4.5)
                 .attr("fill", d => d);
 
-            // legend.append("text")
-            //     .attr("x", 10)
-            //     .attr("y", 10)
-            //     .attr("font-size", "15px")
-            //     .text("References stream");
+            legend.append("text")
+                .attr("x", 10)
+                .attr("y", 10)
+                .attr("font-size", "15px")
+                .text("References stream");
 
             legend.selectAll(".textLegend")
                 .data(categories)
@@ -1854,7 +1855,7 @@ function applicationManager(globalData) {
                 .attr("font-size", "13px")
                 // .attr("font-family", "sans-serif")
                 .attr("x", 70)
-                .attr("y", (d, i) => 15 + i * 12);
+                .attr("y", (d, i) => 20 + i * 12);
 
             getTimeBoxData();
 

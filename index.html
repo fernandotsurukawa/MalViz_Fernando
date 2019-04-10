@@ -1,230 +1,277 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Malware Visualization</title>
-    <link rel="shortcut icon" href="images/icon.png"/>
-    <script src="lib/d3.v5.min.js"></script>
-    <script src="https://d3js.org/d3.v4.js"></script>
-    <script src="https://d3js.org/d3-color.v1.min.js"></script>
-    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
-    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-    <script src="https://d3js.org/d3-scale.v3.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<html>
+<title>Malware Visualization</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/sidebar.css">
+<script src="lib/d3.v5.min.js"></script>
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-color.v1.min.js"></script>
+<script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://d3js.org/d3-scale.v3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-</head>
-<body>
-<div class="header">
-    <span class="title">
-        Malware Visualization
-    </span>
-    <span class="selection">
-    <label for="selectmalware">Please select dataset:</label>
-    <select id="selectmalware" class="selectmalware">
-        <option>--Select dataset--</option>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
 
-        <option value="Moi-Win7-RemoteAccess_1.CSV">Moi-Win7-RemoteAccess_1</option>
-        <option value="Moi-Win7-RemoteAccess_2.CSV">Moi-Win7-RemoteAccess_2</option>
-        <option value="Moi-Win7-RemoteAccess_3.CSV">Moi-Win7-RemoteAccess_3</option>
-        <option value="Moi-Win7-RemoteAccess_4.CSV">Moi-Win7-RemoteAccess_4</option>
-        <option value="Moi-Win7-RemoteAccess_5.CSV">Moi-Win7-RemoteAccess_5</option>
-        <option value="Moi-Win7-RemoteAccess_6.CSV">Moi-Win7-RemoteAccess_6</option>
-          <option value="Moi-Win7-RemoteAccess_7.CSV">Moi-Win7-RemoteAccess_7</option>
-        <option value="Moi-XP-RemoteAccess_1.CSV">Moi-XP-RemoteAccess_1</option>
-        <option value="Moi-XP-RemoteAccess_2.CSV">Moi-XP-RemoteAccess_2</option>
-        <option value="Moi-XP-RemoteAccess_3.CSV">Moi-XP-RemoteAccess_3</option>
-        <option value="Moi-XP-RemoteAccess_4.CSV">Moi-XP-RemoteAccess_4</option>
-        <option value="Moi-XP-RemoteAccess_5.CSV">Moi-XP-RemoteAccess_5</option>
-        <option value="Moi-XP-RemoteAccess_6.CSV">Moi-XP-RemoteAccess_6</option>
-        <option value="Moi-XP-RemoteAccess_7_exec.CSV">Moi-XP-RemoteAccess_7_exec</option>
-        <option value="Moi-XP-RemoteAccess_7_install.CSV">Moi-XP-RemoteAccess_7_install</option>
+<link rel="stylesheet" href="styles/mainDemo.css">
+<style>
+    body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+</style>
+<body class="w3-light-grey">
 
-        <option value="faran-7-vs-backdoor-9.CSV">faran-7-vs-backdoor-9</option>
-        <option value="faran-7-vs-backdoor-10.CSV">faran-7-vs-backdoor-10</option>
-        <option value="faran-7-vs-backdoor-11.CSV">faran-7-vs-backdoor-11</option>
-        <option value="faran-7-vs-backdoor-12.CSV">faran-7-vs-backdoor-12</option>
-        <option value="faran-7-vs-backdoor-13.CSV">faran-7-vs-backdoor-13</option>
-        <option value="faran-7-vs-backdoor-14.CSV">faran-7-vs-backdoor-14</option>
-        <option value="faran-7-vs-backdoor-15.CSV">faran-7-vs-backdoor-15</option>
-        <option value="Faran-win7-vs-7fa0ef3f22045c45c80885865d0d0942.CSV">Faran-win7-vs-7fa0ef3f22045c45c80885865d0d0942</option>
-         <option value="Faran-win7-vs-13ef35e912a54739a27015eecc3fbbaeaf2ba2b7a2a49bfd11e26e099a330926.CSV">Faran-win7-vs-13ef35e912a54739a27015eecc3fbbaeaf2ba2b7a2a49bfd11e26e099a330926</option>
-        <option value="Vung-Win7-Bladabindi.CSV">Vung-Win7-Bladabindi</option>
-        <option value="Vung-Win7-Cryptowall.CSV">Vung-Win7-Cryptowall</option>
-        <option value="Vung-Win7-Locky.Gen.CSV">Vung-Win7-Locky.Gen</option>
-        <option value="Vung-Win7-Multinjector.CSV">Vung-Win7-Multinjector</option>
-        <option value="Vung-Win7-Teerac.B.CSV">Vung-Win7-Teerac.B</option>
-        <option value="VungPham-Behavior-Bladabindi.gen-XP.CSV">VungPham-Behavior-Bladabindi.gen-XP</option>
-        <option value="VungPham-Behavior-MultiInjector-XP.CSV">VungPham-Behavior-MultiInjector-XP</option>
-        <option value="VungPham-Behavior-Vawtrak.A-XP.CSV">VungPham-Behavior-Vawtrak.A-XP</option>
-        <option value="VungPham-Behavior-Winwebsec.I.CSV">VungPham-Behavior-Winwebsec.I</option>
-        <option value="Vung-Behavior-XP-Payment copy.CSV">Vung-Behavior-XP-Payment copy</option>
-        <option value="Vung-Behavior-XP-RemR.CSV">Vung-Behavior-XP-RemR</option>
-        <option value="Vung-Behavior-XP-Scan copy (alloyanycut).CSV">Vung-Behavior-XP-Scan-copy-(alloyanycut)</option>
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left nav" style="z-index:3;width:120px;" id="mySidebar"><br>
+    <div class="w3-container">
+        <a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="close menu">
+            <i class="fa fa-remove"></i>
+        </a>
+        <h4 style="text-align: center"><b>MALVIZ</b></h4>
+
+    </div>
+    <div class="w3-bar-block">
+        <a  href="#portfolio" onclick="w3_close()"
+           class="w3-bar-item w3-button option">
+            <i class="fa fa-th-large fa-fw"></i>
+            <br>PROCESSES</a>
+        <a href="#operation" onclick="w3_close()"
+           class="w3-bar-item w3-button option">
+            <i class="fas fa-stream"></i>
+            <br>OPERATIONS</a>
+        <a href="#rankedbydeg" onclick="w3_close()"
+           class="w3-bar-item w3-button option">
+            <i class="fas fa-project-diagram"></i>
+            <br>RANKED BY DEGREE</a>
+        <a href="#library" onclick="w3_close()"
+           class="w3-bar-item w3-button option">
+            <i class="fa fa-th-large fa-fw"></i>
+            <br>LIBRARIES</a>
+    </div>
+</nav>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:120px">
+
+    <!-- Header -->
+    <header id="portfolio">
+        <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
+        <div class="w3-container">
+            <h1><b>Malware Visualization</b></h1>
+            <div class="w3-section w3-bottombar w3-padding-16">
+
+                <label for="selectmalware">Select dataset: </label>
+                <select id="selectmalware" class="selectmalware">
+                    <option>--Select dataset--</option>
+
+                    <option value="Moi-Win7-RemoteAccess_1.CSV">Moi-Win7-RemoteAccess_1</option>
+                    <option value="Moi-Win7-RemoteAccess_2.CSV">Moi-Win7-RemoteAccess_2</option>
+                    <option value="Moi-Win7-RemoteAccess_3.CSV">Moi-Win7-RemoteAccess_3</option>
+                    <option value="Moi-Win7-RemoteAccess_4.CSV">Moi-Win7-RemoteAccess_4</option>
+                    <option value="Moi-Win7-RemoteAccess_5.CSV">Moi-Win7-RemoteAccess_5</option>
+                    <option value="Moi-Win7-RemoteAccess_6.CSV">Moi-Win7-RemoteAccess_6</option>
+                    <option value="Moi-Win7-RemoteAccess_7.CSV">Moi-Win7-RemoteAccess_7</option>
+                    <option value="Moi-XP-RemoteAccess_1.CSV">Moi-XP-RemoteAccess_1</option>
+                    <option value="Moi-XP-RemoteAccess_2.CSV">Moi-XP-RemoteAccess_2</option>
+                    <option value="Moi-XP-RemoteAccess_3.CSV">Moi-XP-RemoteAccess_3</option>
+                    <option value="Moi-XP-RemoteAccess_4.CSV">Moi-XP-RemoteAccess_4</option>
+                    <option value="Moi-XP-RemoteAccess_5.CSV">Moi-XP-RemoteAccess_5</option>
+                    <option value="Moi-XP-RemoteAccess_6.CSV">Moi-XP-RemoteAccess_6</option>
+                    <option value="Moi-XP-RemoteAccess_7_exec.CSV">Moi-XP-RemoteAccess_7_exec</option>
+                    <option value="Moi-XP-RemoteAccess_7_install.CSV">Moi-XP-RemoteAccess_7_install</option>
+
+                    <option value="faran-7-vs-backdoor-9.CSV">faran-7-vs-backdoor-9</option>
+                    <option value="faran-7-vs-backdoor-10.CSV">faran-7-vs-backdoor-10</option>
+                    <option value="faran-7-vs-backdoor-11.CSV">faran-7-vs-backdoor-11</option>
+                    <option value="faran-7-vs-backdoor-12.CSV">faran-7-vs-backdoor-12</option>
+                    <option value="faran-7-vs-backdoor-13.CSV">faran-7-vs-backdoor-13</option>
+                    <option value="faran-7-vs-backdoor-14.CSV">faran-7-vs-backdoor-14</option>
+                    <option value="faran-7-vs-backdoor-15.CSV">faran-7-vs-backdoor-15</option>
+                    <option value="Faran-win7-vs-7fa0ef3f22045c45c80885865d0d0942.CSV">Faran-win7-vs-7fa0ef3f22045c45c80885865d0d0942</option>
+                    <option value="Faran-win7-vs-13ef35e912a54739a27015eecc3fbbaeaf2ba2b7a2a49bfd11e26e099a330926.CSV">Faran-win7-vs-13ef35e912a54739a27015eecc3fbbaeaf2ba2b7a2a49bfd11e26e099a330926</option>
+                    <option value="Vung-Win7-Bladabindi.CSV">Vung-Win7-Bladabindi</option>
+                    <option value="Vung-Win7-Cryptowall.CSV">Vung-Win7-Cryptowall</option>
+                    <option value="Vung-Win7-Locky.Gen.CSV">Vung-Win7-Locky.Gen</option>
+                    <option value="Vung-Win7-Multinjector.CSV">Vung-Win7-Multinjector</option>
+                    <option value="Vung-Win7-Teerac.B.CSV">Vung-Win7-Teerac.B</option>
+                    <option value="VungPham-Behavior-Bladabindi.gen-XP.CSV">VungPham-Behavior-Bladabindi.gen-XP</option>
+                    <option value="VungPham-Behavior-MultiInjector-XP.CSV">VungPham-Behavior-MultiInjector-XP</option>
+                    <option value="VungPham-Behavior-Vawtrak.A-XP.CSV">VungPham-Behavior-Vawtrak.A-XP</option>
+                    <option value="VungPham-Behavior-Winwebsec.I.CSV">VungPham-Behavior-Winwebsec.I</option>
+                    <option value="Vung-Behavior-XP-Payment copy.CSV">Vung-Behavior-XP-Payment copy</option>
+                    <option value="Vung-Behavior-XP-RemR.CSV">Vung-Behavior-XP-RemR</option>
+                    <option value="Vung-Behavior-XP-Scan copy (alloyanycut).CSV">Vung-Behavior-XP-Scan-copy-(alloyanycut)</option>
 
 
-        <option> - - - - - - - Filtered log files - - - - - - - </option>
+                    <option> - - - - - - - Filtered log files - - - - - - - </option>
 
-        <option value="Faran-Trojan-Backdoor.win32.BlueIce.CSV">Faran-Trojan-Backdoor.win32.BlueIce</option>
-        <option value="Faran-Trojan-Backdoor.Win32.CyberSpy.13.b.CSV">Faran-Trojan-Backdoor.Win32.CyberSpy.13.b</option>
-        <option value="Faran-Trojan-Backdoor.win32.Death.25.i.CSV">Faran-Trojan-Backdoor.win32.Death.25.i</option>
-        <option value="Faran-Trojan-Backdoor.win32.executor.a.CSV">Faran-Trojan-Backdoor.win32.executor.a</option>
-        <option value="Faran-win7-Trojan-Backdoor.Win32.Alicia.o.CSV">Faran-win7-Trojan-Backdoor.Win32.Alicia.o</option>
-        <option value="Faran-win7-Trojan-Backdoor.win32.Executor.a.CSV">Faran-win7-Trojan-Backdoor.win32.Executor.a</option>
+                    <option value="Faran-Trojan-Backdoor.win32.BlueIce.CSV">Faran-Trojan-Backdoor.win32.BlueIce</option>
+                    <option value="Faran-Trojan-Backdoor.Win32.CyberSpy.13.b.CSV">Faran-Trojan-Backdoor.Win32.CyberSpy.13.b</option>
+                    <option value="Faran-Trojan-Backdoor.win32.Death.25.i.CSV">Faran-Trojan-Backdoor.win32.Death.25.i</option>
+                    <option value="Faran-Trojan-Backdoor.win32.executor.a.CSV">Faran-Trojan-Backdoor.win32.executor.a</option>
+                    <option value="Faran-win7-Trojan-Backdoor.Win32.Alicia.o.CSV">Faran-win7-Trojan-Backdoor.Win32.Alicia.o</option>
+                    <option value="Faran-win7-Trojan-Backdoor.win32.Executor.a.CSV">Faran-win7-Trojan-Backdoor.win32.Executor.a</option>
 
-        <option value="Huyen-Ransomware-WannaPeace.csv">Huyen-Ransomware-WannaPeace</option>
-        <option value="Huyen-Trojan-Infostealer.Dexter.csv">Huyen-Trojan-Infostealer.Dexter</option>
+                    <option value="Huyen-Ransomware-WannaPeace.csv">Huyen-Ransomware-WannaPeace</option>
+                    <option value="Huyen-Trojan-Infostealer.Dexter.csv">Huyen-Trojan-Infostealer.Dexter</option>
 
-        <option value="Vung-Email-Flooder-Absolut-XP.CSV">Vung-Email-Flooder-Absolut-XP</option>
-        <option value="Vung-Email-Flooder-Achis-Win10.CSV">Vung-Email-Flooder-Achis-Win10</option>
-        <option value="Vung-Email-Flooder-Achis-XP.CSV">Vung-Email-Flooder-Achis-XP</option>
-        <option value="Vung-Email-Flooder-Archis-Win7.CSV">Vung-Email-Flooder-Archis-Win7</option>
-        <option value="Vung-HackTool-BackSteal-Win10.CSV">Vung-HackTool-BackSteal-Win10</option>
-        <option value="Vung-HackTool-EmailCrack1-Win10.CSV">Vung-HackTool-EmailCrack1-Win10</option>
-        <option value="Vung-HackTool-EmailCrack-Win10.CSV">Vung-HackTool-EmailCrack-Win10</option>
-        <option value="Vung-HackTool-EmailCrack-XP.CSV">Vung-HackTool-EmailCrack-XP</option>
-        <option value="Vung-HackTool-Stealm1-Win10.CSV">Vung-HackTool-Stealm1-Win10</option>
-        <option value="Vung-HackTool-Stealm-Win10.CSV">Vung-HackTool-Stealm-Win10</option>
+                    <option value="Vung-Email-Flooder-Absolut-XP.CSV">Vung-Email-Flooder-Absolut-XP</option>
+                    <option value="Vung-Email-Flooder-Achis-Win10.CSV">Vung-Email-Flooder-Achis-Win10</option>
+                    <option value="Vung-Email-Flooder-Achis-XP.CSV">Vung-Email-Flooder-Achis-XP</option>
+                    <option value="Vung-Email-Flooder-Archis-Win7.CSV">Vung-Email-Flooder-Archis-Win7</option>
+                    <option value="Vung-HackTool-BackSteal-Win10.CSV">Vung-HackTool-BackSteal-Win10</option>
+                    <option value="Vung-HackTool-EmailCrack1-Win10.CSV">Vung-HackTool-EmailCrack1-Win10</option>
+                    <option value="Vung-HackTool-EmailCrack-Win10.CSV">Vung-HackTool-EmailCrack-Win10</option>
+                    <option value="Vung-HackTool-EmailCrack-XP.CSV">Vung-HackTool-EmailCrack-XP</option>
+                    <option value="Vung-HackTool-Stealm1-Win10.CSV">Vung-HackTool-Stealm1-Win10</option>
+                    <option value="Vung-HackTool-Stealm-Win10.CSV">Vung-HackTool-Stealm-Win10</option>
 
 
-    </select>
-    </span>
-</div>
-<fieldset>
-    <legend>Data Overview - Number of API calls in each type</legend>
+                </select>
 
-    <table width="100%" border="0px" style="height: 100px" id="tableHeatmap">
-        <tr>
-            <td width="75%">
+            </div>
+        </div>
+    </header>
+
+    <!-- First Photo Grid-->
+
+    <div class="w3-row-padding" style="background-color:#cecece; margin-bottom: 20px">
+        <h4 class="w3-container"><b>Processes</b></h4>
+        <div class="w3-threequarter w3-container w3-margin-bottom" style="width:100%">
+            <!--<span class="textClick" id="lensingBtn" onclick="setLensing()">&#x1F50E;Lensing</span>-->
+            <div class="w3-container w3-white" id="heatmap">
+
+            </div>
+
+            <span id="operation"></span>
+        </div>
+
+        <h4 class="w3-container"><b>Operations</b></h4>
+        <div class="w3-threequarter w3-container w3-margin-bottom" style="width:20%">
+            <div class="w3-container w3-white" style="padding-right: 0">
+                <p><b>Operation List</b></p>
+                <div id="OperationList" class="contentDemo"></div>
+            </div>
+        </div>
+        <div class="w3-quarter w3-container w3-margin-bottom" style="width:60%">
+            <div class="w3-container w3-white">
+                <p><b>Operations Overview</b></p>
                 <div id="stats"></div>
-            </td>
+            </div>
+        </div>
+        <div class="w3-quarter w3-container" style="width:20%">
+            <div class="w3-container w3-white" style="padding-right: 0">
+            <p><b>Commonly encountered</b></p>
+            <div id="commonOp" class="contentDemo"></div>
+            </div>
+        </div>
+    </div>
 
-            <td width="15%">
-                List of Operations:
-                <div id="OperationList" class="content">
 
+    <!-- Second Photo Grid-->
+    <div class="w3-row-padding" style="margin-bottom:30px">
+        <h4 class="w3-container" id="rankedbydeg"><b>Processes ranked by degree</b></h4>
+        <div class="w3-twothird w3-container w3-margin-bottom">
+
+            <div class="w3-container w3-white" style="padding-right: 0">
+            <div id="ranked" class="contentRanked">
+
+            </div>
+            </div>
+        </div>
+        <div class="w3-third w3-container w3-margin-bottom">
+
+            <div class="w3-container w3-white" >
+                <p><b>Types of References / Underlay Reference Stream</b></p>
+                <div class="w3-container w3-white" style="padding-right: 0">
+                <div id="legend"></div>
                 </div>
-            </td>
+            </div>
+        </div>
 
-            <td width="15%">
-                Connecting domains:
-                <div>
-                    <select id="maliciousdomain" class="malware" size="15"></select>
-                </div>
+        <div class="w3-third w3-container w3-margin-bottom">
 
-            </td>
-        </tr>
-    </table>
+            <div class="w3-container w3-white" style="padding-right: 0">
+                <p><b>Self-call processes</b></p>
 
-</fieldset>
+                    <div id="selfCallProcess" class="contentSelf"></div>
 
-<fieldset id="fsHeatmap">
-    <legend>
-        Heat Map
-    </legend>
-    <table width="100%" border="0px">
-        <tbody>
-        <tr>
-            <td width="100%">
-                <div id="mySidenav" class="sidenav">
-                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                    <div style="height: 50px">
-                        <span class="menuTitle">Menu</span>
+            </div>
+        </div>
+
+
+        <div class="w3-third w3-container">
+            <div class="w3-container w3-white" style="padding-right: 0">
+                <p><b>Connecting domains:</b></p>
+                <div id="maliciousdomain" class="contentSelf"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="w3-container w3-padding-large w3-white">
+        <h4 id="library"><b>Libraries Called</b></h4>
+
+        <table width="100%" border="0px">
+            <tbody>
+            <tr>
+                <td width="100%">
+                    <div>
+                        <p>
+                            <label for="amount">Number of libraries called:</label>
+                            <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                        </p>
+                        <div id="slider"
+                             style="width: 400px; background: linear-gradient(to right, #ffffff 0%, #000000 100%);">
+                            <div id="custom-handle" class="ui-slider-handle" style="z-index: auto"></div>
+                        </div>
+                        <span>
+                            <p>Order: <select id="order">
+                                <option value="similarity">By Similarity</option>
+                                <option value="name">By name</option>
+                                <option value="frequency">By Frequency</option>
+                                <option value="linkDiff">By Different libraries called</option>
+                            </select>
+                            </p>
+                        </span>
                     </div>
-                    <a href="#" id="operationBtn" >Operations</a>
-                    <a href="#" id="refBtn" >References</a>
-                    <a href="#" id="selfBtn" >Self-call processes</a>
-                    <!--<a href="#">Contact</a>-->
-                    <div style="width: 700px; background-color: #ffffff" id="avaiop">
 
-                    </div>
-                </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="matrix2D"></div>
+    </div>
 
-                <span class="textClick" id="highlightBtn" onclick="openNav()"> &#9776; Highlight</span>
-                <span class="textClick" id="lensingBtn" onclick="setLensing()">&#x1F50E;Lensing</span>
+    <div class="w3-black w3-center w3-padding-24">Malware visualization</div>
 
-                <div id="heatmap">
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</fieldset>
-
-
-<fieldset>
-    <legend>
-        Libraries called
-    </legend>
-    <table width="100%" border="0px">
-        <tbody>
-        <tr>
-            <td width="100%">
-                <div>
-                    <p>
-                        <label for="amount">Number of libraries called:</label>
-                        <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-                    </p>
-                    <div id="slider"
-                         style="width: 400px; background: linear-gradient(to right, #ffffff 0%, #000000 100%);">
-                        <div id="custom-handle" class="ui-slider-handle" style="z-index: auto"></div>
-                    </div>
-                    <aside>
-                        <p>Order: <select id="order">
-                            <option value="similarity">By Similarity</option>
-                            <option value="name">By name</option>
-                            <option value="frequency">By Frequency</option>
-                            <option value="linkDiff">By Different libraries called</option>
-                        </select>
-                    </aside>
-                </div>
-                <div id="matrix2D"></div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-</fieldset>
+    <!-- End page content -->
+</div>
 <div id="loading">
     <img id="loading-image" src="images/loader2.gif" alt="Loading..."/>
 </div>
-<script src="js/ultility.js"></script>
-<script src="js/appManager.js"></script>
 <script>
-
-    // side bar
-    var openSidebar;
-
-    function openNav() {
-        document.getElementById("mySidenav").style.height =
-            document.getElementById("heatmap").getBoundingClientRect().height + "px";
-
-        if (!openSidebar) {
-            document.getElementById("highlightBtn").classList.add('selected');
-            document.getElementById("mySidenav").style.width = "800px";
-            document.getElementById("heatmap").style.marginLeft = "800px";
-        } else {
-            document.getElementById("highlightBtn").classList.remove('selected');
-            document.getElementById("mySidenav").style.width = "0";
-            document.getElementById("heatmap").style.marginLeft = "0";
-        }
-        openSidebar = !openSidebar;
+    // Script to open and close sidebar
+    function w3_open() {
+        document.getElementById("mySidebar").style.display = "block";
+        document.getElementById("myOverlay").style.display = "block";
     }
 
-    function closeNav() {
-        document.getElementById("highlightBtn").classList.remove('selected');
-        document.getElementById("mySidenav").style.width = "0";
-        document.getElementById("heatmap").style.marginLeft = "0";
-        openSidebar = !openSidebar;
+    function w3_close() {
+        document.getElementById("mySidebar").style.display = "none";
+        document.getElementById("myOverlay").style.display = "none";
     }
-
 </script>
+<script src="js/ultility.js"></script>
+<script src="js/mainDemo.js"></script>
 <script>
     let divOperation = d3.select("body").append("div")
         .attr("class", "tooltip")
@@ -270,7 +317,6 @@
                 }
                 else {
                     let data = ProcessDataV2(original_data, domain);
-                    // let malist = handleOperation(rawList);
                     let SiteManager = applicationManager(data); //Initialize application
                     SiteManager.drawStats('#stats'); //Draw statistic map
                     SiteManager.drawStats2('#OperationList'); //Draw statistic map
@@ -290,11 +336,7 @@
                             SiteManager.sort2DMatrix('numcount')
                         }
                     );
-                    // $("#btnSimilarity").click( function()
-                    //     {
-                    //         SiteManager.sort2DMatrix('similarity')
-                    //     }
-                    // );
+
                     $(function () {
                         let handle = $("#custom-handle");
                         $("#slider").slider({
@@ -314,14 +356,12 @@
                     });
 
                     SiteManager.updateRangeFilter(3, maxcalls);
-                    // isready = true;
+                    isready = true;
                 }
             });
     };
     init("Huyen-Ransomware-WannaPeace.csv");
-    window.onbeforeunload = function () {
-        window.scrollTo(0, 0);
-    }
+
     var list = {
         "CloseFile": {"operation": "FileSystem", "index": 0},
         "CreateFile": {"operation": "FileSystem", "index": 1},
@@ -442,10 +482,6 @@
             }
         } else return "#5d5d5d"
     }
-    // document.getElementById("highlightBtn").classList.add('selected');
-    // document.getElementById("mySidenav").style.width = "800px";
-    // document.getElementById("heatmap").style.marginLeft = "800px";
 </script>
-
 </body>
 </html>

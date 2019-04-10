@@ -9,7 +9,7 @@
 }
 .contentDemo {
     padding-right: 0px;
-    height: 180px;
+    height: 188px;
     overflow: auto;
     background: #FFFFFF;
 
@@ -378,6 +378,7 @@ option.suspicious {
     border-radius: 5px;
     transition: 0.3s;
     padding: 4px 6px;
+    top: 10px;
 }
 .textClick:hover {
     background: beige;
