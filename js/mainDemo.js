@@ -2826,7 +2826,6 @@ function applicationManager(globalData) {
 
             // FORCE-DIRECTED GRAPH ==========================================
             // d3.select("#refBtn").classed("focus", true);
-            console.log(globalgroupbyprocessname);
 
             var list = globalgroupbyprocessname.map(d => d.key.toLowerCase());
             var nodes = {};
@@ -2921,10 +2920,6 @@ function applicationManager(globalData) {
                     })
                 }
             });
-
-            console.log(nodes);
-            console.log(links);
-            console.log(secondaryNodes);
 
             // DONE computing nodes and links
             // sort processes based on number of links
