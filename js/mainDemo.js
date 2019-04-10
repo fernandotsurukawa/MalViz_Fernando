@@ -865,7 +865,7 @@ function applicationManager(globalData) {
         });
         var timeout = setTimeout(function () {
             order("group");
-            d3.select("#order").property("selectedIndex", 0).node().focus();
+            d3.select("#order").property("selectedIndex", 0).node();
         }, 2000);
 
         function order(value) {
@@ -1306,7 +1306,10 @@ function applicationManager(globalData) {
                 return '<input type="checkbox" id="opSelection" onclick="selectAll()" checked> Select all'
             });
 
-            svgStats = d3.select(position).append('svg').attr("id", "overview").attr('width', '100%').attr('height', settings.ProcessArea.svg_height).attr("y", 0);
+            svgStats = d3.select(position).append('svg')
+                .attr("id", "overview").attr('width', '100%')
+                .attr('height', 20 + bar_height * group_by_process.length)
+                .attr("y", 0);
 
             var overviewWidth = document.getElementById("overview").getBoundingClientRect().width;
 
@@ -1731,18 +1734,29 @@ function applicationManager(globalData) {
 
             // SVG declarations =======================================================
             // Slider -----------------------------------------------------------------
+            d3.select("#heatmap")
+                .append("span")
+                .attr("class", "textClick")
+                .attr("id", "lensingBtn")
+                .on("click", setLensing)
+                .text("Lensing")
+                .style("float", "left")
+                .style("margin-top", "10px");
 
             var magContainer = d3.select("#heatmap")
-                .append("svg").attr("id", "magContainer")
-                .attr("x", "100")
-                .attr("y", "100")
-                .attr("width", "400")
-                .attr("height", "70");
+                .append("svg")
+                .attr("id", "magContainer")
+                // .attr("x", "200")
+                // .attr("y", "100")
+                .attr("width", "500")
+                .attr("height", "70")
+                .attr("transform", "translate(20, 8)");
 
-            var magwidth = 200;
+            var magwidth = 300;
 
             magContainer.append("svg:text").attr("display", "inline-block")
-                .append("svg:tspan").attr('x', 0).attr('dy', 25).text("Magnification rate: ")
+                .append("svg:tspan").attr('x', 0).attr('dy', 25)
+                .text("Magnification rate: ")
                 .append("svg:tspan").attr("id", "sliderValue").attr('x', 135).attr('dy', 0).text(lensingMultiple)
             // .attr("font-family", "sans-serif").attr("font-size","15px")
             ;
@@ -1819,13 +1833,13 @@ function applicationManager(globalData) {
             // SVG =======================================================================
             // Outline -----------------------------------------------------------
             // legend
-            var legend = d3.select("#heatmap")
+            d3.select("#legend").selectAll("*").remove();
+            var legend = d3.select("#legend")
                 .append("svg")
                 // .attr("x", 100)
                 // .attr("y", 100)
                 .attr("width", 150)
-                .attr("height", 80)
-                .style("float", "right")
+                .attr("height", 120)
                 .attr("id", "legend");
 
             legend.selectAll("circle")
@@ -1833,15 +1847,10 @@ function applicationManager(globalData) {
                 .enter()
                 .append("circle")
                 .attr("cx", 50)
-                .attr("cy", (d, i) => 20 + i * 12)
-                .attr("r", 4.5)
+                .attr("cy", (d, i) =>  10 + i * 20)
+                .attr("r", 6)
                 .attr("fill", d => d);
 
-            legend.append("text")
-                .attr("x", 10)
-                .attr("y", 10)
-                .attr("font-size", "15px")
-                .text("References stream");
 
             legend.selectAll(".textLegend")
                 .data(categories)
@@ -1849,10 +1858,10 @@ function applicationManager(globalData) {
                 .append("text")
                 .attr("class", "textLegend")
                 .text(d => d)
-                .attr("font-size", "13px")
+                .attr("font-size", "15px")
                 // .attr("font-family", "sans-serif")
                 .attr("x", 70)
-                .attr("y", (d, i) => 25 + i * 12);
+                .attr("y", (d, i) => 15 + i * 20);
 
             getTimeBoxData();
 
@@ -2256,6 +2265,7 @@ function applicationManager(globalData) {
                     .text(row.key)
                     .attr('x', ((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 5).attr('y', group_rect_height / 2)
                     .attr('text-anchor', 'start')
+                    .attr("class", "linkText")
                     .on("click", function () {
                         d3.selectAll(".arc")
                             .classed("hidden", !arcActive)
@@ -2701,7 +2711,7 @@ function applicationManager(globalData) {
                 })
             });
             d3.select(position).selectAll("*").remove();
-            var svgList = d3.select(position)
+            var svgList = d3.select(position);
             // .append('svg').attr('width', '100%').attr('height', 300);
 
             var group0 = svgList.append('g').attr("id", "group0");
@@ -2709,26 +2719,25 @@ function applicationManager(globalData) {
             var group2 = svgList.append('g').attr("id", "group2");
 
             // OPERATION =============================================================
-
-            d3.select("#operationBtn").classed("focus", true);
+            d3.select("#commonOp").selectAll("*").remove();
 
             var active = {};
-            var svg0 = group0.append('svg').attr('width', '100%')
-                .attr('height', Math.max(300, availableOps.length * 50));
+            var svg0 = d3.select("#commonOp").append('svg')
+                .attr('width', '100%')
+                .attr('height', 40 + availableOps.length * 50);
 
             var title = svg0.append('g')
-                .attr('transform', 'translate(0,20)')
                 .append("text")
+                .style("font-style", "italic")
+                .style('font-size', '12px')
                ;
 
             title
                 .append("tspan")
-                .text("The operations that are" +
-                    " commonly encountered for malware analysis, featured on ")
-                .attr('x', '30px')
+                .text("Reference: ")
                 .attr('fill', 'black')
-                .style('font-size', '16px')
-                .attr('y', '15px');
+                .attr('y', 10 );
+
 
             title.append("tspan")
                 .text("Infosec Institute.")
@@ -2740,7 +2749,7 @@ function applicationManager(globalData) {
 
             availableOps.forEach(function (rawOperation, index) {
                 var ops = svg0.append('g')
-                    .attr('transform', 'translate(50,' + (60 + index * 40) + ')')
+                    .attr('transform', 'translate(10,' + (40 + index * 40) + ')')
                     .attr("class", "linkText");
 
                 ops.append("rect")
@@ -2933,16 +2942,17 @@ function applicationManager(globalData) {
                 .domain([10, 40, 150, 500, 1300, 2500])
                 .range([80, 150, 220, 350, 600, 1000, 1500]);
 
-            sortedList.forEach(item => {
+            d3.select("#ranked").selectAll("*").remove();
+            sortedList.forEach((item, index) => {
                 var width = 700;
                 var height = scaleWidth(nodes[item].length);
 
-                let svg = d3.select("#group1").append("svg")
-                    .attr("width", width)
+                let svg = d3.select("#ranked").append("svg")
+                    .attr("width", "100%")
                     .attr("height", height);
 
                 svg.append("text")
-                    .text(item)
+                    .text((index + 1) + ". " + item)
                     .attr("x", 20)
                     .attr("y", height / 2);
 
@@ -2951,7 +2961,7 @@ function applicationManager(globalData) {
                         return d.id;
                     }))
                     .force("charge", d3.forceManyBody())
-                    .force("center", d3.forceCenter(width / 2, height / 2));
+                    .force("center", d3.forceCenter(3 *width / 5, height / 2));
 
                 var link = svg.append("g")
                     .attr("class", "links")
@@ -3036,23 +3046,28 @@ function applicationManager(globalData) {
             group1.style("display", "none");
 
             // Self-call ==========================================
-            var selfCallData = orderedArray.filter(d => d.selfCalls.length > 0);
 
-            var svg2 = group2.append('svg')
-                .attr('width', '100%').attr('height', Math.max(300, selfCallData.length*50))
+            var selfCallData = orderedArray.filter(d => d.selfCalls.length > 0).sort((a, b) => b.selfCalls.length - a.selfCalls.length);
+            d3.select("#selfCallProcess").selectAll("*").remove();
+            var svg2 = d3.select("#selfCallProcess")
+                .append('svg')
+                .attr('width', '100%')
+                .attr('height', 40+  selfCallData.length*50)
                 .attr("id", "selfGroup");
 
             svg2.selectAll("rect")
                 .data(selfCallData)
                 .enter()
                 .append("rect")
-                .attr('transform', (d, i) => 'translate(50,' + (30 + i * 40) + ')')
-                .attr("class", "rectMenu");
+                .attr('transform', (d, i) => 'translate(50,' + (15 + i * 40) + ')')
+                .attr("class", "rectMenuCustom")
+                .attr("width", (d,i) => {
+                    return 50 + 10 * d.key.length
+                });
 
             svg2
                 .selectAll(".selfcall")
-                .data(selfCallData
-                    .sort((a, b) => b.selfCalls.length - a.selfCalls.length))
+                .data(selfCallData )
                 .enter()
                 .append("text")
                 .text(d => {
@@ -3062,7 +3077,7 @@ function applicationManager(globalData) {
                     }
                     else return d.key + ": " + c + " call"
                 })
-                .attr('transform', (d, i) => 'translate(60,' + (50 + i * 40) + ')')
+                .attr('transform', (d, i) => 'translate(60,' + (35 + i * 40) + ')')
                 .attr("class", "selfcall");
 
             group2.style("display", "none");

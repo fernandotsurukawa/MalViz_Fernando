@@ -68,13 +68,7 @@ function ProcessDataV2(orginalData, domain) {
         obj.PID = row.PID;
         obj.Operation = row.Operation;
         obj.Detail = row.Detail;
-        obj.Hour = hour;
-        obj.Minute = minute;
-        obj.Second = second;
-        obj.Milisecond = milisecond;
-        obj.previoustimestamp = previoustime;
         obj.currenttimestamp = currentTimeStamp;
-        obj.timeDiff = timediff;
         obj.Step = currentStep;
         obj.Process = getProcessName(row.Operation);
 
