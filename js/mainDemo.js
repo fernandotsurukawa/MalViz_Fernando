@@ -1822,12 +1822,13 @@ function applicationManager(globalData) {
             // SVG =======================================================================
             // Outline -----------------------------------------------------------
             // legend
+            d3.select("#legend").selectAll("*").remove();
             var legend = d3.select("#legend")
                 .append("svg")
                 // .attr("x", 100)
                 // .attr("y", 100)
                 .attr("width", 150)
-                .attr("height", 80)
+                .attr("height", 120)
                 .attr("id", "legend");
 
             legend.selectAll("circle")
@@ -1835,15 +1836,10 @@ function applicationManager(globalData) {
                 .enter()
                 .append("circle")
                 .attr("cx", 50)
-                .attr("cy", (d, i) =>  10 + i * 12)
-                .attr("r", 4.5)
+                .attr("cy", (d, i) =>  10 + i * 20)
+                .attr("r", 6)
                 .attr("fill", d => d);
 
-            // legend.append("text")
-            //     .attr("x", 10)
-            //     .attr("y", 10)
-            //     .attr("font-size", "15px")
-            //     .text("References stream");
 
             legend.selectAll(".textLegend")
                 .data(categories)
@@ -1851,10 +1847,10 @@ function applicationManager(globalData) {
                 .append("text")
                 .attr("class", "textLegend")
                 .text(d => d)
-                .attr("font-size", "13px")
+                .attr("font-size", "15px")
                 // .attr("font-family", "sans-serif")
                 .attr("x", 70)
-                .attr("y", (d, i) => 15 + i * 12);
+                .attr("y", (d, i) => 15 + i * 20);
 
             getTimeBoxData();
 
@@ -2704,7 +2700,7 @@ function applicationManager(globalData) {
                 })
             });
             d3.select(position).selectAll("*").remove();
-            var svgList = d3.select(position)
+            var svgList = d3.select(position);
             // .append('svg').attr('width', '100%').attr('height', 300);
 
             var group0 = svgList.append('g').attr("id", "group0");
@@ -2712,8 +2708,7 @@ function applicationManager(globalData) {
             var group2 = svgList.append('g').attr("id", "group2");
 
             // OPERATION =============================================================
-
-            d3.select("#operationBtn").classed("focus", true);
+            d3.select("#commonOp").selectAll("*").remove();
 
             var active = {};
             var svg0 = d3.select("#commonOp").append('svg')
@@ -2936,16 +2931,17 @@ function applicationManager(globalData) {
                 .domain([10, 40, 150, 500, 1300, 2500])
                 .range([80, 150, 220, 350, 600, 1000, 1500]);
 
-            sortedList.forEach(item => {
+            d3.select("#ranked").selectAll("*").remove();
+            sortedList.forEach((item, index) => {
                 var width = 700;
                 var height = scaleWidth(nodes[item].length);
 
-                let svg = d3.select("#group1").append("svg")
-                    .attr("width", width)
+                let svg = d3.select("#ranked").append("svg")
+                    .attr("width", "100%")
                     .attr("height", height);
 
                 svg.append("text")
-                    .text(item)
+                    .text((index + 1) + ". " + item)
                     .attr("x", 20)
                     .attr("y", height / 2);
 
@@ -2954,7 +2950,7 @@ function applicationManager(globalData) {
                         return d.id;
                     }))
                     .force("charge", d3.forceManyBody())
-                    .force("center", d3.forceCenter(width / 2, height / 2));
+                    .force("center", d3.forceCenter(3 *width / 5, height / 2));
 
                 var link = svg.append("g")
                     .attr("class", "links")
@@ -3039,23 +3035,28 @@ function applicationManager(globalData) {
             group1.style("display", "none");
 
             // Self-call ==========================================
-            var selfCallData = orderedArray.filter(d => d.selfCalls.length > 0);
 
-            var svg2 = group2.append('svg')
-                .attr('width', '100%').attr('height', Math.max(300, selfCallData.length*50))
+            var selfCallData = orderedArray.filter(d => d.selfCalls.length > 0).sort((a, b) => b.selfCalls.length - a.selfCalls.length);
+            d3.select("#selfCallProcess").selectAll("*").remove();
+            var svg2 = d3.select("#selfCallProcess")
+                .append('svg')
+                .attr('width', '100%')
+                .attr('height', 40+  selfCallData.length*50)
                 .attr("id", "selfGroup");
 
             svg2.selectAll("rect")
                 .data(selfCallData)
                 .enter()
                 .append("rect")
-                .attr('transform', (d, i) => 'translate(50,' + (30 + i * 40) + ')')
-                .attr("class", "rectMenu");
+                .attr('transform', (d, i) => 'translate(50,' + (15 + i * 40) + ')')
+                .attr("class", "rectMenuCustom")
+                .attr("width", (d,i) => {
+                    return 50 + 10 * d.key.length
+                });
 
             svg2
                 .selectAll(".selfcall")
-                .data(selfCallData
-                    .sort((a, b) => b.selfCalls.length - a.selfCalls.length))
+                .data(selfCallData )
                 .enter()
                 .append("text")
                 .text(d => {
@@ -3065,7 +3066,7 @@ function applicationManager(globalData) {
                     }
                     else return d.key + ": " + c + " call"
                 })
-                .attr('transform', (d, i) => 'translate(60,' + (50 + i * 40) + ')')
+                .attr('transform', (d, i) => 'translate(60,' + (35 + i * 40) + ')')
                 .attr("class", "selfcall");
 
             group2.style("display", "none");

@@ -5,13 +5,29 @@
     background: #FFFFFF;
     border: 1px solid #9a9a9a;
     padding: 10px;
+
 }
 .contentDemo {
     padding-right: 0px;
     height: 180px;
     overflow: auto;
     background: #FFFFFF;
+
 }
+.contentSelf {
+    padding-right: 0px;
+    height: 250px;
+    overflow: auto;
+    background: #FFFFFF;
+    overflow-x: auto;
+}
+.contentRanked {
+    padding-right: 0px;
+    height: 900px;
+    overflow: auto;
+    background: #FFFFFF;
+}
+
 .header {
     padding: 12px;
     border: 2px groove #dadada;
@@ -380,7 +396,13 @@ option.suspicious {
     height: 30px;
     rx: 5;
     ry: 5
-
+}
+.rectMenuCustom {
+    fill: #f5f5f5;
+    stroke: #8d8d8d;
+    height: 30px;
+    rx: 5;
+    ry: 5
 }
 .newWindow {
     background:           url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAQElEQVR42qXKwQkAIAxDUUdxtO6/RBQkQZvSi8I/pL4BoGw/XPkh4XigPmsUgh0626AjRsgxHTkUThsG2T/sIlzdTsp52kSS1wAAAABJRU5ErkJggg==)
@@ -407,4 +429,8 @@ option.suspicious {
 
 .main-padding{
     padding:0px 8px
+}
+
+.nav {
+
 }
