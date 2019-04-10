@@ -556,11 +556,11 @@ function applicationManager(globalData) {
 
         // var matrix = create2DMatrix(nodes.sources.length, nodes.targets.length, local_links);
         var margin = {
-                top: 400,
-                right: 0,
-                bottom: 0,
-                left: 250
-            };
+            top: 400,
+            right: 0,
+            bottom: 0,
+            left: 250
+        };
 
         var height = 250;
         var width = document.getElementById("matrix2D").getBoundingClientRect().width;
@@ -1306,7 +1306,10 @@ function applicationManager(globalData) {
                 return '<input type="checkbox" id="opSelection" onclick="selectAll()" checked> Select all'
             });
 
-            svgStats = d3.select(position).append('svg').attr("id", "overview").attr('width', '100%').attr('height', settings.ProcessArea.svg_height).attr("y", 0);
+            svgStats = d3.select(position).append('svg')
+                .attr("id", "overview").attr('width', '100%')
+                .attr('height', 20 + bar_height * group_by_process.length)
+                .attr("y", 0);
 
             var overviewWidth = document.getElementById("overview").getBoundingClientRect().width;
 
@@ -1819,13 +1822,12 @@ function applicationManager(globalData) {
             // SVG =======================================================================
             // Outline -----------------------------------------------------------
             // legend
-            var legend = d3.select("#heatmap")
+            var legend = d3.select("#legend")
                 .append("svg")
                 // .attr("x", 100)
                 // .attr("y", 100)
                 .attr("width", 150)
                 .attr("height", 80)
-                .style("float", "right")
                 .attr("id", "legend");
 
             legend.selectAll("circle")
@@ -1833,15 +1835,15 @@ function applicationManager(globalData) {
                 .enter()
                 .append("circle")
                 .attr("cx", 50)
-                .attr("cy", (d, i) => 20 + i * 12)
+                .attr("cy", (d, i) =>  10 + i * 12)
                 .attr("r", 4.5)
                 .attr("fill", d => d);
 
-            legend.append("text")
-                .attr("x", 10)
-                .attr("y", 10)
-                .attr("font-size", "15px")
-                .text("References stream");
+            // legend.append("text")
+            //     .attr("x", 10)
+            //     .attr("y", 10)
+            //     .attr("font-size", "15px")
+            //     .text("References stream");
 
             legend.selectAll(".textLegend")
                 .data(categories)
@@ -1852,7 +1854,7 @@ function applicationManager(globalData) {
                 .attr("font-size", "13px")
                 // .attr("font-family", "sans-serif")
                 .attr("x", 70)
-                .attr("y", (d, i) => 25 + i * 12);
+                .attr("y", (d, i) => 15 + i * 12);
 
             getTimeBoxData();
 
@@ -2256,6 +2258,7 @@ function applicationManager(globalData) {
                     .text(row.key)
                     .attr('x', ((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 5).attr('y', group_rect_height / 2)
                     .attr('text-anchor', 'start')
+                    .attr("class", "linkText")
                     .on("click", function () {
                         d3.selectAll(".arc")
                             .classed("hidden", !arcActive)
@@ -2719,7 +2722,7 @@ function applicationManager(globalData) {
             var title = svg0.append('g')
                 .attr('transform', 'translate(0,20)')
                 .append("text")
-               ;
+            ;
 
             title
                 .append("tspan")
