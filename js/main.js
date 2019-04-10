@@ -2825,7 +2825,6 @@ function applicationManager(globalData) {
 
 
             // FORCE-DIRECTED GRAPH ==========================================
-            // d3.select("#refBtn").classed("focus", true);
 
             var list = globalgroupbyprocessname.map(d => d.key.toLowerCase());
             var nodes = {};
@@ -2933,30 +2932,31 @@ function applicationManager(globalData) {
                 .domain([minLink, maxLink])
                 .range([0.5, 1]);
 
-            var scaleWidth = d3.scaleThreshold()
+            var scaleHeight = d3.scaleThreshold()
                 .domain([10, 40, 150, 500, 1300, 2500])
                 .range([80, 150, 220, 350, 600, 1000, 1500]);
 
             d3.select("#ranked").selectAll("*").remove();
             sortedList.forEach((item, index) => {
-                var width = 700;
-                var height = scaleWidth(nodes[item].length);
+                var height = scaleHeight(nodes[item].length);
+                console.log(item, nodes[item].length);
 
                 let svg = d3.select("#ranked").append("svg")
                     .attr("width", "100%")
                     .attr("height", height);
 
+                var width = document.getElementById("ranked").getBoundingClientRect().width;
                 svg.append("text")
                     .text((index + 1) + ". " + item)
                     .attr("x", 20)
-                    .attr("y", height/5);
+                    .attr("y", height > 350? height/5 : height/2);
 
                 var simulation = d3.forceSimulation()
                     .force("link", d3.forceLink().id(function (d) {
                         return d.id;
                     }))
                     .force("charge", d3.forceManyBody())
-                    .force("center", d3.forceCenter(3 *width / 5, height / 2));
+                    .force("center", d3.forceCenter(width/2, height / 2));
 
                 var link = svg.append("g")
                     .attr("class", "links")
@@ -3043,11 +3043,12 @@ function applicationManager(globalData) {
             // Self-call ==========================================
 
             var selfCallData = orderedArray.filter(d => d.selfCalls.length > 0).sort((a, b) => b.selfCalls.length - a.selfCalls.length);
+
             d3.select("#selfCallProcess").selectAll("*").remove();
             var svg2 = d3.select("#selfCallProcess")
                 .append('svg')
                 .attr('width', '100%')
-                .attr('height', 40+  selfCallData.length*50)
+                .attr('height', 40 + selfCallData.length*50)
                 .attr("id", "selfGroup");
 
             svg2.selectAll("rect")
@@ -3056,9 +3057,7 @@ function applicationManager(globalData) {
                 .append("rect")
                 .attr('transform', (d, i) => 'translate(50,' + (15 + i * 40) + ')')
                 .attr("class", "rectMenuCustom")
-                .attr("width", (d,i) => {
-                    return 50 + 10 * d.key.length
-                });
+                .attr("width", d => Math.max(160, 50 + 10 * d.key.length));
 
             svg2
                 .selectAll(".selfcall")
