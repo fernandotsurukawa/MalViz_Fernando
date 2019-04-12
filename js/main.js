@@ -556,18 +556,18 @@ function applicationManager(globalData) {
 
         // var matrix = create2DMatrix(nodes.sources.length, nodes.targets.length, local_links);
         var margin = {
-                top: 400,
-                right: 0,
-                bottom: 0,
-                left: 250
-            };
+            top: 400,
+            right: 0,
+            bottom: 0,
+            left: 250
+        };
 
         var height = 250;
         var width = document.getElementById("matrix2D").getBoundingClientRect().width;
         var matrix = [];
         var x_length = nodes.targets.length;
         var y_length = nodes.sources.length;
-        var x_scale = d3.scaleBand().range([0, width-margin.left]).domain(d3.range(x_length));
+        var x_scale = d3.scaleBand().range([0, width - margin.left]).domain(d3.range(x_length));
         var y_scale = d3.scaleBand().range([0, height]).domain(d3.range(y_length));
 
         var svg = d3.select("#matrix2D").append("svg")
@@ -1197,7 +1197,7 @@ function applicationManager(globalData) {
         var ColorScale = d3.scaleLinear()
             .domain([0, Math.sqrt(maxvalue)])
             .range([0, 1]);
-        var svgMatrix = d3.select('#matrix').append('svg').attr('height', svgheight+300).attr('width', "100%").attr('margin-top', "15px");
+        var svgMatrix = d3.select('#matrix').append('svg').attr('height', svgheight + 300).attr('width', "100%").attr('margin-top', "15px");
         matrix.forEach(function (row, index) {
 
             var group = svgMatrix.append('g').attr('height', 12).attr('transform', 'translate(200,' + getProcessIndex(index) * (rect_height + spacing) + ')')
@@ -1734,84 +1734,6 @@ function applicationManager(globalData) {
 
             // SVG declarations =======================================================
             // Slider -----------------------------------------------------------------
-            d3.select("#heatmap")
-                .append("span")
-                .attr("class", "textClick")
-                .attr("id", "lensingBtn")
-                .on("click", setLensing)
-                .text("Lensing")
-                .style("float", "left")
-                .style("margin-top", "10px");
-
-            var magContainer = d3.select("#heatmap")
-                .append("svg")
-                .attr("id", "magContainer")
-                // .attr("x", "200")
-                // .attr("y", "100")
-                .attr("width", "500")
-                .attr("height", "70")
-                .attr("transform", "translate(20, 8)");
-
-            var magwidth = 300;
-
-            magContainer.append("svg:text").attr("display", "inline-block")
-                .append("svg:tspan").attr('x', 0).attr('dy', 25)
-                .text("Magnification rate: ")
-                .append("svg:tspan").attr("id", "sliderValue").attr('x', 135).attr('dy', 0).text(lensingMultiple)
-            // .attr("font-family", "sans-serif").attr("font-size","15px")
-            ;
-
-            var magSlider = magContainer.append("g").attr("display", "inline-block")
-                .attr("class", "slider")
-                .attr("transform", "translate(170, 20)");
-
-            var x = d3.scaleLinear()
-                .domain([5, 30])
-                .range([0, magwidth])
-                .clamp(true);
-
-            magSlider.append("line")
-                .attr("class", "track")
-                .attr("x1", x.range()[0])
-                .attr("x2", x.range()[1])
-                .select(function () {
-                    return this.parentNode.appendChild(this.cloneNode(true));
-                })
-                .attr("class", "track-inset")
-                .select(function () {
-                    return this.parentNode.appendChild(this.cloneNode(true));
-                })
-                .attr("class", "track-overlay")
-                .call(d3.drag()
-                    .on("start.interrupt", function () {
-                        magSlider.interrupt();
-                    })
-                    .on("start drag", function () {
-                        mag(x.invert(d3.event.x));
-                    }));
-
-            magSlider.insert("g", ".track-overlay")
-                .attr("class", "ticks")
-                .attr("transform", "translate(0," + 22 + ")")
-                .selectAll("text")
-                .data(x.ticks(6))
-                .enter().append("text")
-                .attr("x", x)
-                .attr("text-anchor", "middle")
-                .text(function (d) {
-                    return d
-                });
-
-            var handle = magSlider.insert("circle", ".track-overlay")
-                .attr("class", "handle")
-                .attr("r", 8)
-                .attr("cx", x(lensingMultiple));      // default = 3
-
-            function mag(h) {
-                handle.attr("cx", x(h));
-                lensingMultiple = h;
-                d3.select("#sliderValue").text(h.toFixed(0));
-            }
 
 
             // granularity ------------------------------------------------------------------
@@ -1847,7 +1769,7 @@ function applicationManager(globalData) {
                 .enter()
                 .append("circle")
                 .attr("cx", 50)
-                .attr("cy", (d, i) =>  10 + i * 20)
+                .attr("cy", (d, i) => 10 + i * 20)
                 .attr("r", 6)
                 .attr("fill", d => d);
 
@@ -1895,7 +1817,10 @@ function applicationManager(globalData) {
             }
 
             outline.selectAll(".verticalBars").remove();
-            outline.selectAll(".verticalBars")
+            outline
+                .append("g")
+                .attr("id", "verticalGroup")
+                .selectAll(".verticalBars")
                 .data(stepData).enter()
                 .append("line")
                 .attr('class', "verticalBars")
@@ -1931,7 +1856,7 @@ function applicationManager(globalData) {
                     }
                 });
 
-            outline
+            d3.select("#verticalGroup")
                 .append("line")
                 .attr("id", "endStep")
                 .attr("x1", svgActionWidth)
@@ -2696,6 +2621,99 @@ function applicationManager(globalData) {
 
             //drawMatrixOld(matrix, libarr, group_by_process_name);
 
+            // Mag and lensing
+            var outlineWidth = document.getElementById("outline")
+                .getBoundingClientRect().width;
+
+            var outlineHeight = document.getElementById("outline")
+                .getBoundingClientRect().height;
+
+            var lensingBtn = d3.select("#outline")
+                .append("g").attr("id", "lensingGroup")
+                .on("click", setLensing);
+
+            lensingBtn.append("rect")
+                .attr("class", "textClick")
+                .attr("id", "lensingBtn")
+                .attr("transform", "translate(0," + (outlineHeight - 32) + ")");
+
+            lensingBtn
+                .append("text")
+                .text("Lensing")
+                .attr("class", "linkText")
+                .attr("font-size", "14px")
+                .attr("transform", "translate(6," + (outlineHeight - 14) + ")");
+
+            var magContainer = d3.select("#outline")
+                .append("g")
+                .attr("id", "magContainer")
+                .attr("transform", "translate(90," + (outlineHeight - 43) + ")")
+                .style("visibility", "visible");
+
+            var magwidth = 200;
+
+            magContainer.append("svg:text").attr("display", "inline-block")
+                .append("svg:tspan").attr('x', 0).attr('dy', 28)
+                .text("Magnification: ")
+                .attr("font-size", "14px")
+                .append("svg:tspan").attr("id", "sliderValue").attr('x', 100).attr('dy', 0)
+                .text("x" + lensingMultiple)
+                // .attr("font-family", "sans-serif")
+                .attr("font-size", "14px")
+            ;
+
+            var magSlider = magContainer
+                .append("g").attr("display", "inline-block")
+                .attr("class", "slider")
+                .attr("transform", "translate(140, 20)");
+
+            var x = d3.scaleLinear()
+                .domain([5, 30])
+                .range([0, magwidth])
+                .clamp(true);
+
+            magSlider.append("line")
+                .attr("class", "track")
+                .attr("x1", x.range()[0])
+                .attr("x2", x.range()[1])
+                .select(function () {
+                    return this.parentNode.appendChild(this.cloneNode(true));
+                })
+                .attr("class", "track-inset")
+                .select(function () {
+                    return this.parentNode.appendChild(this.cloneNode(true));
+                })
+                .attr("class", "track-overlay")
+                .call(d3.drag()
+                    .on("start.interrupt", function () {
+                        magSlider.interrupt();
+                    })
+                    .on("start drag", function () {
+                        mag(x.invert(d3.event.x));
+                    }));
+
+            magSlider.insert("g", ".track-overlay")
+                .attr("class", "ticks")
+                .attr("transform", "translate(0," + 17 + ")")
+                .selectAll("text")
+                .data(x.ticks(6))
+                .enter().append("text")
+                .attr("x", x)
+                .attr("text-anchor", "middle")
+                .text(function (d) {
+                    return d
+                });
+
+            var handle = magSlider.insert("circle", ".track-overlay")
+                .attr("class", "handle")
+                .attr("r", 7)
+                .attr("cx", x(lensingMultiple));      // default = 3
+
+            function mag(h) {
+                handle.attr("cx", x(h));
+                lensingMultiple = h;
+                d3.select("#sliderValue").text(h.toFixed(0));
+            }
         },
         highlight: function (position) {
             var opList = getData.getdatabyOperation.map(d => d.key);
@@ -2730,13 +2748,13 @@ function applicationManager(globalData) {
                 .append("text")
                 .style("font-style", "italic")
                 .style('font-size', '12px')
-               ;
+            ;
 
             title
                 .append("tspan")
                 .text("Reference: ")
                 .attr('fill', 'black')
-                .attr('y', 10 );
+                .attr('y', 10);
 
 
             title.append("tspan")
@@ -2949,14 +2967,14 @@ function applicationManager(globalData) {
                 svg.append("text")
                     .text((index + 1) + ". " + item)
                     .attr("x", 20)
-                    .attr("y", height > 350? height/5 : height/2);
+                    .attr("y", height > 350 ? height / 5 : height / 2);
 
                 var simulation = d3.forceSimulation()
                     .force("link", d3.forceLink().id(function (d) {
                         return d.id;
                     }))
                     .force("charge", d3.forceManyBody())
-                    .force("center", d3.forceCenter(width/2, height / 2));
+                    .force("center", d3.forceCenter(width / 2, height / 2));
 
                 var link = svg.append("g")
                     .attr("class", "links")
@@ -3048,7 +3066,7 @@ function applicationManager(globalData) {
             var svg2 = d3.select("#selfCallProcess")
                 .append('svg')
                 .attr('width', '100%')
-                .attr('height', 40 + selfCallData.length*50)
+                .attr('height', 40 + selfCallData.length * 50)
                 .attr("id", "selfGroup");
 
             svg2.selectAll("rect")
@@ -3061,12 +3079,12 @@ function applicationManager(globalData) {
 
             svg2
                 .selectAll(".selfcall")
-                .data(selfCallData )
+                .data(selfCallData)
                 .enter()
                 .append("text")
                 .text(d => {
                     var c = d.selfCalls.length;
-                    if (c !== 1){
+                    if (c !== 1) {
                         return d.key + ": " + c + " calls"
                     }
                     else return d.key + ": " + c + " call"
@@ -3246,11 +3264,13 @@ function getColor(type) {
 
 function setLensing() {
     if (!lensingStatus) {
-        document.getElementById("lensingBtn").classList.add('selected');
+        d3.select("#lensingBtn").classed("selected", true);
+        document.getElementById("magContainer").style("visibility", "visible");
         lensingStatus = !lensingStatus;
         return true;
     } else {
-        document.getElementById("lensingBtn").classList.remove('selected');
+        d3.select("#lensingBtn").classed("selected", false);
+        document.getElementById("magContainer").style("visibility", "hidden");
         lensingStatus = !lensingStatus;
         return false;
     }

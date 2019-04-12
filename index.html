@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
 
-<link rel="stylesheet" href="styles/mainDemo.css">
+<link rel="stylesheet" href="styles/main.css">
 <style>
     body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 </style>
@@ -146,7 +146,6 @@
     <div class="w3-row-padding" style="background-color:#cecece; margin-bottom: 20px">
         <h4 class="w3-container"><b>Processes</b></h4>
         <div class="w3-threequarter w3-container w3-margin-bottom" style="width:100%">
-            <!--<span class="textClick" id="lensingBtn" onclick="setLensing()">&#x1F50E;Lensing</span>-->
             <div class="w3-container w3-white" id="heatmap">
 
             </div>
@@ -256,7 +255,7 @@
     <!-- End page content -->
 </div>
 <div id="loading">
-    <img id="loading-image" src="images/loader2.gif" alt="Loading..."/>
+    <img id="loading-image" height="200" width="200" src="images/squareloader2.gif" alt="Loading..."/>
 </div>
 <script>
     // Script to open and close sidebar
@@ -293,7 +292,11 @@
         let optionSelected = $("option:selected", this);
         let valueSelected = this.value;
         let loading = d3.select('body').append('div').attr('id', 'loading');
-        loading.append('img').attr('id', 'loading-image').attr('src', 'images/loader2.gif');
+        loading.append('img')
+            .attr('id', 'loading-image')
+            .attr('src', 'images/squareloader2.svg')
+            .attr("height", "200")
+            .attr("height", "200");
         init(valueSelected);
 
     });
