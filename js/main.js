@@ -1652,6 +1652,7 @@ function applicationManager(globalData) {
             var lensRadius = 20;
             var pointer = -1000;
 
+
             // functions here ====================================================
 
             function convert(time) {     // convert time to string, if time < 10 => 0+time
@@ -1689,45 +1690,6 @@ function applicationManager(globalData) {
                 }
             }
 
-            var StepScale = function (xStep, isLensing) {     // output position to display
-                var norm = maxProcessLength / timeInterval;
-                var gra = granularity / numTimeStep;        // granularity
-                var addTime2 = timeInterval / (numTimeStep * 100000);
-                var roundedSecond2 = ~~addTime2;
-                var roundedStep2 = roundedSecond2 * 100000 / gra; // to add to each step
-
-                if (isLensing && lensingStatus) {
-
-                    var stepPosition = ~~(pointer / roundedStep2);
-                    leftBound = Math.max(0, roundedStep2 * (stepPosition - lensRadius));
-                    rightBound = Math.min(timeInterval, roundedStep2 * (stepPosition));
-
-                    var lensingStep = rightBound - leftBound;
-
-                    var expoInLens = lensingMultiple * norm;
-                    var remainProcessLength = maxProcessLength - lensingStep * expoInLens;
-                    var expoOutLens = remainProcessLength / (timeInterval - (rightBound - leftBound));
-
-                    var newxStep = xStep;
-                    var posLeftLens = newxStep * expoOutLens;
-                    var posInLens = leftBound * expoOutLens + (newxStep - leftBound) * expoInLens;
-                    var posRightLens = leftBound * expoOutLens + lensingStep * expoInLens + (newxStep - rightBound) * expoOutLens;
-
-                    if (xStep < leftBound) {
-                        return posLeftLens;
-                    }
-                    else if (xStep > rightBound) {
-                        return posRightLens;
-                    }
-                    else // lensing area
-                        return posInLens;
-
-                }
-
-                else {
-                    return xStep * norm;
-                }
-            };
             var reverseStepScale = function (x) {
                 return x * timeInterval / maxProcessLength;
             };
@@ -1790,7 +1752,8 @@ function applicationManager(globalData) {
             var timeBoxHeight = 30;
             var dashHeight = svgheight + timeBoxHeight;
 
-            var outline = d3.select('#heatmap').append('svg').attr("class", "outline")
+            var outline = d3.select('#heatmap').append('svg')
+                .attr("class", "outline")
                 .attr("height", dashHeight)
                 .attr("width", "100%")
                 .attr("id", "outline");
@@ -1816,6 +1779,44 @@ function applicationManager(globalData) {
                 }
             }
 
+            var norm = maxProcessLength / timeInterval;
+            var gra = granularity / numTimeStep;        // granularity
+            var addTime2 = timeInterval / (numTimeStep * 100000);
+            var roundedSecond2 = ~~addTime2;
+            var roundedStep2 = roundedSecond2 * 100000 / gra; // to add to each step
+
+            function StepScale(xStep, isLensing) {     // output position to display
+                if (isLensing) {
+                    var stepPosition = ~~(pointer / roundedStep2);
+                    leftBound = Math.max(0, roundedStep2 * (stepPosition - lensRadius));
+                    rightBound = Math.min(timeInterval, roundedStep2 * (stepPosition));
+
+                    var lensingStep = rightBound - leftBound;
+                    var expoInLens = lensingMultiple * norm;
+                    var remainProcessLength = maxProcessLength - lensingStep * expoInLens;
+                    var expoOutLens = remainProcessLength / (timeInterval - (rightBound - leftBound));
+
+                    var newxStep = xStep;
+                    var posLeftLens = newxStep * expoOutLens;
+                    var posInLens = leftBound * expoOutLens + (newxStep - leftBound) * expoInLens;
+                    var posRightLens = leftBound * expoOutLens + lensingStep * expoInLens + (newxStep - rightBound) * expoOutLens;
+
+                    if (xStep < leftBound) {
+                        return posLeftLens;
+                    }
+                    else if (xStep > rightBound) {
+                        return posRightLens;
+                    }
+                    else // lensing area
+                        return posInLens;
+
+
+                }
+
+                else {
+                    return xStep * norm;
+                }
+            };
             outline.selectAll(".verticalBars").remove();
             outline
                 .append("g")
@@ -1838,14 +1839,6 @@ function applicationManager(globalData) {
                         return 0
                     }
                 })
-                // .style("visibility", function (d, i) {
-                //     if (d.main) {
-                //         return "visible"
-                //     }
-                //     else {
-                //         return "hidden"
-                //     }
-                // })
                 .style("stroke-width", 1)
                 .style("stroke-dasharray", function (d, i) {
                     if (d.main) {
@@ -1868,7 +1861,7 @@ function applicationManager(globalData) {
                 .style("stroke-width", 1)
                 .style("stroke-dasharray", "3, 2");
 
-            var svg_process_name = outline.append('svg')
+            var svg_process = outline.append('svg')
                 .attr("id", "processes").attr('margin-left', '20px')
                 .attr('width', svgActionWidth).attr('height', svgheight).attr("border", 1)
                 .attr("y", "40");
@@ -1897,84 +1890,85 @@ function applicationManager(globalData) {
                 .attr("font-size", "13px")
                 .attr("text-anchor", "start");
 
-
+// MOUSEMOVE =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+            var t = 50;
             timeBox.append("rect")
                 .style("fill", "#aaa")
                 .style("fill-opacity", 0.3)
                 .attr("height", 30)
                 .attr("width", svgActionWidth)
                 .on("mousemove", function () {
-                    var coordinates = [0, 0];
-                    coordinates = d3.mouse(this);
-                    var x = coordinates[0];
-                    pointer = reverseStepScale(Math.max(0, x));
+                    if (lensingStatus) {
+                        var coordinates = [0, 0];
+                        coordinates = d3.mouse(this);
+                        var x = coordinates[0];
+                        pointer = reverseStepScale(Math.max(0, x));
 
-                    // console.log("x in v4: " + d3.event.clientX);
-                    //
-                    // console.log("x = "+x);
-                    // console.log("time step (pointer): " + pointer);
-                    // console.log("number of milis (pointer) = "+pointer);
+                        // console.log("x in v4: " + d3.event.clientX);
+                        //
+                        // console.log("x = "+x);
+                        // console.log("time step (pointer): " + pointer);
 
-                    // change lensing
+                        // change lensing
 
-                    svg_process_name.selectAll("rect").transition().duration(200)
-                        .attr("x", d => (StepScale(d.Step, true)) * rect_width + margin_left);
+                        svg_process.selectAll("rect")
+                            // .transition().duration(t)
+                            .attr("x", d => (StepScale(d.Step, true)) * rect_width + margin_left);
 
-                    timeBox.selectAll("text").transition().duration(200)
-                        .attr("x", (d, i) => {
-                            return StepScale(d.step, true) + margin_left;
+                        timeBox.selectAll("text")
+                            // .transition().duration(t)
+                            .attr("x", (d, i) => {
+                                return StepScale(d.step, true) + margin_left;
+                            });
+
+                        orderedArray.forEach((parentProcess, pIndex) => {
+                            if (parentProcess.children.length > 0) {
+                                parentProcess.children.forEach((childProcess, cIndex) => {
+                                    parentProcess.childInfo[childProcess.key].forEach((child, i) => {
+                                        svg_process.selectAll('.path_' + pIndex + "_" + cIndex + "_" + i)
+                                            // .transition().duration(t)
+                                            .attr('transform', function () {
+                                                var posX = (StepScale(child.step, true)) * rect_width + margin_left;
+                                                var posY = (getProcessNameIndex(updated_data, childProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
+                                                return 'translate(' + posX + ',' + posY + ')';
+                                            });
+                                    })
+                                })
+                            }
+                            if (parentProcess.selfCalls.length > 0) {
+                                parentProcess.selfCalls.forEach((self, i) => {
+                                    svg_process.selectAll('.path_' + pIndex + "_" + pIndex + "_" + i)
+                                        // .transition().duration(t)
+                                        .attr('transform', function () {
+
+                                            var posX = (StepScale(self.step, true)) * rect_width + margin_left - 9;
+                                            var posY = (getProcessNameIndex(updated_data, parentProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
+
+                                            return 'translate(' + posX + ',' + posY + ')';
+                                        })
+                                })
+                            }
                         });
 
-                    orderedArray.forEach((parentProcess, pIndex) => {
-                        if (parentProcess.children.length > 0) {
-                            parentProcess.children.forEach((childProcess, cIndex) => {
-                                parentProcess.childInfo[childProcess.key].forEach((child, i) => {
-                                    svg_process_name.selectAll('.path_' + pIndex + "_" + cIndex + "_" + i)
-                                        .transition().duration(200)
-                                        .attr('transform', function () {
-                                            var posX = (StepScale(child.step, true)) * rect_width + margin_left;
-                                            var posY = (getProcessNameIndex(updated_data, childProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
-                                            return 'translate(' + posX + ',' + posY + ')';
-                                        });
+                        svg_process.selectAll(".stream")
+                            // .transition().duration(t)
+                            .attr("d", area.x(function (d, i) {
+                                return StepScale(xScale(i), true) + margin_left;
+                            }));
+
+                        group_by_process_name.forEach(function (row, index) {
+                            svg_process.selectAll(".malName" + index)
+                                // .transition().duration(t)
+                                .attr('x', () => {
+                                    return (StepScale(row.values[row.values.length - 1].Step, true) * rect_width + margin_left + 5)
                                 })
-                            })
-                        }
-                        if (parentProcess.selfCalls.length > 0) {
-                            parentProcess.selfCalls.forEach((self, i) => {
-                                svg_process_name.selectAll('.path_' + pIndex + "_" + pIndex + "_" + i)
-                                    .transition().duration(200)
-                                    .attr('transform', function () {
+                                .attr('y', group_rect_height / 2)
+                        });
 
-                                        var posX = (StepScale(self.step, true)) * rect_width + margin_left - 9;
-                                        var posY = (getProcessNameIndex(updated_data, parentProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
-
-                                        return 'translate(' + posX + ',' + posY + ')';
-                                    })
-                            })
-                        }
-                    });
-
-                    svg_process_name.selectAll(".stream")
-                        .transition().duration(200)
-                        .attr("d", area.x(function (d, i) {
-                            return StepScale(xScale(i), true) + margin_left;
-                        }))
-
-                    group_by_process_name.forEach(function (row, index) {
-                        svg_process_name.selectAll(".malName" + index)
-                            .transition().duration(200)
-                            .attr('x', ((StepScale(row.values[row.values.length - 1].Step, true)) * rect_width + margin_left) + 5)
-                            .attr('y', group_rect_height / 2)
-                    });
-
-                    outline.selectAll(".verticalBars")
-                    // .transition().duration(200)
-                        .attr("x1", d => StepScale(d.step, true) + margin_left)
-                        .attr("x2", d => StepScale(d.step, true) + margin_left);
-
-                    if (lensingStatus) {
-                        outline
-                            .selectAll(".verticalBars")
+                        outline.selectAll(".verticalBars")
+                        // .transition().duration(t)
+                            .attr("x1", d => StepScale(d.step, true) + margin_left)
+                            .attr("x2", d => StepScale(d.step, true) + margin_left)
                             .style("stroke-opacity", function (d, i) {
                                 if (d.main) {
                                     return 0.4
@@ -2130,7 +2124,7 @@ function applicationManager(globalData) {
 
 
             group_by_process_name.forEach(function (row, index) {
-                var group = svg_process_name.append('g')
+                var group = svg_process.append('g')
                     .attr("transform", "translate(0," + index * group_rect_height + ")");
 
                 group.append('line').attr('stroke-dasharray', '2, 5').attr('stroke', 'black').attr('stroke-width', 0.5)
@@ -2144,7 +2138,7 @@ function applicationManager(globalData) {
                 });
                 var filtered_library = d3.nest().key(function (d) {
                     return d.library
-                }).entries(processes)
+                }).entries(processes);
 
                 filtered_library.forEach(function (d) {
                     var obj = {};
@@ -2186,11 +2180,15 @@ function applicationManager(globalData) {
 
                 // textDraw
                 var arcActive, firstClick;
-                group.append('text').attr("class", "malName" + index)
+                group.append('text')
+                    .attr("class", "malName" + index)
                     .text(row.key)
-                    .attr('x', ((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 5).attr('y', group_rect_height / 2)
+                    .attr('x', () => {
+                        return StepScale(row.values[row.values.length - 1].Step) * rect_width + margin_left + 5
+                    })
+                    .attr('y', group_rect_height / 2)
                     .attr('text-anchor', 'start')
-                    .attr("class", "linkText")
+                    .classed("linkText", true)
                     .on("click", function () {
                         d3.selectAll(".arc")
                             .classed("hidden", !arcActive)
@@ -2323,8 +2321,11 @@ function applicationManager(globalData) {
                     });
             });
 
+            // MOUSELEAVE =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
             outline.on("mouseleave", function () {
-                outline.selectAll(".verticalBars").transition().duration(200)
+                outline.selectAll(".verticalBars")
+                    // .transition().duration(200)
                     .attr("x1", d => StepScale(d.step) + margin_left)
                     .attr("x2", d => StepScale(d.step) + margin_left)
                     .style("stroke-opacity", function (d, i) {
@@ -2345,12 +2346,13 @@ function applicationManager(globalData) {
                             return "1,3"
                         }
                     });
-                ;
 
-                svg_process_name.selectAll("rect").transition().duration(200)
+                svg_process.selectAll("rect")
+                    // .transition().duration(200)
                     .attr("x", d => (StepScale(d.Step)) * rect_width + margin_left);
 
-                timeBox.selectAll("text").transition().duration(200)
+                timeBox.selectAll("text")
+                    // .transition().duration(200)
                     .attr("x", (d, i) => {
                         return StepScale(d.step) + margin_left;
                     });
@@ -2359,8 +2361,8 @@ function applicationManager(globalData) {
                     if (parentProcess.children.length > 0) {
                         parentProcess.children.forEach((childProcess, cIndex) => {
                             parentProcess.childInfo[childProcess.key].forEach((child, i) => {
-                                svg_process_name.selectAll('.path_' + pIndex + "_" + cIndex + "_" + i)
-                                    .transition().duration(200)
+                                svg_process.selectAll('.path_' + pIndex + "_" + cIndex + "_" + i)
+                                    // .transition().duration(200)
                                     .attr('transform', function () {
                                         var posX = (StepScale(child.step)) * rect_width + margin_left;
                                         var posY = (getProcessNameIndex(updated_data, childProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
@@ -2371,8 +2373,8 @@ function applicationManager(globalData) {
                     }
                     if (parentProcess.selfCalls.length > 0) {
                         parentProcess.selfCalls.forEach((self, i) => {
-                            svg_process_name.selectAll('.path_' + pIndex + "_" + pIndex + "_" + i)
-                                .transition().duration(200)
+                            svg_process.selectAll('.path_' + pIndex + "_" + pIndex + "_" + i)
+                                // .transition().duration(200)
                                 .attr('transform', function () {
 
                                     var posX = (StepScale(self.step)) * rect_width + margin_left - 9;
@@ -2384,25 +2386,28 @@ function applicationManager(globalData) {
                     }
                 });
 
-                svg_process_name.selectAll(".stream")
-                    .transition().duration(200)
+                svg_process.selectAll(".stream")
+                    // .transition().duration(200)
                     .attr("d", area.x(function (d, i) {
                         return StepScale(xScale(i)) + margin_left;
                     }));
 
                 group_by_process_name.forEach(function (row, index) {
-                    svg_process_name.selectAll(".malName" + index)
-                        .transition().duration(200)
-                        .attr('x', ((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 5).attr('y', group_rect_height / 2)
+                    svg_process.selectAll(".malName" + index)
+                        // .transition().duration(200)
+                        .attr('x', (StepScale(row.values[row.values.length - 1].Step) * rect_width + margin_left + 5))
+                        .attr('y', group_rect_height / 2)
                 });
 
             });
+
+            // END MOUSELEAVE -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
             orderedArray.forEach((parentProcess, pIndex) => {
                 if (parentProcess.children.length > 0) {
                     parentProcess.children.forEach((childProcess, cIndex) => {
                         // define arrow
-                        svg_process_name
+                        svg_process
                             .append("svg:defs")
                             .selectAll(".arrow")
                             .data(parentProcess.childInfo[childProcess.key])
@@ -2424,7 +2429,7 @@ function applicationManager(globalData) {
                         // draw arc
                         var signedOrienation = getProcessNameIndex(updated_data, childProcess.key) - pIndex;
                         parentProcess.childInfo[childProcess.key].forEach((child, i) => {
-                            svg_process_name
+                            svg_process
                                 .append('path').attr("class", () => {
                                 return 'arc'
                                     + ' a' + parentProcess.key.split(".").join("") + "_a" + childProcess.key.split(".").join("")
@@ -2502,7 +2507,7 @@ function applicationManager(globalData) {
                 }
                 if (parentProcess.selfCalls.length > 0) {
                     parentProcess.selfCalls.forEach((self, i) => {
-                        svg_process_name
+                        svg_process
                             .append("svg:defs")
                             .selectAll(".arrow")
                             .data([self])
@@ -2521,7 +2526,7 @@ function applicationManager(globalData) {
                             .append('path')
                             .attr('d', 'M0,0 L8,0 L4,8 z');
 
-                        svg_process_name
+                        svg_process
                             .append('path').attr("class", () => {
                             return 'arc'
                                 + ' a' + parentProcess.key.split(".").join("")
@@ -2622,33 +2627,34 @@ function applicationManager(globalData) {
             //drawMatrixOld(matrix, libarr, group_by_process_name);
 
             // Mag and lensing
-            var outlineWidth = document.getElementById("outline")
-                .getBoundingClientRect().width;
 
             var outlineHeight = document.getElementById("outline")
                 .getBoundingClientRect().height;
 
-            var lensingBtn = d3.select("#outline")
-                .append("g").attr("id", "lensingGroup")
+            var lensingGroup = d3.select("#outline")
+                .append("g")
+                .attr("id", "lensingGroup")
                 .on("click", setLensing);
 
-            lensingBtn.append("rect")
-                .attr("class", "textClick")
+            lensingGroup.append("rect")
                 .attr("id", "lensingBtn")
+                .attr("class", "textClick")
                 .attr("transform", "translate(0," + (outlineHeight - 32) + ")");
 
-            lensingBtn
+            lensingGroup
                 .append("text")
                 .text("Lensing")
-                .attr("class", "linkText")
+                .classed("unselectable", true)
+                .classed("linkText", true)
                 .attr("font-size", "14px")
-                .attr("transform", "translate(6," + (outlineHeight - 14) + ")");
+                .attr("transform", "translate(7," + (outlineHeight - 14) + ")")
+                ;
 
             var magContainer = d3.select("#outline")
                 .append("g")
                 .attr("id", "magContainer")
                 .attr("transform", "translate(90," + (outlineHeight - 43) + ")")
-                .style("visibility", "visible");
+                .style("display", "none");
 
             var magwidth = 200;
 
@@ -2714,6 +2720,9 @@ function applicationManager(globalData) {
                 lensingMultiple = h;
                 d3.select("#sliderValue").text(h.toFixed(0));
             }
+
+
+
         },
         highlight: function (position) {
             var opList = getData.getdatabyOperation.map(d => d.key);
@@ -2742,7 +2751,7 @@ function applicationManager(globalData) {
             var active = {};
             var svg0 = d3.select("#commonOp").append('svg')
                 .attr('width', '100%')
-                .attr('height', 40 + availableOps.length * 50);
+                .attr('height', 30 + availableOps.length * 30);
 
             var title = svg0.append('g')
                 .append("text")
@@ -2756,7 +2765,6 @@ function applicationManager(globalData) {
                 .attr('fill', 'black')
                 .attr('y', 10);
 
-
             title.append("tspan")
                 .text("Infosec Institute.")
                 .attr('fill', 'blue')
@@ -2767,17 +2775,17 @@ function applicationManager(globalData) {
 
             availableOps.forEach(function (rawOperation, index) {
                 var ops = svg0.append('g')
-                    .attr('transform', 'translate(10,' + (40 + index * 40) + ')')
+                    .attr('transform', 'translate(10,' + (30 + index * 30) + ')')
                     .attr("class", "linkText");
 
                 ops.append("rect")
-                    .attr("class", "rectMenu")
+                    .attr("class", "rectMenu");
 
                 ops.append('text').text(rawOperation)
                     .attr('x', '20px')
-                    .attr('y', '20px')
+                    .attr('y', '15px')
                     .style('color', 'black')
-                    .style('font-size', '16px')
+                    .style('font-size', '13px')
                     .classed("linkText", true);
 
                 ops
@@ -2957,7 +2965,6 @@ function applicationManager(globalData) {
             d3.select("#ranked").selectAll("*").remove();
             sortedList.forEach((item, index) => {
                 var height = scaleHeight(nodes[item].length);
-                console.log(item, nodes[item].length);
 
                 let svg = d3.select("#ranked").append("svg")
                     .attr("width", "100%")
@@ -3264,13 +3271,15 @@ function getColor(type) {
 
 function setLensing() {
     if (!lensingStatus) {
-        d3.select("#lensingBtn").classed("selected", true);
-        document.getElementById("magContainer").style("visibility", "visible");
+        document.getElementById("lensingBtn").classList.add('selected');
+        d3.select("#magContainer")
+            .style("display", "block");
         lensingStatus = !lensingStatus;
         return true;
     } else {
-        d3.select("#lensingBtn").classed("selected", false);
-        document.getElementById("magContainer").style("visibility", "hidden");
+        document.getElementById("lensingBtn").classList.remove('selected');
+        d3.select("#magContainer")
+            .style("display", "none");
         lensingStatus = !lensingStatus;
         return false;
     }
