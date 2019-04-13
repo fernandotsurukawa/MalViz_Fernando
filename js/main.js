@@ -556,18 +556,18 @@ function applicationManager(globalData) {
 
         // var matrix = create2DMatrix(nodes.sources.length, nodes.targets.length, local_links);
         var margin = {
-                top: 400,
-                right: 0,
-                bottom: 0,
-                left: 250
-            };
+            top: 400,
+            right: 0,
+            bottom: 0,
+            left: 250
+        };
 
         var height = 250;
         var width = document.getElementById("matrix2D").getBoundingClientRect().width;
         var matrix = [];
         var x_length = nodes.targets.length;
         var y_length = nodes.sources.length;
-        var x_scale = d3.scaleBand().range([0, width-margin.left]).domain(d3.range(x_length));
+        var x_scale = d3.scaleBand().range([0, width - margin.left]).domain(d3.range(x_length));
         var y_scale = d3.scaleBand().range([0, height]).domain(d3.range(y_length));
 
         var svg = d3.select("#matrix2D").append("svg")
@@ -1197,7 +1197,7 @@ function applicationManager(globalData) {
         var ColorScale = d3.scaleLinear()
             .domain([0, Math.sqrt(maxvalue)])
             .range([0, 1]);
-        var svgMatrix = d3.select('#matrix').append('svg').attr('height', svgheight+300).attr('width', "100%").attr('margin-top', "15px");
+        var svgMatrix = d3.select('#matrix').append('svg').attr('height', svgheight + 300).attr('width', "100%").attr('margin-top', "15px");
         matrix.forEach(function (row, index) {
 
             var group = svgMatrix.append('g').attr('height', 12).attr('transform', 'translate(200,' + getProcessIndex(index) * (rect_height + spacing) + ')')
@@ -1652,6 +1652,7 @@ function applicationManager(globalData) {
             var lensRadius = 20;
             var pointer = -1000;
 
+
             // functions here ====================================================
 
             function convert(time) {     // convert time to string, if time < 10 => 0+time
@@ -1689,129 +1690,12 @@ function applicationManager(globalData) {
                 }
             }
 
-            var StepScale = function (xStep, isLensing) {     // output position to display
-                var norm = maxProcessLength / timeInterval;
-                var gra = granularity / numTimeStep;        // granularity
-                var addTime2 = timeInterval / (numTimeStep * 100000);
-                var roundedSecond2 = ~~addTime2;
-                var roundedStep2 = roundedSecond2 * 100000 / gra; // to add to each step
-
-                if (isLensing && lensingStatus) {
-
-                    var stepPosition = ~~(pointer / roundedStep2);
-                    leftBound = Math.max(0, roundedStep2 * (stepPosition - lensRadius));
-                    rightBound = Math.min(timeInterval, roundedStep2 * (stepPosition));
-
-                    var lensingStep = rightBound - leftBound;
-
-                    var expoInLens = lensingMultiple * norm;
-                    var remainProcessLength = maxProcessLength - lensingStep * expoInLens;
-                    var expoOutLens = remainProcessLength / (timeInterval - (rightBound - leftBound));
-
-                    var newxStep = xStep;
-                    var posLeftLens = newxStep * expoOutLens;
-                    var posInLens = leftBound * expoOutLens + (newxStep - leftBound) * expoInLens;
-                    var posRightLens = leftBound * expoOutLens + lensingStep * expoInLens + (newxStep - rightBound) * expoOutLens;
-
-                    if (xStep < leftBound) {
-                        return posLeftLens;
-                    }
-                    else if (xStep > rightBound) {
-                        return posRightLens;
-                    }
-                    else // lensing area
-                        return posInLens;
-
-                }
-
-                else {
-                    return xStep * norm;
-                }
-            };
             var reverseStepScale = function (x) {
                 return x * timeInterval / maxProcessLength;
             };
 
             // SVG declarations =======================================================
             // Slider -----------------------------------------------------------------
-            d3.select("#heatmap")
-                .append("span")
-                .attr("class", "textClick")
-                .attr("id", "lensingBtn")
-                .on("click", setLensing)
-                .text("Lensing")
-                .style("float", "left")
-                .style("margin-top", "10px");
-
-            var magContainer = d3.select("#heatmap")
-                .append("svg")
-                .attr("id", "magContainer")
-                // .attr("x", "200")
-                // .attr("y", "100")
-                .attr("width", "500")
-                .attr("height", "70")
-                .attr("transform", "translate(20, 8)");
-
-            var magwidth = 300;
-
-            magContainer.append("svg:text").attr("display", "inline-block")
-                .append("svg:tspan").attr('x', 0).attr('dy', 25)
-                .text("Magnification rate: ")
-                .append("svg:tspan").attr("id", "sliderValue").attr('x', 135).attr('dy', 0).text(lensingMultiple)
-            // .attr("font-family", "sans-serif").attr("font-size","15px")
-            ;
-
-            var magSlider = magContainer.append("g").attr("display", "inline-block")
-                .attr("class", "slider")
-                .attr("transform", "translate(170, 20)");
-
-            var x = d3.scaleLinear()
-                .domain([5, 30])
-                .range([0, magwidth])
-                .clamp(true);
-
-            magSlider.append("line")
-                .attr("class", "track")
-                .attr("x1", x.range()[0])
-                .attr("x2", x.range()[1])
-                .select(function () {
-                    return this.parentNode.appendChild(this.cloneNode(true));
-                })
-                .attr("class", "track-inset")
-                .select(function () {
-                    return this.parentNode.appendChild(this.cloneNode(true));
-                })
-                .attr("class", "track-overlay")
-                .call(d3.drag()
-                    .on("start.interrupt", function () {
-                        magSlider.interrupt();
-                    })
-                    .on("start drag", function () {
-                        mag(x.invert(d3.event.x));
-                    }));
-
-            magSlider.insert("g", ".track-overlay")
-                .attr("class", "ticks")
-                .attr("transform", "translate(0," + 22 + ")")
-                .selectAll("text")
-                .data(x.ticks(6))
-                .enter().append("text")
-                .attr("x", x)
-                .attr("text-anchor", "middle")
-                .text(function (d) {
-                    return d
-                });
-
-            var handle = magSlider.insert("circle", ".track-overlay")
-                .attr("class", "handle")
-                .attr("r", 8)
-                .attr("cx", x(lensingMultiple));      // default = 3
-
-            function mag(h) {
-                handle.attr("cx", x(h));
-                lensingMultiple = h;
-                d3.select("#sliderValue").text(h.toFixed(0));
-            }
 
 
             // granularity ------------------------------------------------------------------
@@ -1847,7 +1731,7 @@ function applicationManager(globalData) {
                 .enter()
                 .append("circle")
                 .attr("cx", 50)
-                .attr("cy", (d, i) =>  10 + i * 20)
+                .attr("cy", (d, i) => 10 + i * 20)
                 .attr("r", 6)
                 .attr("fill", d => d);
 
@@ -1868,7 +1752,8 @@ function applicationManager(globalData) {
             var timeBoxHeight = 30;
             var dashHeight = svgheight + timeBoxHeight;
 
-            var outline = d3.select('#heatmap').append('svg').attr("class", "outline")
+            var outline = d3.select('#heatmap').append('svg')
+                .attr("class", "outline")
                 .attr("height", dashHeight)
                 .attr("width", "100%")
                 .attr("id", "outline");
@@ -1894,8 +1779,49 @@ function applicationManager(globalData) {
                 }
             }
 
+            var norm = maxProcessLength / timeInterval;
+            var gra = granularity / numTimeStep;        // granularity
+            var addTime2 = timeInterval / (numTimeStep * 100000);
+            var roundedSecond2 = ~~addTime2;
+            var roundedStep2 = roundedSecond2 * 100000 / gra; // to add to each step
+
+            function StepScale(xStep, isLensing) {     // output position to display
+                if (isLensing) {
+                    var stepPosition = ~~(pointer / roundedStep2);
+                    leftBound = Math.max(0, roundedStep2 * (stepPosition - lensRadius));
+                    rightBound = Math.min(timeInterval, roundedStep2 * (stepPosition));
+
+                    var lensingStep = rightBound - leftBound;
+                    var expoInLens = lensingMultiple * norm;
+                    var remainProcessLength = maxProcessLength - lensingStep * expoInLens;
+                    var expoOutLens = remainProcessLength / (timeInterval - (rightBound - leftBound));
+
+                    var newxStep = xStep;
+                    var posLeftLens = newxStep * expoOutLens;
+                    var posInLens = leftBound * expoOutLens + (newxStep - leftBound) * expoInLens;
+                    var posRightLens = leftBound * expoOutLens + lensingStep * expoInLens + (newxStep - rightBound) * expoOutLens;
+
+                    if (xStep < leftBound) {
+                        return posLeftLens;
+                    }
+                    else if (xStep > rightBound) {
+                        return posRightLens;
+                    }
+                    else // lensing area
+                        return posInLens;
+
+
+                }
+
+                else {
+                    return xStep * norm;
+                }
+            };
             outline.selectAll(".verticalBars").remove();
-            outline.selectAll(".verticalBars")
+            outline
+                .append("g")
+                .attr("id", "verticalGroup")
+                .selectAll(".verticalBars")
                 .data(stepData).enter()
                 .append("line")
                 .attr('class', "verticalBars")
@@ -1913,14 +1839,6 @@ function applicationManager(globalData) {
                         return 0
                     }
                 })
-                // .style("visibility", function (d, i) {
-                //     if (d.main) {
-                //         return "visible"
-                //     }
-                //     else {
-                //         return "hidden"
-                //     }
-                // })
                 .style("stroke-width", 1)
                 .style("stroke-dasharray", function (d, i) {
                     if (d.main) {
@@ -1931,7 +1849,7 @@ function applicationManager(globalData) {
                     }
                 });
 
-            outline
+            d3.select("#verticalGroup")
                 .append("line")
                 .attr("id", "endStep")
                 .attr("x1", svgActionWidth)
@@ -1943,7 +1861,7 @@ function applicationManager(globalData) {
                 .style("stroke-width", 1)
                 .style("stroke-dasharray", "3, 2");
 
-            var svg_process_name = outline.append('svg')
+            var svg_process = outline.append('svg')
                 .attr("id", "processes").attr('margin-left', '20px')
                 .attr('width', svgActionWidth).attr('height', svgheight).attr("border", 1)
                 .attr("y", "40");
@@ -1972,84 +1890,85 @@ function applicationManager(globalData) {
                 .attr("font-size", "13px")
                 .attr("text-anchor", "start");
 
-
+// MOUSEMOVE =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+            var t = 50;
             timeBox.append("rect")
                 .style("fill", "#aaa")
                 .style("fill-opacity", 0.3)
                 .attr("height", 30)
                 .attr("width", svgActionWidth)
                 .on("mousemove", function () {
-                    var coordinates = [0, 0];
-                    coordinates = d3.mouse(this);
-                    var x = coordinates[0];
-                    pointer = reverseStepScale(Math.max(0, x));
+                    if (lensingStatus) {
+                        var coordinates = [0, 0];
+                        coordinates = d3.mouse(this);
+                        var x = coordinates[0];
+                        pointer = reverseStepScale(Math.max(0, x));
 
-                    // console.log("x in v4: " + d3.event.clientX);
-                    //
-                    // console.log("x = "+x);
-                    // console.log("time step (pointer): " + pointer);
-                    // console.log("number of milis (pointer) = "+pointer);
+                        // console.log("x in v4: " + d3.event.clientX);
+                        //
+                        // console.log("x = "+x);
+                        // console.log("time step (pointer): " + pointer);
 
-                    // change lensing
+                        // change lensing
 
-                    svg_process_name.selectAll("rect").transition().duration(200)
-                        .attr("x", d => (StepScale(d.Step, true)) * rect_width + margin_left);
+                        svg_process.selectAll("rect")
+                            // .transition().duration(t)
+                            .attr("x", d => (StepScale(d.Step, true)) * rect_width + margin_left);
 
-                    timeBox.selectAll("text").transition().duration(200)
-                        .attr("x", (d, i) => {
-                            return StepScale(d.step, true) + margin_left;
+                        timeBox.selectAll("text")
+                            // .transition().duration(t)
+                            .attr("x", (d, i) => {
+                                return StepScale(d.step, true) + margin_left;
+                            });
+
+                        orderedArray.forEach((parentProcess, pIndex) => {
+                            if (parentProcess.children.length > 0) {
+                                parentProcess.children.forEach((childProcess, cIndex) => {
+                                    parentProcess.childInfo[childProcess.key].forEach((child, i) => {
+                                        svg_process.selectAll('.path_' + pIndex + "_" + cIndex + "_" + i)
+                                            // .transition().duration(t)
+                                            .attr('transform', function () {
+                                                var posX = (StepScale(child.step, true)) * rect_width + margin_left;
+                                                var posY = (getProcessNameIndex(updated_data, childProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
+                                                return 'translate(' + posX + ',' + posY + ')';
+                                            });
+                                    })
+                                })
+                            }
+                            if (parentProcess.selfCalls.length > 0) {
+                                parentProcess.selfCalls.forEach((self, i) => {
+                                    svg_process.selectAll('.path_' + pIndex + "_" + pIndex + "_" + i)
+                                        // .transition().duration(t)
+                                        .attr('transform', function () {
+
+                                            var posX = (StepScale(self.step, true)) * rect_width + margin_left - 9;
+                                            var posY = (getProcessNameIndex(updated_data, parentProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
+
+                                            return 'translate(' + posX + ',' + posY + ')';
+                                        })
+                                })
+                            }
                         });
 
-                    orderedArray.forEach((parentProcess, pIndex) => {
-                        if (parentProcess.children.length > 0) {
-                            parentProcess.children.forEach((childProcess, cIndex) => {
-                                parentProcess.childInfo[childProcess.key].forEach((child, i) => {
-                                    svg_process_name.selectAll('.path_' + pIndex + "_" + cIndex + "_" + i)
-                                        .transition().duration(200)
-                                        .attr('transform', function () {
-                                            var posX = (StepScale(child.step, true)) * rect_width + margin_left;
-                                            var posY = (getProcessNameIndex(updated_data, childProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
-                                            return 'translate(' + posX + ',' + posY + ')';
-                                        });
+                        svg_process.selectAll(".stream")
+                            // .transition().duration(t)
+                            .attr("d", area.x(function (d, i) {
+                                return StepScale(xScale(i), true) + margin_left;
+                            }));
+
+                        group_by_process_name.forEach(function (row, index) {
+                            svg_process.selectAll(".malName" + index)
+                                // .transition().duration(t)
+                                .attr('x', () => {
+                                    return (StepScale(row.values[row.values.length - 1].Step, true) * rect_width + margin_left + 5)
                                 })
-                            })
-                        }
-                        if (parentProcess.selfCalls.length > 0) {
-                            parentProcess.selfCalls.forEach((self, i) => {
-                                svg_process_name.selectAll('.path_' + pIndex + "_" + pIndex + "_" + i)
-                                    .transition().duration(200)
-                                    .attr('transform', function () {
+                                .attr('y', group_rect_height / 2)
+                        });
 
-                                        var posX = (StepScale(self.step, true)) * rect_width + margin_left - 9;
-                                        var posY = (getProcessNameIndex(updated_data, parentProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
-
-                                        return 'translate(' + posX + ',' + posY + ')';
-                                    })
-                            })
-                        }
-                    });
-
-                    svg_process_name.selectAll(".stream")
-                        .transition().duration(200)
-                        .attr("d", area.x(function (d, i) {
-                            return StepScale(xScale(i), true) + margin_left;
-                        }))
-
-                    group_by_process_name.forEach(function (row, index) {
-                        svg_process_name.selectAll(".malName" + index)
-                            .transition().duration(200)
-                            .attr('x', ((StepScale(row.values[row.values.length - 1].Step, true)) * rect_width + margin_left) + 5)
-                            .attr('y', group_rect_height / 2)
-                    });
-
-                    outline.selectAll(".verticalBars")
-                    // .transition().duration(200)
-                        .attr("x1", d => StepScale(d.step, true) + margin_left)
-                        .attr("x2", d => StepScale(d.step, true) + margin_left);
-
-                    if (lensingStatus) {
-                        outline
-                            .selectAll(".verticalBars")
+                        outline.selectAll(".verticalBars")
+                        // .transition().duration(t)
+                            .attr("x1", d => StepScale(d.step, true) + margin_left)
+                            .attr("x2", d => StepScale(d.step, true) + margin_left)
                             .style("stroke-opacity", function (d, i) {
                                 if (d.main) {
                                     return 0.4
@@ -2205,7 +2124,7 @@ function applicationManager(globalData) {
 
 
             group_by_process_name.forEach(function (row, index) {
-                var group = svg_process_name.append('g')
+                var group = svg_process.append('g')
                     .attr("transform", "translate(0," + index * group_rect_height + ")");
 
                 group.append('line').attr('stroke-dasharray', '2, 5').attr('stroke', 'black').attr('stroke-width', 0.5)
@@ -2219,7 +2138,7 @@ function applicationManager(globalData) {
                 });
                 var filtered_library = d3.nest().key(function (d) {
                     return d.library
-                }).entries(processes)
+                }).entries(processes);
 
                 filtered_library.forEach(function (d) {
                     var obj = {};
@@ -2261,11 +2180,15 @@ function applicationManager(globalData) {
 
                 // textDraw
                 var arcActive, firstClick;
-                group.append('text').attr("class", "malName" + index)
+                group.append('text')
+                    .attr("class", "malName" + index)
                     .text(row.key)
-                    .attr('x', ((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 5).attr('y', group_rect_height / 2)
+                    .attr('x', () => {
+                        return StepScale(row.values[row.values.length - 1].Step) * rect_width + margin_left + 5
+                    })
+                    .attr('y', group_rect_height / 2)
                     .attr('text-anchor', 'start')
-                    .attr("class", "linkText")
+                    .classed("linkText", true)
                     .on("click", function () {
                         d3.selectAll(".arc")
                             .classed("hidden", !arcActive)
@@ -2398,8 +2321,11 @@ function applicationManager(globalData) {
                     });
             });
 
+            // MOUSELEAVE =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
             outline.on("mouseleave", function () {
-                outline.selectAll(".verticalBars").transition().duration(200)
+                outline.selectAll(".verticalBars")
+                    // .transition().duration(200)
                     .attr("x1", d => StepScale(d.step) + margin_left)
                     .attr("x2", d => StepScale(d.step) + margin_left)
                     .style("stroke-opacity", function (d, i) {
@@ -2420,12 +2346,13 @@ function applicationManager(globalData) {
                             return "1,3"
                         }
                     });
-                ;
 
-                svg_process_name.selectAll("rect").transition().duration(200)
+                svg_process.selectAll("rect")
+                    // .transition().duration(200)
                     .attr("x", d => (StepScale(d.Step)) * rect_width + margin_left);
 
-                timeBox.selectAll("text").transition().duration(200)
+                timeBox.selectAll("text")
+                    // .transition().duration(200)
                     .attr("x", (d, i) => {
                         return StepScale(d.step) + margin_left;
                     });
@@ -2434,8 +2361,8 @@ function applicationManager(globalData) {
                     if (parentProcess.children.length > 0) {
                         parentProcess.children.forEach((childProcess, cIndex) => {
                             parentProcess.childInfo[childProcess.key].forEach((child, i) => {
-                                svg_process_name.selectAll('.path_' + pIndex + "_" + cIndex + "_" + i)
-                                    .transition().duration(200)
+                                svg_process.selectAll('.path_' + pIndex + "_" + cIndex + "_" + i)
+                                    // .transition().duration(200)
                                     .attr('transform', function () {
                                         var posX = (StepScale(child.step)) * rect_width + margin_left;
                                         var posY = (getProcessNameIndex(updated_data, childProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
@@ -2446,8 +2373,8 @@ function applicationManager(globalData) {
                     }
                     if (parentProcess.selfCalls.length > 0) {
                         parentProcess.selfCalls.forEach((self, i) => {
-                            svg_process_name.selectAll('.path_' + pIndex + "_" + pIndex + "_" + i)
-                                .transition().duration(200)
+                            svg_process.selectAll('.path_' + pIndex + "_" + pIndex + "_" + i)
+                                // .transition().duration(200)
                                 .attr('transform', function () {
 
                                     var posX = (StepScale(self.step)) * rect_width + margin_left - 9;
@@ -2459,25 +2386,28 @@ function applicationManager(globalData) {
                     }
                 });
 
-                svg_process_name.selectAll(".stream")
-                    .transition().duration(200)
+                svg_process.selectAll(".stream")
+                    // .transition().duration(200)
                     .attr("d", area.x(function (d, i) {
                         return StepScale(xScale(i)) + margin_left;
                     }));
 
                 group_by_process_name.forEach(function (row, index) {
-                    svg_process_name.selectAll(".malName" + index)
-                        .transition().duration(200)
-                        .attr('x', ((StepScale(row.values[row.values.length - 1].Step)) * rect_width + margin_left) + 5).attr('y', group_rect_height / 2)
+                    svg_process.selectAll(".malName" + index)
+                        // .transition().duration(200)
+                        .attr('x', (StepScale(row.values[row.values.length - 1].Step) * rect_width + margin_left + 5))
+                        .attr('y', group_rect_height / 2)
                 });
 
             });
+
+            // END MOUSELEAVE -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
             orderedArray.forEach((parentProcess, pIndex) => {
                 if (parentProcess.children.length > 0) {
                     parentProcess.children.forEach((childProcess, cIndex) => {
                         // define arrow
-                        svg_process_name
+                        svg_process
                             .append("svg:defs")
                             .selectAll(".arrow")
                             .data(parentProcess.childInfo[childProcess.key])
@@ -2499,7 +2429,7 @@ function applicationManager(globalData) {
                         // draw arc
                         var signedOrienation = getProcessNameIndex(updated_data, childProcess.key) - pIndex;
                         parentProcess.childInfo[childProcess.key].forEach((child, i) => {
-                            svg_process_name
+                            svg_process
                                 .append('path').attr("class", () => {
                                 return 'arc'
                                     + ' a' + parentProcess.key.split(".").join("") + "_a" + childProcess.key.split(".").join("")
@@ -2577,7 +2507,7 @@ function applicationManager(globalData) {
                 }
                 if (parentProcess.selfCalls.length > 0) {
                     parentProcess.selfCalls.forEach((self, i) => {
-                        svg_process_name
+                        svg_process
                             .append("svg:defs")
                             .selectAll(".arrow")
                             .data([self])
@@ -2596,7 +2526,7 @@ function applicationManager(globalData) {
                             .append('path')
                             .attr('d', 'M0,0 L8,0 L4,8 z');
 
-                        svg_process_name
+                        svg_process
                             .append('path').attr("class", () => {
                             return 'arc'
                                 + ' a' + parentProcess.key.split(".").join("")
@@ -2696,6 +2626,103 @@ function applicationManager(globalData) {
 
             //drawMatrixOld(matrix, libarr, group_by_process_name);
 
+            // Mag and lensing
+
+            var outlineHeight = document.getElementById("outline")
+                .getBoundingClientRect().height;
+
+            var lensingGroup = d3.select("#outline")
+                .append("g")
+                .attr("id", "lensingGroup")
+                .on("click", setLensing);
+
+            lensingGroup.append("rect")
+                .attr("id", "lensingBtn")
+                .attr("class", "textClick")
+                .attr("transform", "translate(0," + (outlineHeight - 32) + ")");
+
+            lensingGroup
+                .append("text")
+                .text("Lensing")
+                .classed("unselectable", true)
+                .classed("linkText", true)
+                .attr("font-size", "14px")
+                .attr("transform", "translate(7," + (outlineHeight - 14) + ")")
+                ;
+
+            var magContainer = d3.select("#outline")
+                .append("g")
+                .attr("id", "magContainer")
+                .attr("transform", "translate(90," + (outlineHeight - 43) + ")")
+                .style("display", "none");
+
+            var magwidth = 200;
+
+            magContainer.append("svg:text").attr("display", "inline-block")
+                .append("svg:tspan").attr('x', 0).attr('dy', 28)
+                .text("Magnification: ")
+                .attr("font-size", "14px")
+                .append("svg:tspan").attr("id", "sliderValue").attr('x', 100).attr('dy', 0)
+                .text("x" + lensingMultiple)
+                // .attr("font-family", "sans-serif")
+                .attr("font-size", "14px")
+            ;
+
+            var magSlider = magContainer
+                .append("g").attr("display", "inline-block")
+                .attr("class", "slider")
+                .attr("transform", "translate(140, 20)");
+
+            var x = d3.scaleLinear()
+                .domain([5, 30])
+                .range([0, magwidth])
+                .clamp(true);
+
+            magSlider.append("line")
+                .attr("class", "track")
+                .attr("x1", x.range()[0])
+                .attr("x2", x.range()[1])
+                .select(function () {
+                    return this.parentNode.appendChild(this.cloneNode(true));
+                })
+                .attr("class", "track-inset")
+                .select(function () {
+                    return this.parentNode.appendChild(this.cloneNode(true));
+                })
+                .attr("class", "track-overlay")
+                .call(d3.drag()
+                    .on("start.interrupt", function () {
+                        magSlider.interrupt();
+                    })
+                    .on("start drag", function () {
+                        mag(x.invert(d3.event.x));
+                    }));
+
+            magSlider.insert("g", ".track-overlay")
+                .attr("class", "ticks")
+                .attr("transform", "translate(0," + 17 + ")")
+                .selectAll("text")
+                .data(x.ticks(6))
+                .enter().append("text")
+                .attr("x", x)
+                .attr("text-anchor", "middle")
+                .text(function (d) {
+                    return d
+                });
+
+            var handle = magSlider.insert("circle", ".track-overlay")
+                .attr("class", "handle")
+                .attr("r", 7)
+                .attr("cx", x(lensingMultiple));      // default = 3
+
+            function mag(h) {
+                handle.attr("cx", x(h));
+                lensingMultiple = h;
+                d3.select("#sliderValue").text(h.toFixed(0));
+            }
+
+
+
         },
         highlight: function (position) {
             var opList = getData.getdatabyOperation.map(d => d.key);
@@ -2724,20 +2751,19 @@ function applicationManager(globalData) {
             var active = {};
             var svg0 = d3.select("#commonOp").append('svg')
                 .attr('width', '100%')
-                .attr('height', 40 + availableOps.length * 50);
+                .attr('height', 30 + availableOps.length * 30);
 
             var title = svg0.append('g')
                 .append("text")
                 .style("font-style", "italic")
                 .style('font-size', '12px')
-               ;
+            ;
 
             title
                 .append("tspan")
                 .text("Reference: ")
                 .attr('fill', 'black')
-                .attr('y', 10 );
-
+                .attr('y', 10);
 
             title.append("tspan")
                 .text("Infosec Institute.")
@@ -2749,17 +2775,17 @@ function applicationManager(globalData) {
 
             availableOps.forEach(function (rawOperation, index) {
                 var ops = svg0.append('g')
-                    .attr('transform', 'translate(10,' + (40 + index * 40) + ')')
+                    .attr('transform', 'translate(10,' + (30 + index * 30) + ')')
                     .attr("class", "linkText");
 
                 ops.append("rect")
-                    .attr("class", "rectMenu")
+                    .attr("class", "rectMenu");
 
                 ops.append('text').text(rawOperation)
                     .attr('x', '20px')
-                    .attr('y', '20px')
+                    .attr('y', '15px')
                     .style('color', 'black')
-                    .style('font-size', '16px')
+                    .style('font-size', '13px')
                     .classed("linkText", true);
 
                 ops
@@ -2939,7 +2965,6 @@ function applicationManager(globalData) {
             d3.select("#ranked").selectAll("*").remove();
             sortedList.forEach((item, index) => {
                 var height = scaleHeight(nodes[item].length);
-                console.log(item, nodes[item].length);
 
                 let svg = d3.select("#ranked").append("svg")
                     .attr("width", "100%")
@@ -2949,14 +2974,14 @@ function applicationManager(globalData) {
                 svg.append("text")
                     .text((index + 1) + ". " + item)
                     .attr("x", 20)
-                    .attr("y", height > 350? height/5 : height/2);
+                    .attr("y", height > 350 ? height / 5 : height / 2);
 
                 var simulation = d3.forceSimulation()
                     .force("link", d3.forceLink().id(function (d) {
                         return d.id;
                     }))
                     .force("charge", d3.forceManyBody())
-                    .force("center", d3.forceCenter(width/2, height / 2));
+                    .force("center", d3.forceCenter(width / 2, height / 2));
 
                 var link = svg.append("g")
                     .attr("class", "links")
@@ -3048,7 +3073,7 @@ function applicationManager(globalData) {
             var svg2 = d3.select("#selfCallProcess")
                 .append('svg')
                 .attr('width', '100%')
-                .attr('height', 40 + selfCallData.length*50)
+                .attr('height', 40 + selfCallData.length * 50)
                 .attr("id", "selfGroup");
 
             svg2.selectAll("rect")
@@ -3061,12 +3086,12 @@ function applicationManager(globalData) {
 
             svg2
                 .selectAll(".selfcall")
-                .data(selfCallData )
+                .data(selfCallData)
                 .enter()
                 .append("text")
                 .text(d => {
                     var c = d.selfCalls.length;
-                    if (c !== 1){
+                    if (c !== 1) {
                         return d.key + ": " + c + " calls"
                     }
                     else return d.key + ": " + c + " call"
@@ -3247,10 +3272,14 @@ function getColor(type) {
 function setLensing() {
     if (!lensingStatus) {
         document.getElementById("lensingBtn").classList.add('selected');
+        d3.select("#magContainer")
+            .style("display", "block");
         lensingStatus = !lensingStatus;
         return true;
     } else {
         document.getElementById("lensingBtn").classList.remove('selected');
+        d3.select("#magContainer")
+            .style("display", "none");
         lensingStatus = !lensingStatus;
         return false;
     }
