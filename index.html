@@ -274,10 +274,14 @@
     <img id="loading-image" height="200" width="200" src="images/squareloader2.gif" alt="Loading..."/>
 </div>
 <script>
+    var calculateRank;
     var openSidebarRank, opensidebarLib;
     var sideWidth = 1400;
 
     function openNavRank() {
+        if (!calculateRank) {
+            calculateRank = true;
+        }
         document.getElementById("mySidenavRank").style.width = sideWidth + "px";
         // document.getElementById("mainContent").style.marginLeft = "1200px";
         openSidebarRank = !openSidebarRank;
@@ -367,8 +371,14 @@
                     let SiteManager = applicationManager(data); //Initialize application
                     SiteManager.drawStats('#stats'); //Draw statistic map
                     SiteManager.drawStats2('#OperationList'); //Draw statistic map
+
+                    d3.select("#rankBtn")
+                        .on("click", () => {
+                            if (calculateRank){
+                                SiteManager.highlight('#avaiop'); // hightlight
+                            }
+                        });
                     SiteManager.drawMain('#heatmap');//Draw mainMap
-                    SiteManager.highlight('#avaiop'); // hightlight
                     let maxcalls = SiteManager.getCallRange().maxcall;
                     SiteManager.updateDomainBox('#maliciousdomain');
                     $("#btnName").click(function () {
