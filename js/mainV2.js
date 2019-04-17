@@ -479,25 +479,21 @@ function applicationManager(globalData) {
                     d3.selectAll('text.colLabel').attr('opacity', 0.2);
                     d3.select('text.r' + index).attr('opacity', 1);
                     d3.select('text.c' + i).attr('opacity', 1);
-
-                    let ttMatrix = d3.select("#ttMatrix");
-
-                    ttMatrix.transition()
+                    div.transition()
                         .duration(200)
                         .style("opacity", 1);
                     var text = "";
                     d.forEach(function (value) {
                         text += "Time: " + value.Timestamp + "&nbsp; Lib: " + value.library + "<br>"
-                    });
-
-                    ttMatrix.html("<b>Number of calls: " + d.length + "</b><p>" + text)
+                    })
+                    div.html("<b>Number of calls: " + d.length + "</b><p>" + text)
                         .style("width", "300px")
                         .style("left", (d3.event.pageX) + 20 + "px")
                         .style("top", (d3.event.pageY) + "px");
                 }).on('mouseleave', function (d, i) {
                     d3.selectAll('text.rowLabel').attr('opacity', 1);
                     d3.selectAll('text.colLabel').attr('opacity', 1);
-                    ttMatrix.transition()
+                    div.transition()
                         .duration(200)
                         .style("opacity", 0);
                 });
@@ -567,7 +563,7 @@ function applicationManager(globalData) {
         };
 
         var height = 250;
-        var width = sideWidth - 100 ;
+        var width = document.getElementById("matrix2D").getBoundingClientRect().width;
         var matrix = [];
         var x_length = nodes.targets.length;
         var y_length = nodes.sources.length;
@@ -576,11 +572,10 @@ function applicationManager(globalData) {
 
         var svg = d3.select("#matrix2D").append("svg")
         // .attr("width", width + margin.left + margin.right)
-            .attr("width", "100%")
+            .attr("width", width)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
 
         nodes.targets.forEach(function (node) {
             node.linkDiff = node.links.length;
@@ -1917,11 +1912,11 @@ function applicationManager(globalData) {
                         // change lensing
 
                         svg_process.selectAll("rect")
-                            // .transition().duration(t)
+                        // .transition().duration(t)
                             .attr("x", d => (StepScale(d.Step, true)) * rect_width + margin_left);
 
                         timeBox.selectAll("text")
-                            // .transition().duration(t)
+                        // .transition().duration(t)
                             .attr("x", (d, i) => {
                                 return StepScale(d.step, true) + margin_left;
                             });
@@ -1931,7 +1926,7 @@ function applicationManager(globalData) {
                                 parentProcess.children.forEach((childProcess, cIndex) => {
                                     parentProcess.childInfo[childProcess.key].forEach((child, i) => {
                                         svg_process.selectAll('.path_' + pIndex + "_" + cIndex + "_" + i)
-                                            // .transition().duration(t)
+                                        // .transition().duration(t)
                                             .attr('transform', function () {
                                                 var posX = (StepScale(child.step, true)) * rect_width + margin_left;
                                                 var posY = (getProcessNameIndex(updated_data, childProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
@@ -1943,7 +1938,7 @@ function applicationManager(globalData) {
                             if (parentProcess.selfCalls.length > 0) {
                                 parentProcess.selfCalls.forEach((self, i) => {
                                     svg_process.selectAll('.path_' + pIndex + "_" + pIndex + "_" + i)
-                                        // .transition().duration(t)
+                                    // .transition().duration(t)
                                         .attr('transform', function () {
 
                                             var posX = (StepScale(self.step, true)) * rect_width + margin_left - 9;
@@ -1956,14 +1951,14 @@ function applicationManager(globalData) {
                         });
 
                         svg_process.selectAll(".stream")
-                            // .transition().duration(t)
+                        // .transition().duration(t)
                             .attr("d", area.x(function (d, i) {
                                 return StepScale(xScale(i), true) + margin_left;
                             }));
 
                         group_by_process_name.forEach(function (row, index) {
                             svg_process.selectAll(".malName" + index)
-                                // .transition().duration(t)
+                            // .transition().duration(t)
                                 .attr('x', () => {
                                     return (StepScale(row.values[row.values.length - 1].Step, true) * rect_width + margin_left + 5)
                                 })
@@ -2330,7 +2325,7 @@ function applicationManager(globalData) {
 
             outline.on("mouseleave", function () {
                 outline.selectAll(".verticalBars")
-                    // .transition().duration(200)
+                // .transition().duration(200)
                     .attr("x1", d => StepScale(d.step) + margin_left)
                     .attr("x2", d => StepScale(d.step) + margin_left)
                     .style("stroke-opacity", function (d, i) {
@@ -2353,11 +2348,11 @@ function applicationManager(globalData) {
                     });
 
                 svg_process.selectAll("rect")
-                    // .transition().duration(200)
+                // .transition().duration(200)
                     .attr("x", d => (StepScale(d.Step)) * rect_width + margin_left);
 
                 timeBox.selectAll("text")
-                    // .transition().duration(200)
+                // .transition().duration(200)
                     .attr("x", (d, i) => {
                         return StepScale(d.step) + margin_left;
                     });
@@ -2367,7 +2362,7 @@ function applicationManager(globalData) {
                         parentProcess.children.forEach((childProcess, cIndex) => {
                             parentProcess.childInfo[childProcess.key].forEach((child, i) => {
                                 svg_process.selectAll('.path_' + pIndex + "_" + cIndex + "_" + i)
-                                    // .transition().duration(200)
+                                // .transition().duration(200)
                                     .attr('transform', function () {
                                         var posX = (StepScale(child.step)) * rect_width + margin_left;
                                         var posY = (getProcessNameIndex(updated_data, childProcess.key) + pIndex) * group_rect_height / 2 + group_rect_height / 2;
@@ -2379,7 +2374,7 @@ function applicationManager(globalData) {
                     if (parentProcess.selfCalls.length > 0) {
                         parentProcess.selfCalls.forEach((self, i) => {
                             svg_process.selectAll('.path_' + pIndex + "_" + pIndex + "_" + i)
-                                // .transition().duration(200)
+                            // .transition().duration(200)
                                 .attr('transform', function () {
 
                                     var posX = (StepScale(self.step)) * rect_width + margin_left - 9;
@@ -2392,14 +2387,14 @@ function applicationManager(globalData) {
                 });
 
                 svg_process.selectAll(".stream")
-                    // .transition().duration(200)
+                // .transition().duration(200)
                     .attr("d", area.x(function (d, i) {
                         return StepScale(xScale(i)) + margin_left;
                     }));
 
                 group_by_process_name.forEach(function (row, index) {
                     svg_process.selectAll(".malName" + index)
-                        // .transition().duration(200)
+                    // .transition().duration(200)
                         .attr('x', (StepScale(row.values[row.values.length - 1].Step) * rect_width + margin_left + 5))
                         .attr('y', group_rect_height / 2)
                 });
@@ -2653,7 +2648,7 @@ function applicationManager(globalData) {
                 .classed("linkText", true)
                 .attr("font-size", "14px")
                 .attr("transform", "translate(7," + (outlineHeight - 14) + ")")
-                ;
+            ;
 
             var magContainer = d3.select("#outline")
                 .append("g")
@@ -2986,7 +2981,7 @@ function applicationManager(globalData) {
                         return d.id;
                     }))
                     .force("charge", d3.forceManyBody())
-                    .force("center", d3.forceCenter(sideWidth/3, height / 2));
+                    .force("center", d3.forceCenter(width / 2, height / 2));
 
                 var link = svg.append("g")
                     .attr("class", "links")

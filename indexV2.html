@@ -21,130 +21,45 @@
 <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
 
 <link rel="stylesheet" href="styles/main.css">
-<link rel="stylesheet" href="styles/sidebar.css">
 <style>
     body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 </style>
 <body class="w3-light-grey">
 
 <!-- Sidebar/menu -->
-<!--<nav class="w3-sidebar w3-collapse w3-white w3-animate-left nav" style="z-index:3;width:120px;" id="mySidebar"><br>-->
-    <!--<div class="w3-container">-->
-        <!--<a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="close menu">-->
-            <!--<i class="fa fa-remove"></i>-->
-        <!--</a>-->
-        <!--<h4 style="text-align: center"><b>MALVIZ</b></h4>-->
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left nav" style="z-index:3;width:120px;" id="mySidebar"><br>
+    <div class="w3-container">
+        <a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="close menu">
+            <i class="fa fa-remove"></i>
+        </a>
+        <h4 style="text-align: center"><b>MALVIZ</b></h4>
 
-    <!--</div>-->
-    <!--<div class="w3-bar-block">-->
-        <!--<a  href="#portfolio" onclick="w3_close()"-->
-            <!--class="w3-bar-item w3-button option">-->
-            <!--<i class="fa fa-th-large fa-fw"></i>-->
-            <!--<br>PROCESSES</a>-->
-        <!--<a href="#operation" onclick="w3_close()"-->
-           <!--class="w3-bar-item w3-button option">-->
-            <!--<i class="fas fa-stream"></i>-->
-            <!--<br>OPERATIONS</a>-->
-        <!--<a href="#rankedbydeg" onclick="w3_close()"-->
-           <!--class="w3-bar-item w3-button option">-->
-            <!--<i class="fas fa-project-diagram"></i>-->
-            <!--<br>RANKED BY DEGREE</a>-->
-        <!--<a href="#library" onclick="w3_close()"-->
-           <!--class="w3-bar-item w3-button option">-->
-            <!--<img src="images/dll2.svg" alt="dll" style="width:18px;height:18px;">-->
-            <!--<br>LIBRARIES</a>-->
-    <!--</div>-->
-<!--</nav>-->
+    </div>
+    <div class="w3-bar-block">
+        <a  href="#portfolio" onclick="w3_close()"
+           class="w3-bar-item w3-button option">
+            <i class="fa fa-th-large fa-fw"></i>
+            <br>PROCESSES</a>
+        <a href="#operation" onclick="w3_close()"
+           class="w3-bar-item w3-button option">
+            <i class="fas fa-stream"></i>
+            <br>OPERATIONS</a>
+        <a href="#rankedbydeg" onclick="w3_close()"
+           class="w3-bar-item w3-button option">
+            <i class="fas fa-project-diagram"></i>
+            <br>RANKED BY DEGREE</a>
+        <a href="#library" onclick="w3_close()"
+           class="w3-bar-item w3-button option">
+            <img src="images/dll2.svg" alt="dll" style="width:18px;height:18px;">
+            <br>LIBRARIES</a>
+    </div>
+</nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
 <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
-<!-- Rank navigation sidebar-->
-<div id="mySidenavRank" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNavRank()">&times;</a>
-    <!-- Second Photo Grid-->
-    <div class="w3-row-padding" style="margin-bottom:30px">
-        <h4 class="w3-container" id="rankedbydeg"><b>Processes ranked by degree</b></h4>
-        <div class="w3-twothird w3-container w3-margin-bottom">
-
-            <div class="w3-container w3-white" style="padding-right: 0">
-                <div id="ranked" class="contentRanked">
-
-                </div>
-            </div>
-        </div>
-        <div class="w3-third w3-container w3-margin-bottom">
-
-            <div class="w3-container w3-white" >
-                <p><b>Types of References / Underlay Reference Stream</b></p>
-                <div class="w3-container w3-white" style="padding-right: 0">
-                    <div id="legend"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="w3-third w3-container w3-margin-bottom">
-
-            <div class="w3-container w3-white" style="padding-right: 0">
-                <p><b>Self-call processes</b></p>
-
-                <div id="selfCallProcess" class="contentSelf"></div>
-
-            </div>
-        </div>
-
-
-        <div class="w3-third w3-container">
-            <div class="w3-container w3-white" style="padding-right: 0">
-                <p><b>Connecting domains:</b></p>
-                <div id="maliciousdomain" class="contentSelf"></div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Rank navigation sidebar-->
-<div id="mySidenavLib" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNavLib()">&times;</a>
-    <!-- Lib Section -->
-    <div class="w3-container w3-padding-large w3-white">
-        <h4 id="library"><b>Libraries Called</b></h4>
-
-        <table width="100%" border="0px">
-            <tbody>
-            <tr>
-                <td width="100%">
-                    <div>
-                        <p>
-                            <label for="amount">Number of libraries called:</label>
-                            <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-                        </p>
-                        <div id="slider"
-                             style="width: 400px; background: linear-gradient(to right, #ffffff 0%, #000000 100%);">
-                            <div id="custom-handle" class="ui-slider-handle" style="z-index: auto"></div>
-                        </div>
-                        <span>
-                            <p>Order: <select id="order">
-                                <option value="similarity">By Similarity</option>
-                                <option value="name">By Name</option>
-                                <option value="frequency">By Frequency</option>
-                                <option value="linkDiff">By Different libraries called</option>
-                            </select>
-                            </p>
-                        </span>
-                    </div>
-
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <div id="matrix2D"></div>
-
-        <div class="tooltip" style="opacity: 0;" id="ttMatrix"></div>
-    </div>
-</div>
-
 <!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:0px" id="mainContent">
+<div class="w3-main" style="margin-left:120px">
 
     <!-- Header -->
     <header id="portfolio">
@@ -152,14 +67,9 @@
         <div class="w3-container">
             <h1><b>Malware Visualization</b></h1>
             <div class="w3-section w3-bottombar w3-padding-16">
-                <!--<span class="w3-margin-right">Filter:</span>-->
-                <button class="w3-button w3-black" id="processBtn">Processes</button>
-                <button class="w3-button w3-white" onclick="openNavRank()" id="rankBtn">Ranked by Degree</button>
-                <button class="w3-button w3-white w3-hide-small" onclick="openNavLib()" id="libBtn">Libraries
-                    Called</button>
                 <button class="w3-button w3-white w3-hide-small" style="float: right;">
-                    <a href="indexV2.html" target="_blank"  style="text-decoration: none">Alter
-                    Interface</a></button>
+                    <a href="index.html" target="_blank"  style="text-decoration: none">Alter
+                        Interface</a></button>
                 <label for="selectmalware">Select dataset: </label>
                 <select id="selectmalware" class="selectmalware">
                     <option>--Select dataset--</option>
@@ -260,13 +170,89 @@
         </div>
         <div class="w3-quarter w3-container" style="width:20%">
             <div class="w3-container w3-white" style="padding-right: 0">
-                <p><b>Commonly encountered</b></p>
-                <div id="commonOp" class="contentDemo"></div>
+            <p><b>Commonly encountered</b></p>
+            <div id="commonOp" class="contentDemo"></div>
             </div>
         </div>
     </div>
 
-    <!--<div class="w3-black w3-center w3-padding-24" style="float: bottom">Malware Visualization</div>-->
+
+    <!-- Second Photo Grid-->
+    <div class="w3-row-padding" style="margin-bottom:30px">
+        <h4 class="w3-container" id="rankedbydeg"><b>Processes ranked by degree</b></h4>
+        <div class="w3-twothird w3-container w3-margin-bottom">
+
+            <div class="w3-container w3-white" style="padding-right: 0">
+            <div id="ranked" class="contentRanked">
+
+            </div>
+            </div>
+        </div>
+        <div class="w3-third w3-container w3-margin-bottom">
+
+            <div class="w3-container w3-white" >
+                <p><b>Types of References / Underlay Reference Stream</b></p>
+                <div class="w3-container w3-white" style="padding-right: 0">
+                <div id="legend"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-third w3-container w3-margin-bottom">
+
+            <div class="w3-container w3-white" style="padding-right: 0">
+                <p><b>Self-call processes</b></p>
+
+                    <div id="selfCallProcess" class="contentSelf"></div>
+
+            </div>
+        </div>
+
+
+        <div class="w3-third w3-container">
+            <div class="w3-container w3-white" style="padding-right: 0">
+                <p><b>Connecting domains:</b></p>
+                <div id="maliciousdomain" class="contentSelf"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="w3-container w3-padding-large w3-white">
+        <h4 id="library"><b>Libraries Called</b></h4>
+
+        <table width="100%" border="0px">
+            <tbody>
+            <tr>
+                <td width="100%">
+                    <div>
+                        <p>
+                            <label for="amount">Number of libraries called:</label>
+                            <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                        </p>
+                        <div id="slider"
+                             style="width: 400px; background: linear-gradient(to right, #ffffff 0%, #000000 100%);">
+                            <div id="custom-handle" class="ui-slider-handle" style="z-index: auto"></div>
+                        </div>
+                        <span>
+                            <p>Order: <select id="order">
+                                <option value="similarity">By Similarity</option>
+                                <option value="name">By Name</option>
+                                <option value="frequency">By Frequency</option>
+                                <option value="linkDiff">By Different libraries called</option>
+                            </select>
+                            </p>
+                        </span>
+                    </div>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="matrix2D"></div>
+    </div>
+
+    <div class="w3-black w3-center w3-padding-24">Malware Visualization</div>
 
     <!-- End page content -->
 </div>
@@ -274,34 +260,6 @@
     <img id="loading-image" height="200" width="200" src="images/squareloader2.gif" alt="Loading..."/>
 </div>
 <script>
-    var openSidebarRank, opensidebarLib;
-    var sideWidth = 1400;
-
-    function openNavRank() {
-        document.getElementById("mySidenavRank").style.width = sideWidth + "px";
-        // document.getElementById("mainContent").style.marginLeft = "1200px";
-        openSidebarRank = !openSidebarRank;
-    }
-
-    function closeNavRank() {
-        d3.select("mySidenavRank").classed("raise", false);
-        document.getElementById("mySidenavRank").style.width = "0";
-        // document.getElementById("mainContent").style.marginLeft= "0";
-        openSidebarRank = !openSidebarRank;
-    }
-
-    function openNavLib() {
-        document.getElementById("mySidenavLib").style.width = sideWidth + "px";
-        // document.getElementById("mainContent").style.marginLeft = "1200px";
-        opensidebarLib = !opensidebarLib;
-    }
-
-    function closeNavLib() {
-        document.getElementById("mySidenavLib").style.width = "0";
-        // document.getElementById("mainContent").style.marginLeft= "0";
-        opensidebarLib = !opensidebarLib;
-    }
-
     // Script to open and close sidebar
     function w3_open() {
         document.getElementById("mySidebar").style.display = "block";
@@ -314,7 +272,7 @@
     }
 </script>
 <script src="js/ultility.js"></script>
-<script src="js/main.js"></script>
+<script src="js/mainV2.js"></script>
 <script>
     let divOperation = d3.select("body").append("div")
         .attr("class", "tooltip")
@@ -360,7 +318,7 @@
             // .defer(d3.csv, "metadata/infosec.csv")
             .await(function (error, original_data, domain) {
                 if (error) {
-                    console.error(error);
+                    console.error('Oh dear, something went wrong: ' + error);
                 }
                 else {
                     let data = ProcessDataV2(original_data, domain);
