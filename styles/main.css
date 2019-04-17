@@ -21,6 +21,13 @@
     background: #FFFFFF;
     overflow-x: auto;
 }
+.contentSelf2 {
+    padding-right: 0px;
+    height: 150px;
+    overflow: auto;
+    background: #FFFFFF;
+    overflow-x: auto;
+}
 .contentRanked {
     padding-right: 0px;
     height: 1200px;

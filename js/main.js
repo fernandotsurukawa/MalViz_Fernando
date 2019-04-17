@@ -3085,7 +3085,7 @@ function applicationManager(globalData) {
                 .data(selfCallData)
                 .enter()
                 .append("rect")
-                .attr('transform', (d, i) => 'translate(50,' + (15 + i * 40) + ')')
+                .attr('transform', (d, i) => 'translate(10,' + (15 + i * 40) + ')')
                 .attr("class", "rectMenuCustom")
                 .attr("width", d => Math.max(160, 50 + 10 * d.key.length));
 
@@ -3101,7 +3101,7 @@ function applicationManager(globalData) {
                     }
                     else return d.key + ": " + c + " call"
                 })
-                .attr('transform', (d, i) => 'translate(60,' + (35 + i * 40) + ')')
+                .attr('transform', (d, i) => 'translate(20,' + (35 + i * 40) + ')')
                 .attr("class", "selfcall");
 
             group2.style("display", "none");
