@@ -23,7 +23,7 @@
 }
 .contentRanked {
     padding-right: 0px;
-    height: 900px;
+    height: 1200px;
     overflow: auto;
     background: #FFFFFF;
 }
@@ -197,6 +197,7 @@ div.tooltip {
     border: 0px;
     border-radius: 8px;
     pointer-events: none;
+    z-index: 100;
 }
 
 * {
