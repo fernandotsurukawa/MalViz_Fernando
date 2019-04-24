@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8b82504-1950-4318-aa3d-f800f494b894" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -88,8 +88,8 @@
           <entry key="CSV" value="2" />
           <entry key="css" value="1412" />
           <entry key="csv" value="3" />
-          <entry key="html" value="3903" />
-          <entry key="js" value="22366" />
+          <entry key="html" value="3910" />
+          <entry key="js" value="22917" />
           <entry key="md" value="2052" />
           <entry key="procmon" value="5" />
         </counts>
@@ -98,8 +98,8 @@
         <counts>
           <entry key="CSS" value="1412" />
           <entry key="CSV" value="10" />
-          <entry key="HTML" value="3906" />
-          <entry key="JavaScript" value="22363" />
+          <entry key="HTML" value="3913" />
+          <entry key="JavaScript" value="22914" />
           <entry key="Markdown" value="2052" />
         </counts>
       </usages-collector>
@@ -110,7 +110,7 @@
           <entry key="csv" value="5" />
           <entry key="gitignore" value="2" />
           <entry key="html" value="35" />
-          <entry key="js" value="18" />
+          <entry key="js" value="19" />
           <entry key="json" value="4" />
           <entry key="md" value="5" />
           <entry key="procmon" value="1" />
@@ -125,7 +125,7 @@
           <entry key="CSV" value="15" />
           <entry key="HTML" value="35" />
           <entry key="JSON" value="4" />
-          <entry key="JavaScript" value="18" />
+          <entry key="JavaScript" value="19" />
           <entry key="Markdown" value="5" />
           <entry key="PLAIN_TEXT" value="3" />
           <entry key="RNG Compact" value="1" />
@@ -163,11 +163,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="33">
-              <caret line="3045" column="40" lean-forward="true" selection-start-line="3045" selection-start-column="40" selection-end-line="3045" selection-end-column="40" />
+            <state relative-caret-position="260">
+              <caret line="3055" column="40" selection-start-line="3055" selection-start-column="40" selection-end-line="3055" selection-end-column="40" />
               <folding>
                 <element signature="e#6#12#0" expanded="true" />
                 <element signature="e#6#12#0" expanded="true" />
@@ -179,19 +179,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/mainV2.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="955">
-              <caret line="3344" selection-start-line="3344" selection-end-line="3344" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="233" column="14" lean-forward="true" selection-start-line="233" selection-start-column="14" selection-end-line="233" selection-end-column="14" />
+            <state relative-caret-position="53">
+              <caret line="457" column="61" lean-forward="true" selection-start-line="457" selection-start-column="61" selection-end-line="457" selection-end-column="61" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -305,9 +296,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1" />
     <option name="y" value="23" />
-    <option name="width" value="1190" />
+    <option name="width" value="1157" />
     <option name="height" value="1417" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -469,18 +459,18 @@
       <workItem from="1554839985865" duration="33622000" />
       <workItem from="1555102792522" duration="20599000" />
       <workItem from="1555521168936" duration="7963000" />
-      <workItem from="1556045253662" duration="5154000" />
+      <workItem from="1556045253662" duration="16472000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="430641000" />
+    <option name="totallyTimeSpent" value="441959000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="23" width="1190" height="1417" extended-state="0" />
+    <frame x="0" y="23" width="1157" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1873396" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19278169" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -736,17 +726,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/styles/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="599">
-          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/mainV2.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="955">
           <caret line="3344" selection-start-line="3344" selection-end-line="3344" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="http://localhost:63342/MalViz/js/main.js">
+      <provider selected="true" editor-type-id="httpFileEditor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/styles/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="599">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -757,23 +750,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="33">
-          <caret line="3045" column="40" lean-forward="true" selection-start-line="3045" selection-start-column="40" selection-end-line="3045" selection-end-column="40" />
-          <folding>
-            <element signature="e#6#12#0" expanded="true" />
-            <element signature="e#6#12#0" expanded="true" />
-            <element signature="e#6#12#0" expanded="true" />
-            <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="233" column="14" lean-forward="true" selection-start-line="233" selection-start-column="14" selection-end-line="233" selection-end-column="14" />
+        <state relative-caret-position="53">
+          <caret line="457" column="61" lean-forward="true" selection-start-line="457" selection-start-column="61" selection-end-line="457" selection-end-column="61" />
           <folding>
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -784,6 +764,19 @@
             <element signature="n#style#0;n#div#0;n#div#3;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#button#3;n#div#0;n#div#0;n#header#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="3055" column="40" selection-start-line="3055" selection-start-column="40" selection-end-line="3055" selection-end-column="40" />
+          <folding>
+            <element signature="e#6#12#0" expanded="true" />
+            <element signature="e#6#12#0" expanded="true" />
+            <element signature="e#6#12#0" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>

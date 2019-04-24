@@ -2969,6 +2969,8 @@ function applicationManager(globalData) {
 
             sortedList.forEach((item, index) => {
                 var height = scaleHeight(nodes[item].length);
+                var wPosition = sideWidth/3,
+                    hPosition = height / 2;
 
                 let svg = d3.select("#ranked").append("svg")
                     .attr("width", "100%")
@@ -2985,7 +2987,7 @@ function applicationManager(globalData) {
                         return d.id;
                     }))
                     .force("charge", d3.forceManyBody())
-                    .force("center", d3.forceCenter(sideWidth/3, height / 2));
+                    .force("center", d3.forceCenter(wPosition, hPosition));
 
                 var link = svg.append("g")
                     .attr("class", "links")
@@ -3053,25 +3055,23 @@ function applicationManager(globalData) {
                             dry = 0,
                             xRotation = 0, // degrees
                             largeArc = 0, // 1 or 0
-                            sweep = 1; // 1 or 0
+                            sweep = 0; // 1 or 0
                         // Self edge.
                         if ( x1 === x2 && y1 === y2 ) {
                             // Fiddle with this angle to get loop oriented.
-                            xRotation = -45;
+                            xRotation = 0;
 
                             // Needs to be 1.
                             largeArc = 1;
 
                             // Change sweep to change orientation of loop.
-                            //sweep = 0;
-
-                            // Make drx and dry different to get an ellipse
-                            // instead of a circle.
+                            if (x1 > wPosition){
+                                sweep = 1;
+                            }
                             drx = 20;
                             dry = 20;
 
-                            // For whatever reason the arc collapses to a point if the beginning
-                            // and ending points of the arc are the same, so kludge it.
+                            // alter end points
                             x2 = x2 + 1;
                             y2 = y2 + 1;
                         }
@@ -3117,6 +3117,7 @@ function applicationManager(globalData) {
             group1.style("display", "none");
 
             console.log(links);
+            console.log(nodes);
             // Self-call ==========================================
 
             var selfCallData = orderedArray.filter(d => d.selfCalls.length > 0).sort((a, b) => b.selfCalls.length - a.selfCalls.length);
