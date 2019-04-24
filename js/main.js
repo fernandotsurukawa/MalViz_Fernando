@@ -2732,9 +2732,7 @@ function applicationManager(globalData) {
         highlight: function (position) {
             var opList = getData.getdatabyOperation.map(d => d.key);
             var availableOps = [];
-
             var malist = ["CreateFile", "CreateFileMapping", "DeviceIoControl", "FileSystemControl", "InternalDeviceIoControl", "RegOpenKey", "System Statistics", "SystemControl", "TCP Accept", "TCP Connect", "TCP Send", "UDP Accept", "UDP Connect", "UDP Send"];
-
             opList.forEach(o => {
                 malist.forEach(m => {
                     if (o === m) {
@@ -2968,8 +2966,11 @@ function applicationManager(globalData) {
                 .range([80, 150, 220, 350, 600, 1000, 1500]);
 
             d3.select("#ranked").selectAll("*").remove();
+
             sortedList.forEach((item, index) => {
                 var height = scaleHeight(nodes[item].length);
+                var wPosition = sideWidth/3,
+                    hPosition = height / 2;
 
                 let svg = d3.select("#ranked").append("svg")
                     .attr("width", "100%")
@@ -2986,16 +2987,17 @@ function applicationManager(globalData) {
                         return d.id;
                     }))
                     .force("charge", d3.forceManyBody())
-                    .force("center", d3.forceCenter(sideWidth/3, height / 2));
+                    .force("center", d3.forceCenter(wPosition, hPosition));
 
                 var link = svg.append("g")
                     .attr("class", "links")
-                    .selectAll("line")
+                    .selectAll("path")
                     .data(links[item])
                     .enter()
-                    .append("line")
+                    .append("path")
                     .attr("id", d => d.source + d.target)
                     .style("stroke", "#202020")
+                    .attr("fill", "none")
                     .attr("opacity", d => opacity(d.value))
                     .attr("stroke-width", d => scaleStroke(d.value));
 
@@ -3028,19 +3030,53 @@ function applicationManager(globalData) {
                     .links(links[item]);
 
                 function ticked() {
-                    link
-                        .attr("x1", function (d) {
-                            return d.source.x;
-                        })
-                        .attr("y1", function (d) {
-                            return d.source.y;
-                        })
-                        .attr("x2", function (d) {
-                            return d.target.x;
-                        })
-                        .attr("y2", function (d) {
-                            return d.target.y;
-                        });
+                    // link
+                    //     .attr("x1", function (d) {
+                    //         return d.source.x;
+                    //     })
+                    //     .attr("y1", function (d) {
+                    //         return d.source.y;
+                    //     })
+                    //     .attr("x2", function (d) {
+                    //         return d.target.x;
+                    //     })
+                    //     .attr("y2", function (d) {
+                    //         return d.target.y;
+                    //     });
+
+                    link.attr("d", function(d) {
+                        let x1 = d.source.x,
+                            y1 = d.source.y,
+                            x2 = d.target.x,
+                            y2 = d.target.y,
+
+                            // Defaults for normal edge.
+                            drx = 0,
+                            dry = 0,
+                            xRotation = 0, // degrees
+                            largeArc = 0, // 1 or 0
+                            sweep = 0; // 1 or 0
+                        // Self edge.
+                        if ( x1 === x2 && y1 === y2 ) {
+                            // Fiddle with this angle to get loop oriented.
+                            xRotation = 0;
+
+                            // Needs to be 1.
+                            largeArc = 1;
+
+                            // Change sweep to change orientation of loop.
+                            if (x1 > wPosition){
+                                sweep = 1;
+                            }
+                            drx = 20;
+                            dry = 20;
+
+                            // alter end points
+                            x2 = x2 + 1;
+                            y2 = y2 + 1;
+                        }
+                        return "M" + x1 + "," + y1 + "A" + drx + "," + dry + " " + xRotation + "," + largeArc + "," + sweep + " " + x2 + "," + y2;
+                    });
 
                     node
                         .attr("cx", function (d) {
@@ -3051,6 +3087,16 @@ function applicationManager(globalData) {
                         });
                 }
 
+                function f(d) {
+                    let x1 = d.source.x,
+                        y1 = d.source.y,
+                        x2 = d.target.x,
+                        y2 = d.target.y;
+
+                    if ((x1 === x2) && (y1 === y2)){
+
+                    }
+                }
                 function dragstarted(d) {
                     if (!d3.event.active) simulation.alphaTarget(0.8).restart();
                     d.fx = d.x;
@@ -3070,6 +3116,8 @@ function applicationManager(globalData) {
             });
             group1.style("display", "none");
 
+            console.log(links);
+            console.log(nodes);
             // Self-call ==========================================
 
             var selfCallData = orderedArray.filter(d => d.selfCalls.length > 0).sort((a, b) => b.selfCalls.length - a.selfCalls.length);
