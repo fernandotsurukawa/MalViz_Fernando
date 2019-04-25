@@ -373,18 +373,18 @@
                     SiteManager.drawStats('#stats'); //Draw statistic map
                     SiteManager.drawStats2('#OperationList'); //Draw statistic map
 
-                    d3.select("#rankBtn")
-                        .on("click", () => {
-                            if (calculateRank === 1){
-                                SiteManager.highlight('#avaiop'); // hightlight
-                                calculateRank = 2;
-                            }
-                        });
+                    // d3.select("#rankBtn")
+                    //     .on("click", () => {
+                    //         if (calculateRank === 1){
+                    //             SiteManager.highlight('#avaiop'); // hightlight
+                    //             calculateRank = 2;
+                    //         }
+                    //     });
                     SiteManager.drawMain('#heatmap');//Draw mainMap
                     let maxcalls = SiteManager.getCallRange().maxcall;
                     SiteManager.updateDomainBox('#maliciousdomain');
-                    // openNavRank();
-                    // SiteManager.highlight('#avaiop');
+                    openNavRank();
+                    SiteManager.highlight('#avaiop');
                     $("#btnName").click(function () {
                             SiteManager.sort2DMatrix('similarity')
                         }
