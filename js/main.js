@@ -3017,7 +3017,6 @@ function applicationManager(globalData) {
                     .force("charge", d3.forceManyBody()
                         .strength(d => {
                             if (!d.id){
-                                console.log(d);
                                 return -80
                             }
                             else return -30
