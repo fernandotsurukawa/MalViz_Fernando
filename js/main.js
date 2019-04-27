@@ -2728,7 +2728,9 @@ function applicationManager(globalData) {
 
 
         },
-        highlight: function (position) {
+        malist: function (position){
+            // OPERATION ============================================================
+
             var opList = getData.getdatabyOperation.map(d => d.key);
             var availableOps = [];
             var malist = ["CreateFile", "CreateFileMapping", "DeviceIoControl", "FileSystemControl", "InternalDeviceIoControl", "RegOpenKey", "System Statistics", "SystemControl", "TCP Accept", "TCP Connect", "TCP Send", "UDP Accept", "UDP Connect", "UDP Send"];
@@ -2740,15 +2742,6 @@ function applicationManager(globalData) {
                 })
             });
             d3.select(position).selectAll("*").remove();
-            var svgList = d3.select(position);
-            // .append('svg').attr('width', '100%').attr('height', 300);
-
-            var group0 = svgList.append('g').attr("id", "group0");
-            var group1 = svgList.append('g').attr("id", "group1");
-            var group2 = svgList.append('g').attr("id", "group2");
-
-            // OPERATION =============================================================
-            d3.select("#commonOp").selectAll("*").remove();
 
             var active = {};
             var svg0 = d3.select("#commonOp").append('svg')
@@ -2847,10 +2840,19 @@ function applicationManager(globalData) {
                         }
 
                         active[operation] = !active[operation];
-
                     })
             });
 
+        },
+        highlight: function (position) {
+
+            d3.select(position).selectAll("*").remove();
+            var svgList = d3.select(position);
+            // .append('svg').attr('width', '100%').attr('height', 300);
+
+            var group0 = svgList.append('g').attr("id", "group0");
+            var group1 = svgList.append('g').attr("id", "group1");
+            var group2 = svgList.append('g').attr("id", "group2");
 
             // FORCE-DIRECTED GRAPH ==========================================
 
@@ -3004,12 +3006,29 @@ function applicationManager(globalData) {
                             .id(d => d.id)
                         .distance(d => {
                             if (d.self === 1){
-                                return 20
+                                return 15
                             }
                             else if (d.self === 2){
+                                return 15
+                            }
+                            else if ((d.source.type === "exe") &&(d.target.type === "exe")){
+                                console.log("exe");
                                 return 50
                             }
                             else return 30
+                        })
+                        .strength(d => {
+                            console.log(d);
+                            if (d.self === 1){
+                                return 1
+                            }
+                            else if (d.self === 2){
+                                return 1
+                            }
+                            else if ((d.source.type === "exe") &&(d.target.type === "exe")){
+                                return 1
+                            }
+                            else return 0.6
                         })
 
                     )
@@ -3115,6 +3134,7 @@ function applicationManager(globalData) {
                     d.fx = null;
                     d.fy = null;
                 }
+
             });
             group1.style("display", "none");
 
@@ -3155,70 +3175,6 @@ function applicationManager(globalData) {
                 .attr("class", "selfcall");
 
             group2.style("display", "none");
-
-            // INIT ==========================================
-            d3.select("#refBtn").on("click", () => {
-                d3.select("#operationBtn").classed("focus", false);
-                d3.select("#refBtn").classed("focus", true);
-                d3.select("#selfBtn").classed("focus", false);
-
-                group0
-                    .transition()
-                    .duration(200)
-                    .style("display", "none");
-
-                group1
-                    .transition()
-                    .duration(200)
-                    .style("display", "block");
-                group2
-                    .transition()
-                    .duration(200)
-                    .style("display", "none");
-            });
-
-            // On change
-            d3.select("#operationBtn").on("click", () => {
-                d3.select("#operationBtn").classed("focus", true);
-                d3.select("#refBtn").classed("focus", false);
-                d3.select("#selfBtn").classed("focus", false);
-
-                group0
-                    .transition()
-                    .duration(200)
-                    .style("display", "block");
-
-                group1
-                    .transition()
-                    .duration(200)
-                    .style("display", "none");
-                group2
-                    .transition()
-                    .duration(200)
-                    .style("display", "none");
-
-            });
-
-            d3.select("#selfBtn").on("click", () => {
-                d3.select("#operationBtn").classed("focus", false);
-                d3.select("#refBtn").classed("focus", false);
-                d3.select("#selfBtn").classed("focus", true);
-
-                group0
-                    .transition()
-                    .duration(200)
-                    .style("display", "none");
-
-                group1
-                    .transition()
-                    .duration(200)
-                    .style("display", "none");
-                group2
-                    .transition()
-                    .duration(200)
-                    .style("display", "block");
-
-            });
 
         },
         draw2DMatrix: function (position) {
