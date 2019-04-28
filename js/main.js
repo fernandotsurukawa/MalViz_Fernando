@@ -2857,12 +2857,14 @@ function applicationManager(globalData) {
             // FORCE-DIRECTED GRAPH ==========================================
 
             var list = globalgroupbyprocessname.map(d => d.key.toLowerCase());
+            var len = list.length;
             var nodes = {};
             var links = {};
             var maxLink = 0, minLink = 100;
             var secondaryNodes = {};
             var nodeObjTotal = {};
 
+            // var idGenerator = new Int8Array(list.length);
             globalgroupbyprocessname.forEach((process, i) => {
                 var keyName = process.key.toLowerCase();
                 nodeObjTotal[keyName] = {};
@@ -2877,19 +2879,19 @@ function applicationManager(globalData) {
                     //add node
                     if (ref.Path.length > 0) {   // exist path
                         if (ref.Process === "Registry") {   // registry -------------
-                            computeNodes(nodeObj, nodes[keyName], "Registry", ref.Path);
+                            computeNodes(nodeObj, nodes[keyName], "Registry", ref.Path, i, len);
                         }
                         else if (ref.Process === "Network") {
-                            computeNodes(nodeObj, nodes[keyName], "Network", ref.Path);
+                            computeNodes(nodeObj, nodes[keyName], "Network", ref.Path,i, len);
                         }
                         else if (ref.Path.toLowerCase().endsWith(".dll")) {
-                            computeNodes(nodeObj, nodes[keyName], "dll", ref.Path);
+                            computeNodes(nodeObj, nodes[keyName], "dll", ref.Path, i, len);
                         }
                         else if (ref.Path.toLowerCase().endsWith(".exe")) {
                             let linkExe = ref.Path.split(/\\/);
                             let exeName = linkExe[linkExe.length - 1];
 
-                            computeNodes(nodeObj, nodes[keyName], "exe", exeName);
+                            computeNodes(nodeObj, nodes[keyName], "exe", exeName,i, len);
 
                             list.forEach(d => {
                                 if ((d.toLowerCase() !== keyName) &&  // second != primary
@@ -2901,8 +2903,7 @@ function applicationManager(globalData) {
                             })
                         }
                         else {
-                            let path = ref.Path.toLowerCase();
-                            computeNodes(nodeObj, nodes[keyName], "File", path);
+                            computeNodes(nodeObj, nodes[keyName], "File", ref.Path,i, len);
                         }
                     }
                 });
@@ -2910,7 +2911,8 @@ function applicationManager(globalData) {
                 if (!nodeObj[keyName]) {
                     nodes[keyName].push({
                         id: keyName,
-                        type: "exe"
+                        type: "exe",
+                        level: 1
                     })
                 }
 
@@ -2933,12 +2935,15 @@ function applicationManager(globalData) {
             });
 
             // half level
-
             list.forEach(host => {
                 if (secondaryNodes[host].length > 0) {
                     secondaryNodes[host].forEach(guest => {
                         d3.keys(nodeObjTotal[host]).forEach(refer => {
                             if (nodeObjTotal[guest][refer]) {
+                                // add level
+                                nodes[host].find(d => d.id === refer).level += 1;
+                                // console.log(host, guest, refer,
+                                //     nodes[host].find(d => d.id === refer));
                                 links[host].push({
                                     source: guest,
                                     target: refer,
@@ -2949,6 +2954,7 @@ function applicationManager(globalData) {
                     })
                 }
             });
+
 
             // DONE computing nodes and links
             // sort processes based on number of links
@@ -2986,7 +2992,6 @@ function applicationManager(globalData) {
                             {source: i, target: j, self: 2},
                             {source: j, target: t, self: 1});
                         multiLinks.push([s, i, j, t, link.value]);
-                        console.log("self linked")
                     }
                     else {
                         multiLinks.push([s, t, link.value])
@@ -3011,41 +3016,37 @@ function applicationManager(globalData) {
                             else if (d.self === 2){
                                 return 15
                             }
-                            else if ((d.source.type === "exe") &&(d.target.type === "exe")){
-                                console.log("exe");
+                            else if ((list.indexOf(d.source.id) >=0)
+                                &&(list.indexOf(d.target.id) >= 0)){
                                 return 50
                             }
                             else return 30
                         })
                         .strength(d => {
-                            console.log(d);
                             if (d.self === 1){
                                 return 1
                             }
                             else if (d.self === 2){
                                 return 1
                             }
-                            else if ((d.source.type === "exe") &&(d.target.type === "exe")){
-                                return 1
+                            else if ((list.indexOf(d.source.id) >=0)
+                                &&(list.indexOf(d.target.id) >= 0)){
+                                return 0.3
                             }
-                            else return 0.6
+                            else return 0.7
                         })
+                        // .iterations(10)
 
                     )
                     .force("center", d3.forceCenter(wPosition, hPosition))
                     .force("charge", d3.forceManyBody()
                         .strength(d => {
                             if (!d.id){
-                                return -80
+                                // equal -400 to set clear zone
+                                return -150
                             }
                             else return -30
                         })
-                    )
-                    .force("collide", d3.forceCollide()
-                            .radius(function (d) {
-                                return 1;
-                            })
-                        //     .iterations(10).strength(1))
                     )
                 ;
 
@@ -3068,9 +3069,9 @@ function applicationManager(globalData) {
                         .filter(d => d.id)
                     )
                     .enter().append("circle")
-                    .attr("r", 3)
+                    .attr("r", 4)
                     .attr("stroke", "white")
-                    .attr("stroke-width", 0.5)
+                    .attr("stroke-width", 1)
                     .attr("fill", d => {
                         return getColor(d.type)
                     })
@@ -3338,14 +3339,16 @@ function selectAll() {
     }
 }
 
-function computeNodes(nodeObj, miniNode, type, rawPath) {
+function computeNodes(nodeObj, miniNode, type, rawPath, index, len) {
     let path = rawPath.toLowerCase();
+    let connect = new Array(len+1).join("0");
     if (!nodeObj[path]) {
         // if havent existed
         nodeObj[path] = 1;
         miniNode.push({
             id: path,
-            type: type
+            type: type,
+            level: 1
         });
 
     } else {
