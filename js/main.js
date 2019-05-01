@@ -2986,7 +2986,7 @@ function applicationManager(globalData) {
 
             d3.select("#ranked").selectAll("*").remove();
 
-            // LOOP
+            // LOOP 
             sortedList.forEach((item, index) => {
                 nodes[item] = [];
                 var height = scaleHeight(nodesb4group[item].length);
@@ -2999,10 +2999,8 @@ function applicationManager(globalData) {
 
                // define group | main exe dont group
                 var grouped = nodesb4group[item].groupBy(['type','connect']);
-                console.log(grouped);
                 grouped.forEach((g,i) => {
                     g.values.forEach(d => {
-                        // -----------------------------
                         // modify each node HERE
                         d.group = i+1;
                         delete d.connect;
@@ -3012,7 +3010,7 @@ function applicationManager(globalData) {
 
                 // Var and parameter
                 var dr = 4,      // default point radius
-                    off = 0,    // cluster hull offset
+                    off = 5,    // cluster hull offset
                     expand = {}, // expanded clusters
                     data = {},
                     net, simulation, hullg, hull, linkg, link, nodeg, node;
@@ -3065,7 +3063,6 @@ function applicationManager(globalData) {
                 function init() {
                     if (simulation) simulation.stop();
                     net = network(data, net, getGroup, expand);
-                    console.log(net);
                     simulation = d3.forceSimulation()
                         .force("link", d3.forceLink()
                             // .id(d => d.name)
@@ -3082,7 +3079,7 @@ function applicationManager(globalData) {
                                 })
                                 .strength(1)
                         )
-                        .force("center", d3.forceCenter(wPosition, hPosition/2))
+                        .force("center", d3.forceCenter(wPosition, hPosition))
 
                         .force("charge", d3.forceManyBody()
                             .strength(-100)
@@ -3104,6 +3101,7 @@ function applicationManager(globalData) {
                         .attr("class", "hull")
                         .attr("d", drawCluster)
                         .style("fill", function(d) { return fill(d.group); })
+                        .style("fill-opacity", 0.3)
                         .on("click", function(d) {
                             console.log("hull click", d, arguments, this, expand[d.group]);
                             expand[d.group] = false; init();
@@ -3437,7 +3435,7 @@ function network(data, prev, getGroup, expand) {
             g = groupMap[i] || (groupMap[i]=prevGroupNode[i]) || (groupMap[i]={group:i, size:0, nodes:[]});
         if (expand[i]) {
             // the node should be directly visible
-            nodeMap[n.name] = nodes.length;
+            nodeMap[n.id] = nodes.length;
             nodes.push(n);
             if (prevGroupNode[i]) {
                 // place new nodes at cluster location (plus jitter)
@@ -3468,20 +3466,18 @@ function network(data, prev, getGroup, expand) {
         e = data.links[k];
         if (e.source.group){
             u = getGroup(e.source);
-            console.log(u);
         }
         else continue;
         if (e.target.group){
             v = getGroup(e.target);
-            console.log(e);
         }
         else continue;
         if (u != v) {
             groupMap[u].link_count++;
             groupMap[v].link_count++;
         }
-        u = expand[u] ? nodeMap[e.source.name] : nodeMap[u];
-        v = expand[v] ? nodeMap[e.target.name] : nodeMap[v];
+        u = expand[u] ? nodeMap[e.source.id] : nodeMap[u];
+        v = expand[v] ? nodeMap[e.target.id] : nodeMap[v];
         var i = (u<v ? u+"|"+v : v+"|"+u),
             l = linkMap[i] || (linkMap[i] = {source:u, target:v, size:0});
         l.size += 1;
