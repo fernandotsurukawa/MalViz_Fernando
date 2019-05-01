@@ -1301,7 +1301,6 @@ function applicationManager(globalData) {
             var group_by_operation = getData.getdatabyOperation;
 
             operationShown = group_by_operation.map(d => d.key);
-            // console.log(group_by_operation, operationShown);
             var thisClass;
 
             var padding = 10;
@@ -1495,7 +1494,7 @@ function applicationManager(globalData) {
 
             globalData.forEach(d => {
                 for (var i = 0; i < operationKeys.length; i++) {
-                    if (d.Path.endsWith("\\" + operationKeys[i])) {
+                    if (d.targetProcessName) {
                         haveChild.push(d);
                     }
                 }
@@ -2728,7 +2727,9 @@ function applicationManager(globalData) {
 
 
         },
-        highlight: function (position) {
+        malist: function (position){
+            // OPERATION ============================================================
+
             var opList = getData.getdatabyOperation.map(d => d.key);
             var availableOps = [];
             var malist = ["CreateFile", "CreateFileMapping", "DeviceIoControl", "FileSystemControl", "InternalDeviceIoControl", "RegOpenKey", "System Statistics", "SystemControl", "TCP Accept", "TCP Connect", "TCP Send", "UDP Accept", "UDP Connect", "UDP Send"];
@@ -2740,15 +2741,6 @@ function applicationManager(globalData) {
                 })
             });
             d3.select(position).selectAll("*").remove();
-            var svgList = d3.select(position);
-            // .append('svg').attr('width', '100%').attr('height', 300);
-
-            var group0 = svgList.append('g').attr("id", "group0");
-            var group1 = svgList.append('g').attr("id", "group1");
-            var group2 = svgList.append('g').attr("id", "group2");
-
-            // OPERATION =============================================================
-            d3.select("#commonOp").selectAll("*").remove();
 
             var active = {};
             var svg0 = d3.select("#commonOp").append('svg')
@@ -2847,26 +2839,37 @@ function applicationManager(globalData) {
                         }
 
                         active[operation] = !active[operation];
-
                     })
             });
 
+        },
+        highlight: function (position) {
+
+            d3.select(position).selectAll("*").remove();
+            var svgList = d3.select(position);
+            // .append('svg').attr('width', '100%').attr('height', 300);
+
+            var group0 = svgList.append('g').attr("id", "group0");
+            var group1 = svgList.append('g').attr("id", "group1");
+            var group2 = svgList.append('g').attr("id", "group2");
 
             // FORCE-DIRECTED GRAPH ==========================================
 
             var list = globalgroupbyprocessname.map(d => d.key.toLowerCase());
-            var nodes = {};
+            var len = list.length;
+            var nodesb4group = {};
             var links = {};
-            var maxLink = 0, minLink = 100;
+            var nodes = {};
             var secondaryNodes = {};
             var nodeObjTotal = {};
 
+            // var idGenerator = new Int8Array(list.length);
             globalgroupbyprocessname.forEach((process, i) => {
                 var keyName = process.key.toLowerCase();
                 nodeObjTotal[keyName] = {};
-                var nodeObj = nodeObjTotal[keyName];
+                var nodeObj = nodeObjTotal[keyName];    // use object to hcek multiple occurences, then to compute links
                 var secondNodeObj = {};
-                nodes[keyName] = [];
+                nodesb4group[keyName] = [];
                 links[keyName] = [];
                 secondaryNodes[keyName] = [];
 
@@ -2875,19 +2878,19 @@ function applicationManager(globalData) {
                     //add node
                     if (ref.Path.length > 0) {   // exist path
                         if (ref.Process === "Registry") {   // registry -------------
-                            computeNodes(nodeObj, nodes[keyName], "Registry", ref.Path);
+                            computeNodes(nodeObj, nodesb4group[keyName], "Registry", ref.Path, i, len);
                         }
                         else if (ref.Process === "Network") {
-                            computeNodes(nodeObj, nodes[keyName], "Network", ref.Path);
+                            computeNodes(nodeObj, nodesb4group[keyName], "Network", ref.Path,i, len);
                         }
                         else if (ref.Path.toLowerCase().endsWith(".dll")) {
-                            computeNodes(nodeObj, nodes[keyName], "dll", ref.Path);
+                            computeNodes(nodeObj, nodesb4group[keyName], "dll", ref.Path, i, len);
                         }
                         else if (ref.Path.toLowerCase().endsWith(".exe")) {
                             let linkExe = ref.Path.split(/\\/);
                             let exeName = linkExe[linkExe.length - 1];
 
-                            computeNodes(nodeObj, nodes[keyName], "exe", exeName);
+                            computeNodes(nodeObj, nodesb4group[keyName], "exe", exeName,i, len);
 
                             list.forEach(d => {
                                 if ((d.toLowerCase() !== keyName) &&  // second != primary
@@ -2899,16 +2902,19 @@ function applicationManager(globalData) {
                             })
                         }
                         else {
-                            let path = ref.Path.toLowerCase();
-                            computeNodes(nodeObj, nodes[keyName], "File", path);
+                            computeNodes(nodeObj, nodesb4group[keyName], "File", ref.Path,i, len);
                         }
                     }
                 });
 
+                // draw the node of main process, if it doesnt have self call !!!
+                // again, count to the node set, but not node obj (cuz node obj is used for getting links)
+
                 if (!nodeObj[keyName]) {
-                    nodes[keyName].push({
+                    nodesb4group[keyName].push({
                         id: keyName,
-                        type: "exe"
+                        type: "exe",
+                        connect: new Array(len+1).join("0")
                     })
                 }
 
@@ -2919,24 +2925,27 @@ function applicationManager(globalData) {
                         target: target,
                         value: nodeObj[target]
                     });
-
-                    if (nodeObj[target] > maxLink) {
-                        maxLink = nodeObj[target]
-                    }
-
-                    if (nodeObj[target] < minLink) {
-                        minLink = nodeObj[target]
-                    }
                 })
             });
 
             // half level
-
             list.forEach(host => {
                 if (secondaryNodes[host].length > 0) {
                     secondaryNodes[host].forEach(guest => {
                         d3.keys(nodeObjTotal[host]).forEach(refer => {
                             if (nodeObjTotal[guest][refer]) {
+                                // add level
+                                let guestPos = getIndex(list,guest);
+                                let currentConRef =  nodesb4group[host].find(d => d.id === refer).connect;
+                                let currentConHost =  nodesb4group[host].find(d => d.id === host).connect;
+                                // update refer connect
+                                nodesb4group[host].find(d => d.id === refer).connect =
+                                    currentConRef.slice(0,guestPos) + "1" + currentConRef.slice(guestPos+1);
+
+                                // update host connect
+                                nodesb4group[host].find(d => d.id === host).connect =
+                                    currentConHost.slice(0,guestPos) + "1" + currentConHost.slice(guestPos+1);
+
                                 links[host].push({
                                     source: guest,
                                     target: refer,
@@ -2948,17 +2957,25 @@ function applicationManager(globalData) {
                 }
             });
 
+
             // DONE computing nodes and links
             // sort processes based on number of links
+            var dr = 4,      // default point radius
+                off = 4;    // cluster hull offset
+            
             var sortedList = list.sort((a, b) => (links[b].length - links[a].length));
+          
+            var strokeScale = d3.scaleSqrt()
+                .domain([1, 5000])
+                .range([1, 10]);
+            
+            var radiusScale = d3.scaleSqrt()
+                .domain([dr, 1200])
+                .range([dr, 50]);
 
-            var scaleStroke = d3.scaleSqrt()
-                .domain([minLink, maxLink])
-                .range([1, 6]);
-
-            var opacity = d3.scaleSqrt()
-                .domain([minLink, maxLink])
-                .range([0.5, 1]);
+            // var opacity = d3.scaleSqrt()
+            //     .domain([1, 4500])
+            //     .range([0.5, 1]);
 
             var scaleHeight = d3.scaleThreshold()
                 .domain([10, 40, 150, 500, 1300, 2500])
@@ -2966,30 +2983,65 @@ function applicationManager(globalData) {
 
             d3.select("#ranked").selectAll("*").remove();
 
+            // LOOP 
             sortedList.forEach((item, index) => {
-                var height = scaleHeight(nodes[item].length);
+                nodes[item] = [];
+                var height = scaleHeight(nodesb4group[item].length);
                 var wPosition = sideWidth / 4;
                 var hPosition = height / 2;
-                var nodeById = d3.map(nodes[item], function (d) {
+                var nodeById = d3.map(nodesb4group[item], function (d) {
                     return d.id;
                 });
-                var multiLinks = [];
+
+               // define group | main exe dont group
+                var grouped = nodesb4group[item].groupBy(['type','connect']);
+                grouped.forEach((g,i) => {
+                    g.values.forEach(d => {
+                        // modify each node HERE
+                        d.group = i+1;
+                        delete d.connect;
+                        nodes[item].push(d);
+                    })
+                });
+                // current last group
+                var clg = grouped.length, firstEct = false;
+                nodes[item].forEach(node => {
+                    if (list.indexOf(node.id) >= 0){ // main process
+                        if (!firstEct){
+                            // keep group number
+                            firstEct = true;
+                            return
+                        }
+                        clg += 1;
+                        node.group = clg;
+                    }
+                });
+                // Var and parameter
+                var expand = {}, // expanded clusters
+                    data = {},
+                    net, simulation, hullg, hull, linkg, link, nodeg, node;
+                var curve = d3.line()
+                    .curve(d3.curveCardinalClosed);
+
+                var fill = d3.scaleOrdinal(d3.schemeCategory20);
+
+               var multiLinks = [];
                 links[item].forEach(link => {
                     var s = link.source = nodeById.get(link.source),
                         t = link.target = nodeById.get(link.target);
                     if (t.id === s.id) {
                         var i = {}, j = {}; // intermediate node
-                        nodes[item].push(i, j);
+                        nodesb4group[item].push(i, j);
                         links[item].push({source: s, target: i, self: 1},
                             {source: i, target: j, self: 2},
                             {source: j, target: t, self: 1});
                         multiLinks.push([s, i, j, t, link.value]);
-                        console.log("self linked")
                     }
                     else {
                         multiLinks.push([s, t, link.value])
                     }
                 });
+                
                 let svg = d3.select("#ranked").append("svg")
                     .attr("width", "100%")
                     .attr("height", height);
@@ -2999,131 +3051,210 @@ function applicationManager(globalData) {
                     .attr("x", 20)
                     .attr("y", height > 350 ? height / 5 : height / 2);
 
-                var simulation = d3.forceSimulation()
-                    .force("link", d3.forceLink()
-                            .id(d => d.id)
-                        .distance(d => {
-                            if (d.self === 1){
-                                return 20
-                            }
-                            else if (d.self === 2){
-                                return 50
-                            }
-                            else return 30
-                        })
+                data.nodes = nodes[item];
+                data.links = links[item];
 
-                    )
-                    .force("center", d3.forceCenter(wPosition, hPosition))
-                    .force("charge", d3.forceManyBody()
-                        .strength(d => {
-                            if (!d.id){
+                hullg = svg.append("g");
+                linkg = svg.append("g");
+                nodeg = svg.append("g");
+                init();
+                svg.attr("opacity", 1e-6)
+                    .transition()
+                    .duration(1000)
+                    .attr("opacity", 1);
+
+                function drawCluster(d) {
+                    return curve(d.path); // 0.8
+                }
+                function init() {
+                    if (simulation) simulation.stop();
+                    net = network(data, net, getGroup, expand);
+                    simulation = d3.forceSimulation()
+                        .force("link", d3.forceLink()
+                            // .id(d => d.name)
+                                .distance(function(l) {
+                                    var n1 = l.source, n2 = l.target;
+                                    var defaultValue = 20 +
+                                        Math.min(20 * Math.min((n1.size || (n1.group != n2.group ? n1.group_data.size : 0)),
+                                            (n2.size || (n1.group != n2.group ? n2.group_data.size : 0))),
+                                            -30 +
+                                            30 * Math.min((n1.link_count || (n1.group != n2.group ? n1.group_data.link_count : 0)),
+                                            (n2.link_count || (n1.group != n2.group ? n2.group_data.link_count : 0))),
+                                            100);
+                                    var procValue = 100;
+                                    
+                                    if ((n1.size) && (n2.size)){
+                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)){
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                    else if ((!n1.size) && (n2.size)){
+                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)){
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                    else if ((n1.size) && (!n2.size)){
+                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.id) >= 0)){
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                    else { // both are bare nodes
+                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.id) >= 0)){
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                })
+                                .strength(function (l) {
+                                    var n1 = l.source, n2 = l.target;
+                                    var defaultValue = 0.9, procValue = 0.4;
+
+                                    if ((n1.size) && (n2.size)){
+                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)){
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                    else if ((!n1.size) && (n2.size)){
+                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)){
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                    else if ((n1.size) && (!n2.size)){
+                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.id) >= 0)){
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                    else { // both are bare nodes
+                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.id) >= 0)){
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                })
+                        )
+                        .force("center", d3.forceCenter(wPosition, hPosition))
+
+                        .force("charge", d3.forceManyBody()
+                            .strength(d => {
                                 console.log(d);
-                                return -80
-                            }
-                            else return -30
-                        })
-                    )
-                    .force("collide", d3.forceCollide()
-                            .radius(function (d) {
-                                return 1;
+                                return -150
                             })
-                        //     .iterations(10).strength(1))
-                    )
-                ;
+                        )
+                        // .force("collide",d3.forceCollide()
+                        //     // .radius(function(d) {
+                        //     //     return 10;})
+                        //     // .strength(1)
+                        // )
+                        .velocityDecay(0.8)     // friction
+                    ;
 
-                var link = svg.append("g")
-                    .attr("class", "links")
-                    .selectAll("path")
-                    .data(multiLinks)
-                    .enter()
-                    .append("path")
-                    .attr("id", d => d.source + d.target)
-                    .style("stroke", "#202020")
-                    .attr("fill", "none")
-                    .attr("opacity", d => opacity(d[d.length - 1]))
-                    .attr("stroke-width", d => scaleStroke(d[d.length - 1]));
+                    simulation.nodes(net.nodes)
+                        .on("tick", ticked);
 
-                var node = svg.append("g")
-                    .attr("class", "nodes")
-                    .selectAll("circle")
-                    .data(nodes[item]
-                        .filter(d => d.id)
-                    )
-                    .enter().append("circle")
-                    .attr("r", 3)
-                    .attr("stroke", "white")
-                    .attr("stroke-width", 0.5)
-                    .attr("fill", d => {
-                        return getColor(d.type)
-                    })
-                    .call(d3.drag()
+                    simulation
+                        .force("link")
+                        .links(net.links);
+                    
+                    hullg.selectAll("path.hull").remove();
+                    hull = hullg.selectAll("path.hull")
+                        .data(convexHulls(net.nodes, getGroup, off))
+                        .enter().append("path")
+                        .attr("class", "hull")
+                        .attr("d", drawCluster)
+                        .style("fill", function(d) {
+                            return getColor(d.type); })
+                        .style("fill-opacity", 0.3)
+                        .on("click", function(d) {
+                            console.log("hull click", d, arguments, this, expand[d.group]);
+                            expand[d.group] = false; init();
+                        });
+                    hull = hullg.selectAll("path.hull");
+
+                    link = linkg.selectAll("line.link").data(net.links, linkid);
+                    link.exit().remove();
+                    link.enter().append("line")
+                        .attr("class", "link")
+                        .style("stroke-width", function(d) {
+                            return strokeScale(d.size);
+                            });
+                    link = linkg.selectAll("line.link");
+
+                    node = nodeg.selectAll("circle.node").data(net.nodes, nodeid);
+                    node.exit().remove();
+                    node.enter().append("circle")
+                    // if (d.size) -- d.size > 0 when d is a group node.
+                        .attr("class", function(d) {
+                            if (d.size){
+                                if (d.size ===1){
+                                    return "node leaf";
+                                }
+                                else return "node"
+                            }
+                            else return "node leaf"; })
+                        .attr("r", function(d) {
+                            // bare nodes dont have size
+                            return d.size ? radiusScale(d.size + dr) : radiusScale(1 + dr); })
+                        .style("fill", function(d) {
+                            return d.size? getColor(d.nodes[0].type) : getColor(d.type);
+                        })
+                        .on("click", function(d) {
+                            console.log("node click", d, arguments, this, expand[d.group]);
+                            expand[d.group] = !expand[d.group];
+                            init();
+                        });
+
+                    node = nodeg.selectAll("circle.node");
+                    node.call(d3.drag()
                         .on("start", dragstarted)
                         .on("drag", dragged)
                         .on("end", dragended));
 
-                node.append("title")
-                    .text(function (d) {
-                        return d.id;
-                    });
+                    function dragstarted(d) {
+                        if (!d3.event.active) simulation.alphaTarget(0.8).restart();
+                        d.fx = d.x;
+                        d.fy = d.y;
+                    }
 
-                simulation
-                    .nodes(nodes[item])
-                    .on("tick", ticked);
+                    function dragged(d) {
+                        d.fx = d3.event.x;
+                        d.fy = d3.event.y;
+                    }
 
-                simulation.force("link")
-                    .links(links[item]);
+                    function dragended(d) {
+                        if (!d3.event.active) simulation.alphaTarget(0);
+                        d.fx = null;
+                        d.fy = null;
+                    }
 
-                var lineGenerator = d3.line()
-                    .curve(d3.curveNatural);
-
-                function ticked() {
-                    link.attr("d", d => {
-                        if (d.length === 3) {
-                            return "M" + d[0].x + "," + d[0].y
-                                + "L" + d[1].x + "," + d[1].y;
+                    // Tick function
+                    function ticked() {
+                        if (!hull.empty()) {
+                            hull.data(convexHulls(net.nodes, getGroup, off))
+                                .attr("d", drawCluster);
                         }
-                        else {
-                            return lineGenerator([[d[0].x, d[0].y],
-                                [d[1].x, d[1].y],
-                                [d[2].x, d[2].y],
-                                [d[3].x, d[3].y]
-                            ]);
-                        }
-                    });
-
-                    node
-                        .attr("cx", function (d) {
-                            return d.x;
-                        })
-                        .attr("cy", function (d) {
-                            return d.y;
-                        });
+                        link.attr("x1", function(d) { return d.source.x; })
+                            .attr("y1", function(d) { return d.source.y; })
+                            .attr("x2", function(d) { return d.target.x; })
+                            .attr("y2", function(d) { return d.target.y; });
+                        node.attr("cx", function(d) { return d.x; })
+                            .attr("cy", function(d) { return d.y; });
+                    }
                 }
 
-                function dragstarted(d) {
-                    if (!d3.event.active) simulation.alphaTarget(0.8).restart();
-                    d.fx = d.x;
-                    d.fy = d.y;
-                }
-
-                function dragged(d) {
-                    d.fx = d3.event.x;
-                    d.fy = d3.event.y;
-                }
-
-                function dragended(d) {
-                    if (!d3.event.active) simulation.alphaTarget(0);
-                    d.fx = null;
-                    d.fy = null;
-                }
             });
             group1.style("display", "none");
 
-            console.log(links);
-            console.log(nodes);
             // Self-call ==========================================
 
-            var selfCallData = orderedArray.filter(d => d.selfCalls.length > 0).sort((a, b) => b.selfCalls.length - a.selfCalls.length);
+            var selfCallData = orderedArray
+                .filter(d => d.selfCalls.length > 0)
+                .sort((a, b) => b.selfCalls.length - a.selfCalls.length);
 
             d3.select("#selfCallProcess").selectAll("*").remove();
             var svg2 = d3.select("#selfCallProcess")
@@ -3156,70 +3287,6 @@ function applicationManager(globalData) {
                 .attr("class", "selfcall");
 
             group2.style("display", "none");
-
-            // INIT ==========================================
-            d3.select("#refBtn").on("click", () => {
-                d3.select("#operationBtn").classed("focus", false);
-                d3.select("#refBtn").classed("focus", true);
-                d3.select("#selfBtn").classed("focus", false);
-
-                group0
-                    .transition()
-                    .duration(200)
-                    .style("display", "none");
-
-                group1
-                    .transition()
-                    .duration(200)
-                    .style("display", "block");
-                group2
-                    .transition()
-                    .duration(200)
-                    .style("display", "none");
-            });
-
-            // On change
-            d3.select("#operationBtn").on("click", () => {
-                d3.select("#operationBtn").classed("focus", true);
-                d3.select("#refBtn").classed("focus", false);
-                d3.select("#selfBtn").classed("focus", false);
-
-                group0
-                    .transition()
-                    .duration(200)
-                    .style("display", "block");
-
-                group1
-                    .transition()
-                    .duration(200)
-                    .style("display", "none");
-                group2
-                    .transition()
-                    .duration(200)
-                    .style("display", "none");
-
-            });
-
-            d3.select("#selfBtn").on("click", () => {
-                d3.select("#operationBtn").classed("focus", false);
-                d3.select("#refBtn").classed("focus", false);
-                d3.select("#selfBtn").classed("focus", true);
-
-                group0
-                    .transition()
-                    .duration(200)
-                    .style("display", "none");
-
-                group1
-                    .transition()
-                    .duration(200)
-                    .style("display", "none");
-                group2
-                    .transition()
-                    .duration(200)
-                    .style("display", "block");
-
-            });
 
         },
         draw2DMatrix: function (position) {
@@ -3317,9 +3384,9 @@ var firstClick;
 var svgStats;
 var lensingStatus = false;
 var orderedArray = [];
-
+var maxLink = 1;
 const categories = ["Registry", "Network", "File", "exe", "dll"];
-const stackColor = ["#3d6c40", "#8f3a47", "#af7131", "#2e578b", "#7e7e7e"];
+const stackColor = ["#247b2b", "#a84553", "#c37e37", "#396bab", "#7e7e7e"];
 
 function getColor(type) {
     return stackColor[categories.indexOf(type)];
@@ -3383,14 +3450,16 @@ function selectAll() {
     }
 }
 
-function computeNodes(nodeObj, miniNode, type, rawPath) {
+function computeNodes(nodeObj, miniNode, type, rawPath, pos, len) {
     let path = rawPath.toLowerCase();
+    let connectArray = new Array(len+1).join("0");
     if (!nodeObj[path]) {
         // if havent existed
         nodeObj[path] = 1;
         miniNode.push({
             id: path,
-            type: type
+            type: type,
+            connect: connectArray.slice(0,pos) + "1" + connectArray.slice(pos+1)
         });
 
     } else {
@@ -3398,3 +3467,139 @@ function computeNodes(nodeObj, miniNode, type, rawPath) {
     }
 }
 
+function getIndex(list, item){
+    return list.indexOf(item);
+}
+
+function nodeid(n) {
+    return n.size ? "_g_"+n.group : n.name;
+}
+function linkid(l) {
+    var u = nodeid(l.source),
+        v = nodeid(l.target);
+    return u<v ? u+"|"+v : v+"|"+u;
+}
+
+function getGroup(n) { return n.group; }
+// constructs the network to visualize
+function network(data, prev, getGroup, expand) {
+    expand = expand || {};
+    var groupMap = {},    // group map
+        nodeMap = {},    // node map
+        linkMap = {},    // link map
+        prevGroupNode = {},    // previous group nodes
+        prevGroupCentroid = {},    // previous group centroids
+        nodes = [], // output nodes
+        links = []; // output links
+    // process previous nodes for reuse or centroid calculation
+    if (prev) {
+        prev.nodes.forEach(function(n) {
+            let i = getGroup(n), o;
+            if (n.size > 0) {
+                prevGroupNode[i] = n;
+                n.size = 0;
+            } else {
+                o = prevGroupCentroid[i] || (prevGroupCentroid[i] = {x:0,y:0,count:0});
+                o.x += n.x;
+                o.y += n.y;
+                o.count += 1;
+            }
+        });
+    }
+    // determine nodes
+    for (var k=0; k<data.nodes.length; ++k) {
+        var n = data.nodes[k],
+            i = getGroup(n),    // i is the freaking group
+            g = groupMap[i] || 
+                (groupMap[i]=prevGroupNode[i]) || 
+                (groupMap[i]={group:i, size:0, nodes:[]});
+        if (expand[i]) {
+            // the node should be directly visible
+            nodeMap[n.id] = nodes.length;
+            nodes.push(n);
+            if (prevGroupNode[i]) {
+                // place new nodes at cluster location (plus jitter)
+                n.x = prevGroupNode[i].x + Math.random();
+                n.y = prevGroupNode[i].y + Math.random();
+            }
+        } else {
+            // the node is part of a collapsed cluster
+            if (g.size == 0) {
+                // if new cluster, add to set and position at centroid of leaf nodes
+                nodeMap[i] = nodes.length;
+                nodes.push(g);
+                if (prevGroupCentroid[i]) {
+                    g.x = prevGroupCentroid[i].x / prevGroupCentroid[i].count;
+                    g.y = prevGroupCentroid[i].y / prevGroupCentroid[i].count;
+                }
+            }
+            g.nodes.push(n);
+        }
+        // always count group size as w e also use it to tweak the force graph strengths/distances
+        g.size += 1;
+        n.group_data = g;       // circular data
+    }
+    for (i in groupMap) { groupMap[i].link_count = 0; }
+    
+    // determine links
+    for (k=0; k<data.links.length; ++k) {
+        var e, u, v;        // u, v are group names
+        e = data.links[k];
+        if (e.source.group){
+            u = getGroup(e.source);
+        }
+        else continue;
+        if (e.target.group){
+            v = getGroup(e.target);
+        }
+        else continue;
+        if (u != v) {
+            // link_count is the number of links to that node
+            groupMap[u].link_count+=e.value;
+            groupMap[v].link_count+=e.value;
+        }
+        u = expand[u] ? nodeMap[e.source.id] : nodeMap[u];
+        v = expand[v] ? nodeMap[e.target.id] : nodeMap[v];
+        var index = (u<v ? u+"|"+v : v+"|"+u),
+            l = linkMap[index] || (linkMap[index] = {source:u, target:v, size:0});
+        l.size += e.value;
+    }
+    for (i in linkMap) { 
+        if (maxLink < linkMap[i].size){
+            maxLink = linkMap[i].size;
+        }
+        links.push(linkMap[i]); }
+    return {nodes: nodes, links: links};
+}
+function convexHulls(nodes, index, offset) {
+    var hulls = {};
+    var groupType = {};
+    // create point sets
+    for (var k=0; k<nodes.length; ++k) {
+        var n = nodes[k];
+        if (n.size) continue;
+        // if nodes are grouped, continue !!!
+
+        var i = index(n),
+            l = hulls[i] || (hulls[i] = []);
+        
+        groupType[i] = n.type;
+
+        // each node -> 4 nodes including offset
+        l.push([n.x-offset, n.y-offset]);
+        l.push([n.x-offset, n.y+offset]);
+        l.push([n.x+offset, n.y-offset]);
+        l.push([n.x+offset, n.y+offset]);
+    }
+
+    // create convex hulls
+    var hullset = [];
+    for (i in hulls) {
+        hullset.push({
+            group: i, 
+            path:d3.polygonHull(hulls[i]),
+            type: groupType[i]
+        })
+    }
+    return hullset;
+}

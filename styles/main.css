@@ -371,14 +371,6 @@ option.suspicious {
     font-weight: bold;
 }
 
-/* Position and style the close button (top right corner) */
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-}
 .textClick{
     width: 65px;
     height: 28px;
@@ -464,6 +456,21 @@ option.suspicious {
     padding:0px 8px
 }
 
-.nav {
-
+circle.node {
+    fill: lightsteelblue;
+    stroke: #555;
+    stroke-width: 2px;
+}
+circle.leaf {
+    stroke: #fff;
+    stroke-width: 2px;
+}
+path.hull {
+    fill: lightsteelblue;
+    fill-opacity: 0.3;
+}
+line.link {
+    stroke: #333;
+    stroke-opacity: 0.5;
+    pointer-events: none;
 }
