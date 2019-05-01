@@ -2986,15 +2986,7 @@ function applicationManager(globalData) {
 
             d3.select("#ranked").selectAll("*").remove();
 
-            // shared var
-            var dr = 4,      // default point radius
-                off = 15;    // cluster hull offset
-            var curve = d3.line()
-                .curve(d3.curveCardinalClosed);
-            var fill = d3.scaleOrdinal(d3.schemeCategory20);
-            function drawCluster(d) {
-                return curve(d.path); // 0.8
-            }
+            // LOOP
             sortedList.forEach((item, index) => {
                 nodes[item] = [];
                 var height = scaleHeight(nodesb4group[item].length);
@@ -3003,9 +2995,9 @@ function applicationManager(globalData) {
                 var nodeById = d3.map(nodesb4group[item], function (d) {
                     return d.id;
                 });
-                var expand = {}, // expanded clusters
-                    data, net, simulation, hullg, hull, linkg, link, nodeg, node;
-                // define group | main exe dont group
+
+
+               // define group | main exe dont group
                 var grouped = nodesb4group[item].groupBy(['type','connect']);
                 console.log(grouped);
                 grouped.forEach((g,i) => {
@@ -3018,7 +3010,18 @@ function applicationManager(globalData) {
                     })
                 });
 
-                var multiLinks = [];
+                // Var and parameter
+                var dr = 4,      // default point radius
+                    off = 15,    // cluster hull offset
+                    expand = {}, // expanded clusters
+                    data = {},
+                    net, simulation, hullg, hull, linkg, link, nodeg, node;
+                var curve = d3.line()
+                    .curve(d3.curveCardinalClosed);
+
+                var fill = d3.scaleOrdinal(d3.schemeCategory20);
+
+               var multiLinks = [];
                 links[item].forEach(link => {
                     var s = link.source = nodeById.get(link.source),
                         t = link.target = nodeById.get(link.target);
@@ -3044,6 +3047,9 @@ function applicationManager(globalData) {
                     .attr("x", 20)
                     .attr("y", height > 350 ? height / 5 : height / 2);
 
+                data.nodes = nodes[item];
+                data.links = links[item];
+
                 hullg = svg.append("g");
                 linkg = svg.append("g");
                 nodeg = svg.append("g");
@@ -3052,6 +3058,117 @@ function applicationManager(globalData) {
                     .transition()
                     .duration(1000)
                     .attr("opacity", 1);
+
+                function drawCluster(d) {
+                    return curve(d.path); // 0.8
+                }
+                function init() {
+                    if (simulation) simulation.stop();
+                    net = network(data, net, getGroup, expand);
+                    console.log(net);
+                    simulation = d3.forceSimulation()
+                        .force("link", d3.forceLink()
+                            // .id(d => d.name)
+                                .distance(function(l, i) {
+                                    var n1 = l.source, n2 = l.target;
+                                    return 20 +
+                                        Math.min(20 * Math.min((n1.size || (n1.group != n2.group ? n1.group_data.size : 0)),
+                                            (n2.size || (n1.group != n2.group ? n2.group_data.size : 0))),
+                                            -30 +
+                                            30 * Math.min((n1.link_count || (n1.group != n2.group ? n1.group_data.link_count : 0)),
+                                            (n2.link_count || (n1.group != n2.group ? n2.group_data.link_count : 0))),
+                                            100);
+                                    //return 150;
+                                })
+                                .strength(1)
+                        )
+                        .force("center", d3.forceCenter(wPosition/2, hPosition/2))
+
+                        .force("charge", d3.forceManyBody()
+                            .strength(-600)
+                        )
+                        .velocityDecay(0.8)     // friction
+                    ;
+
+                    simulation.nodes(net.nodes)
+                        .on("tick", ticked);
+
+                    simulation
+                        .force("link")
+                        .links(net.links);
+
+                    hullg.selectAll("path.hull").remove();
+                    hull = hullg.selectAll("path.hull")
+                        .data(convexHulls(net.nodes, getGroup, off))
+                        .enter().append("path")
+                        .attr("class", "hull")
+                        .attr("d", drawCluster)
+                        .style("fill", function(d) { return fill(d.group); })
+                        .on("click", function(d) {
+                            console.log("hull click", d, arguments, this, expand[d.group]);
+                            expand[d.group] = false; init();
+                        });
+                    hull = hullg.selectAll("path.hull");
+
+                    link = linkg.selectAll("line.link").data(net.links, linkid);
+                    link.exit().remove();
+                    link.enter().append("line")
+                        .attr("class", "link")
+                        .style("stroke-width", function(d) { return d.size || 1; });
+
+                    link = linkg.selectAll("line.link");
+
+                    node = nodeg.selectAll("circle.node").data(net.nodes, nodeid);
+                    node.exit().remove();
+                    node.enter().append("circle")
+                    // if (d.size) -- d.size > 0 when d is a group node.
+                        .attr("class", function(d) { return "node" + (d.size?"":" leaf"); })
+                        .attr("r", function(d) { return d.size ? d.size + dr : dr+1; })
+                        .style("fill", function(d) { return fill(d.group); })
+                        .on("click", function(d) {
+                            console.log("node click", d, arguments, this, expand[d.group]);
+                            expand[d.group] = !expand[d.group];
+                            init();
+                        });
+
+                    node = nodeg.selectAll("circle.node");
+                    node.call(d3.drag()
+                        .on("start", dragstarted)
+                        .on("drag", dragged)
+                        .on("end", dragended));
+
+                    function dragstarted(d) {
+                        if (!d3.event.active) simulation.alphaTarget(0.8).restart();
+                        d.fx = d.x;
+                        d.fy = d.y;
+                    }
+
+                    function dragged(d) {
+                        d.fx = d3.event.x;
+                        d.fy = d3.event.y;
+                    }
+
+                    function dragended(d) {
+                        if (!d3.event.active) simulation.alphaTarget(0);
+                        d.fx = null;
+                        d.fy = null;
+                    }
+
+                    // Tick function
+                    function ticked() {
+                        if (!hull.empty()) {
+                            hull.data(convexHulls(net.nodes, getGroup, off))
+                                .attr("d", drawCluster);
+                        }
+                        link.attr("x1", function(d) { return d.source.x; })
+                            .attr("y1", function(d) { return d.source.y; })
+                            .attr("x2", function(d) { return d.target.x; })
+                            .attr("y2", function(d) { return d.target.y; });
+                        node.attr("cx", function(d) { return d.x; })
+                            .attr("cy", function(d) { return d.y; });
+                    }
+                }
+
             });
             group1.style("display", "none");
 
@@ -3286,6 +3403,7 @@ function linkid(l) {
         v = nodeid(l.target);
     return u<v ? u+"|"+v : v+"|"+u;
 }
+
 function getGroup(n) { return n.group; }
 // constructs the network to visualize
 function network(data, prev, getGroup, expand) {
@@ -3300,7 +3418,7 @@ function network(data, prev, getGroup, expand) {
     // process previous nodes for reuse or centroid calculation
     if (prev) {
         prev.nodes.forEach(function(n) {
-            var i = getGroup(n), o;
+            let i = getGroup(n), o;
             if (n.size > 0) {
                 prevGroupNode[i] = n;
                 n.size = 0;
@@ -3339,16 +3457,25 @@ function network(data, prev, getGroup, expand) {
             }
             g.nodes.push(n);
         }
-        // always count group size as we also use it to tweak the force graph strengths/distances
+        // always count group size as w e also use it to tweak the force graph strengths/distances
         g.size += 1;
         n.group_data = g;
     }
     for (i in groupMap) { groupMap[i].link_count = 0; }
     // determine links
     for (k=0; k<data.links.length; ++k) {
-        var e = data.links[k],
-            u = getGroup(e.source),
+        var e, u, v;
+        e = data.links[k];
+        if (e.source.group){
+            u = getGroup(e.source);
+            console.log(u);
+        }
+        else continue;
+        if (e.target.group){
             v = getGroup(e.target);
+            console.log(e);
+        }
+        else continue;
         if (u != v) {
             groupMap[u].link_count++;
             groupMap[v].link_count++;
@@ -3385,9 +3512,5 @@ function convexHulls(nodes, index, offset) {
     for (i in hulls) {
         hullset.push({group: i, path:d3.polygonHull(hulls[i]) });
     }
-
     return hullset;
-}
-function init() {
-    
 }
