@@ -3012,7 +3012,7 @@ function applicationManager(globalData) {
 
                 // Var and parameter
                 var dr = 4,      // default point radius
-                    off = 15,    // cluster hull offset
+                    off = 0,    // cluster hull offset
                     expand = {}, // expanded clusters
                     data = {},
                     net, simulation, hullg, hull, linkg, link, nodeg, node;
@@ -3082,10 +3082,10 @@ function applicationManager(globalData) {
                                 })
                                 .strength(1)
                         )
-                        .force("center", d3.forceCenter(wPosition/2, hPosition/2))
+                        .force("center", d3.forceCenter(wPosition, hPosition/2))
 
                         .force("charge", d3.forceManyBody()
-                            .strength(-600)
+                            .strength(-100)
                         )
                         .velocityDecay(0.8)     // friction
                     ;
