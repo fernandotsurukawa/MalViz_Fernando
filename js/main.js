@@ -1495,7 +1495,7 @@ function applicationManager(globalData) {
 
             globalData.forEach(d => {
                 for (var i = 0; i < operationKeys.length; i++) {
-                    if (d.Path.endsWith("\\" + operationKeys[i])) {
+                    if (d.targetProcessName) {
                         haveChild.push(d);
                     }
                 }
@@ -2868,7 +2868,7 @@ function applicationManager(globalData) {
             globalgroupbyprocessname.forEach((process, i) => {
                 var keyName = process.key.toLowerCase();
                 nodeObjTotal[keyName] = {};
-                var nodeObj = nodeObjTotal[keyName];
+                var nodeObj = nodeObjTotal[keyName];    // use object to hcek multiple occurences, then to compute links
                 var secondNodeObj = {};
                 nodes[keyName] = [];
                 links[keyName] = [];
@@ -2908,11 +2908,15 @@ function applicationManager(globalData) {
                     }
                 });
 
+                // draw the node of main process, if it doesnt have self call
+                // again, count to the node set, but not node obj (cuz node obj is used for getting links)
+
+                let connectArray = new Array(len+1).join("0");
                 if (!nodeObj[keyName]) {
                     nodes[keyName].push({
                         id: keyName,
                         type: "exe",
-                        level: 1
+                        connect:connectArray.slice(0,i) + "1" + connectArray.slice(i+1)
                     })
                 }
 
@@ -2941,9 +2945,17 @@ function applicationManager(globalData) {
                         d3.keys(nodeObjTotal[host]).forEach(refer => {
                             if (nodeObjTotal[guest][refer]) {
                                 // add level
-                                nodes[host].find(d => d.id === refer).level += 1;
-                                // console.log(host, guest, refer,
-                                //     nodes[host].find(d => d.id === refer));
+                                let guestPos = getIndex(list,guest);
+                                let currentConRef =  nodes[host].find(d => d.id === refer).connect;
+                                let currentConHost =  nodes[host].find(d => d.id === host).connect;
+                                // update refer connect
+                                nodes[host].find(d => d.id === refer).connect =
+                                    currentConRef.slice(0,guestPos) + "1" + currentConRef.slice(guestPos+1);
+
+                                // update host connect
+                                nodes[host].find(d => d.id === host).connect =
+                                    currentConHost.slice(0,guestPos) + "1" + currentConHost.slice(guestPos+1);
+
                                 links[host].push({
                                     source: guest,
                                     target: refer,
@@ -3143,7 +3155,9 @@ function applicationManager(globalData) {
             console.log(nodes);
             // Self-call ==========================================
 
-            var selfCallData = orderedArray.filter(d => d.selfCalls.length > 0).sort((a, b) => b.selfCalls.length - a.selfCalls.length);
+            var selfCallData = orderedArray
+                .filter(d => d.selfCalls.length > 0)
+                .sort((a, b) => b.selfCalls.length - a.selfCalls.length);
 
             d3.select("#selfCallProcess").selectAll("*").remove();
             var svg2 = d3.select("#selfCallProcess")
@@ -3339,16 +3353,16 @@ function selectAll() {
     }
 }
 
-function computeNodes(nodeObj, miniNode, type, rawPath, index, len) {
+function computeNodes(nodeObj, miniNode, type, rawPath, pos, len) {
     let path = rawPath.toLowerCase();
-    let connect = new Array(len+1).join("0");
+    let connectArray = new Array(len+1).join("0");
     if (!nodeObj[path]) {
         // if havent existed
         nodeObj[path] = 1;
         miniNode.push({
             id: path,
             type: type,
-            level: 1
+            connect: connectArray.slice(0,pos) + "1" + connectArray.slice(pos+1)
         });
 
     } else {
@@ -3356,3 +3370,6 @@ function computeNodes(nodeObj, miniNode, type, rawPath, index, len) {
     }
 }
 
+function getIndex(list, item){
+    return list.indexOf(item);
+}
