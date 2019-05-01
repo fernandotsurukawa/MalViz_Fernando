@@ -2858,8 +2858,9 @@ function applicationManager(globalData) {
 
             var list = globalgroupbyprocessname.map(d => d.key.toLowerCase());
             var len = list.length;
-            var nodes = {};
+            var nodesb4group = {};
             var links = {};
+            var nodes = {};
             var maxLink = 0, minLink = 100;
             var secondaryNodes = {};
             var nodeObjTotal = {};
@@ -2870,7 +2871,7 @@ function applicationManager(globalData) {
                 nodeObjTotal[keyName] = {};
                 var nodeObj = nodeObjTotal[keyName];    // use object to hcek multiple occurences, then to compute links
                 var secondNodeObj = {};
-                nodes[keyName] = [];
+                nodesb4group[keyName] = [];
                 links[keyName] = [];
                 secondaryNodes[keyName] = [];
 
@@ -2879,19 +2880,19 @@ function applicationManager(globalData) {
                     //add node
                     if (ref.Path.length > 0) {   // exist path
                         if (ref.Process === "Registry") {   // registry -------------
-                            computeNodes(nodeObj, nodes[keyName], "Registry", ref.Path, i, len);
+                            computeNodes(nodeObj, nodesb4group[keyName], "Registry", ref.Path, i, len);
                         }
                         else if (ref.Process === "Network") {
-                            computeNodes(nodeObj, nodes[keyName], "Network", ref.Path,i, len);
+                            computeNodes(nodeObj, nodesb4group[keyName], "Network", ref.Path,i, len);
                         }
                         else if (ref.Path.toLowerCase().endsWith(".dll")) {
-                            computeNodes(nodeObj, nodes[keyName], "dll", ref.Path, i, len);
+                            computeNodes(nodeObj, nodesb4group[keyName], "dll", ref.Path, i, len);
                         }
                         else if (ref.Path.toLowerCase().endsWith(".exe")) {
                             let linkExe = ref.Path.split(/\\/);
                             let exeName = linkExe[linkExe.length - 1];
 
-                            computeNodes(nodeObj, nodes[keyName], "exe", exeName,i, len);
+                            computeNodes(nodeObj, nodesb4group[keyName], "exe", exeName,i, len);
 
                             list.forEach(d => {
                                 if ((d.toLowerCase() !== keyName) &&  // second != primary
@@ -2903,20 +2904,19 @@ function applicationManager(globalData) {
                             })
                         }
                         else {
-                            computeNodes(nodeObj, nodes[keyName], "File", ref.Path,i, len);
+                            computeNodes(nodeObj, nodesb4group[keyName], "File", ref.Path,i, len);
                         }
                     }
                 });
 
-                // draw the node of main process, if it doesnt have self call
+                // draw the node of main process, if it doesnt have self call !!!
                 // again, count to the node set, but not node obj (cuz node obj is used for getting links)
 
-                let connectArray = new Array(len+1).join("0");
                 if (!nodeObj[keyName]) {
-                    nodes[keyName].push({
+                    nodesb4group[keyName].push({
                         id: keyName,
                         type: "exe",
-                        connect:connectArray.slice(0,i) + "1" + connectArray.slice(i+1)
+                        connect: new Array(len+1).join("0")
                     })
                 }
 
@@ -2946,14 +2946,14 @@ function applicationManager(globalData) {
                             if (nodeObjTotal[guest][refer]) {
                                 // add level
                                 let guestPos = getIndex(list,guest);
-                                let currentConRef =  nodes[host].find(d => d.id === refer).connect;
-                                let currentConHost =  nodes[host].find(d => d.id === host).connect;
+                                let currentConRef =  nodesb4group[host].find(d => d.id === refer).connect;
+                                let currentConHost =  nodesb4group[host].find(d => d.id === host).connect;
                                 // update refer connect
-                                nodes[host].find(d => d.id === refer).connect =
+                                nodesb4group[host].find(d => d.id === refer).connect =
                                     currentConRef.slice(0,guestPos) + "1" + currentConRef.slice(guestPos+1);
 
                                 // update host connect
-                                nodes[host].find(d => d.id === host).connect =
+                                nodesb4group[host].find(d => d.id === host).connect =
                                     currentConHost.slice(0,guestPos) + "1" + currentConHost.slice(guestPos+1);
 
                                 links[host].push({
@@ -2987,19 +2987,33 @@ function applicationManager(globalData) {
             d3.select("#ranked").selectAll("*").remove();
 
             sortedList.forEach((item, index) => {
-                var height = scaleHeight(nodes[item].length);
+                nodes[item] = [];
+                var height = scaleHeight(nodesb4group[item].length);
                 var wPosition = sideWidth / 4;
                 var hPosition = height / 2;
-                var nodeById = d3.map(nodes[item], function (d) {
+                var nodeById = d3.map(nodesb4group[item], function (d) {
                     return d.id;
                 });
+                // define group | main exe dont group
+                var grouped = nodesb4group[item].groupBy(['type','connect']);
+                console.log(grouped);
+                grouped.forEach((g,i) => {
+                    g.values.forEach(d => {
+                        // -----------------------------
+                        // modify each node HERE
+                        d.group = i+1;
+                        delete d.connect;
+                        nodes[item].push(d);
+                    })
+                });
+
                 var multiLinks = [];
                 links[item].forEach(link => {
                     var s = link.source = nodeById.get(link.source),
                         t = link.target = nodeById.get(link.target);
                     if (t.id === s.id) {
                         var i = {}, j = {}; // intermediate node
-                        nodes[item].push(i, j);
+                        nodesb4group[item].push(i, j);
                         links[item].push({source: s, target: i, self: 1},
                             {source: i, target: j, self: 2},
                             {source: j, target: t, self: 1});
@@ -3077,7 +3091,7 @@ function applicationManager(globalData) {
                 var node = svg.append("g")
                     .attr("class", "nodes")
                     .selectAll("circle")
-                    .data(nodes[item]
+                    .data(nodesb4group[item]
                         .filter(d => d.id)
                     )
                     .enter().append("circle")
@@ -3098,7 +3112,7 @@ function applicationManager(globalData) {
                     });
 
                 simulation
-                    .nodes(nodes[item])
+                    .nodes(nodesb4group[item])
                     .on("tick", ticked);
 
                 simulation.force("link")
@@ -3152,7 +3166,7 @@ function applicationManager(globalData) {
             group1.style("display", "none");
 
             console.log(links);
-            console.log(nodes);
+            console.log(nodesb4group);
             // Self-call ==========================================
 
             var selfCallData = orderedArray

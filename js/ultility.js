@@ -190,3 +190,32 @@ function handleOperation(malist) {
     });
     return array;
 }
+
+Array.prototype.groupBy = function (props) {
+    var arr = this;
+    var partialResult = {};
+
+    arr.forEach(el=>{
+
+        var grpObj = {};
+
+        props.forEach(prop=>{
+            grpObj[prop] = el[prop]
+        });
+
+        var key = JSON.stringify(grpObj);
+
+        if(!partialResult[key]) partialResult[key] = [];
+
+        partialResult[key].push(el);
+
+    });
+
+    var finalResult = Object.keys(partialResult).map(key=>{
+        var keyObj = JSON.parse(key);
+        keyObj.values = partialResult[key];
+        return keyObj;
+    })
+
+    return finalResult;
+}
