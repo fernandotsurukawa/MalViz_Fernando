@@ -459,11 +459,11 @@ option.suspicious {
 circle.node {
     fill: lightsteelblue;
     stroke: #555;
-    stroke-width: 3px;
+    stroke-width: 2px;
 }
 circle.leaf {
     stroke: #fff;
-    stroke-width: 1.5px;
+    stroke-width: 2px;
 }
 path.hull {
     fill: lightsteelblue;

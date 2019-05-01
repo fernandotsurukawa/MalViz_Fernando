@@ -1301,7 +1301,6 @@ function applicationManager(globalData) {
             var group_by_operation = getData.getdatabyOperation;
 
             operationShown = group_by_operation.map(d => d.key);
-            // console.log(group_by_operation, operationShown);
             var thisClass;
 
             var padding = 10;
@@ -2861,7 +2860,6 @@ function applicationManager(globalData) {
             var nodesb4group = {};
             var links = {};
             var nodes = {};
-            var maxLink = 0, minLink = 100;
             var secondaryNodes = {};
             var nodeObjTotal = {};
 
@@ -2927,14 +2925,6 @@ function applicationManager(globalData) {
                         target: target,
                         value: nodeObj[target]
                     });
-
-                    if (nodeObj[target] > maxLink) {
-                        maxLink = nodeObj[target]
-                    }
-
-                    if (nodeObj[target] < minLink) {
-                        minLink = nodeObj[target]
-                    }
                 })
             });
 
@@ -2970,15 +2960,22 @@ function applicationManager(globalData) {
 
             // DONE computing nodes and links
             // sort processes based on number of links
+            var dr = 4,      // default point radius
+                off = 4;    // cluster hull offset
+            
             var sortedList = list.sort((a, b) => (links[b].length - links[a].length));
+          
+            var strokeScale = d3.scaleSqrt()
+                .domain([1, 5000])
+                .range([1, 10]);
+            
+            var radiusScale = d3.scaleSqrt()
+                .domain([dr, 1200])
+                .range([dr, 50]);
 
-            var scaleStroke = d3.scaleSqrt()
-                .domain([minLink, maxLink])
-                .range([1, 6]);
-
-            var opacity = d3.scaleSqrt()
-                .domain([minLink, maxLink])
-                .range([0.5, 1]);
+            // var opacity = d3.scaleSqrt()
+            //     .domain([1, 4500])
+            //     .range([0.5, 1]);
 
             var scaleHeight = d3.scaleThreshold()
                 .domain([10, 40, 150, 500, 1300, 2500])
@@ -2996,7 +2993,6 @@ function applicationManager(globalData) {
                     return d.id;
                 });
 
-
                // define group | main exe dont group
                 var grouped = nodesb4group[item].groupBy(['type','connect']);
                 grouped.forEach((g,i) => {
@@ -3007,11 +3003,21 @@ function applicationManager(globalData) {
                         nodes[item].push(d);
                     })
                 });
-
+                // current last group
+                var clg = grouped.length, firstEct = false;
+                nodes[item].forEach(node => {
+                    if (list.indexOf(node.id) >= 0){ // main process
+                        if (!firstEct){
+                            // keep group number
+                            firstEct = true;
+                            return
+                        }
+                        clg += 1;
+                        node.group = clg;
+                    }
+                });
                 // Var and parameter
-                var dr = 4,      // default point radius
-                    off = 5,    // cluster hull offset
-                    expand = {}, // expanded clusters
+                var expand = {}, // expanded clusters
                     data = {},
                     net, simulation, hullg, hull, linkg, link, nodeg, node;
                 var curve = d3.line()
@@ -3066,24 +3072,85 @@ function applicationManager(globalData) {
                     simulation = d3.forceSimulation()
                         .force("link", d3.forceLink()
                             // .id(d => d.name)
-                                .distance(function(l, i) {
+                                .distance(function(l) {
                                     var n1 = l.source, n2 = l.target;
-                                    return 20 +
+                                    var defaultValue = 20 +
                                         Math.min(20 * Math.min((n1.size || (n1.group != n2.group ? n1.group_data.size : 0)),
                                             (n2.size || (n1.group != n2.group ? n2.group_data.size : 0))),
                                             -30 +
                                             30 * Math.min((n1.link_count || (n1.group != n2.group ? n1.group_data.link_count : 0)),
                                             (n2.link_count || (n1.group != n2.group ? n2.group_data.link_count : 0))),
                                             100);
-                                    //return 150;
+                                    var procValue = 100;
+                                    
+                                    if ((n1.size) && (n2.size)){
+                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)){
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                    else if ((!n1.size) && (n2.size)){
+                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)){
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                    else if ((n1.size) && (!n2.size)){
+                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.id) >= 0)){
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                    else { // both are bare nodes
+                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.id) >= 0)){
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
                                 })
-                                .strength(1)
+                                .strength(function (l) {
+                                    var n1 = l.source, n2 = l.target;
+                                    var defaultValue = 0.9, procValue = 0.4;
+
+                                    if ((n1.size) && (n2.size)){
+                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)){
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                    else if ((!n1.size) && (n2.size)){
+                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)){
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                    else if ((n1.size) && (!n2.size)){
+                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.id) >= 0)){
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                    else { // both are bare nodes
+                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.id) >= 0)){
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                })
                         )
                         .force("center", d3.forceCenter(wPosition, hPosition))
 
                         .force("charge", d3.forceManyBody()
-                            .strength(-100)
+                            .strength(d => {
+                                console.log(d);
+                                return -150
+                            })
                         )
+                        // .force("collide",d3.forceCollide()
+                        //     // .radius(function(d) {
+                        //     //     return 10;})
+                        //     // .strength(1)
+                        // )
                         .velocityDecay(0.8)     // friction
                     ;
 
@@ -3093,14 +3160,15 @@ function applicationManager(globalData) {
                     simulation
                         .force("link")
                         .links(net.links);
-
+                    
                     hullg.selectAll("path.hull").remove();
                     hull = hullg.selectAll("path.hull")
                         .data(convexHulls(net.nodes, getGroup, off))
                         .enter().append("path")
                         .attr("class", "hull")
                         .attr("d", drawCluster)
-                        .style("fill", function(d) { return fill(d.group); })
+                        .style("fill", function(d) {
+                            return getColor(d.type); })
                         .style("fill-opacity", 0.3)
                         .on("click", function(d) {
                             console.log("hull click", d, arguments, this, expand[d.group]);
@@ -3112,17 +3180,29 @@ function applicationManager(globalData) {
                     link.exit().remove();
                     link.enter().append("line")
                         .attr("class", "link")
-                        .style("stroke-width", function(d) { return d.size || 1; });
-
+                        .style("stroke-width", function(d) {
+                            return strokeScale(d.size);
+                            });
                     link = linkg.selectAll("line.link");
 
                     node = nodeg.selectAll("circle.node").data(net.nodes, nodeid);
                     node.exit().remove();
                     node.enter().append("circle")
                     // if (d.size) -- d.size > 0 when d is a group node.
-                        .attr("class", function(d) { return "node" + (d.size?"":" leaf"); })
-                        .attr("r", function(d) { return d.size ? d.size + dr : dr+1; })
-                        .style("fill", function(d) { return fill(d.group); })
+                        .attr("class", function(d) {
+                            if (d.size){
+                                if (d.size ===1){
+                                    return "node leaf";
+                                }
+                                else return "node"
+                            }
+                            else return "node leaf"; })
+                        .attr("r", function(d) {
+                            // bare nodes dont have size
+                            return d.size ? radiusScale(d.size + dr) : radiusScale(1 + dr); })
+                        .style("fill", function(d) {
+                            return d.size? getColor(d.nodes[0].type) : getColor(d.type);
+                        })
                         .on("click", function(d) {
                             console.log("node click", d, arguments, this, expand[d.group]);
                             expand[d.group] = !expand[d.group];
@@ -3170,8 +3250,6 @@ function applicationManager(globalData) {
             });
             group1.style("display", "none");
 
-            console.log(links);
-            console.log(nodesb4group);
             // Self-call ==========================================
 
             var selfCallData = orderedArray
@@ -3306,9 +3384,9 @@ var firstClick;
 var svgStats;
 var lensingStatus = false;
 var orderedArray = [];
-
+var maxLink = 1;
 const categories = ["Registry", "Network", "File", "exe", "dll"];
-const stackColor = ["#3d6c40", "#8f3a47", "#af7131", "#2e578b", "#7e7e7e"];
+const stackColor = ["#247b2b", "#a84553", "#c37e37", "#396bab", "#7e7e7e"];
 
 function getColor(type) {
     return stackColor[categories.indexOf(type)];
@@ -3431,8 +3509,10 @@ function network(data, prev, getGroup, expand) {
     // determine nodes
     for (var k=0; k<data.nodes.length; ++k) {
         var n = data.nodes[k],
-            i = getGroup(n),
-            g = groupMap[i] || (groupMap[i]=prevGroupNode[i]) || (groupMap[i]={group:i, size:0, nodes:[]});
+            i = getGroup(n),    // i is the freaking group
+            g = groupMap[i] || 
+                (groupMap[i]=prevGroupNode[i]) || 
+                (groupMap[i]={group:i, size:0, nodes:[]});
         if (expand[i]) {
             // the node should be directly visible
             nodeMap[n.id] = nodes.length;
@@ -3457,12 +3537,13 @@ function network(data, prev, getGroup, expand) {
         }
         // always count group size as w e also use it to tweak the force graph strengths/distances
         g.size += 1;
-        n.group_data = g;
+        n.group_data = g;       // circular data
     }
     for (i in groupMap) { groupMap[i].link_count = 0; }
+    
     // determine links
     for (k=0; k<data.links.length; ++k) {
-        var e, u, v;
+        var e, u, v;        // u, v are group names
         e = data.links[k];
         if (e.source.group){
             u = getGroup(e.source);
@@ -3473,28 +3554,36 @@ function network(data, prev, getGroup, expand) {
         }
         else continue;
         if (u != v) {
-            groupMap[u].link_count++;
-            groupMap[v].link_count++;
+            // link_count is the number of links to that node
+            groupMap[u].link_count+=e.value;
+            groupMap[v].link_count+=e.value;
         }
         u = expand[u] ? nodeMap[e.source.id] : nodeMap[u];
         v = expand[v] ? nodeMap[e.target.id] : nodeMap[v];
-        var i = (u<v ? u+"|"+v : v+"|"+u),
-            l = linkMap[i] || (linkMap[i] = {source:u, target:v, size:0});
-        l.size += 1;
+        var index = (u<v ? u+"|"+v : v+"|"+u),
+            l = linkMap[index] || (linkMap[index] = {source:u, target:v, size:0});
+        l.size += e.value;
     }
-    for (i in linkMap) { links.push(linkMap[i]); }
+    for (i in linkMap) { 
+        if (maxLink < linkMap[i].size){
+            maxLink = linkMap[i].size;
+        }
+        links.push(linkMap[i]); }
     return {nodes: nodes, links: links};
 }
 function convexHulls(nodes, index, offset) {
     var hulls = {};
+    var groupType = {};
     // create point sets
     for (var k=0; k<nodes.length; ++k) {
         var n = nodes[k];
         if (n.size) continue;
-        // if nodes are grouped, continue
+        // if nodes are grouped, continue !!!
 
         var i = index(n),
             l = hulls[i] || (hulls[i] = []);
+        
+        groupType[i] = n.type;
 
         // each node -> 4 nodes including offset
         l.push([n.x-offset, n.y-offset]);
@@ -3506,7 +3595,11 @@ function convexHulls(nodes, index, offset) {
     // create convex hulls
     var hullset = [];
     for (i in hulls) {
-        hullset.push({group: i, path:d3.polygonHull(hulls[i]) });
+        hullset.push({
+            group: i, 
+            path:d3.polygonHull(hulls[i]),
+            type: groupType[i]
+        })
     }
     return hullset;
 }
