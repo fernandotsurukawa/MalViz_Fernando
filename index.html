@@ -123,15 +123,15 @@
         <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
         <div class="w3-container">
             <h1><b>Malware Visualization</b></h1>
-            <div class="w3-section w3-bottombar w3-padding-16">
+            <div class="w3-section w3-padding-8">
                 <!--<span class="w3-margin-right">Filter:</span>-->
-                <button class="w3-button w3-black" id="processBtn">Processes</button>
+<!--                <button class="w3-button w3-black" id="processBtn">Processes</button>-->
                 <button class="w3-button w3-white" onclick="openNavRank()" id="rankBtn">Ranked by Degree</button>
                 <button class="w3-button w3-white w3-hide-small" onclick="openNavLib()" id="libBtn">Libraries
                     Called</button>
-                <button class="w3-button w3-white w3-hide-small" style="float: right;">
-                    <a href="indexV2.html" target="_blank"  style="text-decoration: none">Alter
-                    Interface</a></button>
+<!--                <button class="w3-button w3-white w3-hide-small" style="float: right;">-->
+<!--                    <a href="indexV2.html" target="_blank"  style="text-decoration: none">Alter-->
+<!--                    Interface</a></button>-->
                 <label for="selectmalware">Select dataset: </label>
                 <select id="selectmalware" class="selectmalware">
                     <option>--Select dataset--</option>
@@ -255,26 +255,31 @@
             calculateRank = 1;
         }
         document.getElementById("mySidenavRank").style.width = sideWidth + "px";
-        // document.getElementById("mainContent").style.marginLeft = "1200px";
+        document.getElementById("mainContent").style.marginLeft = sideWidth + "px";
+        d3.select("#rankBtn").classed("w3-black", true);
         openSidebarRank = !openSidebarRank;
     }
 
     function closeNavRank() {
         d3.select("mySidenavRank").classed("raise", false);
         document.getElementById("mySidenavRank").style.width = "0";
-        // document.getElementById("mainContent").style.marginLeft= "0";
+        document.getElementById("mainContent").style.marginLeft= "0";
+        d3.select("#rankBtn").classed("w3-black", false);
         openSidebarRank = !openSidebarRank;
     }
 
     function openNavLib() {
         document.getElementById("mySidenavLib").style.width = sideWidth + "px";
-        // document.getElementById("mainContent").style.marginLeft = "1200px";
+        document.getElementById("mainContent").style.marginLeft = sideWidth + "px";
+        d3.select("#libBtn").classed("w3-black", true);
+
         opensidebarLib = !opensidebarLib;
     }
 
     function closeNavLib() {
         document.getElementById("mySidenavLib").style.width = "0";
-        // document.getElementById("mainContent").style.marginLeft= "0";
+        document.getElementById("mainContent").style.marginLeft= "0";
+        d3.select("#libBtn").classed("w3-black", false);
         opensidebarLib = !opensidebarLib;
     }
 
@@ -344,20 +349,20 @@
                     SiteManager.drawStats('#stats'); //Draw statistic map
                     SiteManager.drawStats2('#OperationList'); //Draw statistic map
                     SiteManager.malist("#commonOp");
-                    // d3.select("#rankBtn")
-                    //     .on("click", () => {
-                    //         if (calculateRank === 1){
-                    //             SiteManager.highlight('#avaiop'); // hightlight
-                    //             calculateRank = 2;
-                    //         }
-                    //     });
+                    d3.select("#rankBtn")
+                        .on("click", () => {
+                            if (calculateRank === 1){
+                                SiteManager.highlight('#avaiop'); // hightlight
+                                calculateRank = 2;
+                            }
+                        });
                     SiteManager.drawMain('#heatmap');//Draw mainMap
                     let maxcalls = SiteManager.getCallRange().maxcall;
                     SiteManager.updateDomainBox('#maliciousdomain');
 
                     // for testing --------------------
-                    openNavRank();
-                    SiteManager.highlight('#avaiop');
+                    // openNavRank();
+                    // SiteManager.highlight('#avaiop');
                     // --------------------------------
 
                     $("#btnName").click(function () {
