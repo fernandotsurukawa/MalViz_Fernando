@@ -59,9 +59,12 @@ Question: Is there any difference between them?
 | Return value (succesfully) |Two separate handles, one each for the process and the thread       |An open handle to the specified file,  which you can then use, e.g., to read the contents of the file |
 |Answer |The new process runs in the security context of the calling process.  |The file extension is irrelevant.|
 
+
 5. Filter 
 By regex expression 
 
 `^.*(procmon.exe|procmon64.exe|Profiling|procexp.exe|procexp64.exe).*\n` [Sublime]
 `^.*(procmon|profiling|processmonitor).*\n`
 
+6. About self-call processes
+We use the term "self-call" call for the process which the `Path` in the record is the same as Process_Name, which means that the process call to itself. Typical operaions for processes to call themselves are CreateProcess and CreateFile.
