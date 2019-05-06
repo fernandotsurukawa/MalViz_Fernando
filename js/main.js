@@ -1756,10 +1756,11 @@ function applicationManager(globalData) {
             var timeBoxHeight = 30;
             var dashHeight = svgheight + timeBoxHeight;
 
+            var width1 = document.getElementById("heatmap").getBoundingClientRect().width;
             var outline = d3.select('#heatmap').append('svg')
                 .attr("class", "outline")
                 .attr("height", dashHeight)
-                .attr("width", "100%")
+                .attr("width", width1-35)
                 .attr("id", "outline");
 
             var bbox = document.getElementById("outline");
