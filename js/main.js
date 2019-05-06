@@ -2847,13 +2847,6 @@ function applicationManager(globalData) {
         highlight: function (position) {
 
             d3.select(position).selectAll("*").remove();
-            var svgList = d3.select(position);
-            // .append('svg').attr('width', '100%').attr('height', 300);
-
-            var group0 = svgList.append('g').attr("id", "group0");
-            var group1 = svgList.append('g').attr("id", "group1");
-            var group2 = svgList.append('g').attr("id", "group2");
-
             // FORCE-DIRECTED GRAPH ==========================================
 
             var list = globalgroupbyprocessname.map(d => d.key.toLowerCase());
@@ -2964,7 +2957,8 @@ function applicationManager(globalData) {
             var dr = 4,      // default point radius
                 off = 4;    // cluster hull offset
             
-            var sortedList = list.sort((a, b) => (links[b].length - links[a].length));
+            var sortedList = list
+                .sort((a, b) => (links[b].length - links[a].length));
           
             var strokeScale = d3.scaleSqrt()
                 .domain([1, 5000])
@@ -2973,10 +2967,6 @@ function applicationManager(globalData) {
             var radiusScale = d3.scaleSqrt()
                 .domain([dr, 1200])
                 .range([dr, 50]);
-
-            // var opacity = d3.scaleSqrt()
-            //     .domain([1, 4500])
-            //     .range([0.5, 1]);
 
             var scaleHeight = d3.scaleThreshold()
                 .domain([10, 40, 150, 500, 1300, 2500])
@@ -2988,7 +2978,7 @@ function applicationManager(globalData) {
             sortedList.forEach((item, index) => {
                 nodes[item] = [];
                 var height = scaleHeight(nodesb4group[item].length);
-                var wPosition = sideWidth / 4;
+                var wPosition = sideWidth / 3;
                 var hPosition = height / 2;
                 var nodeById = d3.map(nodesb4group[item], function (d) {
                     return d.id;
@@ -3024,8 +3014,6 @@ function applicationManager(globalData) {
                 var curve = d3.line()
                     .curve(d3.curveCardinalClosed);
 
-                var fill = d3.scaleOrdinal(d3.schemeCategory20);
-
                var multiLinks = [];
                 links[item].forEach(link => {
                     var s = link.source = nodeById.get(link.source),
@@ -3050,7 +3038,11 @@ function applicationManager(globalData) {
                 svg.append("text")
                     .text((index + 1) + ". " + item)
                     .attr("x", 20)
-                    .attr("y", height > 350 ? height / 5 : height / 2);
+                    .attr("y", height > 350 ? height / 5 : height / 2)
+                    .append("tspan")
+                    .attr("dy", 30)
+                    .attr("x", 20)
+                    .text("Self-call(s): " + orderedArray.find(d => d.key === item).selfCalls.length);
 
                 data.nodes = nodes[item];
                 data.links = links[item];
@@ -3249,45 +3241,6 @@ function applicationManager(globalData) {
                 }
 
             });
-            group1.style("display", "none");
-
-            // Self-call ==========================================
-
-            var selfCallData = orderedArray
-                .filter(d => d.selfCalls.length > 0)
-                .sort((a, b) => b.selfCalls.length - a.selfCalls.length);
-
-            d3.select("#selfCallProcess").selectAll("*").remove();
-            var svg2 = d3.select("#selfCallProcess")
-                .append('svg')
-                .attr('width', '100%')
-                .attr('height', 40 + selfCallData.length * 50)
-                .attr("id", "selfGroup");
-
-            svg2.selectAll("rect")
-                .data(selfCallData)
-                .enter()
-                .append("rect")
-                .attr('transform', (d, i) => 'translate(10,' + (15 + i * 40) + ')')
-                .attr("class", "rectMenuCustom")
-                .attr("width", d => Math.max(160, 50 + 10 * d.key.length));
-
-            svg2
-                .selectAll(".selfcall")
-                .data(selfCallData)
-                .enter()
-                .append("text")
-                .text(d => {
-                    var c = d.selfCalls.length;
-                    if (c !== 1) {
-                        return d.key + ": " + c + " calls"
-                    }
-                    else return d.key + ": " + c + " call"
-                })
-                .attr('transform', (d, i) => 'translate(20,' + (35 + i * 40) + ')')
-                .attr("class", "selfcall");
-
-            group2.style("display", "none");
 
         },
         draw2DMatrix: function (position) {
@@ -3355,22 +3308,30 @@ function applicationManager(globalData) {
         updateDomainBox: function (position) {
             d3.select(position).selectAll("*").remove();
             var domainList = getData.getdatabyDomain;
-            var selection = document.querySelector(position);
-            var count = 1;
-            for (var key in domainList) {
-                var option = document.createElement('option');
-                option.textContent = count + ". " + key;
-                option.value = domainList[key].Step;
-                option.title = domainList[key].Process_Name + " [" + domainList[key].Timestamp + "]";
-                if (domainList[key].VirusTotal) {
-                    if (domainList[key].VirusTotal.malicious > 0) {
-                        option.className = 'malicious';
-                        option.textContent = count + ". " + key + '-> malicious by Virus Total';
+            if (d3.keys(domainList).length>0){
+                // exist domain list
+                d3.select("#connectingDomain").style("display", "block");
+                var selection = document.querySelector(position);
+                var count = 1;
+                for (var key in domainList) {
+                    var option = document.createElement('option');
+                    option.textContent = count + ". " + key;
+                    option.value = domainList[key].Step;
+                    option.title = domainList[key].Process_Name + " [" + domainList[key].Timestamp + "]";
+                    if (domainList[key].VirusTotal) {
+                        if (domainList[key].VirusTotal.malicious > 0) {
+                            option.className = 'malicious';
+                            option.textContent = count + ". " + key + '-> malicious by Virus Total';
+                        }
                     }
+                    selection.appendChild(option);
+                    count++;
                 }
-                selection.appendChild(option);
-                count++;
             }
+            else {
+                d3.select("#connectingDomain").style("display", "none");
+            }
+
 
 
         }

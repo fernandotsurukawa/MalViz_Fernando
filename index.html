@@ -36,33 +36,12 @@
     <div class="w3-row-padding" style="margin-bottom:30px">
         <h4 class="w3-container" id="rankedbydeg" style="position: absolute; padding-left: 20px"><b>Processes ranked by
             degree</b></h4>
-        <div class="w3-twothird w3-container w3-margin-bottom">
-
-            <div class="w3-container w3-white" style="padding-right: 0">
+       <div class="w3-container w3-white" style="padding-right: 0">
                 <div id="ranked" class="contentRanked">
 
                 </div>
             </div>
-        </div>
 
-
-        <div class="w3-third w3-container w3-margin-bottom">
-
-            <div class="w3-container w3-white" style="padding-right: 0">
-                <p><b>Self-call processes</b></p>
-
-                <div id="selfCallProcess" class="contentSelf"></div>
-
-            </div>
-        </div>
-
-
-        <div class="w3-third w3-container">
-            <div class="w3-container w3-white" style="padding-right: 0">
-                <p><b>Connecting domains:</b></p>
-                <div id="maliciousdomain" class="contentSelf2"></div>
-            </div>
-        </div>
     </div>
 </div>
 <!-- Rank navigation sidebar-->
@@ -120,9 +99,13 @@
             <h1><b>Malware Visualization</b></h1>
             <div class="w3-section w3-padding-8">
                 <button class="w3-button w3-white" onclick="openNavRank()" id="rankBtn">Ranked by Degree</button>
-                <button class="w3-button w3-white w3-hide-small" onclick="openNavLib()" id="libBtn">Libraries
-                    Called</button>
+                <button class="w3-button w3-white w3-hide-small" onclick="openNavLib()" id="libBtn">Libraries Called</button>
+                <div style="float: right;" id="connectingDomain">
+                    <b>Connecting domains:</b>
+                    <div id="maliciousdomain">
 
+                    </div>
+                </div>
                 <label for="selectmalware">Select dataset: </label>
                 <select id="selectmalware" class="selectmalware">
                     <option>--Select dataset--</option>
@@ -233,9 +216,6 @@
         </div>
     </div>
 
-    <!--<div class="w3-black w3-center w3-padding-24" style="float: bottom">Malware Visualization</div>-->
-
-    <!-- End page content -->
 </div>
 <div id="loading">
     <img id="loading-image" height="200" width="200" src="images/squareloader2.gif" alt="Loading..."/>
@@ -243,7 +223,7 @@
 <script>
     var calculateRank;
     var openSidebarRank, opensidebarLib;
-    var sideWidth = 800;
+    var sideWidth = 600;
 
     function openNavRank() {
         if (!calculateRank) {
@@ -273,7 +253,6 @@
         document.getElementById("mySidenavLib").style.width = sideWidth + "px";
         document.getElementById("mainContent").style.marginLeft = sideWidth + "px";
         d3.select("#libBtn").classed("w3-black", true);
-
         opensidebarLib = !opensidebarLib;
     }
 
@@ -327,6 +306,7 @@
 
     });
     let init = function (filePath) {
+        calculateRank = 0;
         d3.queue()
             .defer(d3.csv, "data/" + filePath, function (d) {
                 return {
@@ -353,7 +333,7 @@
                     d3.select("#sideNavbtn")
                         .on("click", () => {
                             if (calculateRank === 1){
-                                SiteManager.highlight('#avaiop'); // hightlight
+                                SiteManager.highlight('#ranked'); // hightlight
                                 calculateRank = 2;
                             }
                         });

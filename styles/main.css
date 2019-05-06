@@ -495,13 +495,14 @@ line.link {
 
 }
 .overlaySide:hover .openbtn {
-    left: 20px
+    left: 30px
 }
-
 .overlaySide .openbtn {
     position: absolute;
     top: 50%;
     left: -30px;
-    transition: 0.1s;
-    cursor:pointer
+    /*transition: 0.1s;*/
+    cursor:pointer;
+    /*background: white;*/
+
 }
