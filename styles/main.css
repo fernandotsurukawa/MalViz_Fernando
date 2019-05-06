@@ -39,7 +39,7 @@
     padding-right: 0px;
     height: 1200px;
     overflow: auto;
-    background: #FFFFFF;
+    background: #595959;
 }
 
 .header {
@@ -331,53 +331,6 @@ option.suspicious {
     color: yellow;
 }
 
-/* The side navigation menu */
-.sidenav {
-    /*height: 700px; !* 100% Full-height *!*/
-    width: 0; /* 0 width - change this with JavaScript */
-    position: absolute; /* Stay in place */
-    z-index: 10; /* Stay on top */
-    top: 466px; /* Stay at the top */
-    left: 20px;
-    background-color: #e6e6e6; /* Black*/
-    overflow-x: hidden; /* Disable horizontal scroll */
-    /*padding-top: 60px; !* Place content 60px from the top *!*/
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-}
-
-/* The navigation menu links */
-.sidenav .menuTitle{
-    padding: 12px 8px 8px 32px;
-    font-size: 23px;
-    color: #000000;
-    display: block;
-    font-weight: bold;
-    transition: 0.3s;
-}
-.sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 18px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-}
-
-/* When you mouse over the navigation links, change their color */
-.sidenav a:hover {
-    color: #f1f1f1;
-}
-
-.sidenav a:focus {
-    color: #000;
-    font-weight: bold;
-}
-
-.sidenav .focus{
-    color: #000;
-    font-weight: bold;
-}
-
 .textClick{
     width: 65px;
     height: 28px;
@@ -486,10 +439,10 @@ line.link {
     margin: 0;
     padding: 0;
     position: fixed;
-    top: 0px;
+    top: 150px;
     left: -20px;
     background-color: rgba(0, 0, 0, 0);
-    z-index: 999;
+    z-index: 2;
     width: 200px;
     height: 100%;
 
@@ -505,4 +458,100 @@ line.link {
     cursor:pointer;
     /*background: white;*/
 
+}
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 10; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #585858; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    padding: 0 20px;
+    float: right;
+    font-size: 30px;
+}
+
+.sidenav a:focus {
+    color: #000;
+    font-weight: bold;
+}
+
+.sidenav .focus{
+    color: #000;
+    font-weight: bold;
+}
+/* Style the tab */
+.tab {
+    float: top;
+    overflow: hidden;
+    background-color: #000000;
+    z-index: 3;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    border-radius: 20px 20px 0px 0;
+    color: white;
+    background-color: #000000;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #838383;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #585858;
+}
+
+/* Style the tab content */
+
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    -webkit-animation: fadeEffect 1s;
+    animation: fadeEffect 1s;
+    border-top: none;
+}
+
+/* Fade in tabs */
+@-webkit-keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
 }

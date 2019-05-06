@@ -2978,7 +2978,7 @@ function applicationManager(globalData) {
             sortedList.forEach((item, index) => {
                 nodes[item] = [];
                 var height = scaleHeight(nodesb4group[item].length);
-                var wPosition = sideWidth / 3;
+                var wPosition = sideWidth / 2;
                 var hPosition = height / 2;
                 var nodeById = d3.map(nodesb4group[item], function (d) {
                     return d.id;
@@ -3034,6 +3034,12 @@ function applicationManager(globalData) {
                 let svg = d3.select("#ranked").append("svg")
                     .attr("width", "100%")
                     .attr("height", height);
+                svg.append("rect")
+                    .attr("width", "100%")
+                    .attr("height", "100%")
+                    .attr("stroke", "grey")
+                    .attr("fill", "white")
+                    ;
 
                 svg.append("text")
                     .text((index + 1) + ". " + item)
