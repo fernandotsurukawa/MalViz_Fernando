@@ -19,9 +19,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
-
 <link rel="stylesheet" href="styles/main.css">
-<link rel="stylesheet" href="styles/sidebar.css">
+<!--<link rel="stylesheet" href="styles/sidebar.css">-->
 <style>
     body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 </style>
@@ -30,71 +29,40 @@
 <!-- Overlay effect when opening sidebar on small screens -->
 <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
-<!-- Rank navigation sidebar-->
 <div id="mySidenavRank" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNavRank()">&times;</a>
-    <!-- Second Photo Grid-->
-    <div class="w3-row-padding" style="margin-bottom:30px">
-        <h4 class="w3-container" id="rankedbydeg" style="position: absolute; padding-left: 20px"><b>Processes ranked by
-            degree</b></h4>
-        <div class="w3-twothird w3-container w3-margin-bottom">
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Processes Ranked</button>
+        <button class="tablinks" onclick="openCity(event, 'Paris')">Libraries Called</button>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNavRank()">&times;</a>
+    </div>
 
-            <div class="w3-container w3-white" style="padding-right: 0">
-                <div id="ranked" class="contentRanked">
+    <div id="London" class="tabcontent">
+        <h4 class="w3-container" id="rankedbydeg" style="position: absolute; padding-left: 20px"><b>Processes ranked by degree</b></h4>
+        <div class="w3-container" style="padding-right: 0; padding-left: 0">
+            <div id="ranked" class="contentRanked">
 
-                </div>
-            </div>
-        </div>
-        <div class="w3-third w3-container w3-margin-bottom">
-
-            <div class="w3-container w3-white" >
-                <p><b>Types of References / Underlay Reference Stream</b></p>
-                <div class="w3-container w3-white" style="padding-right: 0">
-                    <div id="legend"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="w3-third w3-container w3-margin-bottom">
-
-            <div class="w3-container w3-white" style="padding-right: 0">
-                <p><b>Self-call processes</b></p>
-
-                <div id="selfCallProcess" class="contentSelf"></div>
-
-            </div>
-        </div>
-
-
-        <div class="w3-third w3-container">
-            <div class="w3-container w3-white" style="padding-right: 0">
-                <p><b>Connecting domains:</b></p>
-                <div id="maliciousdomain" class="contentSelf2"></div>
             </div>
         </div>
     </div>
-</div>
-<!-- Rank navigation sidebar-->
-<div id="mySidenavLib" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNavLib()">&times;</a>
-    <!-- Lib Section -->
-    <div class="w3-container w3-padding-large w3-white">
-        <h4 id="library"><b>Libraries Called</b></h4>
 
-        <table width="100%" border="0px">
-            <tbody>
-            <tr>
-                <td width="100%">
-                    <div>
-                        <p>
-                            <label for="amount">Number of libraries called:</label>
-                            <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-                        </p>
-                        <div id="slider"
-                             style="width: 400px; background: linear-gradient(to right, #ffffff 0%, #000000 100%);">
-                            <div id="custom-handle" class="ui-slider-handle" style="z-index: auto"></div>
-                        </div>
-                        <span>
+    <div id="Paris" class="tabcontent">
+        <div class="w3-container w3-padding-large w3-white">
+            <h4 id="library"><b>Libraries Called</b></h4>
+
+            <table width="100%" border="0px">
+                <tbody>
+                <tr>
+                    <td width="100%">
+                        <div>
+                            <p>
+                                <label for="amount">Number of libraries called:</label>
+                                <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                            </p>
+                            <div id="slider"
+                                 style="width: 400px; background: linear-gradient(to right, #ffffff 0%, #000000 100%);">
+                                <div id="custom-handle" class="ui-slider-handle" style="z-index: auto"></div>
+                            </div>
+                            <span>
                             <p>Order: <select id="order">
                                 <option value="similarity">By Similarity</option>
                                 <option value="name">By Name</option>
@@ -103,35 +71,40 @@
                             </select>
                             </p>
                         </span>
-                    </div>
+                        </div>
 
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <div id="matrix2D"></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div id="matrix2D"></div>
 
-        <div class="tooltip" style="opacity: 0;" id="ttMatrix"></div>
+            <div class="tooltip" style="opacity: 0;" id="ttMatrix"></div>
+        </div>
     </div>
+
 </div>
 
-<!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:0px" id="mainContent">
 
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:0px" id="mainContent" >
+    <div class="overlaySide">
+        <a class="openbtn btn-floating btn" id="sideNavbtn" onclick="openNavRank()">
+            <i class='fas fa-chevron-circle-right' style='font-size:50px'></i>
+        </a>
+    </div>
     <!-- Header -->
     <header id="portfolio">
         <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
         <div class="w3-container">
             <h1><b>Malware Visualization</b></h1>
             <div class="w3-section w3-padding-8">
-                <!--<span class="w3-margin-right">Filter:</span>-->
-<!--                <button class="w3-button w3-black" id="processBtn">Processes</button>-->
-                <button class="w3-button w3-white" onclick="openNavRank()" id="rankBtn">Ranked by Degree</button>
-                <button class="w3-button w3-white w3-hide-small" onclick="openNavLib()" id="libBtn">Libraries
-                    Called</button>
-<!--                <button class="w3-button w3-white w3-hide-small" style="float: right;">-->
-<!--                    <a href="indexV2.html" target="_blank"  style="text-decoration: none">Alter-->
-<!--                    Interface</a></button>-->
+                <div style="float: right;" id="connectingDomain">
+                    <b>Connecting domains:</b>
+                    <div id="maliciousdomain">
+
+                    </div>
+                </div>
                 <label for="selectmalware">Select dataset: </label>
                 <select id="selectmalware" class="selectmalware">
                     <option>--Select dataset--</option>
@@ -210,25 +183,29 @@
     <div class="w3-row-padding" style="background-color:#cecece; margin-bottom: 20px">
         <h4 class="w3-container"><b>Processes</b></h4>
         <div class="w3-threequarter w3-container w3-margin-bottom" style="width:100%">
-            <div class="w3-container w3-white" id="heatmap">
+            <div class="w3-container w3-white" id="heatmap" style="overflow-x: auto">
 
             </div>
-
             <span id="operation"></span>
         </div>
 
         <h4 class="w3-container"><b>Operations</b></h4>
+
         <div class="w3-threequarter w3-container w3-margin-bottom" style="width:20%">
             <div class="w3-container w3-white" style="padding-right: 0">
-                <p><b>Operation List</b></p>
-                <div id="OperationList" class="contentDemo"></div>
+                <p><b>Types of References /<br> Underlay Reference Stream</b></p>
+                <div class="w3-container w3-white" style="padding-right: 0">
+                    <div id="legend" class="contentRef"></div>
+                </div>
             </div>
+
         </div>
         <div class="w3-quarter w3-container w3-margin-bottom" style="width:60%">
             <div class="w3-container w3-white">
                 <p><b>Operations Overview</b></p>
                 <div id="stats"></div>
             </div>
+
         </div>
         <div class="w3-quarter w3-container" style="width:20%">
             <div class="w3-container w3-white" style="padding-right: 0">
@@ -238,22 +215,21 @@
         </div>
     </div>
 
-    <!--<div class="w3-black w3-center w3-padding-24" style="float: bottom">Malware Visualization</div>-->
-
-    <!-- End page content -->
 </div>
 <div id="loading">
     <img id="loading-image" height="200" width="200" src="images/squareloader2.gif" alt="Loading..."/>
 </div>
 <script>
+    document.getElementById("mySidenavRank").style.height = $(window).height();
     var calculateRank;
     var openSidebarRank, opensidebarLib;
-    var sideWidth = 1000;
+    var sideWidth = 600;
 
     function openNavRank() {
         if (!calculateRank) {
             calculateRank = 1;
         }
+
         document.getElementById("mySidenavRank").style.width = sideWidth + "px";
         document.getElementById("mainContent").style.marginLeft = sideWidth + "px";
         d3.select("#rankBtn").classed("w3-black", true);
@@ -261,26 +237,11 @@
     }
 
     function closeNavRank() {
-        d3.select("mySidenavRank").classed("raise", false);
+        // d3.select("mySidenavRank").classed("raise", false);
         document.getElementById("mySidenavRank").style.width = "0";
-        document.getElementById("mainContent").style.marginLeft= "0";
+        document.getElementById("mainContent").style.marginLeft = "0";
         d3.select("#rankBtn").classed("w3-black", false);
         openSidebarRank = !openSidebarRank;
-    }
-
-    function openNavLib() {
-        document.getElementById("mySidenavLib").style.width = sideWidth + "px";
-        document.getElementById("mainContent").style.marginLeft = sideWidth + "px";
-        d3.select("#libBtn").classed("w3-black", true);
-
-        opensidebarLib = !opensidebarLib;
-    }
-
-    function closeNavLib() {
-        document.getElementById("mySidenavLib").style.width = "0";
-        document.getElementById("mainContent").style.marginLeft= "0";
-        d3.select("#libBtn").classed("w3-black", false);
-        opensidebarLib = !opensidebarLib;
     }
 
     // Script to open and close sidebar
@@ -293,6 +254,23 @@
         document.getElementById("mySidebar").style.display = "none";
         document.getElementById("myOverlay").style.display = "none";
     }
+
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
 </script>
 <script src="js/ultility.js"></script>
 <script src="js/main.js"></script>
@@ -326,6 +304,7 @@
 
     });
     let init = function (filePath) {
+        calculateRank = 0;
         d3.queue()
             .defer(d3.csv, "data/" + filePath, function (d) {
                 return {
@@ -347,12 +326,12 @@
                     let data = ProcessDataV2(original_data, domain);
                     let SiteManager = applicationManager(data); //Initialize application
                     SiteManager.drawStats('#stats'); //Draw statistic map
-                    SiteManager.drawStats2('#OperationList'); //Draw statistic map
+                    // SiteManager.drawStats2('#OperationList'); //Draw statistic map
                     SiteManager.malist("#commonOp");
-                    d3.select("#rankBtn")
+                    d3.select("#sideNavbtn")
                         .on("click", () => {
                             if (calculateRank === 1){
-                                SiteManager.highlight('#avaiop'); // hightlight
+                                SiteManager.highlight('#ranked'); // hightlight
                                 calculateRank = 2;
                             }
                         });
