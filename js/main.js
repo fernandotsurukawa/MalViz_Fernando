@@ -2638,6 +2638,7 @@ function applicationManager(globalData) {
 
             var lensingGroup = d3.select("#outline")
                 .append("g")
+                .attr("transform", "translate(40,0)")
                 .attr("id", "lensingGroup")
                 .on("click", setLensing);
 
@@ -2655,7 +2656,7 @@ function applicationManager(globalData) {
                 .attr("transform", "translate(7," + (outlineHeight - 14) + ")")
             ;
 
-            var magContainer = d3.select("#outline")
+            var magContainer = lensingGroup
                 .append("g")
                 .attr("id", "magContainer")
                 .attr("transform", "translate(90," + (outlineHeight - 43) + ")")

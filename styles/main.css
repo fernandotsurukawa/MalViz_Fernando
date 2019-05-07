@@ -71,9 +71,9 @@ legend {
 body {
     background-color: #dfdfdf;
 }
-#heatmap{
-    transition: 0.5s;
-}
+/*#heatmap{*/
+    /*transition: 0.5s;*/
+/*}*/
 fieldset {
     border: 2px groove #D6D6D6;
     margin: 10px;
@@ -442,8 +442,8 @@ line.link {
     top: 150px;
     left: -20px;
     background-color: rgba(0, 0, 0, 0);
-    z-index: 2;
-    width: 200px;
+    z-index: 0;
+    width: 100px;
     height: 100%;
 
 }
@@ -452,11 +452,12 @@ line.link {
 }
 .overlaySide .openbtn {
     position: absolute;
-    top: 50%;
+    top: 30%;
     left: -30px;
     /*transition: 0.1s;*/
     cursor:pointer;
     /*background: white;*/
+    text-shadow: 0 0 5px #cdcdcd;
 
 }
 /* The side navigation menu */
@@ -469,7 +470,7 @@ line.link {
     left: 0;
     background-color: #585858; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    /*transition: 0.5s; !* 0.5 second transition effect to slide in the sidenav *!*/
 }
 
 /* The navigation menu links */
@@ -479,7 +480,7 @@ line.link {
     font-size: 25px;
     color: #818181;
     display: block;
-    transition: 0.3s;
+    transition: 0.01s;
 }
 
 /* When you mouse over the navigation links, change their color */
@@ -554,4 +555,84 @@ line.link {
 @keyframes fadeEffect {
     from {opacity: 0;}
     to {opacity: 1;}
+}
+.btn-floating {
+    display: inline-block;
+    color: #010101;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0;
+    background-color: #ffffff;
+    border-radius: 50%;
+    -webkit-transition: background-color .3s;
+    transition: background-color .3s;
+    cursor: pointer;
+    vertical-align: middle;
+}
+.pulse {
+    overflow: visible;
+    position: relative
+}
+
+.pulse::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: inherit;
+    border-radius: inherit;
+    -webkit-transition: opacity .3s, -webkit-transform .3s;
+    transition: opacity .3s, -webkit-transform .3s;
+    transition: opacity .3s, transform .3s;
+    transition: opacity .3s, transform .3s, -webkit-transform .3s;
+    -webkit-animation: pulse-animation 1s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+    animation: pulse-animation 1s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+    z-index: -1
+}
+
+@-webkit-keyframes pulse-animation {
+    0% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+
+    50% {
+        opacity: 0;
+        -webkit-transform: scale(1.5);
+        transform: scale(1.5)
+    }
+
+    100% {
+        opacity: 0;
+        -webkit-transform: scale(1.5);
+        transform: scale(1.5)
+    }
+}
+
+@keyframes pulse-animation {
+    0% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+
+    50% {
+        opacity: 0;
+        -webkit-transform: scale(2);
+        transform: scale(2)
+    }
+
+    100% {
+        opacity: 0;
+        -webkit-transform: scale(2);
+        transform: scale(2)
+    }
 }
