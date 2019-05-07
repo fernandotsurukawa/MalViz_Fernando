@@ -1728,13 +1728,15 @@ function applicationManager(globalData) {
                 // .attr("y", 100)
                 .attr("width", 150)
                 .attr("height", 120)
-                .attr("id", "legend");
+                .append("g")
+                .attr("id", "legend")
+                .attr("transform", "translate(20,0)");
 
             legend.selectAll("circle")
                 .data(stackColor)
                 .enter()
                 .append("circle")
-                .attr("cx", 50)
+                .attr("cx", 0)
                 .attr("cy", (d, i) => 10 + i * 20)
                 .attr("r", 6)
                 .attr("fill", d => d);
@@ -1748,7 +1750,7 @@ function applicationManager(globalData) {
                 .text(d => d)
                 .attr("font-size", "15px")
                 // .attr("font-family", "sans-serif")
-                .attr("x", 70)
+                .attr("x", 20)
                 .attr("y", (d, i) => 15 + i * 20);
 
             getTimeBoxData();
@@ -2187,7 +2189,7 @@ function applicationManager(globalData) {
                 var arcActive, firstClick;
                 group.append('text')
                     .attr("class", "malName" + index)
-                    .text(row.key)
+                    .text(row.key.slice(0,30))
                     .attr('x', () => {
                         return StepScale(row.values[row.values.length - 1].Step) * rect_width + margin_left + 5
                     })
@@ -3045,11 +3047,14 @@ function applicationManager(globalData) {
                 svg.append("text")
                     .text((index + 1) + ". " + item)
                     .attr("x", 20)
-                    .attr("y", height > 350 ? height / 5 : height / 2)
+                    .attr("y", index > 0 ? 40: 60)
+                    .style("font-weight", "bold")
                     .append("tspan")
-                    .attr("dy", 30)
-                    .attr("x", 20)
-                    .text("Self-call(s): " + orderedArray.find(d => d.key === item).selfCalls.length);
+                    .attr("dy", 25)
+                    .attr("x", index > 8 ? 40 : 34)
+                    .style("font-size", "14px")
+                    .text("Self-call(s): " + orderedArray.find(d => d.key === item).selfCalls.length)
+                    .style("font-weight", "normal");
 
                 data.nodes = nodes[item];
                 data.links = links[item];

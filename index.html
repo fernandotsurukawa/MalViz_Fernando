@@ -33,7 +33,7 @@
     <div class="tab">
         <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Processes Ranked</button>
         <button class="tablinks" onclick="openCity(event, 'Paris')">Libraries Called</button>
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNavRank()">&times;</a>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     </div>
 
     <div id="London" class="tabcontent">
@@ -88,7 +88,7 @@
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:0px" id="mainContent" >
     <div class="overlaySide">
-        <a class="openbtn btn-floating btn" id="sideNavbtn" onclick="openNavRank()">
+        <a class="openbtn btn-floating btn" id="sideNavbtn" onclick="openNav()">
             <i class='fas fa-chevron-circle-right' style='font-size:40px'></i>
         </a>
     </div>
@@ -98,12 +98,13 @@
         <div class="w3-container">
             <h1><b>Malware Visualization</b></h1>
             <div class="w3-section w3-padding-8">
-                <div style="float: right;" id="connectingDomain">
-                    <b>Connecting domains:</b>
-                    <div id="maliciousdomain">
 
-                    </div>
-                </div>
+                <!--<div style="float: right;" id="connectingDomain">-->
+                    <!--<b>Connecting domains:</b>-->
+                    <!--<div id="maliciousdomain">-->
+
+                    <!--</div>-->
+                <!--</div>-->
                 <label for="selectmalware">Select dataset: </label>
                 <select id="selectmalware" class="selectmalware">
                     <option>--Select dataset--</option>
@@ -172,7 +173,19 @@
 
 
                 </select>
+                <div class="w3-bar w3-white" style="float: right; width: auto;">
 
+                    <a class="w3-bar-item">Connecting Domains</a>
+                    <div class="w3-dropdown-hover">
+                        <button class="w3-button" style="width: 150px">Dropdown  <i
+                                class="fa fa-angle-double-down"></i></button>
+                        <div class="w3-dropdown-content w3-bar-block w3-card-4" style="min-width: auto">
+                            <a href="#" class="w3-bar-item w3-button" style="width: 150px">Link 1</a>
+                            <a href="#" class="w3-bar-item w3-button" style="width: 150px">Link 2</a>
+                            <a href="#" class="w3-bar-item w3-button" style="width: 150px">Link 3</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -233,7 +246,7 @@
         });
     }
 
-    function openNavRank() {
+    function openNav() {
         if (!calculateRank) {
             calculateRank = 1;
         }
@@ -243,7 +256,7 @@
         d3.select("#rankBtn").classed("w3-black", true);
     }
 
-    function closeNavRank() {
+    function closeNav() {
         // d3.select("mySidenavRank").classed("raise", false);
         document.getElementById("mySidenavRank").style.width = "0";
         document.getElementById("mainContent").style.marginLeft = "0";
@@ -303,7 +316,7 @@
         let loading = d3.select('body').append('div').attr('id', 'loading');
         loading.append('img')
             .attr('id', 'loading-image')
-            .attr('src', 'images/squareloader2.svg')
+            .attr('src', 'images/squareloader2.gif')
             .attr("height", "200")
             .attr("height", "200");
         init(valueSelected);
@@ -311,6 +324,7 @@
     });
     let init = function (filePath) {
         calculateRank = 0;
+        closeNav();
         d3.queue()
             .defer(d3.csv, "data/" + filePath, function (d) {
                 return {
@@ -343,10 +357,10 @@
                         });
                     SiteManager.drawMain('#heatmap');//Draw mainMap
                     let maxcalls = SiteManager.getCallRange().maxcall;
-                    SiteManager.updateDomainBox('#maliciousdomain');
+                    // SiteManager.updateDomainBox('#maliciousdomain');
 
                     // for testing --------------------
-                    // openNavRank();
+                    // openNav();
                     // SiteManager.highlight('#avaiop');
                     // --------------------------------
 
