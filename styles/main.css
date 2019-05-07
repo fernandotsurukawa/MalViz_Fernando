@@ -638,7 +638,7 @@ line.link {
     }
 }
 .buttonBox{
-    border: none;
+    border: #010101 1px;;
     display:inline-block;/* padding:8px 16px; */
     vertical-align:middle;
     overflow:hidden;
