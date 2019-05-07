@@ -3320,12 +3320,17 @@ function applicationManager(globalData) {
         updateDomainBox: function (position) {
             d3.select(position).selectAll("*").remove();
             var domainList = getData.getdatabyDomain;
-            if (d3.keys(domainList).length>0){
+            if (d3.keys(domainList).length === 0){
+                d3.select("#connectingDomain").style("display", "none");
+            }
+            else if (d3.keys(domainList).length===1){
                 // exist domain list
                 d3.select("#connectingDomain").style("display", "block");
                 var selection = document.querySelector(position);
                 var count = 1;
                 for (var key in domainList) {
+                    var a_dd = document.createElement('a');
+                    a_dd.innerHTML = key;
                     var option = document.createElement('option');
                     option.textContent = count + ". " + key;
                     option.value = domainList[key].Step;
@@ -3340,7 +3345,7 @@ function applicationManager(globalData) {
                     count++;
                 }
             }
-            else {
+            else (d3.keys(domainList).length === 0){
                 d3.select("#connectingDomain").style("display", "none");
             }
 

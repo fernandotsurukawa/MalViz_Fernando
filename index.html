@@ -173,7 +173,9 @@
 
 
                 </select>
-                <div class="w3-bar w3-white" style="float: right; width: auto;">
+                <div id="domainBox"
+                     class="w3-bar w3-white"
+                     style="float: right; width: auto;">
                     <a class="w3-bar-item" style="width: 0px; padding: 0"></a>
                     <div class="w3-dropdown-hover" style="text-align: left;">
                         <button class="buttonBox">
@@ -181,13 +183,16 @@
                                 <tr>
                                     <td>Connecting Domains:</td>
                                     <td style="width: 140px">
-                                        <span id="firstDomain" style="float: left; padding-left: 10px">DDD</span>
+                                        <span id="firstDomain"
+                                              style="float: left; padding-left: 12px">DDD</span>
                                         <i class='fas fa-angle-down' style="float: right"></i>
                                     </td>
                                 </tr>
                             </table>
                         </button>
-                        <div class="w3-dropdown-content w3-bar-block" style="min-width: auto; right: 16px">
+                        <div id="domainList"
+                             class="w3-dropdown-content w3-bar-block"
+                             style="min-width: auto; right: 16px">
                             <a class="w3-bar-item " style="width: 150px">Link 1</a>
                             <a class="w3-bar-item " style="width: 150px">Link 2</a>
                             <a class="w3-bar-item " style="width: 150px">Link 3</a>
