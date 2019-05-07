@@ -64,7 +64,11 @@ Question: Is there any difference between them?
 By regex expression 
 
 `^.*(procmon.exe|procmon64.exe|Profiling|procexp.exe|procexp64.exe).*\n` [Sublime]
+
 `^.*(procmon|profiling|processmonitor).*\n`
 
 6. About self-call processes
-We use the term "self-call" call for the process which the `Path` in the record is the same as Process_Name, which means that the process call to itself. Typical operaions for processes to call themselves are CreateProcess and CreateFile.
+Process calls to self = Has an operation that call to itself as an object.
+This is not simply reading content from file, but calling to the corresponding process/thread.
+For example: [Load Image](https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-loadimagea)
+Parameter: A handle to the module of either a DLL or executable (.exe) that contains the image to be loaded - Handle INSTANCE
