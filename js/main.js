@@ -3147,7 +3147,6 @@ function applicationManager(globalData) {
 
                         .force("charge", d3.forceManyBody()
                             .strength(d => {
-                                console.log(d);
                                 return -150
                             })
                         )
@@ -3317,36 +3316,51 @@ function applicationManager(globalData) {
             loadMatrix(global_links);
 
         },
-        updateDomainBox: function (position) {
-            d3.select(position).selectAll("*").remove();
+        updateDomainBox: function () {
+            // d3.select(position).selectAll("*").remove();
             var domainList = getData.getdatabyDomain;
+
             if (d3.keys(domainList).length === 0){
-                d3.select("#connectingDomain").style("display", "none");
+                d3.select("#domainBox").style("display", "none");
             }
             else if (d3.keys(domainList).length===1){
-                // exist domain list
-                d3.select("#connectingDomain").style("display", "block");
-                var selection = document.querySelector(position);
-                var count = 1;
-                for (var key in domainList) {
-                    var a_dd = document.createElement('a');
-                    a_dd.innerHTML = key;
-                    var option = document.createElement('option');
-                    option.textContent = count + ". " + key;
-                    option.value = domainList[key].Step;
-                    option.title = domainList[key].Process_Name + " [" + domainList[key].Timestamp + "]";
-                    if (domainList[key].VirusTotal) {
-                        if (domainList[key].VirusTotal.malicious > 0) {
-                            option.className = 'malicious';
-                            option.textContent = count + ". " + key + '-> malicious by Virus Total';
-                        }
-                    }
-                    selection.appendChild(option);
-                    count++;
-                }
+                d3.select("#domainBox").selectAll("span").remove();
+                d3.select("#domainBox").style("display", "block");
+                document.getElementById("domainList").style.visibility = "hidden";
+
+                let newSpan = document.createElement("span");
+                newSpan.textContent = d3.keys(domainList)[0];
+
+                document.getElementById("firstCell").appendChild(newSpan);
+                document.getElementById("downArrow").style.display = "none";
+
             }
-            else (d3.keys(domainList).length === 0){
-                d3.select("#connectingDomain").style("display", "none");
+            else {
+                d3.select("#domainBox").style("display", "block");
+                d3.select("#domainBox").selectAll("span").remove();
+                var box = document.getElementById("domainList");
+                box.style.visibility = "visible";
+                var newcount = 1;
+                for (let key in domainList) {
+                    let newSpan;
+
+                    if (newcount === 1){
+                        newSpan = document.createElement("span");
+                        newSpan.textContent = d3.keys(domainList)[0];
+
+                        document.getElementById("firstCell").appendChild(newSpan);
+                        document.getElementById("downArrow").style.display = "block";
+                        newcount += 1;
+                        continue;
+                    }
+                    newSpan = document.createElement("span");
+                    newSpan.classList.add("w3-bar-item");
+                    newSpan.textContent = key;
+                    newSpan.style.width = "160px";
+
+                    box.appendChild(newSpan);
+                    newcount += 1;
+                }
             }
 
 

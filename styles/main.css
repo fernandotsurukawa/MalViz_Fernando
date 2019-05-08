@@ -654,3 +654,26 @@ line.link {
     background-color: #ffffff !important;
     border: #010101 3px;
 }
+#firstDomain{
+    float: left; padding-left: 12px
+}
+#downArrow{
+    margin-top: 5px;
+    display: none;
+    float: right;
+}
+.domainBox {
+    float: right;
+    width: auto;
+    border: 1px solid grey;
+}
+.domainList {
+    border-right: 1px solid grey;
+    border-left: 1px solid grey;
+    border-bottom: 1px solid grey;
+    min-width: auto;
+    right: 16px;
+    height: 200px;
+    overflow: auto;
+    visibility: hidden;
+}

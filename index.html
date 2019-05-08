@@ -170,32 +170,27 @@
                     <option value="Vung-HackTool-EmailCrack-XP.CSV">Vung-HackTool-EmailCrack-XP</option>
                     <option value="Vung-HackTool-Stealm1-Win10.CSV">Vung-HackTool-Stealm1-Win10</option>
                     <option value="Vung-HackTool-Stealm-Win10.CSV">Vung-HackTool-Stealm-Win10</option>
+                    <option value="Logfile_V1.CSV">Cerber</option>
 
 
                 </select>
                 <div id="domainBox"
-                     class="w3-bar w3-white"
-                     style="float: right; width: auto;">
+                     class="w3-bar w3-white domainBox">
                     <a class="w3-bar-item" style="width: 0px; padding: 0"></a>
                     <div class="w3-dropdown-hover" style="text-align: left;">
                         <button class="buttonBox">
                             <table>
                                 <tr>
                                     <td>Connecting Domains:</td>
-                                    <td style="width: 140px">
-                                        <span id="firstDomain"
-                                              style="float: left; padding-left: 12px">DDD</span>
-                                        <i class='fas fa-angle-down' style="float: right"></i>
+                                    <td style="width: 160px" id="firstCell">
+                                        <i id="downArrow" class='fas fa-angle-down'></i>
                                     </td>
                                 </tr>
                             </table>
                         </button>
                         <div id="domainList"
-                             class="w3-dropdown-content w3-bar-block"
-                             style="min-width: auto; right: 16px">
-                            <a class="w3-bar-item " style="width: 150px">Link 1</a>
-                            <a class="w3-bar-item " style="width: 150px">Link 2</a>
-                            <a class="w3-bar-item " style="width: 150px">Link 3</a>
+                             class="w3-dropdown-content w3-bar-block domainList" >
+
                         </div>
                     </div>
                 </div>
@@ -370,50 +365,52 @@
                         });
                     SiteManager.drawMain('#heatmap');//Draw mainMap
                     let maxcalls = SiteManager.getCallRange().maxcall;
-                    // SiteManager.updateDomainBox('#maliciousdomain');
+                    SiteManager.updateDomainBox();
 
                     // for testing --------------------
                     // openNav();
                     // SiteManager.highlight('#avaiop');
                     // --------------------------------
 
-                    $("#btnName").click(function () {
-                            SiteManager.sort2DMatrix('similarity')
-                        }
-                    );
-                    $("#btnNum").click(function () {
-                            SiteManager.sort2DMatrix('numlinks')
-                        }
-                    );
-                    $("#btnCount").click(function () {
-                            SiteManager.sort2DMatrix('numcount')
-                        }
-                    );
-
-                    $(function () {
-                        let handle = $("#custom-handle");
-                        $("#slider").slider({
-                            min: 0,
-                            value: 3,
-                            max: maxcalls,
-                            create: function () {
-                                handle.text($(this).slider("value"));
-                            },
-                            slide: function (event, ui) {
-                                $("#amount").val("Min: " + ui.value + " - Max: " + maxcalls);
-                                handle.text(ui.value);
-                                SiteManager.updateRangeFilter(ui.value, maxcalls)
+                        $("#btnName").click(function () {
+                                SiteManager.sort2DMatrix('similarity')
                             }
-                        });
-                        $("#amount").val("Min: " + 3 + " - Max: " + maxcalls);
-                    });
+                        );
+                        $("#btnNum").click(function () {
+                                SiteManager.sort2DMatrix('numlinks')
+                            }
+                        );
+                        $("#btnCount").click(function () {
+                                SiteManager.sort2DMatrix('numcount')
+                            }
+                        );
 
-                    SiteManager.updateRangeFilter(3, maxcalls);
-                    isready = true;
+                        $(function () {
+                            let handle = $("#custom-handle");
+                            $("#slider").slider({
+                                min: 0,
+                                value: 3,
+                                max: maxcalls,
+                                create: function () {
+                                    handle.text($(this).slider("value"));
+                                },
+                                slide: function (event, ui) {
+                                    $("#amount").val("Min: " + ui.value + " - Max: " + maxcalls);
+                                    handle.text(ui.value);
+                                    SiteManager.updateRangeFilter(ui.value, maxcalls)
+                                }
+                            });
+                            $("#amount").val("Min: " + 3 + " - Max: " + maxcalls);
+                        });
+
+                        SiteManager.updateRangeFilter(3, maxcalls);
+                        isready = true;
+
+
                 }
             });
     };
-    init("Huyen-Ransomware-WannaPeace.csv");
+    init("Logfile_V1.CSV");
 
     var list = {
         "CloseFile": {"operation": "FileSystem", "index": 0},
