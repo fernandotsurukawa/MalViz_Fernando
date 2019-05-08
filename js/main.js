@@ -1338,9 +1338,8 @@ function applicationManager(globalData) {
                 var xpos = margin_left;
 
                 child_process.forEach(function (child) {
-                    console.log(child);
                     group.append('rect')
-                        .attr("id", "ovRect" + countID)
+                        .attr("id", "ovRect" + child.key.replace(" ",""))
                         .attr('x', xpos)
                         .attr('width', function () {
                             return xScale(child.values.length)
@@ -1437,7 +1436,8 @@ function applicationManager(globalData) {
                             }
                             else {
                                 var key2 = child.key.replace(" ", "");
-
+                                console.log(key2);
+                                console.log(this);
                                 // show group
                                 d3.select(this)
                                     .classed("op1", () => {
@@ -1466,23 +1466,28 @@ function applicationManager(globalData) {
                     group.append("clipPath")
                         .attr("id", "clip-" + countID)
                         .append("use")
-                        .attr("xlink:href", "#" + "ovRect" + countID);
+                        .attr("xlink:href", "#" + "ovRect" + child.key.replace(" ",""));
 
                     // clip path
                     group.append("text")
-                        .attr("clip-path", function(d) { return "url(#clip-" + countID + ")"; })
+                        .attr("clip-path", function (d) {
+                            return "url(#clip-" + countID + ")";
+                        })
                         .selectAll("tspan")
                         .data([child.key])
                         .enter().append("tspan")
-                        .attr('x', xpos+1)
+                        .classed("unselectable", true)
+                        .attr('x', xpos + 1)
                         .attr("y", 18)
-                        .text(function(d) { return d; })
+                        .text(function (d) {
+                            return d;
+                        })
                         .attr("fill", "white")
                         .attr("font-size", "11px")
                         .attr("font-family", "sans-serif");
 
                     xpos += xScale(child.values.length) + 2;
-                    countID ++;
+                    countID++;
                 });
                 group.append('text')
                     .text(process.key + " (" + process.values.length + ")")
@@ -1788,7 +1793,7 @@ function applicationManager(globalData) {
             var outline = d3.select('#heatmap').append('svg')
                 .attr("class", "outline")
                 .attr("height", dashHeight)
-                .attr("width", width1-35)
+                .attr("width", width1 - 35)
                 .attr("id", "outline");
 
             var bbox = document.getElementById("outline");
@@ -2215,7 +2220,7 @@ function applicationManager(globalData) {
                 var arcActive, firstClick;
                 group.append('text')
                     .attr("class", "malName" + index)
-                    .text(row.key.slice(0,30))
+                    .text(row.key.slice(0, 30))
                     .attr('x', () => {
                         return StepScale(row.values[row.values.length - 1].Step) * rect_width + margin_left + 5
                     })
@@ -2766,7 +2771,7 @@ function applicationManager(globalData) {
 
 
         },
-        malist: function (position){
+        malist: function (position) {
             // OPERATION ============================================================
 
             var opList = getData.getdatabyOperation.map(d => d.key);
@@ -2913,7 +2918,7 @@ function applicationManager(globalData) {
                             computeNodes(nodeObj, nodesb4group[keyName], "Registry", ref.Path, i, len);
                         }
                         else if (ref.Process === "Network") {
-                            computeNodes(nodeObj, nodesb4group[keyName], "Network", ref.Path,i, len);
+                            computeNodes(nodeObj, nodesb4group[keyName], "Network", ref.Path, i, len);
                         }
                         else if (ref.Path.toLowerCase().endsWith(".dll")) {
                             computeNodes(nodeObj, nodesb4group[keyName], "dll", ref.Path, i, len);
@@ -2922,7 +2927,7 @@ function applicationManager(globalData) {
                             let linkExe = ref.Path.split(/\\/);
                             let exeName = linkExe[linkExe.length - 1];
 
-                            computeNodes(nodeObj, nodesb4group[keyName], "exe", exeName,i, len);
+                            computeNodes(nodeObj, nodesb4group[keyName], "exe", exeName, i, len);
 
                             list.forEach(d => {
                                 if ((d.toLowerCase() !== keyName) &&  // second != primary
@@ -2934,7 +2939,7 @@ function applicationManager(globalData) {
                             })
                         }
                         else {
-                            computeNodes(nodeObj, nodesb4group[keyName], "File", ref.Path,i, len);
+                            computeNodes(nodeObj, nodesb4group[keyName], "File", ref.Path, i, len);
                         }
                     }
                 });
@@ -2946,7 +2951,7 @@ function applicationManager(globalData) {
                     nodesb4group[keyName].push({
                         id: keyName,
                         type: "exe",
-                        connect: new Array(len+1).join("0")
+                        connect: new Array(len + 1).join("0")
                     })
                 }
 
@@ -2967,16 +2972,16 @@ function applicationManager(globalData) {
                         d3.keys(nodeObjTotal[host]).forEach(refer => {
                             if (nodeObjTotal[guest][refer]) {
                                 // add level
-                                let guestPos = getIndex(list,guest);
-                                let currentConRef =  nodesb4group[host].find(d => d.id === refer).connect;
-                                let currentConHost =  nodesb4group[host].find(d => d.id === host).connect;
+                                let guestPos = getIndex(list, guest);
+                                let currentConRef = nodesb4group[host].find(d => d.id === refer).connect;
+                                let currentConHost = nodesb4group[host].find(d => d.id === host).connect;
                                 // update refer connect
                                 nodesb4group[host].find(d => d.id === refer).connect =
-                                    currentConRef.slice(0,guestPos) + "1" + currentConRef.slice(guestPos+1);
+                                    currentConRef.slice(0, guestPos) + "1" + currentConRef.slice(guestPos + 1);
 
                                 // update host connect
                                 nodesb4group[host].find(d => d.id === host).connect =
-                                    currentConHost.slice(0,guestPos) + "1" + currentConHost.slice(guestPos+1);
+                                    currentConHost.slice(0, guestPos) + "1" + currentConHost.slice(guestPos + 1);
 
                                 links[host].push({
                                     source: guest,
@@ -2994,21 +2999,25 @@ function applicationManager(globalData) {
             // sort processes based on number of links
             var dr = 4,      // default point radius
                 off = 4;    // cluster hull offset
-            
+
             var sortedList = list
                 .sort((a, b) => (links[b].length - links[a].length));
-          
+
             var strokeScale = d3.scaleSqrt()
                 .domain([1, 5000])
                 .range([1, 10]);
-            
+
             var radiusScale = d3.scaleSqrt()
                 .domain([dr, 1200])
                 .range([dr, 50]);
 
-            var scaleHeight = d3.scaleThreshold()
+            var scaleHeightAfter = d3.scaleThreshold()
                 .domain([10, 40, 150, 500, 1300, 2500])
                 .range([80, 150, 300, 400, 600, 1000, 1500]);
+
+            var scaleHeight = d3.scaleThreshold()
+                .domain([10, 40, 500, 1000])
+                .range([80, 150, 250, 400]);
 
             d3.select("#ranked").selectAll("*").remove();
 
@@ -3022,12 +3031,12 @@ function applicationManager(globalData) {
                     return d.id;
                 });
 
-               // define group | main exe dont group
-                var grouped = nodesb4group[item].groupBy(['type','connect']);
-                grouped.forEach((g,i) => {
+                // define group | main exe dont group
+                var grouped = nodesb4group[item].groupBy(['type', 'connect']);
+                grouped.forEach((g, i) => {
                     g.values.forEach(d => {
                         // modify each node HERE
-                        d.group = i+1;
+                        d.group = i + 1;
                         delete d.connect;
                         nodes[item].push(d);
                     })
@@ -3035,8 +3044,8 @@ function applicationManager(globalData) {
                 // current last group
                 var clg = grouped.length, firstEct = false;
                 nodes[item].forEach(node => {
-                    if (list.indexOf(node.id) >= 0){ // main process
-                        if (!firstEct){
+                    if (list.indexOf(node.id) >= 0) { // main process
+                        if (!firstEct) {
                             // keep group number
                             firstEct = true;
                             return
@@ -3052,7 +3061,7 @@ function applicationManager(globalData) {
                 var curve = d3.line()
                     .curve(d3.curveCardinalClosed);
 
-               var multiLinks = [];
+                var multiLinks = [];
                 links[item].forEach(link => {
                     var s = link.source = nodeById.get(link.source),
                         t = link.target = nodeById.get(link.target);
@@ -3068,21 +3077,24 @@ function applicationManager(globalData) {
                         multiLinks.push([s, t, link.value])
                     }
                 });
-                
-                let svg = d3.select("#ranked").append("svg")
+
+                let svg = d3.select("#ranked")
+                    .append("svg")
+                    .attr("id", "svg" + item)
                     .attr("width", "100%")
                     .attr("height", height);
+
                 svg.append("rect")
                     .attr("width", "100%")
                     .attr("height", "100%")
                     .attr("stroke", "grey")
                     .attr("fill", "white")
-                    ;
+                ;
 
                 svg.append("text")
                     .text((index + 1) + ". " + item)
                     .attr("x", 20)
-                    .attr("y", index > 0 ? 40: 60)
+                    .attr("y", index > 0 ? 40 : 60)
                     .style("font-weight", "bold")
                     .append("tspan")
                     .attr("dy", 25)
@@ -3106,13 +3118,14 @@ function applicationManager(globalData) {
                 function drawCluster(d) {
                     return curve(d.path); // 0.8
                 }
+
                 function init() {
                     if (simulation) simulation.stop();
                     net = network(data, net, getGroup, expand);
                     simulation = d3.forceSimulation()
                         .force("link", d3.forceLink()
                             // .id(d => d.name)
-                                .distance(function(l) {
+                                .distance(function (l) {
                                     var n1 = l.source, n2 = l.target;
                                     var defaultValue = 20 +
                                         Math.min(20 * Math.min((n1.size || (n1.group != n2.group ? n1.group_data.size : 0)),
@@ -3122,27 +3135,27 @@ function applicationManager(globalData) {
                                             (n2.link_count || (n1.group != n2.group ? n2.group_data.link_count : 0))),
                                             100);
                                     var procValue = 100;
-                                    
-                                    if ((n1.size) && (n2.size)){
-                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)){
+
+                                    if ((n1.size) && (n2.size)) {
+                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)) {
                                             return procValue;
                                         }
                                         else return defaultValue;
                                     }
-                                    else if ((!n1.size) && (n2.size)){
-                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)){
+                                    else if ((!n1.size) && (n2.size)) {
+                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)) {
                                             return procValue;
                                         }
                                         else return defaultValue;
                                     }
-                                    else if ((n1.size) && (!n2.size)){
-                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.id) >= 0)){
+                                    else if ((n1.size) && (!n2.size)) {
+                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.id) >= 0)) {
                                             return procValue;
                                         }
                                         else return defaultValue;
                                     }
                                     else { // both are bare nodes
-                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.id) >= 0)){
+                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.id) >= 0)) {
                                             return procValue;
                                         }
                                         else return defaultValue;
@@ -3152,26 +3165,26 @@ function applicationManager(globalData) {
                                     var n1 = l.source, n2 = l.target;
                                     var defaultValue = 0.9, procValue = 0.4;
 
-                                    if ((n1.size) && (n2.size)){
-                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)){
+                                    if ((n1.size) && (n2.size)) {
+                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)) {
                                             return procValue;
                                         }
                                         else return defaultValue;
                                     }
-                                    else if ((!n1.size) && (n2.size)){
-                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)){
+                                    else if ((!n1.size) && (n2.size)) {
+                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)) {
                                             return procValue;
                                         }
                                         else return defaultValue;
                                     }
-                                    else if ((n1.size) && (!n2.size)){
-                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.id) >= 0)){
+                                    else if ((n1.size) && (!n2.size)) {
+                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.id) >= 0)) {
                                             return procValue;
                                         }
                                         else return defaultValue;
                                     }
                                     else { // both are bare nodes
-                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.id) >= 0)){
+                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.id) >= 0)) {
                                             return procValue;
                                         }
                                         else return defaultValue;
@@ -3199,19 +3212,21 @@ function applicationManager(globalData) {
                     simulation
                         .force("link")
                         .links(net.links);
-                    
+
                     hullg.selectAll("path.hull").remove();
                     hull = hullg.selectAll("path.hull")
                         .data(convexHulls(net.nodes, getGroup, off))
                         .enter().append("path")
                         .attr("class", "hull")
                         .attr("d", drawCluster)
-                        .style("fill", function(d) {
-                            return getColor(d.type); })
+                        .style("fill", function (d) {
+                            return getColor(d.type);
+                        })
                         .style("fill-opacity", 0.3)
-                        .on("click", function(d) {
+                        .on("click", function (d) {
                             console.log("hull click", d, arguments, this, expand[d.group]);
-                            expand[d.group] = false; init();
+                            expand[d.group] = false;
+                            init();
                         });
                     hull = hullg.selectAll("path.hull");
 
@@ -3219,30 +3234,32 @@ function applicationManager(globalData) {
                     link.exit().remove();
                     link.enter().append("line")
                         .attr("class", "link")
-                        .style("stroke-width", function(d) {
+                        .style("stroke-width", function (d) {
                             return strokeScale(d.size);
-                            });
+                        });
                     link = linkg.selectAll("line.link");
 
                     node = nodeg.selectAll("circle.node").data(net.nodes, nodeid);
                     node.exit().remove();
                     node.enter().append("circle")
                     // if (d.size) -- d.size > 0 when d is a group node.
-                        .attr("class", function(d) {
-                            if (d.size){
-                                if (d.size ===1){
+                        .attr("class", function (d) {
+                            if (d.size) {
+                                if (d.size === 1) {
                                     return "node leaf";
                                 }
                                 else return "node"
                             }
-                            else return "node leaf"; })
-                        .attr("r", function(d) {
-                            // bare nodes dont have size
-                            return d.size ? radiusScale(d.size + dr) : radiusScale(1 + dr); })
-                        .style("fill", function(d) {
-                            return d.size? getColor(d.nodes[0].type) : getColor(d.type);
+                            else return "node leaf";
                         })
-                        .on("click", function(d) {
+                        .attr("r", function (d) {
+                            // bare nodes dont have size
+                            return d.size ? radiusScale(d.size + dr) : radiusScale(1 + dr);
+                        })
+                        .style("fill", function (d) {
+                            return d.size ? getColor(d.nodes[0].type) : getColor(d.type);
+                        })
+                        .on("click", function (d) {
                             console.log("node click", d, arguments, this, expand[d.group]);
                             expand[d.group] = !expand[d.group];
                             init();
@@ -3277,12 +3294,24 @@ function applicationManager(globalData) {
                             hull.data(convexHulls(net.nodes, getGroup, off))
                                 .attr("d", drawCluster);
                         }
-                        link.attr("x1", function(d) { return d.source.x; })
-                            .attr("y1", function(d) { return d.source.y; })
-                            .attr("x2", function(d) { return d.target.x; })
-                            .attr("y2", function(d) { return d.target.y; });
-                        node.attr("cx", function(d) { return d.x; })
-                            .attr("cy", function(d) { return d.y; });
+                        link.attr("x1", function (d) {
+                            return d.source.x;
+                        })
+                            .attr("y1", function (d) {
+                                return d.source.y;
+                            })
+                            .attr("x2", function (d) {
+                                return d.target.x;
+                            })
+                            .attr("y2", function (d) {
+                                return d.target.y;
+                            });
+                        node.attr("cx", function (d) {
+                            return d.x;
+                        })
+                            .attr("cy", function (d) {
+                                return d.y;
+                            });
                     }
                 }
 
@@ -3355,10 +3384,10 @@ function applicationManager(globalData) {
             // d3.select(position).selectAll("*").remove();
             var domainList = getData.getdatabyDomain;
 
-            if (d3.keys(domainList).length === 0){
+            if (d3.keys(domainList).length === 0) {
                 d3.select("#domainBox").style("display", "none");
             }
-            else if (d3.keys(domainList).length===1){
+            else if (d3.keys(domainList).length === 1) {
                 d3.select("#domainBox").selectAll("span").remove();
                 d3.select("#domainBox").style("display", "block");
                 document.getElementById("domainList").style.visibility = "hidden";
@@ -3380,7 +3409,7 @@ function applicationManager(globalData) {
                 for (let key in domainList) {
                     let newSpan;
 
-                    if (newcount === 1){
+                    if (newcount === 1) {
                         newSpan = document.createElement("span");
                         newSpan.textContent = d3.keys(domainList)[0];
 
@@ -3398,7 +3427,6 @@ function applicationManager(globalData) {
                     newcount += 1;
                 }
             }
-
 
 
         }
@@ -3480,10 +3508,43 @@ function selectAll() {
         })
     }
 }
+
 function selectCommon() {
     var selectCommon = document.getElementById("commonSelection").checked;
-    if (selectCommon){
+    if (selectCommon) {
         document.getElementById("opSelection").checked = false;
+        // first, hide all
+        d3.select("#heatmap").selectAll('rect[group=detail]')
+            .style('visibility', "hidden");
+
+        // hide arc
+        d3.selectAll(".arc")
+            .classed("hidden", true);
+
+        // unselect group
+        svgStats.selectAll("rect")
+            .classed("op0", true)
+            .classed("op1 op2", false);
+
+        availableCommon.forEach(name => {
+            let key = name.replace(" ", "");
+            // show group
+            d3.select("#ovRect"+key)
+                .classed("op1", true)
+                .classed("op2", false)
+                .classed("op0", !!active[key]);
+
+            // show arc
+            d3.selectAll("[class*=o" + key + "]")
+                .classed("visible", true)
+                .classed("hidden", false);
+
+            // show rect
+            d3.select("#heatmap").selectAll('rect.' + key)
+                .style('visibility', active[key] ? "hidden" : "visible");
+
+            active[key] = !active[key];
+        })
     }
     else {
         d3.select("#heatmap").selectAll('rect[group=detail]')
@@ -3504,16 +3565,17 @@ function selectCommon() {
         })
     }
 }
+
 function computeNodes(nodeObj, miniNode, type, rawPath, pos, len) {
     let path = rawPath.toLowerCase();
-    let connectArray = new Array(len+1).join("0");
+    let connectArray = new Array(len + 1).join("0");
     if (!nodeObj[path]) {
         // if havent existed
         nodeObj[path] = 1;
         miniNode.push({
             id: path,
             type: type,
-            connect: connectArray.slice(0,pos) + "1" + connectArray.slice(pos+1)
+            connect: connectArray.slice(0, pos) + "1" + connectArray.slice(pos + 1)
         });
 
     } else {
@@ -3521,20 +3583,24 @@ function computeNodes(nodeObj, miniNode, type, rawPath, pos, len) {
     }
 }
 
-function getIndex(list, item){
+function getIndex(list, item) {
     return list.indexOf(item);
 }
 
 function nodeid(n) {
-    return n.size ? "_g_"+n.group : n.name;
+    return n.size ? "_g_" + n.group : n.name;
 }
+
 function linkid(l) {
     var u = nodeid(l.source),
         v = nodeid(l.target);
-    return u<v ? u+"|"+v : v+"|"+u;
+    return u < v ? u + "|" + v : v + "|" + u;
 }
 
-function getGroup(n) { return n.group; }
+function getGroup(n) {
+    return n.group;
+}
+
 // constructs the network to visualize
 function network(data, prev, getGroup, expand) {
     expand = expand || {};
@@ -3547,13 +3613,13 @@ function network(data, prev, getGroup, expand) {
         links = []; // output links
     // process previous nodes for reuse or centroid calculation
     if (prev) {
-        prev.nodes.forEach(function(n) {
+        prev.nodes.forEach(function (n) {
             let i = getGroup(n), o;
             if (n.size > 0) {
                 prevGroupNode[i] = n;
                 n.size = 0;
             } else {
-                o = prevGroupCentroid[i] || (prevGroupCentroid[i] = {x:0,y:0,count:0});
+                o = prevGroupCentroid[i] || (prevGroupCentroid[i] = {x: 0, y: 0, count: 0});
                 o.x += n.x;
                 o.y += n.y;
                 o.count += 1;
@@ -3561,12 +3627,12 @@ function network(data, prev, getGroup, expand) {
         });
     }
     // determine nodes
-    for (var k=0; k<data.nodes.length; ++k) {
+    for (var k = 0; k < data.nodes.length; ++k) {
         var n = data.nodes[k],
             i = getGroup(n),    // i is the freaking group
-            g = groupMap[i] || 
-                (groupMap[i]=prevGroupNode[i]) || 
-                (groupMap[i]={group:i, size:0, nodes:[]});
+            g = groupMap[i] ||
+                (groupMap[i] = prevGroupNode[i]) ||
+                (groupMap[i] = {group: i, size: 0, nodes: []});
         if (expand[i]) {
             // the node should be directly visible
             nodeMap[n.id] = nodes.length;
@@ -3593,65 +3659,69 @@ function network(data, prev, getGroup, expand) {
         g.size += 1;
         n.group_data = g;       // circular data
     }
-    for (i in groupMap) { groupMap[i].link_count = 0; }
-    
+    for (i in groupMap) {
+        groupMap[i].link_count = 0;
+    }
+
     // determine links
-    for (k=0; k<data.links.length; ++k) {
+    for (k = 0; k < data.links.length; ++k) {
         var e, u, v;        // u, v are group names
         e = data.links[k];
-        if (e.source.group){
+        if (e.source.group) {
             u = getGroup(e.source);
         }
         else continue;
-        if (e.target.group){
+        if (e.target.group) {
             v = getGroup(e.target);
         }
         else continue;
         if (u != v) {
             // link_count is the number of links to that node
-            groupMap[u].link_count+=e.value;
-            groupMap[v].link_count+=e.value;
+            groupMap[u].link_count += e.value;
+            groupMap[v].link_count += e.value;
         }
         u = expand[u] ? nodeMap[e.source.id] : nodeMap[u];
         v = expand[v] ? nodeMap[e.target.id] : nodeMap[v];
-        var index = (u<v ? u+"|"+v : v+"|"+u),
-            l = linkMap[index] || (linkMap[index] = {source:u, target:v, size:0});
+        var index = (u < v ? u + "|" + v : v + "|" + u),
+            l = linkMap[index] || (linkMap[index] = {source: u, target: v, size: 0});
         l.size += e.value;
     }
-    for (i in linkMap) { 
-        if (maxLink < linkMap[i].size){
+    for (i in linkMap) {
+        if (maxLink < linkMap[i].size) {
             maxLink = linkMap[i].size;
         }
-        links.push(linkMap[i]); }
+        links.push(linkMap[i]);
+    }
     return {nodes: nodes, links: links};
 }
+
 function convexHulls(nodes, index, offset) {
     var hulls = {};
     var groupType = {};
     // create point sets
-    for (var k=0; k<nodes.length; ++k) {
+    for (var k = 0; k < nodes.length; ++k) {
         var n = nodes[k];
         if (n.size) continue;
         // if nodes are grouped, continue !!!
 
         var i = index(n),
             l = hulls[i] || (hulls[i] = []);
-        
+
         groupType[i] = n.type;
 
         // each node -> 4 nodes including offset
-        l.push([n.x-offset, n.y-offset]);
-        l.push([n.x-offset, n.y+offset]);
-        l.push([n.x+offset, n.y-offset]);
-        l.push([n.x+offset, n.y+offset]);
+        l.push([n.x - offset, n.y - offset]);
+        l.push([n.x - offset, n.y + offset]);
+        l.push([n.x + offset, n.y - offset]);
+        l.push([n.x + offset, n.y + offset]);
     }
 
     // create convex hulls
     var hullset = [];
     for (i in hulls) {
         hullset.push({
-            group: i, 
-            path:d3.polygonHull(hulls[i]),
+            group: i,
+            path: d3.polygonHull(hulls[i]),
             type: groupType[i]
         })
     }
