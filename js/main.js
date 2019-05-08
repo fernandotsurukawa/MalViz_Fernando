@@ -3327,7 +3327,7 @@ function applicationManager(globalData) {
                 d3.select("#domainBox").selectAll("span").remove();
                 d3.select("#domainBox").style("display", "block");
                 document.getElementById("domainList").style.visibility = "hidden";
-
+                document.getElementById("titleDomain").innerHTML = "Connecting Domain: ";
                 let newSpan = document.createElement("span");
                 newSpan.textContent = d3.keys(domainList)[0];
 
@@ -3339,6 +3339,7 @@ function applicationManager(globalData) {
                 d3.select("#domainBox").style("display", "block");
                 d3.select("#domainBox").selectAll("span").remove();
                 var box = document.getElementById("domainList");
+                document.getElementById("titleDomain").innerHTML = "Connecting Domains: "
                 box.style.visibility = "visible";
                 var newcount = 1;
                 for (let key in domainList) {

@@ -4,7 +4,6 @@
     <list default="true" id="d8b82504-1950-4318-aa3d-f800f494b894" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/main.css" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -27,8 +26,8 @@
             <file pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/index.html">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="278">
-                    <caret line="171" column="63" lean-forward="true" selection-start-line="171" selection-start-column="63" selection-end-line="171" selection-end-column="63" />
+                  <state relative-caret-position="235">
+                    <caret line="174" lean-forward="true" selection-start-line="174" selection-end-line="174" />
                     <folding>
                       <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                       <element signature="e#2053#2060#1" expanded="true" />
@@ -67,15 +66,15 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="191" />
-          <entry key="html" value="326" />
-          <entry key="js" value="600" />
+          <entry key="html" value="340" />
+          <entry key="js" value="616" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="191" />
-          <entry key="HTML" value="326" />
-          <entry key="JavaScript" value="600" />
+          <entry key="HTML" value="340" />
+          <entry key="JavaScript" value="616" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
@@ -122,8 +121,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="3332" lean-forward="true" selection-start-line="3332" selection-end-line="3332" />
+            <state relative-caret-position="613">
+              <caret line="3341" column="86" selection-start-line="3341" selection-start-column="86" selection-end-line="3341" selection-end-column="86" />
               <folding>
                 <element signature="e#6#12#0" expanded="true" />
                 <element signature="e#6#12#0" expanded="true" />
@@ -147,7 +146,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>link_count</find>
       <find>console</find>
       <find>stroke</find>
       <find>strokeSc</find>
@@ -177,6 +175,7 @@
       <find>maliciousdomain</find>
       <find>portfolio</find>
       <find>domainBox</find>
+      <find>logfile</find>
     </findStrings>
     <replaceStrings>
       <replace>op0</replace>
@@ -221,8 +220,8 @@
         <option value="$PROJECT_DIR$/styles/hull.css" />
         <option value="$PROJECT_DIR$/metadata/Notes.md" />
         <option value="$PROJECT_DIR$/js/ultility.js" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/styles/main.css" />
+        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/main.js" />
       </list>
     </option>
@@ -417,12 +416,12 @@
       <workItem from="1557163408628" duration="21235000" />
       <workItem from="1557250173673" duration="4699000" />
       <workItem from="1557261370812" duration="1911000" />
-      <workItem from="1557333040046" duration="8255000" />
+      <workItem from="1557333040046" duration="8557000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="550589000" />
+    <option name="totallyTimeSpent" value="550891000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="404" y="23" width="1093" height="1417" extended-state="0" />
@@ -685,10 +684,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="613">
+          <caret line="3341" column="86" selection-start-line="3341" selection-start-column="86" selection-end-line="3341" selection-end-column="86" />
+          <folding>
+            <element signature="e#6#12#0" expanded="true" />
+            <element signature="e#6#12#0" expanded="true" />
+            <element signature="e#6#12#0" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="171" column="63" lean-forward="true" selection-start-line="171" selection-start-column="63" selection-end-line="171" selection-end-column="63" />
+        <state relative-caret-position="235">
+          <caret line="174" lean-forward="true" selection-start-line="174" selection-end-line="174" />
           <folding>
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="e#2053#2060#1" expanded="true" />
@@ -712,19 +724,6 @@
             <element signature="n#style#0;n#div#2;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#3;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#3;n#div#1;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="3332" lean-forward="true" selection-start-line="3332" selection-end-line="3332" />
-          <folding>
-            <element signature="e#6#12#0" expanded="true" />
-            <element signature="e#6#12#0" expanded="true" />
-            <element signature="e#6#12#0" expanded="true" />
-            <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
