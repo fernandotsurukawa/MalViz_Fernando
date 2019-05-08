@@ -33,7 +33,7 @@
     <div class="tab">
         <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Processes Ranked</button>
         <button class="tablinks" onclick="openCity(event, 'Paris')">Libraries Called</button>
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNavRank()">&times;</a>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     </div>
 
     <div id="London" class="tabcontent">
@@ -88,22 +88,23 @@
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:0px" id="mainContent" >
     <div class="overlaySide">
-        <a class="openbtn btn-floating btn" id="sideNavbtn" onclick="openNavRank()">
+        <a class="openbtn btn-floating btn" id="sideNavbtn" onclick="openNav()">
             <i class='fas fa-chevron-circle-right' style='font-size:40px'></i>
         </a>
     </div>
     <!-- Header -->
     <header id="portfolio">
-        <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
+<!--        <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>-->
         <div class="w3-container">
             <h1><b>Malware Visualization</b></h1>
             <div class="w3-section w3-padding-8">
-                <div style="float: right;" id="connectingDomain">
-                    <b>Connecting domains:</b>
-                    <div id="maliciousdomain">
 
-                    </div>
-                </div>
+                <!--<div style="float: right;" id="connectingDomain">-->
+                    <!--<b>Connecting domains:</b>-->
+                    <!--<div id="maliciousdomain">-->
+
+                    <!--</div>-->
+                <!--</div>-->
                 <label for="selectmalware">Select dataset: </label>
                 <select id="selectmalware" class="selectmalware">
                     <option>--Select dataset--</option>
@@ -169,10 +170,30 @@
                     <option value="Vung-HackTool-EmailCrack-XP.CSV">Vung-HackTool-EmailCrack-XP</option>
                     <option value="Vung-HackTool-Stealm1-Win10.CSV">Vung-HackTool-Stealm1-Win10</option>
                     <option value="Vung-HackTool-Stealm-Win10.CSV">Vung-HackTool-Stealm-Win10</option>
+                    <option value="Logfile_V1.CSV">Cerber</option>
 
 
                 </select>
+                <div id="domainBox"
+                     class="w3-bar w3-white domainBox">
+                    <a class="w3-bar-item" style="width: 0px; padding: 0"></a>
+                    <div class="w3-dropdown-hover" style="text-align: left;">
+                        <button class="buttonBox">
+                            <table>
+                                <tr>
+                                    <td>Connecting Domains:</td>
+                                    <td style="width: 160px" id="firstCell">
+                                        <i id="downArrow" class='fas fa-angle-down'></i>
+                                    </td>
+                                </tr>
+                            </table>
+                        </button>
+                        <div id="domainList"
+                             class="w3-dropdown-content w3-bar-block domainList" >
 
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -233,7 +254,7 @@
         });
     }
 
-    function openNavRank() {
+    function openNav() {
         if (!calculateRank) {
             calculateRank = 1;
         }
@@ -243,7 +264,7 @@
         d3.select("#rankBtn").classed("w3-black", true);
     }
 
-    function closeNavRank() {
+    function closeNav() {
         // d3.select("mySidenavRank").classed("raise", false);
         document.getElementById("mySidenavRank").style.width = "0";
         document.getElementById("mainContent").style.marginLeft = "0";
@@ -303,7 +324,7 @@
         let loading = d3.select('body').append('div').attr('id', 'loading');
         loading.append('img')
             .attr('id', 'loading-image')
-            .attr('src', 'images/squareloader2.svg')
+            .attr('src', 'images/squareloader2.gif')
             .attr("height", "200")
             .attr("height", "200");
         init(valueSelected);
@@ -311,6 +332,7 @@
     });
     let init = function (filePath) {
         calculateRank = 0;
+        closeNav();
         d3.queue()
             .defer(d3.csv, "data/" + filePath, function (d) {
                 return {
@@ -343,50 +365,52 @@
                         });
                     SiteManager.drawMain('#heatmap');//Draw mainMap
                     let maxcalls = SiteManager.getCallRange().maxcall;
-                    SiteManager.updateDomainBox('#maliciousdomain');
+                    SiteManager.updateDomainBox();
 
                     // for testing --------------------
-                    // openNavRank();
+                    // openNav();
                     // SiteManager.highlight('#avaiop');
                     // --------------------------------
 
-                    $("#btnName").click(function () {
-                            SiteManager.sort2DMatrix('similarity')
-                        }
-                    );
-                    $("#btnNum").click(function () {
-                            SiteManager.sort2DMatrix('numlinks')
-                        }
-                    );
-                    $("#btnCount").click(function () {
-                            SiteManager.sort2DMatrix('numcount')
-                        }
-                    );
-
-                    $(function () {
-                        let handle = $("#custom-handle");
-                        $("#slider").slider({
-                            min: 0,
-                            value: 3,
-                            max: maxcalls,
-                            create: function () {
-                                handle.text($(this).slider("value"));
-                            },
-                            slide: function (event, ui) {
-                                $("#amount").val("Min: " + ui.value + " - Max: " + maxcalls);
-                                handle.text(ui.value);
-                                SiteManager.updateRangeFilter(ui.value, maxcalls)
+                        $("#btnName").click(function () {
+                                SiteManager.sort2DMatrix('similarity')
                             }
-                        });
-                        $("#amount").val("Min: " + 3 + " - Max: " + maxcalls);
-                    });
+                        );
+                        $("#btnNum").click(function () {
+                                SiteManager.sort2DMatrix('numlinks')
+                            }
+                        );
+                        $("#btnCount").click(function () {
+                                SiteManager.sort2DMatrix('numcount')
+                            }
+                        );
 
-                    SiteManager.updateRangeFilter(3, maxcalls);
-                    isready = true;
+                        $(function () {
+                            let handle = $("#custom-handle");
+                            $("#slider").slider({
+                                min: 0,
+                                value: 3,
+                                max: maxcalls,
+                                create: function () {
+                                    handle.text($(this).slider("value"));
+                                },
+                                slide: function (event, ui) {
+                                    $("#amount").val("Min: " + ui.value + " - Max: " + maxcalls);
+                                    handle.text(ui.value);
+                                    SiteManager.updateRangeFilter(ui.value, maxcalls)
+                                }
+                            });
+                            $("#amount").val("Min: " + 3 + " - Max: " + maxcalls);
+                        });
+
+                        SiteManager.updateRangeFilter(3, maxcalls);
+                        isready = true;
+
+
                 }
             });
     };
-    init("Huyen-Ransomware-WannaPeace.csv");
+    init("Logfile_V1.CSV");
 
     var list = {
         "CloseFile": {"operation": "FileSystem", "index": 0},

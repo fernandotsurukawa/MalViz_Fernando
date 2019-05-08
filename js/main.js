@@ -1728,13 +1728,15 @@ function applicationManager(globalData) {
                 // .attr("y", 100)
                 .attr("width", 150)
                 .attr("height", 120)
-                .attr("id", "legend");
+                .append("g")
+                .attr("id", "legend")
+                .attr("transform", "translate(20,0)");
 
             legend.selectAll("circle")
                 .data(stackColor)
                 .enter()
                 .append("circle")
-                .attr("cx", 50)
+                .attr("cx", 0)
                 .attr("cy", (d, i) => 10 + i * 20)
                 .attr("r", 6)
                 .attr("fill", d => d);
@@ -1748,7 +1750,7 @@ function applicationManager(globalData) {
                 .text(d => d)
                 .attr("font-size", "15px")
                 // .attr("font-family", "sans-serif")
-                .attr("x", 70)
+                .attr("x", 20)
                 .attr("y", (d, i) => 15 + i * 20);
 
             getTimeBoxData();
@@ -2187,7 +2189,7 @@ function applicationManager(globalData) {
                 var arcActive, firstClick;
                 group.append('text')
                     .attr("class", "malName" + index)
-                    .text(row.key)
+                    .text(row.key.slice(0,30))
                     .attr('x', () => {
                         return StepScale(row.values[row.values.length - 1].Step) * rect_width + margin_left + 5
                     })
@@ -3045,11 +3047,14 @@ function applicationManager(globalData) {
                 svg.append("text")
                     .text((index + 1) + ". " + item)
                     .attr("x", 20)
-                    .attr("y", height > 350 ? height / 5 : height / 2)
+                    .attr("y", index > 0 ? 40: 60)
+                    .style("font-weight", "bold")
                     .append("tspan")
-                    .attr("dy", 30)
-                    .attr("x", 20)
-                    .text("Self-call(s): " + orderedArray.find(d => d.key === item).selfCalls.length);
+                    .attr("dy", 25)
+                    .attr("x", index > 8 ? 40 : 34)
+                    .style("font-size", "14px")
+                    .text("Self-call(s): " + orderedArray.find(d => d.key === item).selfCalls.length)
+                    .style("font-weight", "normal");
 
                 data.nodes = nodes[item];
                 data.links = links[item];
@@ -3142,7 +3147,6 @@ function applicationManager(globalData) {
 
                         .force("charge", d3.forceManyBody()
                             .strength(d => {
-                                console.log(d);
                                 return -150
                             })
                         )
@@ -3312,31 +3316,51 @@ function applicationManager(globalData) {
             loadMatrix(global_links);
 
         },
-        updateDomainBox: function (position) {
-            d3.select(position).selectAll("*").remove();
+        updateDomainBox: function () {
+            // d3.select(position).selectAll("*").remove();
             var domainList = getData.getdatabyDomain;
-            if (d3.keys(domainList).length>0){
-                // exist domain list
-                d3.select("#connectingDomain").style("display", "block");
-                var selection = document.querySelector(position);
-                var count = 1;
-                for (var key in domainList) {
-                    var option = document.createElement('option');
-                    option.textContent = count + ". " + key;
-                    option.value = domainList[key].Step;
-                    option.title = domainList[key].Process_Name + " [" + domainList[key].Timestamp + "]";
-                    if (domainList[key].VirusTotal) {
-                        if (domainList[key].VirusTotal.malicious > 0) {
-                            option.className = 'malicious';
-                            option.textContent = count + ". " + key + '-> malicious by Virus Total';
-                        }
-                    }
-                    selection.appendChild(option);
-                    count++;
-                }
+
+            if (d3.keys(domainList).length === 0){
+                d3.select("#domainBox").style("display", "none");
+            }
+            else if (d3.keys(domainList).length===1){
+                d3.select("#domainBox").selectAll("span").remove();
+                d3.select("#domainBox").style("display", "block");
+                document.getElementById("domainList").style.visibility = "hidden";
+
+                let newSpan = document.createElement("span");
+                newSpan.textContent = d3.keys(domainList)[0];
+
+                document.getElementById("firstCell").appendChild(newSpan);
+                document.getElementById("downArrow").style.display = "none";
+
             }
             else {
-                d3.select("#connectingDomain").style("display", "none");
+                d3.select("#domainBox").style("display", "block");
+                d3.select("#domainBox").selectAll("span").remove();
+                var box = document.getElementById("domainList");
+                box.style.visibility = "visible";
+                var newcount = 1;
+                for (let key in domainList) {
+                    let newSpan;
+
+                    if (newcount === 1){
+                        newSpan = document.createElement("span");
+                        newSpan.textContent = d3.keys(domainList)[0];
+
+                        document.getElementById("firstCell").appendChild(newSpan);
+                        document.getElementById("downArrow").style.display = "block";
+                        newcount += 1;
+                        continue;
+                    }
+                    newSpan = document.createElement("span");
+                    newSpan.classList.add("w3-bar-item");
+                    newSpan.textContent = key;
+                    newSpan.style.width = "160px";
+
+                    box.appendChild(newSpan);
+                    newcount += 1;
+                }
             }
 
 

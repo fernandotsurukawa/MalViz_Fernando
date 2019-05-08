@@ -443,7 +443,7 @@ line.link {
     left: -20px;
     background-color: rgba(0, 0, 0, 0);
     z-index: 0;
-    width: 100px;
+    width: 50px;
     height: 100%;
 
 }
@@ -492,7 +492,7 @@ line.link {
 .sidenav .closebtn {
     padding: 0 20px;
     float: right;
-    font-size: 30px;
+    font-size: 40px;
 }
 
 .sidenav a:focus {
@@ -514,7 +514,8 @@ line.link {
 
 /* Style the buttons inside the tab */
 .tab button {
-    border-radius: 20px 20px 0px 0;
+    margin-top: 10px;
+    border-radius: 15px 15px 0 0;
     color: white;
     background-color: #000000;
     float: left;
@@ -523,7 +524,7 @@ line.link {
     cursor: pointer;
     padding: 14px 16px;
     transition: 0.3s;
-    font-size: 17px;
+    font-size: 16px;
 }
 
 /* Change background color of buttons on hover */
@@ -632,7 +633,47 @@ line.link {
 
     100% {
         opacity: 0;
-        -webkit-transform: scale(2);
-        transform: scale(2)
+        -webkit-transform: scale(2.5);
+        transform: scale(2.5)
     }
+}
+.buttonBox{
+    border: #010101 1px;;
+    display:inline-block;/* padding:8px 16px; */
+    vertical-align:middle;
+    overflow:hidden;
+    text-decoration:none;
+    color:inherit;
+    background-color:inherit;
+    text-align:center;
+    cursor:pointer;
+    white-space:nowrap;}
+
+.buttonBox:hover{
+    color:#000!important;
+    background-color: #ffffff !important;
+    border: #010101 3px;
+}
+#firstDomain{
+    float: left; padding-left: 12px
+}
+#downArrow{
+    margin-top: 5px;
+    display: none;
+    float: right;
+}
+.domainBox {
+    float: right;
+    width: auto;
+    border: 1px solid grey;
+}
+.domainList {
+    border-right: 1px solid grey;
+    border-left: 1px solid grey;
+    border-bottom: 1px solid grey;
+    min-width: auto;
+    right: 16px;
+    height: 200px;
+    overflow: auto;
+    visibility: hidden;
 }
