@@ -9,14 +9,14 @@
 }
 .contentDemo {
     padding-right: 0px;
-    height: 187px;
+    height: 170px;
     overflow: auto;
     background: #FFFFFF;
 
 }
 .contentRef {
     padding-right: 0px;
-    height: 165px;
+    height: 148px;
     overflow: auto;
     background: #FFFFFF;
 
@@ -676,4 +676,9 @@ line.link {
     height: 200px;
     overflow: auto;
     visibility: hidden;
+}
+
+.operationTable{
+    table-layout:fixed;
+    width: 100%;
 }
