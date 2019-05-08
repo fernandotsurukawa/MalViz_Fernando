@@ -222,7 +222,15 @@
         </div>
         <div class="w3-quarter w3-container w3-margin-bottom" style="width:60%">
             <div class="w3-container w3-white">
-                <p><b>Operations Overview</b></p>
+                <table class="operationTable">
+                    <tr>
+                        <td> <p><b>Operations Overview</b></p></td>
+                        <td style="padding-left: 17%"><input type="checkbox" id="opSelection"
+                                                                   onclick="selectAll()" checked> Select all</td>
+                        <td> <input type="checkbox" id="commonSelection" onclick="selectCommon()"> Select
+                            Common Operations</td>
+                    </tr>
+                </table>
                 <div id="stats"></div>
             </div>
 

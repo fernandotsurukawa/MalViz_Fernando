@@ -1306,9 +1306,9 @@ function applicationManager(globalData) {
             var padding = 10;
 
             d3.select(position).selectAll("*").remove();
-            d3.select(position).html(function () {
-                return '<input type="checkbox" id="opSelection" onclick="selectAll()" checked> Select all'
-            });
+            // d3.select(position).html(function () {
+            //     return '<input type="checkbox" id="opSelection" onclick="selectAll()" checked> Select all'
+            // });
 
             svgStats = d3.select(position).append('svg')
                 .attr("id", "overview").attr('width', '100%')
@@ -1318,14 +1318,16 @@ function applicationManager(globalData) {
             var overviewWidth = document.getElementById("overview").getBoundingClientRect().width;
 
             var xScale = d3.scaleLinear()
-                .domain([0, d3.max(group_by_process, function (d) {
+                .domain([1, d3.max(group_by_process, function (d) {
                     return d.values.length;
                 })])
                 // .range([settings.ProcessArea.scale_xMin, settings.ProcessArea.scale_xMax]);
-                .range([settings.ProcessArea.scale_xMin, Math.min(overviewWidth - margin_left - 50, settings.ProcessArea.scale_xMax)]);
+                .range([1, Math.min(overviewWidth - margin_left - 50, settings.ProcessArea.scale_xMax)]);
 
+            var countID = 0;
             group_by_process.forEach(function (process, index) {
-                var group = svgStats.append('g').attr("transform", "translate(0," + (padding + index * bar_height) + ")");
+                var group = svgStats.append('g')
+                    .attr("transform", "translate(0," + (padding + index * bar_height) + ")");
                 var child_process = d3.nest().key(function (d) {
                     return d.Operation
                 }).entries(process.values);
@@ -1336,14 +1338,15 @@ function applicationManager(globalData) {
                 var xpos = margin_left;
 
                 child_process.forEach(function (child) {
-                    group.append('rect').attr('x', function (d) {
-                        return xpos;
-                    })
-                        .attr('width', function (d) {
+                    console.log(child);
+                    group.append('rect')
+                        .attr("id", "ovRect" + countID)
+                        .attr('x', xpos)
+                        .attr('width', function () {
                             return xScale(child.values.length)
                         })
                         .attr('height', 30)
-                        .attr('fill', function (d) {
+                        .attr('fill', function () {
                             return colorPicker(child.key);
                         })
                         .classed("g" + child.key.replace(" ", ""), true)
@@ -1359,7 +1362,9 @@ function applicationManager(globalData) {
                             divOperation.transition()
                                 .duration(200)
                                 .style("opacity", .9);
-                            divOperation.html('Operation: ' + child.key + "<br/> Total calls: " + child.values.length.toLocaleString() + "<br/>")
+                            divOperation.html('Operation: ' + child.key +
+                                "<br/> Total calls: " +
+                                child.values.length.toLocaleString() + "<br/>")
                                 .style("left", (d3.event.pageX) + 5 + "px")
                                 .style("top", (d3.event.pageY - 28) + "px")
                                 .style("pointer-events", "none")
@@ -1458,9 +1463,30 @@ function applicationManager(globalData) {
                             }
                         });
 
+                    group.append("clipPath")
+                        .attr("id", "clip-" + countID)
+                        .append("use")
+                        .attr("xlink:href", "#" + "ovRect" + countID);
+
+                    // clip path
+                    group.append("text")
+                        .attr("clip-path", function(d) { return "url(#clip-" + countID + ")"; })
+                        .selectAll("tspan")
+                        .data([child.key])
+                        .enter().append("tspan")
+                        .attr('x', xpos+1)
+                        .attr("y", 18)
+                        .text(function(d) { return d; })
+                        .attr("fill", "white")
+                        .attr("font-size", "11px")
+                        .attr("font-family", "sans-serif");
+
                     xpos += xScale(child.values.length) + 2;
+                    countID ++;
                 });
-                group.append('text').text(process.key + " (" + process.values.length + ")").attr('x', 0).attr('y', 18);
+                group.append('text')
+                    .text(process.key + " (" + process.values.length + ")")
+                    .attr('x', 0).attr('y', 18);
             });
 
             document.getElementById("opSelection").checked = operationShown.indexOf("Process Profiling") < 0;
@@ -2196,7 +2222,16 @@ function applicationManager(globalData) {
                     .attr('y', group_rect_height / 2)
                     .attr('text-anchor', 'start')
                     .classed("linkText", true)
+                    .on("mouseover", () => {
+                        d3.select(d3.event.target)
+                            .classed("op1", true)
+                    })
+                    .on("mouseout", () => {
+                        d3.select(d3.event.target)
+                            .classed("op1", false);
+                    })
                     .on("click", function () {
+
                         d3.selectAll(".arc")
                             .classed("hidden", !arcActive)
                             .classed("visible", !!arcActive);
@@ -2735,12 +2770,12 @@ function applicationManager(globalData) {
             // OPERATION ============================================================
 
             var opList = getData.getdatabyOperation.map(d => d.key);
-            var availableOps = [];
+            availableCommon = [];
             var malist = ["CreateFile", "CreateFileMapping", "DeviceIoControl", "FileSystemControl", "InternalDeviceIoControl", "RegOpenKey", "System Statistics", "SystemControl", "TCP Accept", "TCP Connect", "TCP Send", "UDP Accept", "UDP Connect", "UDP Send"];
             opList.forEach(o => {
                 malist.forEach(m => {
                     if (o === m) {
-                        availableOps.push(o);
+                        availableCommon.push(o);
                     }
                 })
             });
@@ -2749,7 +2784,7 @@ function applicationManager(globalData) {
             var active = {};
             var svg0 = d3.select("#commonOp").append('svg')
                 .attr('width', '100%')
-                .attr('height', 30 + availableOps.length * 30);
+                .attr('height', 30 + availableCommon.length * 30);
 
             var title = svg0.append('g')
                 .append("text")
@@ -2771,7 +2806,7 @@ function applicationManager(globalData) {
                     window.open("https://resources.infosecinstitute.com/windows-functions-in-malware-analysis-cheat-sheet-part-1/");
                 });
 
-            availableOps.forEach(function (rawOperation, index) {
+            availableCommon.forEach(function (rawOperation, index) {
                 var ops = svg0.append('g')
                     .attr('transform', 'translate(10,' + (30 + index * 30) + ')')
                     .attr("class", "linkText");
@@ -3379,6 +3414,7 @@ var svgStats;
 var lensingStatus = false;
 var orderedArray = [];
 var maxLink = 1;
+var availableCommon;
 const categories = ["Registry", "Network", "File", "exe", "dll"];
 const stackColor = ["#247b2b", "#a84553", "#c37e37", "#396bab", "#7e7e7e"];
 
@@ -3406,6 +3442,7 @@ function selectAll() {
     var selectAll = document.getElementById("opSelection").checked;
     firstClick = true;
     if (selectAll) {
+        document.getElementById("commonSelection").checked = false;
         // show all rect
         d3.select("#heatmap").selectAll('rect[group=detail]')
             .style('visibility', "visible");
@@ -3443,7 +3480,30 @@ function selectAll() {
         })
     }
 }
+function selectCommon() {
+    var selectCommon = document.getElementById("commonSelection").checked;
+    if (selectCommon){
+        document.getElementById("opSelection").checked = false;
+    }
+    else {
+        d3.select("#heatmap").selectAll('rect[group=detail]')
+            .style('visibility', "hidden");
 
+        // hide all arc
+        d3.selectAll(".arc")
+            .classed("hidden", true)
+            .classed("visible", false);
+
+        // hide all group
+        d3.select("#overview").selectAll("rect")
+            .classed("op0", true)
+            .classed("op1 op2", false);
+
+        operationShown.forEach(d => {
+            active[d] = false;
+        })
+    }
+}
 function computeNodes(nodeObj, miniNode, type, rawPath, pos, len) {
     let path = rawPath.toLowerCase();
     let connectArray = new Array(len+1).join("0");
