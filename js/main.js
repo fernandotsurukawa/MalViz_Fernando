@@ -1338,6 +1338,7 @@ function applicationManager(globalData) {
                 var xpos = margin_left;
 
                 child_process.forEach(function (child) {
+                    console.log(child.key);
                     group.append('rect')
                         .attr("id", "ovRect" + child.key.replace(" ",""))
                         .attr('x', xpos)
@@ -2812,18 +2813,23 @@ function applicationManager(globalData) {
                 });
 
             availableCommon.forEach(function (rawOperation, index) {
+                var keyOperation = rawOperation.replace(" ", "")
                 var ops = svg0.append('g')
-                    .attr('transform', 'translate(10,' + (30 + index * 30) + ')')
+                    .attr("id", "cg" + keyOperation)
+                    .attr('transform', 'translate(10,' + (30 + index * 28) + ')')
                     .attr("class", "linkText");
 
                 ops.append("rect")
-                    .attr("class", "rectMenu");
+                    .attr("x", 2)
+                    .attr("width", "16")
+                    .attr("height", "16")
+                    .attr("fill", colorPicker(rawOperation));
 
                 ops.append('text').text(rawOperation)
-                    .attr('x', '20px')
-                    .attr('y', '15px')
+                    .attr('dx', '25px')
+                    .attr('y', '13px')
                     .style('color', 'black')
-                    .style('font-size', '13px')
+                    .style('font-size', '14px')
                     .classed("linkText", true);
 
                 ops
@@ -3508,10 +3514,11 @@ function selectAll() {
         })
     }
 }
-
+var prevStatus;
 function selectCommon() {
     var selectCommon = document.getElementById("commonSelection").checked;
     if (selectCommon) {
+        prevStatus = JSON.parse(JSON.stringify(active));
         document.getElementById("opSelection").checked = false;
         // first, hide all
         d3.select("#heatmap").selectAll('rect[group=detail]')

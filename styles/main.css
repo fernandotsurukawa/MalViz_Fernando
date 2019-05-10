@@ -682,3 +682,11 @@ line.link {
     table-layout:fixed;
     width: 100%;
 }
+
+/* Layout */
+.divParent {
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
