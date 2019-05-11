@@ -59,16 +59,9 @@ Question: Is there any difference between them?
 | Return value (succesfully) |Two separate handles, one each for the process and the thread       |An open handle to the specified file,  which you can then use, e.g., to read the contents of the file |
 |Answer |The new process runs in the security context of the calling process.  |The file extension is irrelevant.|
 
-
 5. Filter 
 By regex expression 
 
 `^.*(procmon.exe|procmon64.exe|Profiling|procexp.exe|procexp64.exe).*\n` [Sublime]
-
 `^.*(procmon|profiling|processmonitor).*\n`
 
-6. About self-call processes
-Process calls to self = Has an operation that call to itself as an object.
-This is not simply reading content from file, but calling to the corresponding process/thread.
-For example: [Load Image](https://docs.microsoft.com/en-us/windows/desktop/api/winuser/nf-winuser-loadimagea)
-Parameter: A handle to the module of either a DLL or executable (.exe) that contains the image to be loaded - Handle INSTANCE

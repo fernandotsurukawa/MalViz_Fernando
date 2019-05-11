@@ -13,7 +13,7 @@ function getObjectIndex(obj, property, value) {
     var index;
     obj.forEach(function (d, i) {
         if (d[property] == value) index = i;
-    });
+    })
     return index;
 }
 
@@ -28,16 +28,23 @@ function convertToMilis(row) {
 }
 
 function ProcessDataV2(originalData, domain) {
-    var processNameList = d3.nest().key(d => d.Process_Name)
-        .entries(originalData)
-        .map(d => d.key.toLowerCase());
-        // .filter(d => d.toLowerCase() !== "procmon.exe");
+    var medium = [];
+    // originalData.forEach(function (row) {
+    //     if ((getProcessName(row.Operation) !== "Profiling") &&
+    //         (row.Process_Name.toLowerCase() !== "procmon.exe") &&
+    //         (row.Process_Name.toLowerCase() !== "procmon64.exe") &&
+    //         (row.Process_Name.toLowerCase() !== "procexp.exe") &&
+    //         (row.Process_Name.toLowerCase() !== "procexp64.exe")) {
+    //         medium.push(row);
+    //     }
+    // });
+    //
+    var processNameList = d3.nest().key(d => d.Process_Name).entries(originalData).map(d => d.key).filter(d => d.toLowerCase() !== "procmon.exe");
 
     var globalData = [];
     var domainFormat = /[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+/;
     var previoustime;
     var previoustep = 0;
-    var count = 0;
     originalData.forEach(function (row, index) {
         //Preprocess Data
         var time = row.Timestamp.split(':');
@@ -56,8 +63,8 @@ function ProcessDataV2(originalData, domain) {
         //Assign value
         var obj = new Object();
         obj.Timestamp = row.Timestamp;
-        obj.Process_Name = row.Process_Name.toLowerCase();
-        obj.Path = row.Path.toLowerCase();
+        obj.Process_Name = row.Process_Name;
+        obj.Path = row.Path;
         obj.PID = row.PID;
         obj.Operation = row.Operation;
         obj.Detail = row.Detail;
@@ -66,8 +73,8 @@ function ProcessDataV2(originalData, domain) {
         obj.Process = getProcessName(row.Operation);
 
         for (var i = 0; i < processNameList.length; i++) {
-            if (row.Path.toLowerCase().endsWith("\\" + processNameList[i])) {
-                obj.targetProcessName = row.Path.replace(/^.*[\\\/]/, '').toLowerCase();
+            if (row.Path.endsWith("\\" + processNameList[i])) {
+                obj.targetProcessName = row.Path.replace(/^.*[\\\/]/, '');
             }
         }
 
@@ -116,7 +123,7 @@ function UpdateProcessNameWithChild(processLst, links) {
         proc.childs = [];
         proc.childInfo = {};
         links.forEach(function (link) {
-            if (proc.key === link.Process_Name) {    // if key = parent
+            if (proc.key == link.Process_Name) {    // if key = parent
                 let index = getProcessNameIndex(processLst, link.targetProcessName);
                 // index = stt child in processLst
 
@@ -189,33 +196,4 @@ function handleOperation(malist) {
         array.push(d.Name);
     });
     return array;
-}
-
-Array.prototype.groupBy = function (props) {
-    var arr = this;
-    var partialResult = {};
-
-    arr.forEach(el=>{
-
-        var grpObj = {};
-
-        props.forEach(prop=>{
-            grpObj[prop] = el[prop]
-        });
-
-        var key = JSON.stringify(grpObj);
-
-        if(!partialResult[key]) partialResult[key] = [];
-
-        partialResult[key].push(el);
-
-    });
-
-    var finalResult = Object.keys(partialResult).map(key=>{
-        var keyObj = JSON.parse(key);
-        keyObj.values = partialResult[key];
-        return keyObj;
-    })
-
-    return finalResult;
 }
