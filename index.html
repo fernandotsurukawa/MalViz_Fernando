@@ -543,7 +543,7 @@
     var colorScaleRed = d3.scaleSequential(d3["interpolateReds"]) // Network: 0-9
         .domain([15, -5]);
 
-    function getProcessName(operation) {
+    function getOperationType(operation) {
         if (!list[operation]) {
             return "Others"
         } else return list[operation]["operation"]

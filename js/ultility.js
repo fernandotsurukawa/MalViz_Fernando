@@ -63,7 +63,7 @@ function ProcessDataV2(originalData, domain) {
         obj.Detail = row.Detail;
         obj.currenttimestamp = currentTimeStamp;
         obj.Step = currentStep;
-        obj.Process = getProcessName(row.Operation);
+        obj.Process = getOperationType(row.Operation);
 
         for (var i = 0; i < processNameList.length; i++) {
             if (row.Path.toLowerCase().endsWith("\\" + processNameList[i])) {
@@ -116,10 +116,9 @@ function UpdateProcessNameWithChild(processLst, links) {
         proc.childs = [];
         proc.childInfo = {};
         links.forEach(function (link) {
-            if (proc.key === link.Process_Name) {    // if key = parent
+            if ((proc.key === link.Process_Name) && (link.Process === "ProcessThread")) {    // if key = parent
                 let index = getProcessNameIndex(processLst, link.targetProcessName);
                 // index = stt child in processLst
-
                 if (index != parentIndex) {
                     // if chld != parent
 
