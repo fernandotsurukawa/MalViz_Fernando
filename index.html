@@ -18,83 +18,57 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
-
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css'
+      integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
 <link rel="stylesheet" href="styles/main.css">
-<link rel="stylesheet" href="styles/sidebar.css">
+<!--<link rel="stylesheet" href="styles/v3sidebar.css">-->
 <style>
-    body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+    body, h1, h2, h3, h4, h5, h6 {
+        font-family: "Raleway", sans-serif
+    }
 </style>
 <body class="w3-light-grey">
 
 <!-- Overlay effect when opening sidebar on small screens -->
-<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
+     title="close side menu" id="myOverlay"></div>
 
-<!-- Rank navigation sidebar-->
 <div id="mySidenavRank" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNavRank()">&times;</a>
-    <!-- Second Photo Grid-->
-    <div class="w3-row-padding" style="margin-bottom:30px">
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Processes Ranked</button>
+        <button class="tablinks" onclick="openCity(event, 'Paris')">Libraries Called</button>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    </div>
+
+    <div id="London" class="tabcontent">
         <h4 class="w3-container" id="rankedbydeg" style="position: absolute; padding-left: 20px"><b>Processes ranked by
             degree</b></h4>
-        <div class="w3-twothird w3-container w3-margin-bottom">
+        <div class="w3-container" style="padding-right: 0; padding-left: 0">
+            <div id="ranked" class="contentRanked">
 
-            <div class="w3-container w3-white" style="padding-right: 0">
-                <div id="ranked" class="contentRanked">
-
-                </div>
-            </div>
-        </div>
-        <div class="w3-third w3-container w3-margin-bottom">
-
-            <div class="w3-container w3-white" >
-                <p><b>Types of References / Underlay Reference Stream</b></p>
-                <div class="w3-container w3-white" style="padding-right: 0">
-                    <div id="legend"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="w3-third w3-container w3-margin-bottom">
-
-            <div class="w3-container w3-white" style="padding-right: 0">
-                <p><b>Self-call processes</b></p>
-
-                <div id="selfCallProcess" class="contentSelf"></div>
-
-            </div>
-        </div>
-
-
-        <div class="w3-third w3-container">
-            <div class="w3-container w3-white" style="padding-right: 0">
-                <p><b>Connecting domains:</b></p>
-                <div id="maliciousdomain" class="contentSelf2"></div>
             </div>
         </div>
     </div>
-</div>
-<!-- Rank navigation sidebar-->
-<div id="mySidenavLib" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNavLib()">&times;</a>
-    <!-- Lib Section -->
-    <div class="w3-container w3-padding-large w3-white">
-        <h4 id="library"><b>Libraries Called</b></h4>
 
-        <table width="100%" border="0px">
-            <tbody>
-            <tr>
-                <td width="100%">
-                    <div>
-                        <p>
-                            <label for="amount">Number of libraries called:</label>
-                            <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-                        </p>
-                        <div id="slider"
-                             style="width: 400px; background: linear-gradient(to right, #ffffff 0%, #000000 100%);">
-                            <div id="custom-handle" class="ui-slider-handle" style="z-index: auto"></div>
-                        </div>
-                        <span>
+    <div id="Paris" class="tabcontent">
+        <div class="w3-container w3-padding-large w3-white">
+            <h4 id="library"><b>Libraries Called</b></h4>
+
+            <table width="100%" border="0px">
+                <tbody>
+                <tr>
+                    <td width="100%">
+                        <div>
+                            <p>
+                                <label for="amount">Number of libraries called:</label>
+                                <input type="text" id="amount" readonly
+                                       style="border:0; color:#f6931f; font-weight:bold;">
+                            </p>
+                            <div id="slider"
+                                 style="width: 400px; background: linear-gradient(to right, #ffffff 0%, #000000 100%);">
+                                <div id="custom-handle" class="ui-slider-handle" style="z-index: auto"></div>
+                            </div>
+                            <span>
                             <p>Order: <select id="order">
                                 <option value="similarity">By Similarity</option>
                                 <option value="name">By Name</option>
@@ -103,35 +77,40 @@
                             </select>
                             </p>
                         </span>
-                    </div>
+                        </div>
 
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <div id="matrix2D"></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div id="matrix2D"></div>
 
-        <div class="tooltip" style="opacity: 0;" id="ttMatrix"></div>
+            <div class="tooltip" style="opacity: 0;" id="ttMatrix"></div>
+        </div>
     </div>
 </div>
 
+
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:0px" id="mainContent">
-
+    <div class="overlaySide">
+        <a class="openbtn btn-floating btn" id="sideNavbtn" onclick="openNav()">
+            <i class='fas fa-chevron-circle-right' style='font-size:40px'></i>
+        </a>
+    </div>
     <!-- Header -->
     <header id="portfolio">
-        <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
+        <!--        <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>-->
         <div class="w3-container">
             <h1><b>Malware Visualization</b></h1>
-            <div class="w3-section w3-bottombar w3-padding-16">
-                <!--<span class="w3-margin-right">Filter:</span>-->
-                <button class="w3-button w3-black" id="processBtn">Processes</button>
-                <button class="w3-button w3-white" onclick="openNavRank()" id="rankBtn">Ranked by Degree</button>
-                <button class="w3-button w3-white w3-hide-small" onclick="openNavLib()" id="libBtn">Libraries
-                    Called</button>
-                <button class="w3-button w3-white w3-hide-small" style="float: right;">
-                    <a href="indexV2.html" target="_blank"  style="text-decoration: none">Alter
-                    Interface</a></button>
+            <div class="w3-section w3-padding-8">
+
+                <!--<div style="float: right;" id="connectingDomain">-->
+                <!--<b>Connecting domains:</b>-->
+                <!--<div id="maliciousdomain">-->
+
+                <!--</div>-->
+                <!--</div>-->
                 <label for="selectmalware">Select dataset: </label>
                 <select id="selectmalware" class="selectmalware">
                     <option>--Select dataset--</option>
@@ -159,8 +138,12 @@
                     <option value="faran-7-vs-backdoor-13.CSV">faran-7-vs-backdoor-13</option>
                     <option value="faran-7-vs-backdoor-14.CSV">faran-7-vs-backdoor-14</option>
                     <option value="faran-7-vs-backdoor-15.CSV">faran-7-vs-backdoor-15</option>
-                    <option value="Faran-win7-vs-7fa0ef3f22045c45c80885865d0d0942.CSV">Faran-win7-vs-7fa0ef3f22045c45c80885865d0d0942</option>
-                    <option value="Faran-win7-vs-13ef35e912a54739a27015eecc3fbbaeaf2ba2b7a2a49bfd11e26e099a330926.CSV">Faran-win7-vs-13ef35e912a54739a27015eecc3fbbaeaf2ba2b7a2a49bfd11e26e099a330926</option>
+                    <option value="Faran-win7-vs-7fa0ef3f22045c45c80885865d0d0942.CSV">
+                        Faran-win7-vs-7fa0ef3f22045c45c80885865d0d0942
+                    </option>
+                    <option value="Faran-win7-vs-13ef35e912a54739a27015eecc3fbbaeaf2ba2b7a2a49bfd11e26e099a330926.CSV">
+                        Faran-win7-vs-13ef35e912a54739a27015eecc3fbbaeaf2ba2b7a2a49bfd11e26e099a330926
+                    </option>
                     <option value="Vung-Win7-Bladabindi.CSV">Vung-Win7-Bladabindi</option>
                     <option value="Vung-Win7-Cryptowall.CSV">Vung-Win7-Cryptowall</option>
                     <option value="Vung-Win7-Locky.Gen.CSV">Vung-Win7-Locky.Gen</option>
@@ -172,17 +155,27 @@
                     <option value="VungPham-Behavior-Winwebsec.I.CSV">VungPham-Behavior-Winwebsec.I</option>
                     <option value="Vung-Behavior-XP-Payment copy.CSV">Vung-Behavior-XP-Payment copy</option>
                     <option value="Vung-Behavior-XP-RemR.CSV">Vung-Behavior-XP-RemR</option>
-                    <option value="Vung-Behavior-XP-Scan copy (alloyanycut).CSV">Vung-Behavior-XP-Scan-copy-(alloyanycut)</option>
+                    <option value="Vung-Behavior-XP-Scan copy (alloyanycut).CSV">
+                        Vung-Behavior-XP-Scan-copy-(alloyanycut)
+                    </option>
 
 
-                    <option> - - - - - - - Filtered log files - - - - - - - </option>
+                    <option> - - - - - - - Filtered log files - - - - - - -</option>
 
                     <option value="Faran-Trojan-Backdoor.win32.BlueIce.CSV">Faran-Trojan-Backdoor.win32.BlueIce</option>
-                    <option value="Faran-Trojan-Backdoor.Win32.CyberSpy.13.b.CSV">Faran-Trojan-Backdoor.Win32.CyberSpy.13.b</option>
-                    <option value="Faran-Trojan-Backdoor.win32.Death.25.i.CSV">Faran-Trojan-Backdoor.win32.Death.25.i</option>
-                    <option value="Faran-Trojan-Backdoor.win32.executor.a.CSV">Faran-Trojan-Backdoor.win32.executor.a</option>
-                    <option value="Faran-win7-Trojan-Backdoor.Win32.Alicia.o.CSV">Faran-win7-Trojan-Backdoor.Win32.Alicia.o</option>
-                    <option value="Faran-win7-Trojan-Backdoor.win32.Executor.a.CSV">Faran-win7-Trojan-Backdoor.win32.Executor.a</option>
+                    <option value="Faran-Trojan-Backdoor.Win32.CyberSpy.13.b.CSV">
+                        Faran-Trojan-Backdoor.Win32.CyberSpy.13.b
+                    </option>
+                    <option value="Faran-Trojan-Backdoor.win32.Death.25.i.CSV">Faran-Trojan-Backdoor.win32.Death.25.i
+                    </option>
+                    <option value="Faran-Trojan-Backdoor.win32.executor.a.CSV">Faran-Trojan-Backdoor.win32.executor.a
+                    </option>
+                    <option value="Faran-win7-Trojan-Backdoor.Win32.Alicia.o.CSV">
+                        Faran-win7-Trojan-Backdoor.Win32.Alicia.o
+                    </option>
+                    <option value="Faran-win7-Trojan-Backdoor.win32.Executor.a.CSV">
+                        Faran-win7-Trojan-Backdoor.win32.Executor.a
+                    </option>
 
                     <option value="Huyen-Ransomware-WannaPeace.csv">Huyen-Ransomware-WannaPeace</option>
                     <option value="Huyen-Trojan-Infostealer.Dexter.csv">Huyen-Trojan-Infostealer.Dexter</option>
@@ -197,10 +190,30 @@
                     <option value="Vung-HackTool-EmailCrack-XP.CSV">Vung-HackTool-EmailCrack-XP</option>
                     <option value="Vung-HackTool-Stealm1-Win10.CSV">Vung-HackTool-Stealm1-Win10</option>
                     <option value="Vung-HackTool-Stealm-Win10.CSV">Vung-HackTool-Stealm-Win10</option>
+                    <option value="Logfile_V1.CSV">Cerber</option>
 
 
                 </select>
+                <div id="domainBox"
+                     class="w3-bar w3-white domainBox">
+                    <a class="w3-bar-item" style="width: 0px; padding: 0"></a>
+                    <div class="w3-dropdown-hover" style="text-align: left;">
+                        <button class="buttonBox">
+                            <table>
+                                <tr>
+                                    <td id="titleDomain">Connecting Domains:</td>
+                                    <td style="width: 160px" id="firstCell">
+                                        <i id="downArrow" class='fas fa-angle-down'></i>
+                                    </td>
+                                </tr>
+                            </table>
+                        </button>
+                        <div id="domainList"
+                             class="w3-dropdown-content w3-bar-block domainList">
 
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -210,72 +223,90 @@
     <div class="w3-row-padding" style="background-color:#cecece; margin-bottom: 20px">
         <h4 class="w3-container"><b>Processes</b></h4>
         <div class="w3-threequarter w3-container w3-margin-bottom" style="width:100%">
-            <div class="w3-container w3-white" id="heatmap">
+            <div class="w3-container w3-white" id="heatmap" style="overflow-x: auto">
 
             </div>
-
             <span id="operation"></span>
         </div>
 
-        <h4 class="w3-container"><b>Operations</b></h4>
+
         <div class="w3-threequarter w3-container w3-margin-bottom" style="width:20%">
-            <div class="w3-container w3-white" style="padding-right: 0">
-                <p><b>Operation List</b></p>
-                <div id="OperationList" class="contentDemo"></div>
-            </div>
+            <h4 class="w3-container"><b>Operated objects</b></h4>
+
         </div>
-        <div class="w3-quarter w3-container w3-margin-bottom" style="width:60%">
-            <div class="w3-container w3-white">
-                <p><b>Operations Overview</b></p>
-                <div id="stats"></div>
-            </div>
+        <div class="w3-quarter w3-container w3-margin-bottom" style="width:80%">
+            <h4 class="w3-container"><b>Operations</b></h4>
         </div>
-        <div class="w3-quarter w3-container" style="width:20%">
-            <div class="w3-container w3-white" style="padding-right: 0">
-                <p><b>Commonly encountered</b></p>
-                <div id="commonOp" class="contentDemo"></div>
+
+        <!-- content -->
+        <div class="w3-row">
+            <div class="w3-half w3-container" style="width:20%">
+                <div class="w3-row">
+                    <div class="w3-container w3-white">
+                        <p><b>Reference Types /<br> Underlay Stream</b></p>
+                        <div class="w3-container w3-white" style="padding-right: 0">
+                            <div id="legend"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div class="w3-half w3-container divParent" style="width:80%">
+                    <div class="w3-threequarter w3-container w3-white" style="width:80%">
+                        <p><b>Operations Overview</b>
+                            <span style="float: right">
+                            <input type="checkbox" id="opSelection"
+                                   onclick="selectAll()" checked> Select All
+                        </span>
+                        </p>
+                        <div id="stats" style="overflow-x: auto"></div>
+                    </div>
+                    <div class="w3-quarter w3-container w3-white" style="width:20%">
+                        <p><input type="checkbox" id="commonSelection" onclick="selectCommon()"> Commonly encountered
+                        </p>
+                        <div id="commonOp"></div>
+                    </div>
+                </div>
+
         </div>
+
     </div>
 
-    <!--<div class="w3-black w3-center w3-padding-24" style="float: bottom">Malware Visualization</div>-->
 
-    <!-- End page content -->
 </div>
 <div id="loading">
     <img id="loading-image" height="200" width="200" src="images/squareloader2.gif" alt="Loading..."/>
 </div>
 <script>
+    document.getElementById("mySidenavRank").style.height = $(window).height();
     var calculateRank;
-    var openSidebarRank, opensidebarLib;
-    var sideWidth = 1000;
+    var sideWidth = 600;
 
-    function openNavRank() {
+    discovery("#sideNavbtn");
+
+    function discovery(d) {
+        d3.select(d).style('left', '20px')
+            .classed("pulse", true)
+            .transition().delay(7000).duration(1000)
+            .style('left', null).on('end', function () {
+            d3.select(d).classed("pulse", true);
+        });
+    }
+
+    function openNav() {
         if (!calculateRank) {
             calculateRank = 1;
         }
+
         document.getElementById("mySidenavRank").style.width = sideWidth + "px";
-        // document.getElementById("mainContent").style.marginLeft = "1200px";
-        openSidebarRank = !openSidebarRank;
+        document.getElementById("mainContent").style.marginLeft = sideWidth + "px";
+        d3.select("#rankBtn").classed("w3-black", true);
     }
 
-    function closeNavRank() {
-        d3.select("mySidenavRank").classed("raise", false);
+    function closeNav() {
+        // d3.select("mySidenavRank").classed("raise", false);
         document.getElementById("mySidenavRank").style.width = "0";
-        // document.getElementById("mainContent").style.marginLeft= "0";
-        openSidebarRank = !openSidebarRank;
-    }
-
-    function openNavLib() {
-        document.getElementById("mySidenavLib").style.width = sideWidth + "px";
-        // document.getElementById("mainContent").style.marginLeft = "1200px";
-        opensidebarLib = !opensidebarLib;
-    }
-
-    function closeNavLib() {
-        document.getElementById("mySidenavLib").style.width = "0";
-        // document.getElementById("mainContent").style.marginLeft= "0";
-        opensidebarLib = !opensidebarLib;
+        document.getElementById("mainContent").style.marginLeft = "0";
+        d3.select("#rankBtn").classed("w3-black", false);
     }
 
     // Script to open and close sidebar
@@ -288,6 +319,23 @@
         document.getElementById("mySidebar").style.display = "none";
         document.getElementById("myOverlay").style.display = "none";
     }
+
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
 </script>
 <script src="js/ultility.js"></script>
 <script src="js/main.js"></script>
@@ -314,13 +362,15 @@
         let loading = d3.select('body').append('div').attr('id', 'loading');
         loading.append('img')
             .attr('id', 'loading-image')
-            .attr('src', 'images/squareloader2.svg')
+            .attr('src', 'images/squareloader2.gif')
             .attr("height", "200")
             .attr("height", "200");
         init(valueSelected);
 
     });
     let init = function (filePath) {
+        calculateRank = 0;
+        closeNav();
         d3.queue()
             .defer(d3.csv, "data/" + filePath, function (d) {
                 return {
@@ -342,21 +392,21 @@
                     let data = ProcessDataV2(original_data, domain);
                     let SiteManager = applicationManager(data); //Initialize application
                     SiteManager.drawStats('#stats'); //Draw statistic map
-                    SiteManager.drawStats2('#OperationList'); //Draw statistic map
+                    // SiteManager.drawStats2('#OperationList'); //Draw statistic map
                     SiteManager.malist("#commonOp");
-                    d3.select("#rankBtn")
+                    d3.select("#sideNavbtn")
                         .on("click", () => {
-                            if (calculateRank === 1){
-                                SiteManager.highlight('#avaiop'); // hightlight
+                            if (calculateRank === 1) {
+                                SiteManager.highlight('#ranked'); // hightlight
                                 calculateRank = 2;
                             }
                         });
                     SiteManager.drawMain('#heatmap');//Draw mainMap
                     let maxcalls = SiteManager.getCallRange().maxcall;
-                    SiteManager.updateDomainBox('#maliciousdomain');
+                    SiteManager.updateDomainBox();
 
                     // for testing --------------------
-                    // openNavRank();
+                    // openNav();
                     // SiteManager.highlight('#avaiop');
                     // --------------------------------
 
@@ -393,6 +443,8 @@
 
                     SiteManager.updateRangeFilter(3, maxcalls);
                     isready = true;
+
+
                 }
             });
     };

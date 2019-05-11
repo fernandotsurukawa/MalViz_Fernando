@@ -1301,15 +1301,14 @@ function applicationManager(globalData) {
             var group_by_operation = getData.getdatabyOperation;
 
             operationShown = group_by_operation.map(d => d.key);
-            // console.log(group_by_operation, operationShown);
             var thisClass;
 
             var padding = 10;
 
             d3.select(position).selectAll("*").remove();
-            d3.select(position).html(function () {
-                return '<input type="checkbox" id="opSelection" onclick="selectAll()" checked> Select all'
-            });
+            // d3.select(position).html(function () {
+            //     return '<input type="checkbox" id="opSelection" onclick="selectAll()" checked> Select all'
+            // });
 
             svgStats = d3.select(position).append('svg')
                 .attr("id", "overview").attr('width', '100%')
@@ -1319,14 +1318,16 @@ function applicationManager(globalData) {
             var overviewWidth = document.getElementById("overview").getBoundingClientRect().width;
 
             var xScale = d3.scaleLinear()
-                .domain([0, d3.max(group_by_process, function (d) {
+                .domain([1, d3.max(group_by_process, function (d) {
                     return d.values.length;
                 })])
                 // .range([settings.ProcessArea.scale_xMin, settings.ProcessArea.scale_xMax]);
-                .range([settings.ProcessArea.scale_xMin, Math.min(overviewWidth - margin_left - 50, settings.ProcessArea.scale_xMax)]);
+                .range([1, Math.min(overviewWidth - margin_left - 50, settings.ProcessArea.scale_xMax)]);
 
+            var countID = 0;
             group_by_process.forEach(function (process, index) {
-                var group = svgStats.append('g').attr("transform", "translate(0," + (padding + index * bar_height) + ")");
+                var group = svgStats.append('g')
+                    .attr("transform", "translate(0," + (padding + index * bar_height) + ")");
                 var child_process = d3.nest().key(function (d) {
                     return d.Operation
                 }).entries(process.values);
@@ -1337,14 +1338,14 @@ function applicationManager(globalData) {
                 var xpos = margin_left;
 
                 child_process.forEach(function (child) {
-                    group.append('rect').attr('x', function (d) {
-                        return xpos;
-                    })
-                        .attr('width', function (d) {
+                    group.append('rect')
+                        .attr("id", "ovRect" + child.key.replace(" ",""))
+                        .attr('x', xpos)
+                        .attr('width', function () {
                             return xScale(child.values.length)
                         })
                         .attr('height', 30)
-                        .attr('fill', function (d) {
+                        .attr('fill', function () {
                             return colorPicker(child.key);
                         })
                         .classed("g" + child.key.replace(" ", ""), true)
@@ -1360,7 +1361,9 @@ function applicationManager(globalData) {
                             divOperation.transition()
                                 .duration(200)
                                 .style("opacity", .9);
-                            divOperation.html('Operation: ' + child.key + "<br/> Total calls: " + child.values.length.toLocaleString() + "<br/>")
+                            divOperation.html('Operation: ' + child.key +
+                                "<br/> Total calls: " +
+                                child.values.length.toLocaleString() + "<br/>")
                                 .style("left", (d3.event.pageX) + 5 + "px")
                                 .style("top", (d3.event.pageY - 28) + "px")
                                 .style("pointer-events", "none")
@@ -1433,7 +1436,8 @@ function applicationManager(globalData) {
                             }
                             else {
                                 var key2 = child.key.replace(" ", "");
-
+                                console.log(key2);
+                                console.log(this);
                                 // show group
                                 d3.select(this)
                                     .classed("op1", () => {
@@ -1459,9 +1463,35 @@ function applicationManager(globalData) {
                             }
                         });
 
+                    group.append("clipPath")
+                        .attr("id", "clip-" + countID)
+                        .append("use")
+                        .attr("xlink:href", "#" + "ovRect" + child.key.replace(" ",""));
+
+                    // clip path
+                    group.append("text")
+                        .attr("clip-path", function (d) {
+                            return "url(#clip-" + countID + ")";
+                        })
+                        .selectAll("tspan")
+                        .data([child.key])
+                        .enter().append("tspan")
+                        .classed("unselectable", true)
+                        .attr('x', xpos + 1)
+                        .attr("y", 18)
+                        .text(function (d) {
+                            return d;
+                        })
+                        .attr("fill", "white")
+                        .attr("font-size", "11px")
+                        .attr("font-family", "sans-serif");
+
                     xpos += xScale(child.values.length) + 2;
+                    countID++;
                 });
-                group.append('text').text(process.key + " (" + process.values.length + ")").attr('x', 0).attr('y', 18);
+                group.append('text')
+                    .text(process.key + " (" + process.values.length + ")")
+                    .attr('x', 0).attr('y', 18);
             });
 
             document.getElementById("opSelection").checked = operationShown.indexOf("Process Profiling") < 0;
@@ -1495,7 +1525,7 @@ function applicationManager(globalData) {
 
             globalData.forEach(d => {
                 for (var i = 0; i < operationKeys.length; i++) {
-                    if (d.Path.endsWith("\\" + operationKeys[i])) {
+                    if (d.targetProcessName) {
                         haveChild.push(d);
                     }
                 }
@@ -1729,13 +1759,15 @@ function applicationManager(globalData) {
                 // .attr("y", 100)
                 .attr("width", 150)
                 .attr("height", 120)
-                .attr("id", "legend");
+                .append("g")
+                .attr("id", "legend")
+                .attr("transform", "translate(20,0)");
 
             legend.selectAll("circle")
                 .data(stackColor)
                 .enter()
                 .append("circle")
-                .attr("cx", 50)
+                .attr("cx", 0)
                 .attr("cy", (d, i) => 10 + i * 20)
                 .attr("r", 6)
                 .attr("fill", d => d);
@@ -1749,7 +1781,7 @@ function applicationManager(globalData) {
                 .text(d => d)
                 .attr("font-size", "15px")
                 // .attr("font-family", "sans-serif")
-                .attr("x", 70)
+                .attr("x", 20)
                 .attr("y", (d, i) => 15 + i * 20);
 
             getTimeBoxData();
@@ -1757,10 +1789,11 @@ function applicationManager(globalData) {
             var timeBoxHeight = 30;
             var dashHeight = svgheight + timeBoxHeight;
 
+            var width1 = document.getElementById("heatmap").getBoundingClientRect().width;
             var outline = d3.select('#heatmap').append('svg')
                 .attr("class", "outline")
                 .attr("height", dashHeight)
-                .attr("width", "100%")
+                .attr("width", width1 - 35)
                 .attr("id", "outline");
 
             var bbox = document.getElementById("outline");
@@ -2187,14 +2220,23 @@ function applicationManager(globalData) {
                 var arcActive, firstClick;
                 group.append('text')
                     .attr("class", "malName" + index)
-                    .text(row.key)
+                    .text(row.key.slice(0, 30))
                     .attr('x', () => {
                         return StepScale(row.values[row.values.length - 1].Step) * rect_width + margin_left + 5
                     })
                     .attr('y', group_rect_height / 2)
                     .attr('text-anchor', 'start')
                     .classed("linkText", true)
+                    .on("mouseover", () => {
+                        d3.select(d3.event.target)
+                            .classed("op1", true)
+                    })
+                    .on("mouseout", () => {
+                        d3.select(d3.event.target)
+                            .classed("op1", false);
+                    })
                     .on("click", function () {
+
                         d3.selectAll(".arc")
                             .classed("hidden", !arcActive)
                             .classed("visible", !!arcActive);
@@ -2638,6 +2680,7 @@ function applicationManager(globalData) {
 
             var lensingGroup = d3.select("#outline")
                 .append("g")
+                .attr("transform", "translate(40,0)")
                 .attr("id", "lensingGroup")
                 .on("click", setLensing);
 
@@ -2655,7 +2698,7 @@ function applicationManager(globalData) {
                 .attr("transform", "translate(7," + (outlineHeight - 14) + ")")
             ;
 
-            var magContainer = d3.select("#outline")
+            var magContainer = lensingGroup
                 .append("g")
                 .attr("id", "magContainer")
                 .attr("transform", "translate(90," + (outlineHeight - 43) + ")")
@@ -2728,16 +2771,16 @@ function applicationManager(globalData) {
 
 
         },
-        malist: function (position){
+        malist: function (position) {
             // OPERATION ============================================================
 
             var opList = getData.getdatabyOperation.map(d => d.key);
-            var availableOps = [];
+            availableCommon = [];
             var malist = ["CreateFile", "CreateFileMapping", "DeviceIoControl", "FileSystemControl", "InternalDeviceIoControl", "RegOpenKey", "System Statistics", "SystemControl", "TCP Accept", "TCP Connect", "TCP Send", "UDP Accept", "UDP Connect", "UDP Send"];
             opList.forEach(o => {
                 malist.forEach(m => {
                     if (o === m) {
-                        availableOps.push(o);
+                        availableCommon.push(o);
                     }
                 })
             });
@@ -2746,7 +2789,7 @@ function applicationManager(globalData) {
             var active = {};
             var svg0 = d3.select("#commonOp").append('svg')
                 .attr('width', '100%')
-                .attr('height', 30 + availableOps.length * 30);
+                .attr('height', 30 + availableCommon.length * 30);
 
             var title = svg0.append('g')
                 .append("text")
@@ -2768,19 +2811,24 @@ function applicationManager(globalData) {
                     window.open("https://resources.infosecinstitute.com/windows-functions-in-malware-analysis-cheat-sheet-part-1/");
                 });
 
-            availableOps.forEach(function (rawOperation, index) {
+            availableCommon.forEach(function (rawOperation, index) {
+                var keyOperation = rawOperation.replace(" ", "")
                 var ops = svg0.append('g')
-                    .attr('transform', 'translate(10,' + (30 + index * 30) + ')')
+                    .attr("id", "cg" + keyOperation)
+                    .attr('transform', 'translate(10,' + (30 + index * 28) + ')')
                     .attr("class", "linkText");
 
                 ops.append("rect")
-                    .attr("class", "rectMenu");
+                    .attr("x", 2)
+                    .attr("width", "16")
+                    .attr("height", "16")
+                    .attr("fill", colorPicker(rawOperation));
 
                 ops.append('text').text(rawOperation)
-                    .attr('x', '20px')
-                    .attr('y', '15px')
+                    .attr('dx', '25px')
+                    .attr('y', '13px')
                     .style('color', 'black')
-                    .style('font-size', '13px')
+                    .style('font-size', '14px')
                     .classed("linkText", true);
 
                 ops
@@ -2847,20 +2895,13 @@ function applicationManager(globalData) {
         highlight: function (position) {
 
             d3.select(position).selectAll("*").remove();
-            var svgList = d3.select(position);
-            // .append('svg').attr('width', '100%').attr('height', 300);
-
-            var group0 = svgList.append('g').attr("id", "group0");
-            var group1 = svgList.append('g').attr("id", "group1");
-            var group2 = svgList.append('g').attr("id", "group2");
-
             // FORCE-DIRECTED GRAPH ==========================================
 
             var list = globalgroupbyprocessname.map(d => d.key.toLowerCase());
             var len = list.length;
-            var nodes = {};
+            var nodesb4group = {};
             var links = {};
-            var maxLink = 0, minLink = 100;
+            var nodes = {};
             var secondaryNodes = {};
             var nodeObjTotal = {};
 
@@ -2868,9 +2909,9 @@ function applicationManager(globalData) {
             globalgroupbyprocessname.forEach((process, i) => {
                 var keyName = process.key.toLowerCase();
                 nodeObjTotal[keyName] = {};
-                var nodeObj = nodeObjTotal[keyName];
+                var nodeObj = nodeObjTotal[keyName];    // use object to hcek multiple occurences, then to compute links
                 var secondNodeObj = {};
-                nodes[keyName] = [];
+                nodesb4group[keyName] = [];
                 links[keyName] = [];
                 secondaryNodes[keyName] = [];
 
@@ -2879,19 +2920,19 @@ function applicationManager(globalData) {
                     //add node
                     if (ref.Path.length > 0) {   // exist path
                         if (ref.Process === "Registry") {   // registry -------------
-                            computeNodes(nodeObj, nodes[keyName], "Registry", ref.Path, i, len);
+                            computeNodes(nodeObj, nodesb4group[keyName], "Registry", ref.Path, i, len);
                         }
                         else if (ref.Process === "Network") {
-                            computeNodes(nodeObj, nodes[keyName], "Network", ref.Path,i, len);
+                            computeNodes(nodeObj, nodesb4group[keyName], "Network", ref.Path, i, len);
                         }
                         else if (ref.Path.toLowerCase().endsWith(".dll")) {
-                            computeNodes(nodeObj, nodes[keyName], "dll", ref.Path, i, len);
+                            computeNodes(nodeObj, nodesb4group[keyName], "dll", ref.Path, i, len);
                         }
                         else if (ref.Path.toLowerCase().endsWith(".exe")) {
                             let linkExe = ref.Path.split(/\\/);
                             let exeName = linkExe[linkExe.length - 1];
 
-                            computeNodes(nodeObj, nodes[keyName], "exe", exeName,i, len);
+                            computeNodes(nodeObj, nodesb4group[keyName], "exe", exeName, i, len);
 
                             list.forEach(d => {
                                 if ((d.toLowerCase() !== keyName) &&  // second != primary
@@ -2903,16 +2944,19 @@ function applicationManager(globalData) {
                             })
                         }
                         else {
-                            computeNodes(nodeObj, nodes[keyName], "File", ref.Path,i, len);
+                            computeNodes(nodeObj, nodesb4group[keyName], "File", ref.Path, i, len);
                         }
                     }
                 });
 
+                // draw the node of main process, if it doesnt have self call !!!
+                // again, count to the node set, but not node obj (cuz node obj is used for getting links)
+
                 if (!nodeObj[keyName]) {
-                    nodes[keyName].push({
+                    nodesb4group[keyName].push({
                         id: keyName,
                         type: "exe",
-                        level: 1
+                        connect: new Array(len + 1).join("0")
                     })
                 }
 
@@ -2923,14 +2967,6 @@ function applicationManager(globalData) {
                         target: target,
                         value: nodeObj[target]
                     });
-
-                    if (nodeObj[target] > maxLink) {
-                        maxLink = nodeObj[target]
-                    }
-
-                    if (nodeObj[target] < minLink) {
-                        minLink = nodeObj[target]
-                    }
                 })
             });
 
@@ -2941,9 +2977,17 @@ function applicationManager(globalData) {
                         d3.keys(nodeObjTotal[host]).forEach(refer => {
                             if (nodeObjTotal[guest][refer]) {
                                 // add level
-                                nodes[host].find(d => d.id === refer).level += 1;
-                                // console.log(host, guest, refer,
-                                //     nodes[host].find(d => d.id === refer));
+                                let guestPos = getIndex(list, guest);
+                                let currentConRef = nodesb4group[host].find(d => d.id === refer).connect;
+                                let currentConHost = nodesb4group[host].find(d => d.id === host).connect;
+                                // update refer connect
+                                nodesb4group[host].find(d => d.id === refer).connect =
+                                    currentConRef.slice(0, guestPos) + "1" + currentConRef.slice(guestPos + 1);
+
+                                // update host connect
+                                nodesb4group[host].find(d => d.id === host).connect =
+                                    currentConHost.slice(0, guestPos) + "1" + currentConHost.slice(guestPos + 1);
+
                                 links[host].push({
                                     source: guest,
                                     target: refer,
@@ -2958,36 +3002,78 @@ function applicationManager(globalData) {
 
             // DONE computing nodes and links
             // sort processes based on number of links
-            var sortedList = list.sort((a, b) => (links[b].length - links[a].length));
+            var dr = 4,      // default point radius
+                off = 4;    // cluster hull offset
 
-            var scaleStroke = d3.scaleSqrt()
-                .domain([minLink, maxLink])
-                .range([1, 6]);
+            var sortedList = list
+                .sort((a, b) => (links[b].length - links[a].length));
 
-            var opacity = d3.scaleSqrt()
-                .domain([minLink, maxLink])
-                .range([0.5, 1]);
+            var strokeScale = d3.scaleSqrt()
+                .domain([1, 5000])
+                .range([1, 10]);
 
-            var scaleHeight = d3.scaleThreshold()
+            var radiusScale = d3.scaleSqrt()
+                .domain([dr, 1200])
+                .range([dr, 50]);
+
+            var scaleHeightAfter = d3.scaleThreshold()
                 .domain([10, 40, 150, 500, 1300, 2500])
                 .range([80, 150, 300, 400, 600, 1000, 1500]);
 
+            var scaleHeight = d3.scaleThreshold()
+                .domain([10, 40, 500, 1000])
+                .range([80, 150, 250, 400]);
+
             d3.select("#ranked").selectAll("*").remove();
 
+            // LOOP 
             sortedList.forEach((item, index) => {
-                var height = scaleHeight(nodes[item].length);
-                var wPosition = sideWidth / 4;
+                nodes[item] = [];
+                var height = scaleHeight(nodesb4group[item].length);
+                var wPosition = sideWidth / 2;
                 var hPosition = height / 2;
-                var nodeById = d3.map(nodes[item], function (d) {
+                var nodeById = d3.map(nodesb4group[item], function (d) {
                     return d.id;
                 });
+
+                // define group | main exe dont group
+                var grouped = nodesb4group[item].groupBy(['type', 'connect']);
+                grouped.forEach((g, i) => {
+                    g.values.forEach(d => {
+                        // modify each node HERE
+                        d.group = i + 1;
+                        delete d.connect;
+                        nodes[item].push(d);
+                    })
+                });
+
+                // current last group
+                var clg = grouped.length, firstEct = false;
+                nodes[item].forEach(node => {
+                    if (list.indexOf(node.id) >= 0) { // main process
+                        if (!firstEct) {
+                            // keep group number
+                            firstEct = true;
+                            return
+                        }
+                        clg += 1;
+                        node.group = clg;
+                    }
+                });
+                // Var and parameter
+                var expand = {}, // expanded clusters
+                    data = {},
+                    net, simulation, hullg, hull, linkg, link, nodeg, node;
+                var curve = d3.line()
+                    .curve(d3.curveCardinalClosed);
+
                 var multiLinks = [];
                 links[item].forEach(link => {
                     var s = link.source = nodeById.get(link.source),
                         t = link.target = nodeById.get(link.target);
                     if (t.id === s.id) {
                         var i = {}, j = {}; // intermediate node
-                        nodes[item].push(i, j);
+                        nodesb4group[item].push(i, j);
                         links[item].push({source: s, target: i, self: 1},
                             {source: i, target: j, self: 2},
                             {source: j, target: t, self: 1});
@@ -2997,185 +3083,245 @@ function applicationManager(globalData) {
                         multiLinks.push([s, t, link.value])
                     }
                 });
-                let svg = d3.select("#ranked").append("svg")
+
+                let svg = d3.select("#ranked")
+                    .append("svg")
+                    .attr("id", "svg" + item)
                     .attr("width", "100%")
                     .attr("height", height);
+
+                svg.append("rect")
+                    .attr("width", "100%")
+                    .attr("height", "100%")
+                    .attr("stroke", "grey")
+                    .attr("fill", "white")
+                ;
 
                 svg.append("text")
                     .text((index + 1) + ". " + item)
                     .attr("x", 20)
-                    .attr("y", height > 350 ? height / 5 : height / 2);
+                    .attr("y", index > 0 ? 40 : 60)
+                    .style("font-weight", "bold")
+                    .append("tspan")
+                    .attr("dy", 25)
+                    .attr("x", index > 8 ? 40 : 34)
+                    .style("font-size", "14px")
+                    .text("Self-call(s): " + orderedArray.find(d => d.key === item).selfCalls.length)
+                    .style("font-weight", "normal");
 
-                var simulation = d3.forceSimulation()
-                    .force("link", d3.forceLink()
-                            .id(d => d.id)
-                        .distance(d => {
-                            if (d.self === 1){
-                                return 15
-                            }
-                            else if (d.self === 2){
-                                return 15
-                            }
-                            else if ((list.indexOf(d.source.id) >=0)
-                                &&(list.indexOf(d.target.id) >= 0)){
-                                return 50
-                            }
-                            else return 30
-                        })
-                        .strength(d => {
-                            if (d.self === 1){
-                                return 1
-                            }
-                            else if (d.self === 2){
-                                return 1
-                            }
-                            else if ((list.indexOf(d.source.id) >=0)
-                                &&(list.indexOf(d.target.id) >= 0)){
-                                return 0.3
-                            }
-                            else return 0.7
-                        })
-                        // .iterations(10)
+                data.nodes = nodes[item];
+                data.links = links[item];
 
-                    )
-                    .force("center", d3.forceCenter(wPosition, hPosition))
-                    .force("charge", d3.forceManyBody()
-                        .strength(d => {
-                            if (!d.id){
-                                // equal -400 to set clear zone
+                hullg = svg.append("g");
+                linkg = svg.append("g");
+                nodeg = svg.append("g");
+                init();
+                svg.attr("opacity", 1e-6)
+                    .transition()
+                    .duration(1000)
+                    .attr("opacity", 1);
+
+                function drawCluster(d) {
+                    return curve(d.path); // 0.8
+                }
+
+                function init() {
+                    if (simulation) simulation.stop();
+                    net = network(data, net, getGroup, expand);
+                    simulation = d3.forceSimulation()
+                        .force("link", d3.forceLink()
+                            // .id(d => d.name)
+                                .distance(function (l) {
+                                    var n1 = l.source, n2 = l.target;
+                                    var defaultValue = 20 +
+                                        Math.min(20 * Math.min((n1.size || (n1.group != n2.group ? n1.group_data.size : 0)),
+                                            (n2.size || (n1.group != n2.group ? n2.group_data.size : 0))),
+                                            -30 +
+                                            30 * Math.min((n1.link_count || (n1.group != n2.group ? n1.group_data.link_count : 0)),
+                                            (n2.link_count || (n1.group != n2.group ? n2.group_data.link_count : 0))),
+                                            100);
+                                    var procValue = 100;
+
+                                    if ((n1.size) && (n2.size)) {
+                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)) {
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                    else if ((!n1.size) && (n2.size)) {
+                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)) {
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                    else if ((n1.size) && (!n2.size)) {
+                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.id) >= 0)) {
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                    else { // both are bare nodes
+                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.id) >= 0)) {
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                })
+                                .strength(function (l) {
+                                    var n1 = l.source, n2 = l.target;
+                                    var defaultValue = 0.9, procValue = 0.4;
+
+                                    if ((n1.size) && (n2.size)) {
+                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)) {
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                    else if ((!n1.size) && (n2.size)) {
+                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)) {
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                    else if ((n1.size) && (!n2.size)) {
+                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.id) >= 0)) {
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                    else { // both are bare nodes
+                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.id) >= 0)) {
+                                            return procValue;
+                                        }
+                                        else return defaultValue;
+                                    }
+                                })
+                        )
+                        .force("center", d3.forceCenter(wPosition, hPosition))
+
+                        .force("charge", d3.forceManyBody()
+                            .strength(d => {
                                 return -150
-                            }
-                            else return -30
+                            })
+                        )
+                        // .force("collide",d3.forceCollide()
+                        //     // .radius(function(d) {
+                        //     //     return 10;})
+                        //     // .strength(1)
+                        // )
+                        .velocityDecay(0.8)     // friction
+                    ;
+
+                    simulation.nodes(net.nodes)
+                        .on("tick", ticked);
+
+                    simulation
+                        .force("link")
+                        .links(net.links);
+
+                    hullg.selectAll("path.hull").remove();
+                    hull = hullg.selectAll("path.hull")
+                        .data(convexHulls(net.nodes, getGroup, off))
+                        .enter().append("path")
+                        .attr("class", "hull")
+                        .attr("d", drawCluster)
+                        .style("fill", function (d) {
+                            return getColor(d.type);
                         })
-                    )
-                ;
+                        .style("fill-opacity", 0.3)
+                        .on("click", function (d) {
+                            console.log("hull click", d, arguments, this, expand[d.group]);
+                            expand[d.group] = false;
+                            init();
+                        });
+                    hull = hullg.selectAll("path.hull");
 
-                var link = svg.append("g")
-                    .attr("class", "links")
-                    .selectAll("path")
-                    .data(multiLinks)
-                    .enter()
-                    .append("path")
-                    .attr("id", d => d.source + d.target)
-                    .style("stroke", "#202020")
-                    .attr("fill", "none")
-                    .attr("opacity", d => opacity(d[d.length - 1]))
-                    .attr("stroke-width", d => scaleStroke(d[d.length - 1]));
+                    link = linkg.selectAll("line.link").data(net.links, linkid);
+                    link.exit().remove();
+                    link.enter().append("line")
+                        .attr("class", "link")
+                        .style("stroke-width", function (d) {
+                            return strokeScale(d.size);
+                        });
+                    link = linkg.selectAll("line.link");
 
-                var node = svg.append("g")
-                    .attr("class", "nodes")
-                    .selectAll("circle")
-                    .data(nodes[item]
-                        .filter(d => d.id)
-                    )
-                    .enter().append("circle")
-                    .attr("r", 4)
-                    .attr("stroke", "white")
-                    .attr("stroke-width", 1)
-                    .attr("fill", d => {
-                        return getColor(d.type)
-                    })
-                    .call(d3.drag()
+                    node = nodeg.selectAll("circle.node").data(net.nodes, nodeid);
+                    node.exit().remove();
+                    node.enter().append("circle")
+                    // if (d.size) -- d.size > 0 when d is a group node.
+                        .attr("class", function (d) {
+                            if (d.size) {
+                                if (d.size === 1) {
+                                    return "node leaf";
+                                }
+                                else return "node"
+                            }
+                            else return "node leaf";
+                        })
+                        .attr("r", function (d) {
+                            // bare nodes dont have size
+                            return d.size ? radiusScale(d.size + dr) : radiusScale(1 + dr);
+                        })
+                        .style("fill", function (d) {
+                            return d.size ? getColor(d.nodes[0].type) : getColor(d.type);
+                        })
+                        .on("click", function (d) {
+                            console.log("node click", d, arguments, this, expand[d.group]);
+                            expand[d.group] = !expand[d.group];
+                            init();
+                        });
+
+                    node = nodeg.selectAll("circle.node");
+                    node.call(d3.drag()
                         .on("start", dragstarted)
                         .on("drag", dragged)
                         .on("end", dragended));
 
-                node.append("title")
-                    .text(function (d) {
-                        return d.id;
-                    });
+                    function dragstarted(d) {
+                        if (!d3.event.active) simulation.alphaTarget(0.8).restart();
+                        d.fx = d.x;
+                        d.fy = d.y;
+                    }
 
-                simulation
-                    .nodes(nodes[item])
-                    .on("tick", ticked);
+                    function dragged(d) {
+                        d.fx = d3.event.x;
+                        d.fy = d3.event.y;
+                    }
 
-                simulation.force("link")
-                    .links(links[item]);
+                    function dragended(d) {
+                        if (!d3.event.active) simulation.alphaTarget(0);
+                        d.fx = null;
+                        d.fy = null;
+                    }
 
-                var lineGenerator = d3.line()
-                    .curve(d3.curveNatural);
-
-                function ticked() {
-                    link.attr("d", d => {
-                        if (d.length === 3) {
-                            return "M" + d[0].x + "," + d[0].y
-                                + "L" + d[1].x + "," + d[1].y;
+                    // Tick function
+                    function ticked() {
+                        if (!hull.empty()) {
+                            hull.data(convexHulls(net.nodes, getGroup, off))
+                                .attr("d", drawCluster);
                         }
-                        else {
-                            return lineGenerator([[d[0].x, d[0].y],
-                                [d[1].x, d[1].y],
-                                [d[2].x, d[2].y],
-                                [d[3].x, d[3].y]
-                            ]);
-                        }
-                    });
-
-                    node
-                        .attr("cx", function (d) {
+                        link.attr("x1", function (d) {
+                            return d.source.x;
+                        })
+                            .attr("y1", function (d) {
+                                return d.source.y;
+                            })
+                            .attr("x2", function (d) {
+                                return d.target.x;
+                            })
+                            .attr("y2", function (d) {
+                                return d.target.y;
+                            });
+                        node.attr("cx", function (d) {
                             return d.x;
                         })
-                        .attr("cy", function (d) {
-                            return d.y;
-                        });
-                }
-
-                function dragstarted(d) {
-                    if (!d3.event.active) simulation.alphaTarget(0.8).restart();
-                    d.fx = d.x;
-                    d.fy = d.y;
-                }
-
-                function dragged(d) {
-                    d.fx = d3.event.x;
-                    d.fy = d3.event.y;
-                }
-
-                function dragended(d) {
-                    if (!d3.event.active) simulation.alphaTarget(0);
-                    d.fx = null;
-                    d.fy = null;
+                            .attr("cy", function (d) {
+                                return d.y;
+                            });
+                    }
                 }
 
             });
-            group1.style("display", "none");
-
-            console.log(links);
-            console.log(nodes);
-            // Self-call ==========================================
-
-            var selfCallData = orderedArray.filter(d => d.selfCalls.length > 0).sort((a, b) => b.selfCalls.length - a.selfCalls.length);
-
-            d3.select("#selfCallProcess").selectAll("*").remove();
-            var svg2 = d3.select("#selfCallProcess")
-                .append('svg')
-                .attr('width', '100%')
-                .attr('height', 40 + selfCallData.length * 50)
-                .attr("id", "selfGroup");
-
-            svg2.selectAll("rect")
-                .data(selfCallData)
-                .enter()
-                .append("rect")
-                .attr('transform', (d, i) => 'translate(10,' + (15 + i * 40) + ')')
-                .attr("class", "rectMenuCustom")
-                .attr("width", d => Math.max(160, 50 + 10 * d.key.length));
-
-            svg2
-                .selectAll(".selfcall")
-                .data(selfCallData)
-                .enter()
-                .append("text")
-                .text(d => {
-                    var c = d.selfCalls.length;
-                    if (c !== 1) {
-                        return d.key + ": " + c + " calls"
-                    }
-                    else return d.key + ": " + c + " call"
-                })
-                .attr('transform', (d, i) => 'translate(20,' + (35 + i * 40) + ')')
-                .attr("class", "selfcall");
-
-            group2.style("display", "none");
 
         },
         draw2DMatrix: function (position) {
@@ -3240,24 +3386,52 @@ function applicationManager(globalData) {
             loadMatrix(global_links);
 
         },
-        updateDomainBox: function (position) {
-            d3.select(position).selectAll("*").remove();
+        updateDomainBox: function () {
+            // d3.select(position).selectAll("*").remove();
             var domainList = getData.getdatabyDomain;
-            var selection = document.querySelector(position);
-            var count = 1;
-            for (var key in domainList) {
-                var option = document.createElement('option');
-                option.textContent = count + ". " + key;
-                option.value = domainList[key].Step;
-                option.title = domainList[key].Process_Name + " [" + domainList[key].Timestamp + "]";
-                if (domainList[key].VirusTotal) {
-                    if (domainList[key].VirusTotal.malicious > 0) {
-                        option.className = 'malicious';
-                        option.textContent = count + ". " + key + '-> malicious by Virus Total';
+
+            if (d3.keys(domainList).length === 0) {
+                d3.select("#domainBox").style("display", "none");
+            }
+            else if (d3.keys(domainList).length === 1) {
+                d3.select("#domainBox").selectAll("span").remove();
+                d3.select("#domainBox").style("display", "block");
+                document.getElementById("domainList").style.visibility = "hidden";
+                document.getElementById("titleDomain").innerHTML = "Connecting Domain: ";
+                let newSpan = document.createElement("span");
+                newSpan.textContent = d3.keys(domainList)[0];
+
+                document.getElementById("firstCell").appendChild(newSpan);
+                document.getElementById("downArrow").style.display = "none";
+
+            }
+            else {
+                d3.select("#domainBox").style("display", "block");
+                d3.select("#domainBox").selectAll("span").remove();
+                var box = document.getElementById("domainList");
+                document.getElementById("titleDomain").innerHTML = "Connecting Domains: "
+                box.style.visibility = "visible";
+                var newcount = 1;
+                for (let key in domainList) {
+                    let newSpan;
+
+                    if (newcount === 1) {
+                        newSpan = document.createElement("span");
+                        newSpan.textContent = d3.keys(domainList)[0];
+
+                        document.getElementById("firstCell").appendChild(newSpan);
+                        document.getElementById("downArrow").style.display = "block";
+                        newcount += 1;
+                        continue;
                     }
+                    newSpan = document.createElement("span");
+                    newSpan.classList.add("w3-bar-item");
+                    newSpan.textContent = key;
+                    newSpan.style.width = "160px";
+
+                    box.appendChild(newSpan);
+                    newcount += 1;
                 }
-                selection.appendChild(option);
-                count++;
             }
 
 
@@ -3273,9 +3447,10 @@ var firstClick;
 var svgStats;
 var lensingStatus = false;
 var orderedArray = [];
-
+var maxLink = 1;
+var availableCommon;
 const categories = ["Registry", "Network", "File", "exe", "dll"];
-const stackColor = ["#3d6c40", "#8f3a47", "#af7131", "#2e578b", "#7e7e7e"];
+const stackColor = ["#247b2b", "#a84553", "#c37e37", "#396bab", "#7e7e7e"];
 
 function getColor(type) {
     return stackColor[categories.indexOf(type)];
@@ -3301,6 +3476,7 @@ function selectAll() {
     var selectAll = document.getElementById("opSelection").checked;
     firstClick = true;
     if (selectAll) {
+        document.getElementById("commonSelection").checked = false;
         // show all rect
         d3.select("#heatmap").selectAll('rect[group=detail]')
             .style('visibility', "visible");
@@ -3338,17 +3514,75 @@ function selectAll() {
         })
     }
 }
+var prevStatus;
+function selectCommon() {
+    var selectCommon = document.getElementById("commonSelection").checked;
+    if (selectCommon) {
+        prevStatus = JSON.parse(JSON.stringify(active));
+        document.getElementById("opSelection").checked = false;
+        // first, hide all
+        d3.select("#heatmap").selectAll('rect[group=detail]')
+            .style('visibility', "hidden");
 
-function computeNodes(nodeObj, miniNode, type, rawPath, index, len) {
+        // hide arc
+        d3.selectAll(".arc")
+            .classed("hidden", true);
+
+        // unselect group
+        svgStats.selectAll("rect")
+            .classed("op0", true)
+            .classed("op1 op2", false);
+
+        availableCommon.forEach(name => {
+            let key = name.replace(" ", "");
+            // show group
+            d3.select("#ovRect"+key)
+                .classed("op1", true)
+                .classed("op2", false)
+                .classed("op0", !!active[key]);
+
+            // show arc
+            d3.selectAll("[class*=o" + key + "]")
+                .classed("visible", true)
+                .classed("hidden", false);
+
+            // show rect
+            d3.select("#heatmap").selectAll('rect.' + key)
+                .style('visibility', active[key] ? "hidden" : "visible");
+
+            active[key] = !active[key];
+        })
+    }
+    else {
+        d3.select("#heatmap").selectAll('rect[group=detail]')
+            .style('visibility', "hidden");
+
+        // hide all arc
+        d3.selectAll(".arc")
+            .classed("hidden", true)
+            .classed("visible", false);
+
+        // hide all group
+        d3.select("#overview").selectAll("rect")
+            .classed("op0", true)
+            .classed("op1 op2", false);
+
+        operationShown.forEach(d => {
+            active[d] = false;
+        })
+    }
+}
+
+function computeNodes(nodeObj, miniNode, type, rawPath, pos, len) {
     let path = rawPath.toLowerCase();
-    let connect = new Array(len+1).join("0");
+    let connectArray = new Array(len + 1).join("0");
     if (!nodeObj[path]) {
         // if havent existed
         nodeObj[path] = 1;
         miniNode.push({
             id: path,
             type: type,
-            level: 1
+            connect: connectArray.slice(0, pos) + "1" + connectArray.slice(pos + 1)
         });
 
     } else {
@@ -3356,3 +3590,147 @@ function computeNodes(nodeObj, miniNode, type, rawPath, index, len) {
     }
 }
 
+function getIndex(list, item) {
+    return list.indexOf(item);
+}
+
+function nodeid(n) {
+    return n.size ? "_g_" + n.group : n.name;
+}
+
+function linkid(l) {
+    var u = nodeid(l.source),
+        v = nodeid(l.target);
+    return u < v ? u + "|" + v : v + "|" + u;
+}
+
+function getGroup(n) {
+    return n.group;
+}
+
+// constructs the network to visualize
+function network(data, prev, getGroup, expand) {
+    expand = expand || {};
+    var groupMap = {},    // group map
+        nodeMap = {},    // node map
+        linkMap = {},    // link map
+        prevGroupNode = {},    // previous group nodes
+        prevGroupCentroid = {},    // previous group centroids
+        nodes = [], // output nodes
+        links = []; // output links
+    // process previous nodes for reuse or centroid calculation
+    if (prev) {
+        prev.nodes.forEach(function (n) {
+            let i = getGroup(n), o;
+            if (n.size > 0) {
+                prevGroupNode[i] = n;
+                n.size = 0;
+            } else {
+                o = prevGroupCentroid[i] || (prevGroupCentroid[i] = {x: 0, y: 0, count: 0});
+                o.x += n.x;
+                o.y += n.y;
+                o.count += 1;
+            }
+        });
+    }
+    // determine nodes
+    for (var k = 0; k < data.nodes.length; ++k) {
+        var n = data.nodes[k],
+            i = getGroup(n),    // i is the freaking group
+            g = groupMap[i] ||
+                (groupMap[i] = prevGroupNode[i]) ||
+                (groupMap[i] = {group: i, size: 0, nodes: []});
+        if (expand[i]) {
+            // the node should be directly visible
+            nodeMap[n.id] = nodes.length;
+            nodes.push(n);
+            if (prevGroupNode[i]) {
+                // place new nodes at cluster location (plus jitter)
+                n.x = prevGroupNode[i].x + Math.random();
+                n.y = prevGroupNode[i].y + Math.random();
+            }
+        } else {
+            // the node is part of a collapsed cluster
+            if (g.size == 0) {
+                // if new cluster, add to set and position at centroid of leaf nodes
+                nodeMap[i] = nodes.length;
+                nodes.push(g);
+                if (prevGroupCentroid[i]) {
+                    g.x = prevGroupCentroid[i].x / prevGroupCentroid[i].count;
+                    g.y = prevGroupCentroid[i].y / prevGroupCentroid[i].count;
+                }
+            }
+            g.nodes.push(n);
+        }
+        // always count group size as w e also use it to tweak the force graph strengths/distances
+        g.size += 1;
+        n.group_data = g;       // circular data
+    }
+    for (i in groupMap) {
+        groupMap[i].link_count = 0;
+    }
+
+    // determine links
+    for (k = 0; k < data.links.length; ++k) {
+        var e, u, v;        // u, v are group names
+        e = data.links[k];
+        if (e.source.group) {
+            u = getGroup(e.source);
+        }
+        else continue;
+        if (e.target.group) {
+            v = getGroup(e.target);
+        }
+        else continue;
+        if (u != v) {
+            // link_count is the number of links to that node
+            groupMap[u].link_count += e.value;
+            groupMap[v].link_count += e.value;
+        }
+        u = expand[u] ? nodeMap[e.source.id] : nodeMap[u];
+        v = expand[v] ? nodeMap[e.target.id] : nodeMap[v];
+        var index = (u < v ? u + "|" + v : v + "|" + u),
+            l = linkMap[index] || (linkMap[index] = {source: u, target: v, size: 0});
+        l.size += e.value;
+    }
+    for (i in linkMap) {
+        if (maxLink < linkMap[i].size) {
+            maxLink = linkMap[i].size;
+        }
+        links.push(linkMap[i]);
+    }
+    return {nodes: nodes, links: links};
+}
+
+function convexHulls(nodes, index, offset) {
+    var hulls = {};
+    var groupType = {};
+    // create point sets
+    for (var k = 0; k < nodes.length; ++k) {
+        var n = nodes[k];
+        if (n.size) continue;
+        // if nodes are grouped, continue !!!
+
+        var i = index(n),
+            l = hulls[i] || (hulls[i] = []);
+
+        groupType[i] = n.type;
+
+        // each node -> 4 nodes including offset
+        l.push([n.x - offset, n.y - offset]);
+        l.push([n.x - offset, n.y + offset]);
+        l.push([n.x + offset, n.y - offset]);
+        l.push([n.x + offset, n.y + offset]);
+    }
+
+    // create convex hulls
+    var hullset = [];
+    for (i in hulls) {
+        hullset.push({
+            group: i,
+            path: d3.polygonHull(hulls[i]),
+            type: groupType[i]
+        })
+    }
+    return hullset;
+}
