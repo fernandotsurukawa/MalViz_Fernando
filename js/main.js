@@ -3044,7 +3044,20 @@ function applicationManager(globalData) {
                         d.group = i + 1;
                         delete d.connect;
                         nodes[item].push(d);
-                    })
+                    });
+
+                    for (let i = 0; i < g.values.length; i++){
+                        let node1 = g.values[i];
+                        for (let j = i+1; j < g.values.length; j+=10){
+                            let node2 = g.values[j];
+                            links[item].push({
+                                source: node1.id,
+                                target: node2.id,
+                                value: 1,
+                                img: true
+                            })
+                        }
+                    }
                 });
 
                 // current last group
@@ -3204,12 +3217,11 @@ function applicationManager(globalData) {
                                 return -150
                             })
                         )
-                        // .force("collide",d3.forceCollide()
-                        //     // .radius(function(d) {
-                        //     //     return 10;})
-                        //     // .strength(1)
-                        // )
-                        .velocityDecay(0.8)     // friction
+                        .force("collide",d3.forceCollide()
+                            .radius(8)
+                            .strength(0.4)
+                        )
+                        .velocityDecay(0.3)     // friction
                     ;
 
                     simulation.nodes(net.nodes)
@@ -3241,7 +3253,7 @@ function applicationManager(globalData) {
                     link.enter().append("line")
                         .attr("class", "link")
                         .style("stroke-width", function (d) {
-                            return strokeScale(d.size);
+                            return d.img? 0 : strokeScale(d.size);
                         });
                     link = linkg.selectAll("line.link");
 
@@ -3267,6 +3279,11 @@ function applicationManager(globalData) {
                         })
                         .on("click", function (d) {
                             console.log("node click", d, arguments, this, expand[d.group]);
+                            console.log(expand[d.group]);
+                            if (!expand[d.group]){
+                                d3.select("#svg" + item)
+                                    .attr("width", "1000")
+                            }
                             expand[d.group] = !expand[d.group];
                             init();
                         });
@@ -3691,6 +3708,10 @@ function network(data, prev, getGroup, expand) {
         v = expand[v] ? nodeMap[e.target.id] : nodeMap[v];
         var index = (u < v ? u + "|" + v : v + "|" + u),
             l = linkMap[index] || (linkMap[index] = {source: u, target: v, size: 0});
+
+        if (e.img) {
+            l.img = true;
+        }
         l.size += e.value;
     }
     for (i in linkMap) {

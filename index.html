@@ -250,7 +250,7 @@
                     </div>
                 </div>
             </div>
-            <div class="w3-half w3-container divParent" style="width:80%">
+            <div class="w3-half w3-container divParent" style="width:80%; padding-bottom: 20px">
                     <div class="w3-threequarter w3-container w3-white" style="width:80%">
                         <p><b>Operations Overview</b>
                             <span style="float: right">
@@ -394,20 +394,20 @@
                     SiteManager.drawStats('#stats'); //Draw statistic map
                     // SiteManager.drawStats2('#OperationList'); //Draw statistic map
                     SiteManager.malist("#commonOp");
-                    d3.select("#sideNavbtn")
-                        .on("click", () => {
-                            if (calculateRank === 1) {
-                                SiteManager.highlight('#ranked'); // hightlight
-                                calculateRank = 2;
-                            }
-                        });
+                    // d3.select("#sideNavbtn")
+                    //     .on("click", () => {
+                    //         if (calculateRank === 1) {
+                    //             SiteManager.highlight('#ranked'); // hightlight
+                    //             calculateRank = 2;
+                    //         }
+                    //     });
                     SiteManager.drawMain('#heatmap');//Draw mainMap
                     let maxcalls = SiteManager.getCallRange().maxcall;
                     SiteManager.updateDomainBox();
 
                     // for testing --------------------
-                    // openNav();
-                    // SiteManager.highlight('#avaiop');
+                    openNav();
+                    SiteManager.highlight('#ranked');
                     // --------------------------------
 
                     $("#btnName").click(function () {
