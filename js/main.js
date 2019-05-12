@@ -1436,8 +1436,7 @@ function applicationManager(globalData) {
                             }
                             else {
                                 var key2 = child.key.replace(" ", "");
-                                console.log(key2);
-                                console.log(this);
+
                                 // show group
                                 d3.select(this)
                                     .classed("op1", () => {
@@ -1585,7 +1584,6 @@ function applicationManager(globalData) {
                 dfs(updated_data[i], orderedArray);
             }
             orderedArray = updated_data;
-            // console.log(calculateDistance(orderedArray));
 
             // DFS - convert tree to array using DFS
             function dfs(o, array) {
@@ -3003,7 +3001,7 @@ function applicationManager(globalData) {
             // DONE computing nodes and links
             // sort processes based on number of links
             var dr = 4,      // default point radius
-                off = 4;    // cluster hull offset
+                off = 6;    // cluster hull offset
 
             var sortedList = list
                 .sort((a, b) => (links[b].length - links[a].length));
@@ -3039,6 +3037,8 @@ function applicationManager(globalData) {
                 // define group | main exe dont group
                 var grouped = nodesb4group[item].groupBy(['type', 'connect']);
                 grouped.forEach((g, i) => {
+                    let len = g.values.length;
+                    let halfLen = len%2=== 0 ? len/2 : (len-1)/2;
                     g.values.forEach(d => {
                         // modify each node HERE
                         d.group = i + 1;
@@ -3046,9 +3046,49 @@ function applicationManager(globalData) {
                         nodes[item].push(d);
                     });
 
-                    for (let i = 0; i < g.values.length; i++){
+                    // for (let i = 0; i < len; i++) {
+                    //     // hold hands :P
+                    //     let node1 = g.values[i];
+                    //     let node2;
+                    //     if (i === len - 1) {
+                    //         node2 = g.values[0];
+                    //     }
+                    //     else {
+                    //         node2 = g.values[i + 1];
+                    //     }
+                    //
+                    //     links[item].push({
+                    //         source: node1.id,
+                    //         target: node2.id,
+                    //         value: 1,
+                    //         img: true
+                    //     });
+                    //
+                    //     // some with distant pals
+                    //     if (i + halfLen < len){
+                    //         links[item].push({
+                    //             source: g.values[i].id,
+                    //             target: g.values[i + halfLen].id,
+                    //             value: 1,
+                    //             img: true
+                    //         })
+                    //     }
+                    // }
+                    //
+                    // // one for opposite
+                    // links[item].push({
+                    //     source: g.values[0].id,
+                    //     target: g.values[halfLen].id,
+                    //     value: 1,
+                    //     img: true
+                    // })
+
+                    var scaleLimit = d3.scaleThreshold()
+                        .domain([200, 500])
+                        .range([8, 15, 30]);
+                    for (let i = 0; i < len; i++){
                         let node1 = g.values[i];
-                        for (let j = i+1; j < g.values.length; j+=10){
+                        for (let j = i+1; j < len; j+=Math.min(scaleLimit(len),Math.round(len/3))){
                             let node2 = g.values[j];
                             links[item].push({
                                 source: node1.id,
@@ -3058,6 +3098,7 @@ function applicationManager(globalData) {
                             })
                         }
                     }
+
                 });
 
                 // current last group
@@ -3099,7 +3140,7 @@ function applicationManager(globalData) {
 
                 let svg = d3.select("#ranked")
                     .append("svg")
-                    .attr("id", "svg" + item)
+                    .attr("id", "svg" + item.replace(/[.]/g, ""))
                     .attr("width", "100%")
                     .attr("height", height);
 
@@ -3125,20 +3166,36 @@ function applicationManager(globalData) {
                 data.nodes = nodes[item];
                 data.links = links[item];
 
-                hullg = svg.append("g");
-                linkg = svg.append("g");
-                nodeg = svg.append("g");
+                let content = svg.append("g");
+                hullg = content.append("g");
+                linkg = content.append("g");
+                nodeg = content.append("g");
+
+                var zoom_handler = d3.zoom()
+                    .on("zoom", zoom_actions);
+
+                // zoom_handler(svg); // zoom by scrolling onto svg
+                zoom_handler(content); // zoom by scrolling onto elements
+
                 init();
                 svg.attr("opacity", 1e-6)
                     .transition()
                     .duration(1000)
                     .attr("opacity", 1);
 
+                function zoom_actions(){
+                    content.attr("transform", d3.event.transform)
+                }
+
                 function drawCluster(d) {
                     return curve(d.path); // 0.8
                 }
 
                 function init() {
+                    hPosition = document.getElementById("svg" + item.replace(/[.]/g, ""))
+                        .getBoundingClientRect()
+                        .height / 2;
+
                     if (simulation) simulation.stop();
                     net = network(data, net, getGroup, expand);
                     simulation = d3.forceSimulation()
@@ -3182,7 +3239,7 @@ function applicationManager(globalData) {
                                 })
                                 .strength(function (l) {
                                     var n1 = l.source, n2 = l.target;
-                                    var defaultValue = 0.9, procValue = 0.4;
+                                    var defaultValue = 0.5, procValue = 0.3;
 
                                     if ((n1.size) && (n2.size)) {
                                         if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)) {
@@ -3213,9 +3270,7 @@ function applicationManager(globalData) {
                         .force("center", d3.forceCenter(wPosition, hPosition))
 
                         .force("charge", d3.forceManyBody()
-                            .strength(d => {
-                                return -150
-                            })
+                            .strength(-150)
                         )
                         .force("collide",d3.forceCollide()
                             .radius(8)
@@ -3242,8 +3297,11 @@ function applicationManager(globalData) {
                         })
                         .style("fill-opacity", 0.3)
                         .on("click", function (d) {
-                            console.log("hull click", d, arguments, this, expand[d.group]);
+                            console.log("hull click",
+                                d, arguments, this, expand[d.group]
+                            );
                             expand[d.group] = false;
+                            adjustHeight(item, expand, height);
                             init();
                         });
                     hull = hullg.selectAll("path.hull");
@@ -3254,6 +3312,7 @@ function applicationManager(globalData) {
                         .attr("class", "link")
                         .style("stroke-width", function (d) {
                             return d.img? 0 : strokeScale(d.size);
+                            // return strokeScale(d.size);
                         });
                     link = linkg.selectAll("line.link");
 
@@ -3264,11 +3323,19 @@ function applicationManager(globalData) {
                         .attr("class", function (d) {
                             if (d.size) {
                                 if (d.size === 1) {
-                                    return "node leaf";
+                                    if (d.nodes[0].id === item){
+                                        return "node main"
+                                    }
+                                    else return "node leaf";
                                 }
                                 else return "node"
                             }
-                            else return "node leaf";
+                            else {
+                                if (d.id === item){
+                                    return "node main"
+                                }
+                                return "node leaf";
+                            }
                         })
                         .attr("r", function (d) {
                             // bare nodes dont have size
@@ -3278,14 +3345,15 @@ function applicationManager(globalData) {
                             return d.size ? getColor(d.nodes[0].type) : getColor(d.type);
                         })
                         .on("click", function (d) {
-                            console.log("node click", d, arguments, this, expand[d.group]);
-                            console.log(expand[d.group]);
-                            if (!expand[d.group]){
-                                d3.select("#svg" + item)
-                                    .attr("width", "1000")
+                            console.log("node click",
+                                d, arguments, this, expand[d.group]
+                            );
+                            let selection = d3.select(this);
+                            if ((selection.attr("class") === "node") || (d.id)){
+                                expand[d.group] = !expand[d.group];
+                                adjustHeight(item, expand, height);
+                                init();
                             }
-                            expand[d.group] = !expand[d.group];
-                            init();
                         });
 
                     node = nodeg.selectAll("circle.node");
@@ -3754,4 +3822,24 @@ function convexHulls(nodes, index, offset) {
         })
     }
     return hullset;
+}
+function adjustHeight(item, expand, height){
+    let existHull = false;
+    d3.keys(expand).some(d => {
+        if (expand[d]){
+            existHull = true;
+        }
+        return expand[d];
+    });
+    if (!existHull){
+        d3.select("#svg" + item.replace(/[.]/g, ""))
+            .attr("height", height)
+    }
+    else {
+        d3.select("#svg" + item.replace(/[.]/g, ""))
+            .attr("height", "600")
+    }
+}
+function zoom_actions(){
+    svg.attr("transform", d3.event.transform)
 }

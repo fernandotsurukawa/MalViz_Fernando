@@ -418,11 +418,15 @@ option.suspicious {
 
 circle.node {
     fill: lightsteelblue;
-    stroke: #555;
-    stroke-width: 2px;
+    stroke: #010101;
+    stroke-width: 1px;
 }
 circle.leaf {
     stroke: #fff;
+    stroke-width: 1px;
+}
+circle.main{
+    stroke: #010101;
     stroke-width: 2px;
 }
 path.hull {
