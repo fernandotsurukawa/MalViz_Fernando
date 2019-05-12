@@ -3099,7 +3099,7 @@ function applicationManager(globalData) {
 
                 let svg = d3.select("#ranked")
                     .append("svg")
-                    .attr("id", "svg" + item)
+                    .attr("id", "svg" + item.replace(".",""))
                     .attr("width", "100%")
                     .attr("height", height);
 
@@ -3139,6 +3139,10 @@ function applicationManager(globalData) {
                 }
 
                 function init() {
+                    hPosition = document.getElementById("svg" + item.replace(".",""))
+                        .getBoundingClientRect()
+                        .height / 2;
+
                     if (simulation) simulation.stop();
                     net = network(data, net, getGroup, expand);
                     simulation = d3.forceSimulation()
@@ -3243,6 +3247,7 @@ function applicationManager(globalData) {
                         .style("fill-opacity", 0.3)
                         .on("click", function (d) {
                             console.log("hull click", d, arguments, this, expand[d.group]);
+                            console.log(expand);
                             expand[d.group] = false;
                             init();
                         });
@@ -3262,13 +3267,22 @@ function applicationManager(globalData) {
                     node.enter().append("circle")
                     // if (d.size) -- d.size > 0 when d is a group node.
                         .attr("class", function (d) {
+                            console.log(d);
                             if (d.size) {
                                 if (d.size === 1) {
-                                    return "node leaf";
+                                    if (d.nodes[0].id === item){
+                                        return "node main"
+                                    }
+                                    else return "node leaf";
                                 }
                                 else return "node"
                             }
-                            else return "node leaf";
+                            else {
+                                if (d.id === item){
+                                    return "node main"
+                                }
+                                return "node leaf";
+                            }
                         })
                         .attr("r", function (d) {
                             // bare nodes dont have size
@@ -3279,10 +3293,10 @@ function applicationManager(globalData) {
                         })
                         .on("click", function (d) {
                             console.log("node click", d, arguments, this, expand[d.group]);
-                            console.log(expand[d.group]);
+                            console.log(expand);
                             if (!expand[d.group]){
-                                d3.select("#svg" + item)
-                                    .attr("width", "1000")
+                                d3.select("#svg" + item.replace(".",""))
+                                    .attr("height", "1000")
                             }
                             expand[d.group] = !expand[d.group];
                             init();
