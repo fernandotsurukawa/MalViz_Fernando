@@ -3039,6 +3039,8 @@ function applicationManager(globalData) {
                 // define group | main exe dont group
                 var grouped = nodesb4group[item].groupBy(['type', 'connect']);
                 grouped.forEach((g, i) => {
+                    let len = g.values.length;
+                    let halfLen = len%2=== 0 ? len/2 : (len-1)/2;
                     g.values.forEach(d => {
                         // modify each node HERE
                         d.group = i + 1;
@@ -3046,9 +3048,50 @@ function applicationManager(globalData) {
                         nodes[item].push(d);
                     });
 
-                    for (let i = 0; i < g.values.length; i++){
+                    // for (let i = 0; i < len; i++) {
+                    //     // hold hands :P
+                    //     let node1 = g.values[i];
+                    //     let node2;
+                    //     if (i === len - 1) {
+                    //         node2 = g.values[0];
+                    //     }
+                    //     else {
+                    //         node2 = g.values[i + 1];
+                    //     }
+                    //
+                    //     links[item].push({
+                    //         source: node1.id,
+                    //         target: node2.id,
+                    //         value: 1,
+                    //         img: true
+                    //     });
+                    //
+                    //     // some with distant pals
+                    //     if (i + halfLen < len){
+                    //         links[item].push({
+                    //             source: g.values[i].id,
+                    //             target: g.values[i + halfLen].id,
+                    //             value: 1,
+                    //             img: true
+                    //         })
+                    //     }
+                    // }
+                    //
+                    // // one for opposite
+                    // links[item].push({
+                    //     source: g.values[0].id,
+                    //     target: g.values[halfLen].id,
+                    //     value: 1,
+                    //     img: true
+                    // })
+
+                    let limit;
+                    var scaleLimit = d3.scaleThreshold()
+                        .domain([200, 500])
+                        .range([10, 20, 30]);
+                    for (let i = 0; i < len; i++){
                         let node1 = g.values[i];
-                        for (let j = i+1; j < g.values.length; j+=10){
+                        for (let j = i+1; j < len; j+=Math.min(scaleLimit(len),Math.round(len/3))){
                             let node2 = g.values[j];
                             links[item].push({
                                 source: node1.id,
@@ -3058,6 +3101,7 @@ function applicationManager(globalData) {
                             })
                         }
                     }
+
                 });
 
                 // current last group
@@ -3259,6 +3303,7 @@ function applicationManager(globalData) {
                         .attr("class", "link")
                         .style("stroke-width", function (d) {
                             return d.img? 0 : strokeScale(d.size);
+                            // return strokeScale(d.size);
                         });
                     link = linkg.selectAll("line.link");
 
@@ -3267,7 +3312,6 @@ function applicationManager(globalData) {
                     node.enter().append("circle")
                     // if (d.size) -- d.size > 0 when d is a group node.
                         .attr("class", function (d) {
-                            console.log(d);
                             if (d.size) {
                                 if (d.size === 1) {
                                     if (d.nodes[0].id === item){
@@ -3296,7 +3340,7 @@ function applicationManager(globalData) {
                             console.log(expand);
                             if (!expand[d.group]){
                                 d3.select("#svg" + item.replace(".",""))
-                                    .attr("height", "1000")
+                                    .attr("height", "600")
                             }
                             expand[d.group] = !expand[d.group];
                             init();
