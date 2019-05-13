@@ -417,7 +417,7 @@ option.suspicious {
 }
 
 circle.node {
-    fill: lightsteelblue;
+    /*fill: lightsteelblue;*/
     stroke: #010101;
     stroke-width: 1px;
 }
@@ -591,7 +591,7 @@ line.link {
     height: 100%;
     top: 0;
     left: 0;
-    background-color: inherit;
+    background-color: #9c27b0;
     border-radius: inherit;
     -webkit-transition: opacity .3s, -webkit-transform .3s;
     transition: opacity .3s, -webkit-transform .3s;
