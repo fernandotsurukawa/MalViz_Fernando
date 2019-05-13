@@ -2814,7 +2814,7 @@ function applicationManager(globalData) {
                 var ops = svg0.append('g')
                     .attr("id", "cg" + keyOperation)
                     .attr('transform', 'translate(10,' + (30 + index * 28) + ')')
-                    .attr("class", "linkText");
+                    .attr("class", "linkText commonAll");
 
                 ops.append("rect")
                     .attr("x", 2)
@@ -2848,6 +2848,10 @@ function applicationManager(globalData) {
                                 .classed("op1 op2", false)
                                 .classed("greyFill", true);
 
+                            d3.selectAll(".commonAll")
+                                .classed("op1", false)
+                                .classed("greyFill", true);
+
                             // then, visible selection
                             //show rect
                             d3.select("#heatmap").selectAll('rect.' + operation)
@@ -2869,13 +2873,15 @@ function applicationManager(globalData) {
                                 .classed("op0", !!active[operation]);
 
                             d3.select(this)
-                                .classed("op1", true);
+                                .classed("op1", true)
+                                .classed("greyFill", false);
 
                             d3.select("[class*=g" + operation + "]")
                                 .classed("op1", true);
 
 
                         } else {
+                            // back to normal
                             document.getElementById("opSelection").checked = true;
                             d3.select("#heatmap").selectAll('rect[group=detail]')
                                 .style('visibility', "visible");
@@ -2891,8 +2897,15 @@ function applicationManager(globalData) {
                                 .classed("op0 op2", false)
                                 .classed("greyFill", false);
 
-                            d3.select(this)
+                            d3.selectAll(".commonAll")
                                 .classed("op1", false)
+                               ;
+
+                            d3.select(this)
+                                .classed("op1", false);
+
+                            d3.selectAll(".commonAll")
+                                .classed("greyFill", false)
                         }
 
                         active[operation] = !active[operation];
@@ -3722,26 +3735,33 @@ function selectCommon() {
         })
     }
     else {
+        // select All
+        document.getElementById("opSelection").checked = true;
+        selectAll()
 
-        d3.select("#heatmap").selectAll('rect[group=detail]')
-            .style('visibility', "hidden");
 
-        // hide all arc
-        d3.selectAll(".arc")
-            .classed("hidden", true)
-            .classed("visible", false);
 
-        // hide all group
-        d3.select("#overview").selectAll("rect")
-            .classed("op0", true)
-            .classed("op1 op2", false);
 
-        svgStats.selectAll("rect")
-            .classed("greyFill", false);
-
-        operationShown.forEach(d => {
-            active[d] = false;
-        })
+        // disable all
+        // d3.select("#heatmap").selectAll('rect[group=detail]')
+        //     .style('visibility', "hidden");
+        //
+        // // hide all arc
+        // d3.selectAll(".arc")
+        //     .classed("hidden", true)
+        //     .classed("visible", false);
+        //
+        // // hide all group
+        // d3.select("#overview").selectAll("rect")
+        //     .classed("op0", true)
+        //     .classed("op1 op2", false);
+        //
+        // svgStats.selectAll("rect")
+        //     .classed("greyFill", false);
+        //
+        // operationShown.forEach(d => {
+        //     active[d] = false;
+        // })
     }
 }
 
