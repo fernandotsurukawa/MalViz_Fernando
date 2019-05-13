@@ -2899,7 +2899,7 @@ function applicationManager(globalData) {
 
                             d3.selectAll(".commonAll")
                                 .classed("op1", false)
-                               ;
+                            ;
 
                             d3.select(this)
                                 .classed("op1", false);
@@ -3152,16 +3152,16 @@ function applicationManager(globalData) {
                     if (t.id === s.id) {
                         var i = {}, j = {}; // intermediate node
 
-                        // clg += 1;
-                        // i["id"] = "dummy1"+t.id;
-                        // i["dummy"] = true;
-                        // i["group"] = clg;
-                        //
-                        // clg += 1;
-                        // j["id"] = "dummy2"+t.id;
-                        // j["dummy"] = true;
-                        // j["group"] = clg;
-                        // nodes[item].push(i, j);
+                        clg += 1;
+                        i["id"] = "dummy1"+t.id;
+                        i["dummy"] = true;
+                        i["group"] = clg;
+
+                        clg += 1;
+                        j["id"] = "dummy2"+t.id;
+                        j["dummy"] = true;
+                        j["group"] = clg;
+                        nodes[item].push(i, j);
 
                         links[item].push({source: s, target: i, self: 1, value: 1},
                             {source: i, target: j, self: 2, value: 1},
