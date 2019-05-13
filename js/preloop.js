@@ -3386,7 +3386,6 @@ function applicationManager(globalData) {
                         .duration(600)
                         .attr("r", 1e-6)
                         .attr("cx", d => {
-                            console.log(d)
                             return wPosition
                         })
                         .attr("cy", hPosition)
