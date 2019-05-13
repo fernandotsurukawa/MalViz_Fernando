@@ -2834,6 +2834,7 @@ function applicationManager(globalData) {
                         var operation = rawOperation.replace(" ", "");
                         if (!active[operation]) {
                             document.getElementById("opSelection").checked = false;
+                            document.getElementById("commonSelection").checked = false;
                             d3.select("#heatmap").selectAll('rect[group=detail]')
                                 .style('visibility', "hidden");
 
@@ -2844,7 +2845,8 @@ function applicationManager(globalData) {
                             // unselect group
                             svgStats.selectAll("rect")
                                 .classed("op0", true)
-                                .classed("op1 op2", false);
+                                .classed("op1 op2", false)
+                                .classed("greyFill", true);
 
                             // then, visible selection
                             //show rect
@@ -2858,6 +2860,13 @@ function applicationManager(globalData) {
                                 .classed("visible", !active[operation])
                                 .classed("hidden", !!active[operation])
                                 .raise();
+
+                            // show in svgStat
+                            d3.select("#ovRect" + operation)
+                                .classed("op1", true)
+                                .classed("op2", false)
+                                .classed("greyFill", false)
+                                .classed("op0", !!active[operation]);
 
                             d3.select(this)
                                 .classed("op1", true);
@@ -2879,7 +2888,8 @@ function applicationManager(globalData) {
                             // unselect group
                             svgStats.selectAll("rect")
                                 .classed("op1", true)
-                                .classed("op0 op2", false);
+                                .classed("op0 op2", false)
+                                .classed("greyFill", false);
 
                             d3.select(this)
                                 .classed("op1", false)
@@ -3641,6 +3651,10 @@ function selectAll() {
             .classed("op1", true)
             .classed("op0 op2", false);
 
+        // grey
+        svgStats.selectAll("rect")
+            .classed("greyFill", false);
+
         operationShown.forEach(d => {
             active[d] = true;
         })
@@ -3683,7 +3697,8 @@ function selectCommon() {
         // unselect group
         svgStats.selectAll("rect")
             .classed("op0", true)
-            .classed("op1 op2", false);
+            .classed("op1 op2", false)
+            .classed("greyFill", true);
 
         availableCommon.forEach(name => {
             let key = name.replace(" ", "");
@@ -3691,6 +3706,7 @@ function selectCommon() {
             d3.select("#ovRect" + key)
                 .classed("op1", true)
                 .classed("op2", false)
+                .classed("greyFill", false)
                 .classed("op0", !!active[key]);
 
             // show arc
@@ -3706,6 +3722,7 @@ function selectCommon() {
         })
     }
     else {
+
         d3.select("#heatmap").selectAll('rect[group=detail]')
             .style('visibility', "hidden");
 
@@ -3718,6 +3735,9 @@ function selectCommon() {
         d3.select("#overview").selectAll("rect")
             .classed("op0", true)
             .classed("op1 op2", false);
+
+        svgStats.selectAll("rect")
+            .classed("greyFill", false);
 
         operationShown.forEach(d => {
             active[d] = false;
