@@ -417,7 +417,7 @@ option.suspicious {
 }
 
 circle.node {
-    fill: lightsteelblue;
+    /*fill: lightsteelblue;*/
     stroke: #010101;
     stroke-width: 1px;
 }

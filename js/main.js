@@ -3024,7 +3024,7 @@ function applicationManager(globalData) {
 
             d3.select("#ranked").selectAll("*").remove();
 
-            // LOOP 
+            // LOOP
             sortedList.forEach((item, index) => {
                 nodes[item] = [];
                 var height = scaleHeight(nodesb4group[item].length);
@@ -3194,13 +3194,12 @@ function applicationManager(globalData) {
                 }
 
                 function init() {
-                    // hPosition = document.getElementById("svg" + item.replace(/[.]/g, ""))
-                    //     .getBoundingClientRect()
-                    //     .height / 2;
+                    hPosition = document.getElementById("svg" + item.replace(/[.]/g, ""))
+                        .getBoundingClientRect()
+                        .height / 2;
 
                     if (simulation) simulation.stop();
                     net = network(data, net, getGroup, expand);
-                    console.log(net);
                     simulation = d3.forceSimulation()
                         .force("link", d3.forceLink()
                             // .id(d => d.name)
@@ -3273,25 +3272,23 @@ function applicationManager(globalData) {
                         .force("center", d3.forceCenter(wPosition, hPosition))
 
                         .force("charge", d3.forceManyBody()
-                            .strength(-40)
+                            .strength(-80)
                         )
                         .force("collide", d3.forceCollide()
                             .radius(8)
                             .strength(0.4)
                         )
-                        .velocityDecay(0.5)     // friction
+                        .velocityDecay(0.3)     // friction
+                        .on("tick", ticked)
                     ;
-                    simulation.nodes(net.nodes)
-                        .on("tick", ticked);
+                    simulation.nodes(net.nodes);
 
                     simulation
                         .force("link")
                         .links(net.links);
+
                     // ::::::::::::: H U L L ::::::::::::
                     hullg.selectAll("path.hull")
-                    .transition()
-                    .duration(200)
-                    .style("fill-opacity", 1e-6)
                         .remove();
                     hull = hullg.selectAll("path.hull")
                         .data(convexHulls(net.nodes, getGroup, off))
@@ -3301,27 +3298,27 @@ function applicationManager(globalData) {
                         .style("fill", function (d) {
                             return getColor(d.type);
                         })
-                        .style("fill-opacity", 0.3)
+                        .style("fill-opacity", 0)
                         .on("click", function (d) {
                             console.log("hull click",
                                 d, arguments, this, expand[d.group]
                             );
                             expand[d.group] = false;
-                            adjustHeight(item, expand, height, init);
-                        });
+                            if (adjustHeight(item, expand, height)){
+                                setTimeout(function(){ init(); }, 200);
+                            }
+                            else init();
+
+                        })
+                        .transition()
+                        .duration(200)
+                        .style("fill-opacity", 0.3);
+
                     hull = hullg.selectAll("path.hull");
 
                     // ::::::::::::: L I N K ::::::::::::
                     link = linkg.selectAll("line.link").data(net.links, linkid);
                     link.exit()
-                    .transition()
-                    .duration(200)
-                    .style("stroke-width", function (d) {
-                        return d.img? 0 : 0.1;
-                    })
-                    .attr("stroke-opacity", function (d) {
-                        return d.img? 0 : 1e-6;
-                    })
                         .remove();
 
                     link.enter().append("line")
@@ -3345,24 +3342,29 @@ function applicationManager(globalData) {
                     link = linkg.selectAll("line.link");
 
                     // ::::::::::::: N O D E ::::::::::::
-
                     node = nodeg.selectAll("circle.node").data(net.nodes, nodeid);
+
                     node.exit()
-                        // .transition()
-                        // .duration(200)
-                        // .attr("r", 1e-6)
+                        .transition()
+                        .duration(600)
+                        .attr("r", 1e-6)
+                        .attr("cx", d => {
+                            console.log(d)
+                            return wPosition
+                        })
+                        .attr("cy", hPosition)
                         .remove();
 
-                    // node
-                    //     .transition()
-                    //     .duration(200)
-                    //     .attr("r", function (d) {
-                    //         // bare nodes dont have size
-                    //         return d.size ? radiusScale(d.size + dr) : radiusScale(1 + dr);
-                    //     })
-                    //     .style("fill", function (d) {
-                    //         return d.size ? getColor(d.nodes[0].type) : getColor(d.type);
-                    //     });
+                    node
+                        .transition()
+                        .duration(600)
+                        .attr("fill", function (d) {
+                            return d.size ? getColor(d.nodes[0].type) : getColor(d.type);
+                        })
+                        .attr("r", function (d) {
+                            // bare nodes dont have size
+                            return d.size ? radiusScale(d.size + dr) : radiusScale(1 + dr);
+                        });
 
                     node.enter().append("circle")
                     // if (d.size) -- d.size > 0 when d is a group node.
@@ -3387,11 +3389,13 @@ function applicationManager(globalData) {
                             // bare nodes dont have size
                             return d.size ? radiusScale(d.size + dr) : radiusScale(1 + dr);
                         })
-                        .style("fill", function (d) {
+                        .attr("fill", function (d) {
                             return d.size ? getColor(d.nodes[0].type) : getColor(d.type);
                         })
                         .attr("cx", initX)
                         .attr("cy", initY)
+                        .attr("opacity", 1)
+                        .merge(node)
                         .on("click", function (d) {
                             console.log("node click",
                                 d, arguments, this, expand[d.group]
@@ -3401,7 +3405,10 @@ function applicationManager(globalData) {
                                 initX = selection.attr("cx");
                                 initY = selection.attr("cy");
                                 expand[d.group] = !expand[d.group];
-                                adjustHeight(item, expand, height, init);
+                                if (adjustHeight(item, expand, height)){
+                                    setTimeout(function(){ init(); }, 200);
+                                }
+                                else init();
                             }
                         });
 
@@ -3411,9 +3418,8 @@ function applicationManager(globalData) {
                         .on("drag", dragged)
                         .on("end", dragended));
 
-
                     function dragstarted(d) {
-                        if (!d3.event.active) simulation.alphaTarget(0.8).restart();
+                        if (!d3.event.active) simulation.alphaTarget(0.3).restart();
                         d.fx = d.x;
                         d.fy = d.y;
                     }
@@ -3433,14 +3439,14 @@ function applicationManager(globalData) {
                     function ticked() {
                         if (!hull.empty()) {
                             hull.data(convexHulls(net.nodes, getGroup, off))
-                                // .transition()
-                                // .duration(50)
+                            // .transition()
+                            // .duration(50)
                                 .attr("opacity", 1)
                                 .attr("d", drawCluster);
                         }
                         link
-                            .transition()
-                            .duration(50)
+                        // .transition()
+                        // .duration(50)
                             .attr("x1", function (d) {
                                 return d.source.x;
                             })
@@ -3454,8 +3460,8 @@ function applicationManager(globalData) {
                                 return d.target.y;
                             });
                         node
-                            .transition()
-                            .duration(50)
+                        // .transition()
+                        // .duration(50)
                             .attr("cx", function (d) {
                                 return d.x;
                             })
@@ -3741,7 +3747,7 @@ function getIndex(list, item) {
 }
 
 function nodeid(n) {
-    return n.size ? "_g_" + n.group : n.name;
+    return n.size ? "_g_" + n.group : n.id;
 }
 
 function linkid(l) {
@@ -3757,7 +3763,7 @@ function getGroup(n) {
 // constructs the network to visualize
 function network(data, prev, getGroup, expand) {
     let L = 600;
-    let scope = L/4 + Math.random()*L/2;
+    let scope = 2*L/3 + Math.random()*L/3;
     expand = expand || {};
     var groupMap = {},    // group map
         nodeMap = {},    // node map
@@ -3855,7 +3861,6 @@ function network(data, prev, getGroup, expand) {
         }
         links.push(linkMap[i]);
     }
-    console.log(nodes);
     return {nodes: nodes, links: links};
 }
 
@@ -3892,8 +3897,13 @@ function convexHulls(nodes, index, offset) {
     return hullset;
 }
 
-function adjustHeight(item, expand, height, init) {
+function adjustHeight(item, expand, height) {
     let existHull = false;
+    let selection = d3.select("#svg" + item.replace(/[.]/g, ""));
+    let prevHeight = selection.attr("height");
+    console.log(prevHeight);
+    console.log(height);
+    const expandHeight = "600";
     d3.keys(expand).some(d => {
         if (expand[d]) {
             existHull = true;
@@ -3901,17 +3911,18 @@ function adjustHeight(item, expand, height, init) {
         return expand[d];
     });
     if (!existHull) {
-        d3.select("#svg" + item.replace(/[.]/g, ""))
-        .transition()
-        .duration(200)
-            .attr("height", height)
+        selection
+            .transition()
+            .duration(200)
+            .attr("height", height);
+        return true;
     }
-    else {
-        d3.select("#svg" + item.replace(/[.]/g, ""))
-        .transition()
-        .duration(200)
-            .attr("height", "600")
+    else if (prevHeight == height){
+        selection
+            .transition()
+            .duration(200)
+            .attr("height", expandHeight);
+        return true;
     }
-    setTimeout(function(){ init(); }, 200);
-
+    else return false;
 }
