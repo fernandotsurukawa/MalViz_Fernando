@@ -114,6 +114,10 @@ fieldset {
     stroke: #292929;
     stroke-alignment: inner;
 }
+.greyFill {
+    fill: #9a9a9a;
+    opacity: 0.2;
+}
 .track,
 .track-inset,
 .track-overlay {
