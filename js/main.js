@@ -3194,9 +3194,9 @@ function applicationManager(globalData) {
                 }
 
                 function init() {
-                    hPosition = document.getElementById("svg" + item.replace(/[.]/g, ""))
-                        .getBoundingClientRect()
-                        .height / 2;
+                    // hPosition = document.getElementById("svg" + item.replace(/[.]/g, ""))
+                    //     .getBoundingClientRect()
+                    //     .height / 2;
 
                     if (simulation) simulation.stop();
                     net = network(data, net, getGroup, expand);
@@ -3289,9 +3289,9 @@ function applicationManager(globalData) {
                         .links(net.links);
                     // ::::::::::::: H U L L ::::::::::::
                     hullg.selectAll("path.hull")
-                    // .transition()
-                    // .duration(200)
-                    // .style("fill-opacity", 1e-6)
+                    .transition()
+                    .duration(200)
+                    .style("fill-opacity", 1e-6)
                         .remove();
                     hull = hullg.selectAll("path.hull")
                         .data(convexHulls(net.nodes, getGroup, off))
@@ -3307,22 +3307,21 @@ function applicationManager(globalData) {
                                 d, arguments, this, expand[d.group]
                             );
                             expand[d.group] = false;
-                            adjustHeight(item, expand, height);
-                            init();
+                            adjustHeight(item, expand, height, init);
                         });
                     hull = hullg.selectAll("path.hull");
 
                     // ::::::::::::: L I N K ::::::::::::
                     link = linkg.selectAll("line.link").data(net.links, linkid);
                     link.exit()
-                    // .transition()
-                    // .duration(200)
-                    // .style("stroke-width", function (d) {
-                    //     return d.img? 0 : 0.1;
-                    // })
-                    // .attr("stroke-opacity", function (d) {
-                    //     return d.img? 0 : 1e-6;
-                    // })
+                    .transition()
+                    .duration(200)
+                    .style("stroke-width", function (d) {
+                        return d.img? 0 : 0.1;
+                    })
+                    .attr("stroke-opacity", function (d) {
+                        return d.img? 0 : 1e-6;
+                    })
                         .remove();
 
                     link.enter().append("line")
@@ -3349,7 +3348,22 @@ function applicationManager(globalData) {
 
                     node = nodeg.selectAll("circle.node").data(net.nodes, nodeid);
                     node.exit()
+                        // .transition()
+                        // .duration(200)
+                        // .attr("r", 1e-6)
                         .remove();
+
+                    // node
+                    //     .transition()
+                    //     .duration(200)
+                    //     .attr("r", function (d) {
+                    //         // bare nodes dont have size
+                    //         return d.size ? radiusScale(d.size + dr) : radiusScale(1 + dr);
+                    //     })
+                    //     .style("fill", function (d) {
+                    //         return d.size ? getColor(d.nodes[0].type) : getColor(d.type);
+                    //     });
+
                     node.enter().append("circle")
                     // if (d.size) -- d.size > 0 when d is a group node.
                         .attr("class", function (d) {
@@ -3387,8 +3401,7 @@ function applicationManager(globalData) {
                                 initX = selection.attr("cx");
                                 initY = selection.attr("cy");
                                 expand[d.group] = !expand[d.group];
-                                adjustHeight(item, expand, height);
-                                init();
+                                adjustHeight(item, expand, height, init);
                             }
                         });
 
@@ -3420,8 +3433,8 @@ function applicationManager(globalData) {
                     function ticked() {
                         if (!hull.empty()) {
                             hull.data(convexHulls(net.nodes, getGroup, off))
-                                .transition()
-                                .duration(50)
+                                // .transition()
+                                // .duration(50)
                                 .attr("opacity", 1)
                                 .attr("d", drawCluster);
                         }
@@ -3879,7 +3892,7 @@ function convexHulls(nodes, index, offset) {
     return hullset;
 }
 
-function adjustHeight(item, expand, height) {
+function adjustHeight(item, expand, height, init) {
     let existHull = false;
     d3.keys(expand).some(d => {
         if (expand[d]) {
@@ -3889,14 +3902,16 @@ function adjustHeight(item, expand, height) {
     });
     if (!existHull) {
         d3.select("#svg" + item.replace(/[.]/g, ""))
-        // .transition()
-        // .duration(200)
+        .transition()
+        .duration(200)
             .attr("height", height)
     }
     else {
         d3.select("#svg" + item.replace(/[.]/g, ""))
-        // .transition()
-        // .duration(200)
+        .transition()
+        .duration(200)
             .attr("height", "600")
     }
+    setTimeout(function(){ init(); }, 200);
+
 }
