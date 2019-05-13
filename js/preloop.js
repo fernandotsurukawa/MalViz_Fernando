@@ -3145,6 +3145,32 @@ function applicationManager(globalData) {
                 var curve = d3.line()
                     .curve(d3.curveCardinalClosed);
 
+
+                let svg = d3.select("#ranked")
+                    .append("svg")
+                    .attr("id", "svg" + item.replace(/[.]/g, ""))
+                    .attr("width", "100%")
+                    .attr("height", height);
+
+                svg.append("rect")
+                    .attr("width", "100%")
+                    .attr("height", "100%")
+                    .attr("stroke", "grey")
+                    .attr("fill", "white")
+                ;
+
+                svg.append("text")
+                    .text((index + 1) + ". " + item)
+                    .attr("x", 20)
+                    .attr("y", index > 0 ? 40 : 60)
+                    .style("font-weight", "bold")
+                    .append("tspan")
+                    .attr("dy", 25)
+                    .attr("x", index > 8 ? 40 : 34)
+                    .style("font-size", "14px")
+                    .text("Self-call(s): " + orderedArray.find(d => d.key === item).selfCalls.length)
+                    .style("font-weight", "normal");
+
                 var multiLinks = [];
                 links[item].forEach(link => {
                     var s = link.source = nodeById.get(link.source),
@@ -3172,31 +3198,6 @@ function applicationManager(globalData) {
                         multiLinks.push([s, t, link.value])
                     }
                 });
-
-                let svg = d3.select("#ranked")
-                    .append("svg")
-                    .attr("id", "svg" + item.replace(/[.]/g, ""))
-                    .attr("width", "100%")
-                    .attr("height", height);
-
-                svg.append("rect")
-                    .attr("width", "100%")
-                    .attr("height", "100%")
-                    .attr("stroke", "grey")
-                    .attr("fill", "white")
-                ;
-
-                svg.append("text")
-                    .text((index + 1) + ". " + item)
-                    .attr("x", 20)
-                    .attr("y", index > 0 ? 40 : 60)
-                    .style("font-weight", "bold")
-                    .append("tspan")
-                    .attr("dy", 25)
-                    .attr("x", index > 8 ? 40 : 34)
-                    .style("font-size", "14px")
-                    .text("Self-call(s): " + orderedArray.find(d => d.key === item).selfCalls.length)
-                    .style("font-weight", "normal");
 
                 data.nodes = nodes[item];
                 data.links = links[item];
@@ -3312,7 +3313,7 @@ function applicationManager(globalData) {
                             .radius(8)
                             .strength(0.4)
                         )
-                        .velocityDecay(0.3)     // friction
+                        .velocityDecay(0.4)     // friction
                         .on("tick", ticked)
                     ;
                     simulation.nodes(net.nodes);
@@ -3351,6 +3352,8 @@ function applicationManager(globalData) {
                     hull = hullg.selectAll("path.hull");
 
                     // ::::::::::::: L I N K ::::::::::::
+                    console.log(net.links);
+                    console.log(multiLinks);
                     link = linkg.selectAll("line.link").data(net.links, linkid);
                     link.exit()
                         .remove();
@@ -3849,25 +3852,22 @@ function network(data, prev, getGroup, expand) {
         if (expand[i]) {
             // the node should be directly visible
             nodeMap[n.id] = nodes.length;
-            n.x = L/4 + Math.random()*L/2;
-            n.y = L/4 + Math.random()*L/2;
             nodes.push(n);
             if (prevGroupNode[i]) {
                 // place new nodes at cluster location (plus jitter)
-                n.x = prevGroupNode[i].x + Math.random();
-                n.y = prevGroupNode[i].y + Math.random();
+                n.x = prevGroupNode[i].x + 10 * Math.random();
+                n.y = prevGroupNode[i].y + 10 * Math.random();
+                console.log(prevGroupNode[i].x, prevGroupNode[i].y)
             }
         } else {
             // the node is part of a collapsed cluster
             if (g.size == 0) {
                 // if new cluster, add to set and position at centroid of leaf nodes
                 nodeMap[i] = nodes.length;
-                g.x = L/4 + Math.random()*L/2;
-                g.y = L/4 + Math.random()*L/2;
                 nodes.push(g);
                 if (prevGroupCentroid[i]) {
-                    g.x = prevGroupCentroid[i].x / prevGroupCentroid[i].count;
-                    g.y = prevGroupCentroid[i].y / prevGroupCentroid[i].count;
+                    g.x = prevGroupCentroid[i].x / prevGroupCentroid[i].count + 10 * Math.random();
+                    g.y = prevGroupCentroid[i].y / prevGroupCentroid[i].count + 10 * Math.random();
                 }
             }
             g.nodes.push(n);
