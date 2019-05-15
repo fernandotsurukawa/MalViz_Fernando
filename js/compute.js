@@ -1,7 +1,6 @@
 // constructs the network to visualize
+var gcen = {};
 function network(data, prev, getGroup, expand) {
-    let L = 600;
-    let scope = 2 * L / 3 + Math.random() * L / 3;
     expand = expand || {};
     var groupMap = {},    // group map
         nodeMap = {},    // node map
@@ -10,8 +9,8 @@ function network(data, prev, getGroup, expand) {
         prevGroupCentroid = {},    // previous group centroids
         nodes = [], // output nodes
         links = [], // output links
-        extra = [],
-        test = [];
+        extra = [];
+
     // process previous nodes for reuse or centroid calculation
     if (prev) {
         prev.nodes.forEach(function (n) {
@@ -44,8 +43,8 @@ function network(data, prev, getGroup, expand) {
             nodes.push(n);
             if (prevGroupNode[i]) {
                 // place new nodes at cluster location (plus jitter)
-                n.x = prevGroupNode[i].x + 10 * Math.random();
-                n.y = prevGroupNode[i].y + 10 * Math.random();
+                n.x = prevGroupNode[i].x + 3 * Math.random();
+                n.y = prevGroupNode[i].y + 3 * Math.random();
             }
 
         } else {
@@ -55,8 +54,10 @@ function network(data, prev, getGroup, expand) {
                 nodeMap[i] = nodes.length;
                 nodes.push(g);
                 if (prevGroupCentroid[i]) {
-                    g.x = prevGroupCentroid[i].x / prevGroupCentroid[i].count + 10 * Math.random();
-                    g.y = prevGroupCentroid[i].y / prevGroupCentroid[i].count + 10 * Math.random();
+                    gcen.x = prevGroupCentroid[i].x / prevGroupCentroid[i].count;
+                    gcen.y = prevGroupCentroid[i].y / prevGroupCentroid[i].count;
+                    g.x =  gcen.x + 3 * Math.random();
+                    g.y = gcen.y + 3 * Math.random();
                 }
             }
             g.nodes.push(n);
@@ -71,9 +72,7 @@ function network(data, prev, getGroup, expand) {
 
     // determine loop
     data.extra.forEach((path, pIndex) => {
-        console.log(nodes);
-        console.log(path);
-        let x = {
+        extra.push({
             source: nodes.find(d => {
                 return ((d.size == 1) && (d.nodes[0].id === path.source.id))
             }),
@@ -88,9 +87,7 @@ function network(data, prev, getGroup, expand) {
             }),
             size: path.value,
             pathid: pIndex
-        };
-        console.log(x);
-        extra.push(x);
+        });
     });
 
     // determine links
@@ -134,8 +131,8 @@ function network(data, prev, getGroup, expand) {
 
         links.push(linkMap[i]);
     }
-
     return {nodes: nodes,
         links: links,
-        extra: extra};
+        extra: extra,
+        gcen: gcen};
 }
