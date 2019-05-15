@@ -3068,7 +3068,6 @@ function applicationManager(globalData) {
                         //     delete instance in old group
                         grouped[nodegroupnumber-1].values =
                             grouped[nodegroupnumber-1].values.filter(d => d.id !== node.id);
-                        console.log(grouped)
                     }
                 });
                 grouped.forEach((g, i) => {
@@ -3321,7 +3320,6 @@ function applicationManager(globalData) {
                             );
                             expand[d.group] = false;
                             init();
-
                         })
                         .transition()
                         .duration(200)
