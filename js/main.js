@@ -3175,6 +3175,9 @@ function applicationManager(globalData) {
                 // zoom_handler(svg); // zoom by scrolling onto svg
                 zoom_handler(content); // zoom by scrolling onto elements
 
+                let initX = wPosition, initY = hPosition;
+                let removePosX = initX, removePosY = initY;
+
                 init();
                 svg.attr("opacity", 1e-6)
                     .transition()
@@ -3210,8 +3213,6 @@ function applicationManager(globalData) {
                             .attr("height", height);
                     }
 
-
-                    let initX = wPosition, initY = hPosition;
 
                     simulation = d3.forceSimulation()
                         .force("link", d3.forceLink()
@@ -3318,6 +3319,8 @@ function applicationManager(globalData) {
                             console.log("hull click",
                                 d, arguments, this, expand[d.group]
                             );
+                            [removePosX, removePosY] =
+                                getCentroidFromHull(net.nodes.filter(v => v.group == d.group));
                             expand[d.group] = false;
                             init();
                         })
@@ -3361,10 +3364,10 @@ function applicationManager(globalData) {
 
                     node.exit()
                         .transition()
-                        .duration(600)
+                        .duration(200)
                         .attr("r", 1e-6)
-                        .attr("cx", wPosition)
-                        .attr("cy", hPosition)
+                        .attr("cx", removePosX)
+                        .attr("cy", removePosY)
                         .remove();
 
                     node
@@ -3414,9 +3417,16 @@ function applicationManager(globalData) {
                                 d, arguments, this, expand[d.group]
                             );
                             let selection = d3.select(this);
-                            if ((selection.attr("class") === "node") || (d.id)) {
+                            if (selection.attr("class") === "node") {
                                 initX = selection.attr("cx");
                                 initY = selection.attr("cy");
+                                expand[d.group] = !expand[d.group];
+                                init();
+                            }
+                            else if (d.id){
+                                [removePosX, removePosY] =
+                                    getCentroidFromHull(net.nodes.filter(v => v.group == d.group));
+                                console.log(removePosX, removePosY);
                                 expand[d.group] = !expand[d.group];
                                 init();
                             }
@@ -3830,4 +3840,13 @@ function adjustHeight(nodes, item, expand, height) {
         return true;
     }
     else return false;
+}
+function getCentroidFromHull(array){
+    let sumX = 0, sumY = 0;
+    let len = array.length;
+    array.forEach(d => {
+        sumX += d.x;
+        sumY += d.y;
+    });
+    return [sumX/len, sumY/len]
 }

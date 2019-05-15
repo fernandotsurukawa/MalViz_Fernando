@@ -398,20 +398,22 @@
                     SiteManager.drawStats('#stats'); //Draw statistic map
                     // SiteManager.drawStats2('#OperationList'); //Draw statistic map
                     SiteManager.malist("#commonOp");
-                    d3.select("#sideNavbtn")
-                        .on("click", () => {
-                            if (calculateRank === 1) {
-                                SiteManager.highlight('#ranked'); // hightlight
-                                calculateRank = 2;
-                            }
-                        });
+                    // for running --------------------
+                    // d3.select("#sideNavbtn")
+                    //     .on("click", () => {
+                    //         if (calculateRank === 1) {
+                    //             SiteManager.highlight('#ranked'); // hightlight
+                    //             calculateRank = 2;
+                    //         }
+                    //     });
+                    // -----------------------------
                     SiteManager.drawMain('#heatmap');//Draw mainMap
                     let maxcalls = SiteManager.getCallRange().maxcall;
                     SiteManager.updateDomainBox();
 
                     // for testing --------------------
-                    // openNav();
-                    // SiteManager.highlight('#ranked');
+                    openNav();
+                    SiteManager.highlight('#ranked');
                     // --------------------------------
 
                     $("#btnName").click(function () {
