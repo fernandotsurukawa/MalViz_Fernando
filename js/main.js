@@ -1845,10 +1845,7 @@ function applicationManager(globalData) {
                     }
                     else // lensing area
                         return posInLens;
-
-
                 }
-
                 else {
                     return xStep * norm;
                 }
@@ -3175,6 +3172,7 @@ function applicationManager(globalData) {
                 var zoom_handler = d3.zoom()
                     .on("zoom", zoom_actions);
 
+                var initfirst = false;
                 // zoom_handler(svg); // zoom by scrolling onto svg
                 zoom_handler(content); // zoom by scrolling onto elements
 
@@ -3201,10 +3199,18 @@ function applicationManager(globalData) {
                     height = scaleHeight(numLinks);
                     hPosition = height / 2;
 
-                    d3.select("#svg" + item.replace(/[.]/g, ""))
-                    // .transition()
-                    // .duration(100)
-                        .attr("height", height);
+                    if (!initfirst){
+                        d3.select("#svg" + item.replace(/[.]/g, ""))
+                            .attr("height", height);
+                        initfirst = true;
+                    }
+                    else {
+                        d3.select("#svg" + item.replace(/[.]/g, ""))
+                            .transition()
+                            .duration(200)
+                            .attr("height", height);
+                    }
+
 
                     let initX = wPosition, initY = hPosition;
 
