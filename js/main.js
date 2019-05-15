@@ -3319,8 +3319,14 @@ function applicationManager(globalData) {
                             console.log("hull click",
                                 d, arguments, this, expand[d.group]
                             );
+                            // middle of cluster
                             [removePosX, removePosY] =
                                 getCentroidFromHull(net.nodes.filter(v => v.group == d.group));
+
+                            // old centroid
+                            // removePosX = net.gcen.x;
+                            // removePosY = net.gcen.y;
+
                             expand[d.group] = false;
                             init();
                         })
@@ -3424,9 +3430,14 @@ function applicationManager(globalData) {
                                 init();
                             }
                             else if (d.id){
+                                // middle of cluster
                                 [removePosX, removePosY] =
                                     getCentroidFromHull(net.nodes.filter(v => v.group == d.group));
-                                console.log(removePosX, removePosY);
+
+                                // old centroid
+                                // removePosX = net.gcen.x;
+                                // removePosY = net.gcen.y;
+
                                 expand[d.group] = !expand[d.group];
                                 init();
                             }

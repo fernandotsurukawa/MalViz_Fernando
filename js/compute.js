@@ -1,4 +1,5 @@
 // constructs the network to visualize
+var gcen = {};
 function network(data, prev, getGroup, expand) {
     expand = expand || {};
     var groupMap = {},    // group map
@@ -9,6 +10,7 @@ function network(data, prev, getGroup, expand) {
         nodes = [], // output nodes
         links = [], // output links
         extra = [];
+
     // process previous nodes for reuse or centroid calculation
     if (prev) {
         prev.nodes.forEach(function (n) {
@@ -52,8 +54,10 @@ function network(data, prev, getGroup, expand) {
                 nodeMap[i] = nodes.length;
                 nodes.push(g);
                 if (prevGroupCentroid[i]) {
-                    g.x = prevGroupCentroid[i].x / prevGroupCentroid[i].count + 3 * Math.random();
-                    g.y = prevGroupCentroid[i].y / prevGroupCentroid[i].count + 3 * Math.random();
+                    gcen.x = prevGroupCentroid[i].x / prevGroupCentroid[i].count;
+                    gcen.y = prevGroupCentroid[i].y / prevGroupCentroid[i].count;
+                    g.x =  gcen.x + 3 * Math.random();
+                    g.y = gcen.y + 3 * Math.random();
                 }
             }
             g.nodes.push(n);
@@ -127,8 +131,8 @@ function network(data, prev, getGroup, expand) {
 
         links.push(linkMap[i]);
     }
-
     return {nodes: nodes,
         links: links,
-        extra: extra};
+        extra: extra,
+        gcen: gcen};
 }
