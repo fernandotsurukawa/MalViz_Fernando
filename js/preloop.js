@@ -2923,6 +2923,7 @@ function applicationManager(globalData) {
             var nodesb4group = {};
             var links = {};
             var nodes = {};
+            var extra = {};
             var secondaryNodes = {};
             var nodeObjTotal = {};
 
@@ -3069,43 +3070,6 @@ function applicationManager(globalData) {
                         nodes[item].push(d);
                     });
 
-                    //<>
-                    // for (let i = 0; i < len; i++) {
-                    //     // hold hands :P
-                    //     let node1 = g.values[i];
-                    //     let node2;
-                    //     if (i === len - 1) {
-                    //         node2 = g.values[0];
-                    //     }
-                    //     else {
-                    //         node2 = g.values[i + 1];
-                    //     }
-                    //
-                    //     links[item].push({
-                    //         source: node1.id,
-                    //         target: node2.id,
-                    //         value: 1,
-                    //         img: true
-                    //     });
-                    //
-                    //     // some with distant pals
-                    //     if (i + halfLen < len){
-                    //         links[item].push({
-                    //             source: g.values[i].id,
-                    //             target: g.values[i + halfLen].id,
-                    //             value: 1,
-                    //             img: true
-                    //         })
-                    //     }
-                    // }
-                    //
-                    // // one for opposite
-                    // links[item].push({
-                    //     source: g.values[0].id,
-                    //     target: g.values[halfLen].id,
-                    //     value: 1,
-                    //     img: true
-                    // })
 
                     var scaleLimit = d3.scaleThreshold()
                         .domain([200, 500])
@@ -3128,7 +3092,7 @@ function applicationManager(globalData) {
                 // current last group
                 var clg = grouped.length, firstEct = false;
                 nodes[item].forEach(node => {
-                    if (list.indexOf(node.id) >= 0) { // main process
+                    if (list.indexOf(node.id) >= 0) { // main process exits in network
                         if (!firstEct) {
                             // keep group number
                             firstEct = true;
@@ -3141,7 +3105,11 @@ function applicationManager(globalData) {
                 // Var and parameter
                 var expand = {}, // expanded clusters
                     data = {},
-                    net, simulation, hullg, hull, linkg, link, nodeg, node;
+                    net, simulation,
+                    hullg, hull,
+                    linkg, link,
+                    nodeg, node,
+                    pathg, path;
                 var curve = d3.line()
                     .curve(d3.curveCardinalClosed);
 
@@ -3171,20 +3139,21 @@ function applicationManager(globalData) {
                     .text("Self-call(s): " + orderedArray.find(d => d.key === item).selfCalls.length)
                     .style("font-weight", "normal");
 
-                var multiLinks = [];
+                // connect link to node
+                extra[item] = [];
                 links[item].forEach(link => {
-                    var s = link.source = nodeById.get(link.source),
-                        t = link.target = nodeById.get(link.target);
+                    var s = link.source = nodes[item].find(d => d.id === link.source),
+                        t = link.target = nodes[item].find(d => d.id === link.target);
                     if (t.id === s.id) {
                         var i = {}, j = {}; // intermediate node
 
                         clg += 1;
-                        i["id"] = "dummy1"+t.id;
+                        i["id"] = "dummy1" + t.id;
                         i["dummy"] = true;
                         i["group"] = clg;
 
                         clg += 1;
-                        j["id"] = "dummy2"+t.id;
+                        j["id"] = "dummy2" + t.id;
                         j["dummy"] = true;
                         j["group"] = clg;
                         nodes[item].push(i, j);
@@ -3192,21 +3161,27 @@ function applicationManager(globalData) {
                         links[item].push({source: s, target: i, self: 1, value: 1},
                             {source: i, target: j, self: 2, value: 1},
                             {source: j, target: t, self: 1, value: 1});
-                        multiLinks.push([s, i, j, t, link.value]);
-                    }
-                    else {
-                        multiLinks.push([s, t, link.value])
+
+                        extra[item].push({
+                            source: s,
+                            dummy1: i,
+                            dummy2: j,
+                            target: t,
+                            value: link.value
+                        });
                     }
                 });
 
                 data.nodes = nodes[item];
                 data.links = links[item];
+                data.extra = extra[item];
 
                 let initX = wPosition, initY = hPosition;
                 let content = svg.append("g");
                 hullg = content.append("g");
                 linkg = content.append("g");
                 nodeg = content.append("g");
+                pathg = content.append("g");
 
                 var zoom_handler = d3.zoom()
                     .on("zoom", zoom_actions);
@@ -3237,7 +3212,10 @@ function applicationManager(globalData) {
                     net = network(data, net, getGroup, expand);
                     simulation = d3.forceSimulation()
                         .force("link", d3.forceLink()
-                            // .id(d => d.name)
+                            // .id(d => {
+                            //     console.log(d)
+                            //     return d.index
+                            // })
                                 .distance(function (l) {
                                     var n1 = l.source, n2 = l.target;
                                     var defaultValue = 20 +
@@ -3339,8 +3317,10 @@ function applicationManager(globalData) {
                                 d, arguments, this, expand[d.group]
                             );
                             expand[d.group] = false;
-                            if (adjustHeight(item, expand, height)){
-                                setTimeout(function(){ init(); }, 200);
+                            if (adjustHeight(item, expand, height)) {
+                                setTimeout(function () {
+                                    init();
+                                }, 200);
                             }
                             else init();
 
@@ -3352,8 +3332,6 @@ function applicationManager(globalData) {
                     hull = hullg.selectAll("path.hull");
 
                     // ::::::::::::: L I N K ::::::::::::
-                    console.log(net.links);
-                    console.log(multiLinks);
                     link = linkg.selectAll("line.link").data(net.links, linkid);
                     link.exit()
                         .remove();
@@ -3374,9 +3352,23 @@ function applicationManager(globalData) {
                         })
                         .style("stroke-width", function (d) {
                             return d.img ? 0 : strokeScale(d.size);
-                            // return strokeScale(d.size);
                         });
                     link = linkg.selectAll("line.link");
+
+                    // ::::::::::::: P A T H ::::::::::::
+                    path = pathg.selectAll("path.curve").data(net.extra, d => d.pathid);
+                    path.exit()
+                        .remove();
+
+                    path.enter().append("path")
+                        .attr("class", "curve link")
+                        .style("stroke-width", function (d) {
+                            return d.img ? 0 : strokeScale(d.size);
+
+                        })
+                        .attr("fill", "none");
+
+                    path = pathg.selectAll("path.curve");
 
                     // ::::::::::::: N O D E ::::::::::::
                     node = nodeg.selectAll("circle.node").data(net.nodes, nodeid);
@@ -3386,7 +3378,6 @@ function applicationManager(globalData) {
                         .duration(600)
                         .attr("r", 1e-6)
                         .attr("cx", d => {
-                            console.log(d)
                             return wPosition
                         })
                         .attr("cy", hPosition)
@@ -3432,6 +3423,7 @@ function applicationManager(globalData) {
                         .attr("cx", initX)
                         .attr("cy", initY)
                         .attr("opacity", 1)
+                        .attr("visibility", d => d.dummy? "hidden" : "visible")
                         .merge(node)
                         .on("click", function (d) {
                             console.log("node click",
@@ -3442,8 +3434,10 @@ function applicationManager(globalData) {
                                 initX = selection.attr("cx");
                                 initY = selection.attr("cy");
                                 expand[d.group] = !expand[d.group];
-                                if (adjustHeight(item, expand, height)){
-                                    setTimeout(function(){ init(); }, 200);
+                                if (adjustHeight(item, expand, height)) {
+                                    setTimeout(function () {
+                                        init();
+                                    }, 200);
                                 }
                                 else init();
                             }
@@ -3471,19 +3465,17 @@ function applicationManager(globalData) {
                         d.fx = null;
                         d.fy = null;
                     }
+                    var lineGenerator = d3.line()
+                        .curve(d3.curveNatural);
 
                     // Tick function
                     function ticked() {
                         if (!hull.empty()) {
                             hull.data(convexHulls(net.nodes, getGroup, off))
-                            // .transition()
-                            // .duration(50)
                                 .attr("opacity", 1)
                                 .attr("d", drawCluster);
                         }
                         link
-                        // .transition()
-                        // .duration(50)
                             .attr("x1", function (d) {
                                 return d.source.x;
                             })
@@ -3496,15 +3488,25 @@ function applicationManager(globalData) {
                             .attr("y2", function (d) {
                                 return d.target.y;
                             });
+
+                        path.attr("d", d => {
+                            return lineGenerator([
+                                [d.source.x, d.source.y],
+                                [d.dummy1.x, d.dummy1.y],
+                                [d.dummy2.x, d.dummy2.y],
+                                [d.target.x, d.target.y]
+                            ]);
+                        })
+
                         node
-                        // .transition()
-                        // .duration(50)
                             .attr("cx", function (d) {
                                 return d.x;
                             })
                             .attr("cy", function (d) {
                                 return d.y;
                             });
+
+
                     }
                 }
 
@@ -3682,6 +3684,10 @@ function selectAll() {
         svgStats.selectAll("rect")
             .classed("greyFill", false);
 
+        d3.selectAll(".commonAll")
+            .classed("op1", true)
+            .classed("greyFill", false);
+
         operationShown.forEach(d => {
             active[d] = true;
         })
@@ -3699,6 +3705,10 @@ function selectAll() {
         d3.select("#overview").selectAll("rect")
             .classed("op0", true)
             .classed("op1 op2", false);
+
+        d3.selectAll(".commonAll")
+            .classed("op1", false)
+            .classed("greyFill", true);
 
         operationShown.forEach(d => {
             active[d] = false;
@@ -3752,8 +3762,6 @@ function selectCommon() {
         // select All
         document.getElementById("opSelection").checked = true;
         selectAll()
-
-
 
 
         // disable all
@@ -3814,111 +3822,6 @@ function getGroup(n) {
     return n.group;
 }
 
-// constructs the network to visualize
-function network(data, prev, getGroup, expand) {
-    let L = 600;
-    let scope = 2*L/3 + Math.random()*L/3;
-    expand = expand || {};
-    var groupMap = {},    // group map
-        nodeMap = {},    // node map
-        linkMap = {},    // link map
-        prevGroupNode = {},    // previous group nodes
-        prevGroupCentroid = {},    // previous group centroids
-        nodes = [], // output nodes
-        links = []; // output links
-
-    // process previous nodes for reuse or centroid calculation
-    if (prev) {
-        prev.nodes.forEach(function (n) {
-            let i = getGroup(n), o;
-            if (n.size > 0) {
-                prevGroupNode[i] = n;
-                n.size = 0;
-            } else {
-                o = prevGroupCentroid[i] || (prevGroupCentroid[i] = {x: 0, y: 0, count: 0});
-                o.x += n.x;
-                o.y += n.y;
-                o.count += 1;
-            }
-        });
-    }
-    // determine nodes
-    for (var k = 0; k < data.nodes.length; ++k) {
-        var n = data.nodes[k],
-            i = getGroup(n),    // i is the freaking group
-            g = groupMap[i] ||
-                (groupMap[i] = prevGroupNode[i]) ||
-                (groupMap[i] = {group: i, size: 0, nodes: []});
-        if (expand[i]) {
-            // the node should be directly visible
-            nodeMap[n.id] = nodes.length;
-            nodes.push(n);
-            if (prevGroupNode[i]) {
-                // place new nodes at cluster location (plus jitter)
-                n.x = prevGroupNode[i].x + 10 * Math.random();
-                n.y = prevGroupNode[i].y + 10 * Math.random();
-                console.log(prevGroupNode[i].x, prevGroupNode[i].y)
-            }
-        } else {
-            // the node is part of a collapsed cluster
-            if (g.size == 0) {
-                // if new cluster, add to set and position at centroid of leaf nodes
-                nodeMap[i] = nodes.length;
-                nodes.push(g);
-                if (prevGroupCentroid[i]) {
-                    g.x = prevGroupCentroid[i].x / prevGroupCentroid[i].count + 10 * Math.random();
-                    g.y = prevGroupCentroid[i].y / prevGroupCentroid[i].count + 10 * Math.random();
-                }
-            }
-            g.nodes.push(n);
-        }
-        // always count group size as w e also use it to tweak the force graph strengths/distances
-        g.size += 1;
-        n.group_data = g;       // circular data
-    }
-    for (i in groupMap) {
-        groupMap[i].link_count = 0;
-    }
-
-    // determine links
-    for (k = 0; k < data.links.length; ++k) {
-        var e, u, v;        // u, v are group names
-        e = data.links[k];
-        if (e.source.group) {
-            u = getGroup(e.source);
-        }
-        else continue;
-        if (e.target.group) {
-            v = getGroup(e.target);
-        }
-        else continue;
-        if (u != v) {
-            // link_count is the number of links to that node
-            groupMap[u].link_count += e.value;
-            groupMap[v].link_count += e.value;
-        }
-
-        u = expand[u] ? nodeMap[e.source.id] : nodeMap[u];
-        v = expand[v] ? nodeMap[e.target.id] : nodeMap[v];
-        var index = (u < v ? u + "|" + v : v + "|" + u),
-            l = linkMap[index] || (linkMap[index] = {source: u, target: v, size: 0});
-
-        if (e.img) {
-            l.img = true;
-        }
-        l.size += e.value;
-    }
-    for (i in linkMap) {
-        // tranh thu tinh maxLink
-        if (maxLink < linkMap[i].size) {
-            maxLink = linkMap[i].size;
-        }
-        links.push(linkMap[i]);
-    }
-
-    return {nodes: nodes, links: links};
-}
-
 function convexHulls(nodes, index, offset) {
     var hulls = {};
     var groupType = {};
@@ -3972,7 +3875,7 @@ function adjustHeight(item, expand, height) {
             .attr("height", height);
         return true;
     }
-    else if (prevHeight == height){
+    else if (prevHeight == height) {
         selection
             .transition()
             .duration(200)
