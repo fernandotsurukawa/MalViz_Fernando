@@ -2982,6 +2982,7 @@ function applicationManager(globalData) {
                     return d.id;
                 });
                 var multiLinks = [];
+                var extra = [];
                 links[item].forEach(link => {
                     var s = link.source = nodeById.get(link.source),
                         t = link.target = nodeById.get(link.target);
@@ -2992,6 +2993,7 @@ function applicationManager(globalData) {
                             {source: i, target: j, self: 2},
                             {source: j, target: t, self: 1});
                         multiLinks.push([s, i, j, t, link.value]);
+                        extra.push([s, i, j, t, link.value]);
                     }
                     else {
                         multiLinks.push([s, t, link.value])
@@ -3050,6 +3052,7 @@ function applicationManager(globalData) {
                     )
                 ;
 
+                console.log(extra);
                 var link = svg.append("g")
                     .attr("class", "links")
                     .selectAll("path")

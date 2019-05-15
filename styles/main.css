@@ -186,8 +186,8 @@ text.active {
     fill: red;
 }
 
-line {
-    stroke: #999;
+.link {
+    stroke: #656565;
     stroke-opacity: .6;
 }
 
