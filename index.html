@@ -41,8 +41,8 @@
     </div>
 
     <div id="London" class="tabcontent">
-        <h4 class="w3-container" id="rankedbydeg" style="position: absolute; padding-left: 20px"><b>Processes ranked by
-            degree</b></h4>
+        <!--<h4 class="w3-container" id="rankedbydeg" style="position: absolute; padding-left: 20px"><b>Processes ranked by-->
+            <!--degree</b></h4>-->
         <div class="w3-container" style="padding-right: 0; padding-left: 0">
             <div id="ranked" class="contentRanked">
 
@@ -339,7 +339,8 @@
 </script>
 <script src="js/ultility.js"></script>
 <script src="js/compute.js"></script>
-<script src="js/preloop.js"></script>
+<script src="js/init.js"></script>
+<script src="js/main.js"></script>
 <script>
     let divOperation = d3.select("body").append("div")
         .attr("class", "tooltip")
@@ -370,6 +371,7 @@
 
     });
     let init = function (filePath) {
+        lensingStatus = false;
         calculateRank = 0;
         closeNav();
         d3.queue()

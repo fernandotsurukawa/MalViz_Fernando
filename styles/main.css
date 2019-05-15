@@ -186,11 +186,15 @@ text.active {
     fill: red;
 }
 
+line {
+    stroke: #999;
+    stroke-opacity: .6;
+}
+
 .link {
     stroke: #656565;
     stroke-opacity: .6;
 }
-
 .cell {
     stroke-width: 0px;
 }
