@@ -46,7 +46,6 @@ function network(data, prev, getGroup, expand) {
                 // place new nodes at cluster location (plus jitter)
                 n.x = prevGroupNode[i].x + 10 * Math.random();
                 n.y = prevGroupNode[i].y + 10 * Math.random();
-                console.log(prevGroupNode[i].x, prevGroupNode[i].y)
             }
 
         } else {
@@ -115,6 +114,10 @@ function network(data, prev, getGroup, expand) {
 
         if ((e.img) || (e.self)) {
             l.img = true;
+        }
+
+        if (e.self){
+            l.self = true;
         }
         l.size += e.value;
 
