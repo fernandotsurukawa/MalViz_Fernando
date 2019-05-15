@@ -71,7 +71,9 @@ function network(data, prev, getGroup, expand) {
 
     // determine loop
     data.extra.forEach((path, pIndex) => {
-        extra.push({
+        console.log(nodes);
+        console.log(path);
+        let x = {
             source: nodes.find(d => {
                 return ((d.size == 1) && (d.nodes[0].id === path.source.id))
             }),
@@ -86,7 +88,9 @@ function network(data, prev, getGroup, expand) {
             }),
             size: path.value,
             pathid: pIndex
-        });
+        };
+        console.log(x);
+        extra.push(x);
     });
 
     // determine links

@@ -2051,7 +2051,7 @@ function applicationManager(globalData) {
                     exe: 0,
                     dll: 0,
                 };
-                var binSize = 40000;
+                var binSize = 20000;
                 global_data.forEach(d => {
                     d.binStep = Math.round(d.Step / binSize);
                 });
@@ -3043,30 +3043,44 @@ function applicationManager(globalData) {
             // LOOP
             sortedList.forEach((item, index) => {
                 nodes[item] = [];
-
                 var height = scaleHeight(links[item].length);
                 var wPosition = sideWidth / 2;
                 var hPosition = height / 2;
+                var groupName = {};
 
                 // define group | main exe dont group
                 var grouped = nodesb4group[item].groupBy(['type', 'connect']);
                 grouped.forEach((g, i) => {
-                    let len = g.values.length;
-                    // let halfLen = len % 2 === 0 ? len / 2 : (len - 1) / 2;
+                    groupName[i + 1] = 0;
                     g.values.forEach(d => {
                         // modify each node HERE
+                        groupName[i + 1] += 1;
                         d.group = i + 1;
                         delete d.connect;
                         nodes[item].push(d);
                     });
-
-
-                    var scaleLimit = d3.scaleThreshold()
-                        .domain([200, 500])
-                        .range([8, 15, 30]);
+                });
+                // current last group
+                var clg = grouped.length;
+                nodes[item].forEach(node => {
+                    let nodegroupnumber = node.group;
+                    if ((list.indexOf(node.id) >= 0) && // exist processes
+                        (groupName[node.group] > 1)) {  // share group w/ someone else
+                        clg += 1;
+                        node.group = clg;
+                        //     delete instance in old group
+                        grouped[nodegroupnumber-1].values =
+                            grouped[nodegroupnumber-1].values.filter(d => d.id !== node.id);
+                        console.log(grouped)
+                    }
+                });
+                grouped.forEach((g, i) => {
+                    let len = g.values.length;
+                    // add imaginary links
                     for (let i = 0; i < len; i++) {
                         let node1 = g.values[i];
-                        for (let j = i + 1; j < len; j += Math.min(scaleLimit(len), Math.round(len / 3))) {
+                        for (let j = i + 1; j < len;
+                             j += Math.min(scaleLimit(len), Math.round(len / 3))) {
                             let node2 = g.values[j];
                             links[item].push({
                                 source: node1.id,
@@ -3076,22 +3090,8 @@ function applicationManager(globalData) {
                             })
                         }
                     }
-
                 });
 
-                // current last group
-                var clg = grouped.length, firstEct = false;
-                nodes[item].forEach(node => {
-                    if (list.indexOf(node.id) >= 0) { // main process exits in network
-                        if (!firstEct) {
-                            // keep group number
-                            firstEct = true;
-                            return
-                        }
-                        clg += 1;
-                        node.group = clg;
-                    }
-                });
                 // Var and parameter
                 var expand = {}, // expanded clusters
                     data = {},
@@ -3197,96 +3197,92 @@ function applicationManager(globalData) {
                     net = network(data, net, getGroup, expand);
 
                     numLinks = net.links.filter(d => !d.img).length;
-                    console.log(numLinks,
-                        net.links.length,
-                        scaleHeight(numLinks),
-                        index+1);
 
                     height = scaleHeight(numLinks);
-                    hPosition = height/2;
+                    hPosition = height / 2;
 
                     d3.select("#svg" + item.replace(/[.]/g, ""))
-                        .transition()
-                        .duration(100)
+                    // .transition()
+                    // .duration(100)
                         .attr("height", height);
 
                     let initX = wPosition, initY = hPosition;
 
                     simulation = d3.forceSimulation()
                         .force("link", d3.forceLink()
-                                .distance(function (l) {
-                                    if (l.self) {
-                                        return 15;
+                            .distance(function (l) {
+                                if (l.self) {
+                                    return 15;
+                                }
+                                var n1 = l.source, n2 = l.target;
+                                var defaultValue = 20 +
+                                    Math.min(20 * Math.min((n1.size || (n1.group != n2.group ? n1.group_data.size : 0)),
+                                        (n2.size || (n1.group != n2.group ? n2.group_data.size : 0))),
+                                        -30 +
+                                        30 * Math.min((n1.link_count || (n1.group != n2.group ? n1.group_data.link_count : 0)),
+                                        (n2.link_count || (n1.group != n2.group ? n2.group_data.link_count : 0))),
+                                        100);
+                                var procValue = 120;
+                                // distance between processes
+                                if ((n1.size) && (n2.size)) {
+                                    if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)) {
+                                        return procValue;
                                     }
-                                    var n1 = l.source, n2 = l.target;
-                                    var defaultValue = 20 +
-                                        Math.min(20 * Math.min((n1.size || (n1.group != n2.group ? n1.group_data.size : 0)),
-                                            (n2.size || (n1.group != n2.group ? n2.group_data.size : 0))),
-                                            -30 +
-                                            30 * Math.min((n1.link_count || (n1.group != n2.group ? n1.group_data.link_count : 0)),
-                                            (n2.link_count || (n1.group != n2.group ? n2.group_data.link_count : 0))),
-                                            100);
-                                    var procValue = 120;
-                                    // distance between processes
-                                    if ((n1.size) && (n2.size)) {
-                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)) {
-                                            return procValue;
-                                        }
-                                        else return defaultValue;
+                                    else return defaultValue;
+                                }
+                                else if ((!n1.size) && (n2.size)) {
+                                    if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)) {
+                                        return procValue;
                                     }
-                                    else if ((!n1.size) && (n2.size)) {
-                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)) {
-                                            return procValue;
-                                        }
-                                        else return defaultValue;
+                                    else return defaultValue;
+                                }
+                                else if ((n1.size) && (!n2.size)) {
+                                    if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.id) >= 0)) {
+                                        return procValue;
                                     }
-                                    else if ((n1.size) && (!n2.size)) {
-                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.id) >= 0)) {
-                                            return procValue;
-                                        }
-                                        else return defaultValue;
+                                    else return defaultValue;
+                                }
+                                else { // both are bare nodes
+                                    if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.id) >= 0)) {
+                                        return procValue;
                                     }
-                                    else { // both are bare nodes
-                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.id) >= 0)) {
-                                            return procValue;
-                                        }
-                                        else return defaultValue;
+                                    else return defaultValue;
+                                }
+                            })
+                            .strength(function (l) {
+                                var n1 = l.source, n2 = l.target;
+                                var defaultValue = 0.8, procValue = 0.3;
+                                // distance between processes are loose
+                                if ((n1.size) && (n2.size)) {
+                                    if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)) {
+                                        return procValue;
                                     }
-                                })
-                                .strength(function (l) {
-                                    var n1 = l.source, n2 = l.target;
-                                    var defaultValue = 0.8, procValue = 0.3;
-                                    // distance between processes are loose
-                                    if ((n1.size) && (n2.size)) {
-                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)) {
-                                            return procValue;
-                                        }
-                                        else return defaultValue;
+                                    else return defaultValue;
+                                }
+                                else if ((!n1.size) && (n2.size)) {
+                                    if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)) {
+                                        return procValue;
                                     }
-                                    else if ((!n1.size) && (n2.size)) {
-                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.nodes[0].id) >= 0)) {
-                                            return procValue;
-                                        }
-                                        else return defaultValue;
+                                    else return defaultValue;
+                                }
+                                else if ((n1.size) && (!n2.size)) {
+                                    if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.id) >= 0)) {
+                                        return procValue;
                                     }
-                                    else if ((n1.size) && (!n2.size)) {
-                                        if ((list.indexOf(n1.nodes[0].id) >= 0) && (list.indexOf(n2.id) >= 0)) {
-                                            return procValue;
-                                        }
-                                        else return defaultValue;
+                                    else return defaultValue;
+                                }
+                                else { // both are bare nodes
+                                    if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.id) >= 0)) {
+                                        return procValue;
                                     }
-                                    else { // both are bare nodes
-                                        if ((list.indexOf(n1.id) >= 0) && (list.indexOf(n2.id) >= 0)) {
-                                            return procValue;
-                                        }
-                                        else return defaultValue;
-                                    }
-                                })
+                                    else return defaultValue;
+                                }
+                            })
                         )
                         .force("center", d3.forceCenter(wPosition, hPosition))
 
                         .force("charge", d3.forceManyBody()
-                            .strength(d => d.dummy? -200 : -80)
+                            .strength(d => d.dummy ? -200 : -80)
                         )
                         .force("collide", d3.forceCollide()
                             .radius(8)
@@ -3318,7 +3314,7 @@ function applicationManager(globalData) {
                                 d, arguments, this, expand[d.group]
                             );
                             expand[d.group] = false;
-                                init();
+                            init();
 
                         })
                         .transition()
@@ -3407,7 +3403,7 @@ function applicationManager(globalData) {
                         .attr("cx", initX)
                         .attr("cy", initY)
                         .attr("opacity", 1)
-                        .attr("visibility", d => d.dummy? "hidden" : "visible")
+                        .attr("visibility", d => d.dummy ? "hidden" : "visible")
                         .merge(node)
                         .on("click", function (d) {
                             console.log("node click",
@@ -3418,7 +3414,7 @@ function applicationManager(globalData) {
                                 initX = selection.attr("cx");
                                 initY = selection.attr("cy");
                                 expand[d.group] = !expand[d.group];
-                                    init();
+                                init();
                             }
                         });
 
@@ -3444,6 +3440,7 @@ function applicationManager(globalData) {
                         d.fx = null;
                         d.fy = null;
                     }
+
                     var lineGenerator = d3.line()
                         .curve(d3.curveNatural);
 
@@ -3469,6 +3466,7 @@ function applicationManager(globalData) {
                             });
 
                         path.attr("d", d => {
+                            // console.log(d);
                             return lineGenerator([
                                 [d.source.x, d.source.y],
                                 [d.dummy1.x, d.dummy1.y],
