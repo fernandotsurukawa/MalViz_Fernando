@@ -3052,7 +3052,7 @@ function applicationManager(globalData) {
                 var grouped = nodesb4group[item].groupBy(['type', 'connect']);
                 grouped.forEach((g, i) => {
                     let len = g.values.length;
-                    let halfLen = len % 2 === 0 ? len / 2 : (len - 1) / 2;
+                    // let halfLen = len % 2 === 0 ? len / 2 : (len - 1) / 2;
                     g.values.forEach(d => {
                         // modify each node HERE
                         d.group = i + 1;
@@ -3165,12 +3165,12 @@ function applicationManager(globalData) {
                 data.links = links[item];
                 data.extra = extra[item];
 
-                let initX = wPosition, initY = hPosition;
+                let numLinks;
                 let content = svg.append("g");
                 hullg = content.append("g");
                 linkg = content.append("g");
-                nodeg = content.append("g");
                 pathg = content.append("g");
+                nodeg = content.append("g");
 
                 var zoom_handler = d3.zoom()
                     .on("zoom", zoom_actions);
@@ -3193,12 +3193,25 @@ function applicationManager(globalData) {
                 }
 
                 function init() {
-                    hPosition = document.getElementById("svg" + item.replace(/[.]/g, ""))
-                        .getBoundingClientRect()
-                        .height / 2;
-
                     if (simulation) simulation.stop();
                     net = network(data, net, getGroup, expand);
+
+                    numLinks = net.links.filter(d => !d.img).length;
+                    console.log(numLinks,
+                        net.links.length,
+                        scaleHeight(numLinks),
+                        index+1);
+
+                    height = scaleHeight(numLinks);
+                    hPosition = height/2;
+
+                    d3.select("#svg" + item.replace(/[.]/g, ""))
+                        .transition()
+                        .duration(100)
+                        .attr("height", height);
+
+                    let initX = wPosition, initY = hPosition;
+
                     simulation = d3.forceSimulation()
                         .force("link", d3.forceLink()
                                 .distance(function (l) {
@@ -3305,12 +3318,7 @@ function applicationManager(globalData) {
                                 d, arguments, this, expand[d.group]
                             );
                             expand[d.group] = false;
-                            if (adjustHeight(nodes, item, expand, height)) {
-                                setTimeout(function () {
-                                    init();
-                                }, 100);
-                            }
-                            else init();
+                                init();
 
                         })
                         .transition()
@@ -3318,30 +3326,6 @@ function applicationManager(globalData) {
                         .style("fill-opacity", 0.3);
 
                     hull = hullg.selectAll("path.hull");
-
-                    // ::::::::::::: L I N K ::::::::::::
-                    link = linkg.selectAll("line.link").data(net.links, linkid);
-                    link.exit()
-                        .remove();
-
-                    link.enter().append("line")
-                        .attr("class", "link")
-                        .attr("x1", function (d) {
-                            return initX;
-                        })
-                        .attr("y1", function (d) {
-                            return initY;
-                        })
-                        .attr("x2", function (d) {
-                            return initX;
-                        })
-                        .attr("y2", function (d) {
-                            return initY;
-                        })
-                        .style("stroke-width", function (d) {
-                            return d.img ? 0 : strokeScale(d.size);
-                        });
-                    link = linkg.selectAll("line.link");
 
                     // ::::::::::::: P A T H ::::::::::::
                     path = pathg.selectAll("path.curve").data(net.extra, d => d.pathid);
@@ -3355,6 +3339,22 @@ function applicationManager(globalData) {
                         .attr("fill", "none");
 
                     path = pathg.selectAll("path.curve");
+
+                    // ::::::::::::: L I N K ::::::::::::
+                    link = linkg.selectAll("line.link").data(net.links, linkid);
+                    link.exit()
+                        .remove();
+
+                    link.enter().append("line")
+                        .attr("class", "link")
+                        .attr("x1", initX)
+                        .attr("y1", initY)
+                        .attr("x2", initX)
+                        .attr("y2", initY)
+                        .style("stroke-width", function (d) {
+                            return d.img ? 0 : strokeScale(d.size);
+                        });
+                    link = linkg.selectAll("line.link");
 
                     // ::::::::::::: N O D E ::::::::::::
                     node = nodeg.selectAll("circle.node").data(net.nodes, nodeid);
@@ -3418,12 +3418,7 @@ function applicationManager(globalData) {
                                 initX = selection.attr("cx");
                                 initY = selection.attr("cy");
                                 expand[d.group] = !expand[d.group];
-                                if (adjustHeight(nodes, item, expand, height)) {
-                                    setTimeout(function () {
-                                        init();
-                                    }, 100);
-                                }
-                                else init();
+                                    init();
                             }
                         });
 
@@ -3611,24 +3606,6 @@ function applicationManager(globalData) {
     }
 
 }
-
-var operationShown;
-var active = {};
-var firstClick;
-var svgStats;
-var lensingStatus = false;
-var orderedArray = [];
-var maxLink = 1;
-var availableCommon;
-const categories = ["Registry", "Network", "File", "exe", "dll"];
-const stackColor = ["#247b2b", "#a84553", "#c37e37", "#396bab", "#7e7e7e"];
-const scaleHeight = d3.scaleThreshold()
-    .domain([10, 40, 500, 1000])
-    .range([80, 150, 250, 300,  400]);
-
-const scaleHeightAfter = d3.scaleThreshold()
-    .domain([10, 40, 120, 500, 1300, 2500])
-    .range([80, 150, 300, 500, 600, 1000, 1500]);
 
 function getColor(type) {
     return stackColor[categories.indexOf(type)];
@@ -3827,7 +3804,7 @@ function adjustHeight(nodes, item, expand, height) {
     let selection = d3.select("#svg" + item.replace(/[.]/g, ""));
     let prevHeight = selection.attr("height");
 
-    console.log(nodes[item].length)
+    console.log(nodes[item].length);
 
     var expandHeight = scaleHeightAfter(nodes[item].length);
     d3.keys(expand).some(d => {
