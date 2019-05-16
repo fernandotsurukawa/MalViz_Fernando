@@ -1,5 +1,5 @@
 // constructs the network to visualize
-var gcen = {};
+// var gcen = {};
 function network(data, prev, getGroup, expand) {
     expand = expand || {};
     var groupMap = {},    // group map
@@ -54,10 +54,10 @@ function network(data, prev, getGroup, expand) {
                 nodeMap[i] = nodes.length;
                 nodes.push(g);
                 if (prevGroupCentroid[i]) {
-                    gcen.x = prevGroupCentroid[i].x / prevGroupCentroid[i].count;
-                    gcen.y = prevGroupCentroid[i].y / prevGroupCentroid[i].count;
-                    g.x =  gcen.x + 3 * Math.random();
-                    g.y = gcen.y + 3 * Math.random();
+                    // gcen.x = prevGroupCentroid[i].x / prevGroupCentroid[i].count;
+                    // gcen.y = prevGroupCentroid[i].y / prevGroupCentroid[i].count;
+                    g.x =  prevGroupCentroid[i].x / prevGroupCentroid[i].count + 3 * Math.random();
+                    g.y = prevGroupCentroid[i].y / prevGroupCentroid[i].count + 3 * Math.random();
                 }
             }
             g.nodes.push(n);
@@ -134,5 +134,6 @@ function network(data, prev, getGroup, expand) {
     return {nodes: nodes,
         links: links,
         extra: extra,
-        gcen: gcen};
+        // gcen: gcen
+    };
 }
