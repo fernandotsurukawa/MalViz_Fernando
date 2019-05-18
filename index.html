@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<script src="lib/d3.v5.min.js"></script>
-<script src="https://d3js.org/d3.v4.js"></script>
+<!--<script src="lib/d3.v5.min.js"></script>-->
+<script src="lib/d3.v4.min.js"></script>
 <script src="https://d3js.org/d3-color.v1.min.js"></script>
 <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
@@ -18,8 +18,6 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css'
-      integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
 <link rel="stylesheet" href="styles/main.css">
 <!--<link rel="stylesheet" href="styles/v3sidebar.css">-->
 <style>
@@ -95,7 +93,7 @@
 <div class="w3-main" style="margin-left:0px" id="mainContent">
     <div class="overlaySide">
         <a class="openbtn btn-floating btn" id="sideNavbtn" onclick="openNav()">
-            <i class='fas fa-chevron-circle-right' style='font-size:40px'></i>
+            <i class='fa fa-chevron-circle-right' style='font-size:40px'></i>
         </a>
     </div>
     <!-- Header -->
@@ -104,21 +102,14 @@
         <div class="w3-container">
             <h1><b>Malware Visualization</b></h1>
             <div class="w3-section w3-padding-8">
-
-                <!--<div style="float: right;" id="connectingDomain">-->
-                <!--<b>Connecting domains:</b>-->
-                <!--<div id="maliciousdomain">-->
-
-                <!--</div>-->
-                <!--</div>-->
                 <label for="selectmalware">Select dataset: </label>
                 <select id="selectmalware" class="selectmalware">
                     <option>--Select dataset--</option>
 
                     <option value="Moi-Win7-RemoteAccess_1.CSV">Moi-Win7-RemoteAccess_1</option>
-                    <option value="Moi-Win7-RemoteAccess_2.CSV">Moi-Win7-RemoteAccess_2</option>
-                    <option value="Moi-Win7-RemoteAccess_3.CSV">Moi-Win7-RemoteAccess_3</option>
-                    <option value="Moi-Win7-RemoteAccess_4.CSV">Moi-Win7-RemoteAccess_4</option>
+                    <option value="Moi-Win7-RemoteAccess_2.CSV">Moi-Win7-RemoteAccess_2  &nbsp;&nbsp;✔</option>
+                    <option value="Moi-Win7-RemoteAccess_3.CSV">Moi-Win7-RemoteAccess_3 ~ 70s</option>
+                    <option value="Moi-Win7-RemoteAccess_4.CSV">Moi-Win7-RemoteAccess_4 ~ 70s - 44s</option>
                     <option value="Moi-Win7-RemoteAccess_5.CSV">Moi-Win7-RemoteAccess_5</option>
                     <option value="Moi-Win7-RemoteAccess_6.CSV">Moi-Win7-RemoteAccess_6</option>
                     <option value="Moi-Win7-RemoteAccess_7.CSV">Moi-Win7-RemoteAccess_7</option>
@@ -254,7 +245,7 @@
                         <p><b>Operations Overview</b>
                             <span style="float: right">
                             <input type="checkbox" id="opSelection"
-                                   onclick="selectAll()" checked> Select All
+                                   onclick="selectAll()"> Select All
                         </span>
                         </p>
                         <div id="stats" style="overflow-x: auto"></div>
@@ -276,6 +267,9 @@
     <img id="loading-image" height="200" width="200" src="images/squareloader2.gif" alt="Loading..."/>
 </div>
 <script>
+    // var t0, t1;
+    // t0 = performance.now();
+    // const compression = require('compression');
     document.getElementById("mySidenavRank").style.height = $(window).height();
     var calculateRank;
     var sideWidth = 600;
@@ -285,8 +279,9 @@
     function discovery(d) {
         d3.select(d).style('left', '20px')
             .classed("pulse", true)
-            .transition().delay(7000).duration(1000)
-            .style('left', null).on('end', function () {
+            // .transition().delay(7000).duration(1000)
+            // .style('left', null)
+            .on('end', function () {
             d3.select(d).classed("pulse", true);
         });
     }
@@ -397,21 +392,21 @@
                     // SiteManager.drawStats2('#OperationList'); //Draw statistic map
                     SiteManager.malist("#commonOp");
                     // for running --------------------
-                    d3.select("#sideNavbtn")
-                        .on("click", () => {
-                            if (calculateRank === 1) {
-                                SiteManager.highlight('#ranked'); // hightlight
-                                calculateRank = 2;
-                            }
-                        });
+                    // d3.select("#sideNavbtn")
+                    //     .on("click", () => {
+                    //         if (calculateRank === 1) {
+                    //             SiteManager.highlight('#ranked'); // hightlight
+                    //             calculateRank = 2;
+                    //         }
+                    //     });
                     // -----------------------------
                     SiteManager.drawMain('#heatmap');//Draw mainMap
                     let maxcalls = SiteManager.getCallRange().maxcall;
                     SiteManager.updateDomainBox();
 
                     // for testing --------------------
-                    // openNav();
-                    // SiteManager.highlight('#ranked');
+                    openNav();
+                    SiteManager.highlight('#ranked');
                     // --------------------------------
 
                     $("#btnName").click(function () {
@@ -443,6 +438,8 @@
                             }
                         });
                         $("#amount").val("Min: " + 3 + " - Max: " + maxcalls);
+
+
                     });
 
                     SiteManager.updateRangeFilter(3, maxcalls);
@@ -450,9 +447,11 @@
 
 
                 }
+                // t1 = performance.now();
+                // console.log( "ready! takes " + ((t1-t0)/1000).toFixed(2) + " s" );
             });
     };
-    init("Huyen-Ransomware-WannaPeace.csv");
+    init("Moi-Win7-RemoteAccess_5.CSV");
 
     var list = {
         "CloseFile": {"operation": "FileSystem", "index": 0},
@@ -574,6 +573,7 @@
             }
         } else return "#5d5d5d"
     }
+
 </script>
 </body>
 </html>

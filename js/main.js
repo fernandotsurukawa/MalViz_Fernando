@@ -1493,7 +1493,7 @@ function applicationManager(globalData) {
                     .attr('x', 0).attr('y', 18);
             });
 
-            document.getElementById("opSelection").checked = operationShown.indexOf("Process Profiling") < 0;
+            // document.getElementById("opSelection").checked = operationShown.indexOf("Process Profiling") < 0;
         },
 
         // List of Operations (legend)
@@ -1606,7 +1606,7 @@ function applicationManager(globalData) {
                         array.push(o.children[i]);
                     }
                     count += 1;
-                    if (count < 3) {
+                    if (count < 10) {
                         for (var i = 0; i < o.children.length; i++) {
                             getSuccessors(o.children[i], array)
                         }
@@ -2191,24 +2191,6 @@ function applicationManager(globalData) {
                     .attr("class", "stream")
                     .attr("d", area)
                     .attr("fill", (d, i) => stackColor[i])
-                // .on("mouseover", function () {
-                //     div3.transition()
-                //         .duration(200)
-                //         .style("opacity", 1);
-                //
-                //     div3.html((d,i) => categories[i])
-                //         .style("left", (d3.event.pageX) + 20 + "px")
-                //         .style("top", (d3.event.pageY - 30) + "px")
-                //         .style("pointer-events", "none")
-                //         .style("background-color", () => {
-                //                 // return colorPicker(child.event).replace("(", "a(").replace(")", ", 0.8)");
-                //                 return "#dddddd"
-                //             }
-                //         )
-                // })
-                // .on("mouseout", function () {
-                //     div3.style("opacity", 0);
-                // })
                 ;
 
                 // textDraw
@@ -2288,6 +2270,7 @@ function applicationManager(globalData) {
                         }
                         else return "hidden"
                     })
+                    // .style("display", "none")
                     .on('mouseover', function (d) {
                         if (d.Operation == 'UDP Send' && d.hasOwnProperty('VirusTotal')) {
 
@@ -2468,7 +2451,7 @@ function applicationManager(globalData) {
                             .append('path')
                             .attr('d', 'M0,0 L0,8 L8,4 z');
 
-                        // draw arc
+                        // arcDraw
                         var signedOrienation = getProcessNameIndex(updated_data, childProcess.key) - pIndex;
                         parentProcess.childInfo[childProcess.key].forEach((child, i) => {
                             svg_process
@@ -2495,6 +2478,7 @@ function applicationManager(globalData) {
                                     return 'translate(' + posX + ',' + posY + ')';
                                 })
                                 .attr("marker-end", "url(#arrow_" + pIndex + "_" + cIndex + "_" + i + ")")
+                                // .style("display", "none")
                                 .on("mouseover", function () {
                                     if (arcSelect) {
                                     }
@@ -3657,10 +3641,12 @@ function selectAll() {
         document.getElementById("commonSelection").checked = false;
         // show all rect
         d3.select("#heatmap").selectAll('rect[group=detail]')
+            .style("display", "block")
             .style('visibility', "visible");
 
         // show all arc
         d3.selectAll(".arc")
+            // .style("display", "block")
             .classed("hidden", false)
             .classed("visible", true);
 
