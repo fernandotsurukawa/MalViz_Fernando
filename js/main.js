@@ -1606,7 +1606,7 @@ function applicationManager(globalData) {
                         array.push(o.children[i]);
                     }
                     count += 1;
-                    if (count < 10) {
+                    if (count < 3) {
                         for (var i = 0; i < o.children.length; i++) {
                             getSuccessors(o.children[i], array)
                         }
@@ -2654,8 +2654,7 @@ function applicationManager(globalData) {
 
             // Mag and lensing
 
-            var outlineHeight = document.getElementById("outline")
-                .getBoundingClientRect().height;
+            var outlineHeight = dashHeight;
 
             var lensingGroup = d3.select("#outline")
                 .append("g")

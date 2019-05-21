@@ -1,4 +1,4 @@
-var timeOut = 100;
+
 var operationShown;
 var active = {};
 var firstClick;
