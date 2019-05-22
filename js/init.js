@@ -27,7 +27,7 @@ const categories = ["Registry", "Network", "File", "exe", "dll"];
 const stackColor = ["#247b2b", "#a84553", "#c37e37", "#396bab", "#7e7e7e"];
 const scaleHeight = d3.scaleThreshold()
     .domain([3, 10, 40, 50, 200, 300, 500, 1000, 2000])
-    .range([80, 200, 200, 300, 350, 400, 450, 500, 600]);
+    .range([100, 200, 250, 350, 400, 450, 500, 550, 600, 650]);
 
 var scaleLimit = d3.scaleThreshold()
     .domain([200, 500])
