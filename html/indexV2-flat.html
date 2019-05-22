@@ -328,7 +328,7 @@
                     SiteManager.drawMain('#heatmap');//Draw mainMap
                     SiteManager.highlight('#avaiop'); // hightlight
                     let maxcalls = SiteManager.getCallRange().maxcall;
-                    SiteManager.updateDomainBox('#maliciousdomain');
+                    SiteManager.connectedDomain('#maliciousdomain');
                     $("#btnName").click(function () {
                             SiteManager.sort2DMatrix('similarity')
                         }

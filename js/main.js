@@ -1,4 +1,5 @@
 function applicationManager(globalData) {
+    console.log("applicationManager");
     var arcSelect;
     var [minStep, maxStep] = d3.extent(globalData, d => d.Step);
     var svgActionWidth;
@@ -15,93 +16,9 @@ function applicationManager(globalData) {
         return d.currenttimestamp;
     });
 
-    var settings = {
-        ProcessArea: {
-            svg_height: 220,
-            left: 150,
-            bar_height: 35,
-            scale_xMin: 10,
-            scale_xMax: 800
-        },
-        MatrixArea: {
-            padding: 1,
-            row_text_width: 250,
-            minValue: 5,
-            rect_width: 15,
-            rect_height: 15
-        }
-    };
-    var globalmatrix, globalib, globalgroupbyprocessname;
+    var globalmatrix, globalib, globalgroupbyprocessname, global_links;
     var getData = DataRetrieval(globalData);
-    var global_links = ExtractGraph(globalData).links;
-
-    function ExtractGraph(globalData) {
-        var graphs = {
-            links: [],
-            sources: [],
-            targets: []
-        };
-        //Update links
-        globalData.forEach(function (object) {
-            if (object.hasOwnProperty('library')) {
-                //Check if source and target are in nodes
-                var flag = false;
-                graphs.links.forEach(function (link) {
-                    if (link.source == object.Process_Name.toUpperCase() && link.target == object.library.toUpperCase()) {
-                        flag = true;
-                        //Update existing link
-                        link.value.push(object);
-                    }
-                });
-                if (!flag) {
-                    var obj = new Object();
-                    obj.source = object.Process_Name.toUpperCase();
-                    obj.target = object.library.toUpperCase();
-                    obj.value = [];
-                    obj.value.push(object)
-                    graphs.links.push(obj);
-                }
-            }
-        });
-
-        //Update node
-        graphs.links.forEach(function (link) {
-            var sourceFlag = false, targetFlag = false;
-            graphs.sources.forEach(function (source) {
-                if (source.name == link.source) {
-                    sourceFlag = true; //Found
-                    source.links.push(link.target)
-                }
-
-            });
-            graphs.targets.forEach(function (target) {
-                if (target.name == link.target) {
-                    targetFlag = true;
-                    target.links.push(link.source);
-                }
-
-            })
-
-            if (!sourceFlag) {
-                var obj = {};
-                obj.name = link.source;
-                obj.links = [];
-                obj.links.push(link.target)
-                obj.default = graphs.sources.length;
-                graphs.sources.push(obj);
-            }
-            if (!targetFlag) {
-                var obj = {};
-                obj.name = link.target;
-                obj.links = [];
-                obj.links.push(link.source)
-                obj.default = graphs.targets.length;
-                graphs.targets.push(obj);
-            }
-        })
-        return graphs;
-    }
-
+    // var global_links = ExtractGraph(globalData).links;
     function DataRetrieval(inputData) {
         var groupbyOperation = d3.nest().key(function (d) {
             return d.Operation;
@@ -135,1166 +52,9 @@ function applicationManager(globalData) {
         }
     }
 
-    function getIndexByName(inputData, name) {
-        var index;
-        for (var i = 0; i < inputData.length; i++) {
-            if (inputData[i].name == name) {
-                index = i;
-                break;
-            }
-        }
-        return index;
-    }
-
-    function sortArrayByName(inputData) {
-        return inputData.sort(function (a, b) {
-            return d3.ascending(a.name, b.name)
-        })
-    }
-
-    function sortArrayByValue(inputData, property) {
-        return inputData.sort(function (a, b) {
-            return b[property] - a[property];
-        })
-    }
-
-    function sortArrayBySimilarity(source, target, inputData) {
-
-        d3.select("#matrix2D").selectAll("*").remove();
-        var processes1 = [];
-        var processes2 = [];
-        var processes3 = [];
-        for (var i = 0; i < globalgroupbyprocessname.length; i++) {
-            var obj = {};
-            var obj2 = {};
-            var obj3 = {};
-            obj.name = globalgroupbyprocessname[i].key;
-            obj.index = i;
-            obj2.index = i;
-            obj3.index = i;
-            obj.refs = globalmatrix[i];
-            var sumRefs = 0;
-            var sumLibs = 0;
-            for (var j = 0; j < obj.refs.length; j++) {
-                if (obj.refs[j].value != 0) {
-                    sumRefs += obj.refs[j].value.length;
-                    sumLibs++;
-                }
-            }
-            obj.sumRefs = sumRefs;
-            obj.sumLibs = sumLibs;
-            obj2.sumRefs = sumRefs;
-            obj3.sumLibs = sumLibs;
-            processes1.push(obj);
-            processes2.push(obj2);
-            processes3.push(obj3);
-        }
-        processes2.sort(function (a, b) {
-            if (a.sumRefs < b.sumRefs) {
-                return 1;
-            }
-            else
-                return -1;
-        });
-        // Order processes3 by the total of libs
-        processes3.sort(function (a, b) {
-            if (a.sumLibs < b.sumLibs) {
-                return 1;
-            }
-            else
-                return -1;
-        });
-
-
-        // Copy the order from processes2 to processes
-        for (var i = 0; i < processes2.length; i++) {
-            var index = processes2[i].index;
-            processes1[index].indexSumRefs = i;
-        }
-        // Copy the order from processes3 to processes
-        for (var i = 0; i < processes3.length; i++) {
-            var index = processes3[i].index;
-            processes1[index].indexSumLibs = i;
-        }
-
-        function getRefCount(i, j) {
-            if (globalmatrix[i][j].value != 0) {
-                return globalmatrix[i][j].value.length;
-            }
-            else {
-                return 0;
-            }
-        }
-
-        function getDif(count1, count2) { // penalty function
-            if (count1 == 0 && count2 != 0)
-                return 1000;
-            else if (count1 != 0 && count2 == 0)
-                return 1000;
-            else
-                return Math.abs(count1 - count2);
-        }
-
-        function processDif(processArray, firstProcessIndex) {
-            processArray[firstProcessIndex].isUsed = true;
-            processArray[firstProcessIndex].indexSimilarity = 0;
-
-            var startIndex = firstProcessIndex;
-            var count = 1;
-            while (count < processArray.length) {
-                var minDif = 100000000;
-                var minIndex = -1;
-                for (var i = 0; i < processArray.length; i++) {
-                    if (processArray[i].isUsed == undefined) { // process is not ordered
-                        // compute processes difference
-                        var dif = 0;
-                        for (var j = 0; j < globalib.length; j++) {
-                            var count1 = getRefCount(startIndex, j);
-                            var count2 = getRefCount(i, j);
-                            dif += getDif(count1, count2); // Differential function *************
-                        }
-                        if (dif < minDif) {
-                            minDif = dif;
-                            minIndex = i;
-                        }
-                    }
-                }
-                if (minIndex >= 0) {
-                    processArray[minIndex].isUsed = true;
-                    processArray[minIndex].indexSimilarity = count;
-                    startIndex = minIndex;
-                }
-                count++;
-            }
-            return processArray;
-        }
-
-        function processLib(libArray, firstLibIndex) {
-            libArray[firstLibIndex].isUsed = true;
-            libArray[firstLibIndex].indexSimilarity = 0;
-
-            var startIndex = firstLibIndex
-            var count = 1;
-            while (count < libArray.length) {
-                var minDif = 100000000;
-                var minIndex = -1;
-                for (var l = 0; l < libArray.length; l++) {
-                    if (libArray[l].isUsed == undefined) { // process is not ordered
-                        // compute libs difference
-                        var dif = 0;
-                        for (var i = 0; i < processes1.length; i++) {
-                            var count1 = getRefCount(i, startIndex);
-                            var count2 = getRefCount(i, l);
-                            dif += getDif(count1, count2); // Differential function *************
-                        }
-                        if (dif < minDif) {
-                            minDif = dif;
-                            minIndex = l;
-                        }
-                    }
-                }
-                if (minIndex >= 0) {
-                    libArray[minIndex].isUsed = true;
-                    libArray[minIndex].indexSimilarity = count;
-                    startIndex = minIndex;
-                }
-                count++;
-            }
-            return libArray;
-        }
-
-        var libs = [];
-        var libs2 = [];
-        for (var l = 0; l < globalib.length; l++) {
-            var obj = {};
-            var obj2 = {};
-            obj.name = globalib[l];
-            obj.index = l;
-            obj2.index = l;
-            var sumRefs = 0;
-            for (var i = 0; i < processes1.length; i++) {
-                if (globalmatrix[i][l].value != 0) {
-                    sumRefs += globalmatrix[i][l].value.length;
-                }
-            }
-            obj.sumRefs = sumRefs;
-            obj2.sumRefs = sumRefs;
-            libs.push(obj);
-            libs2.push(obj2);
-        }
-        // Order libs2 by the total of references
-        libs2.sort(function (a, b) {
-            if (a.sumRefs < b.sumRefs) {
-                return 1;
-            }
-            else
-                return -1;
-        });
-        // Copy the order from libs2 to processes
-        for (var i = 0; i < libs2.length; i++) {
-            var index = libs2[i].index;
-            libs[index].indexSumRefs = i;
-        }
-        //var processes1 = processDif(processes1,processes3[0].index);
-        processes1 = processDif(processes1, 0);
-        libs = processLib(libs, 0);
-
-        // Order options
-        var orderOption = 2;
-
-        function getProcessIndex(index) {  // order of process in row of the matrix
-            var newIndex;
-            if (orderOption == 0) {// default order of processes
-                newIndex = index;
-            }
-            else if (orderOption == 1) {// order by the total lib references
-                newIndex = processes1[index].indexSumRefs;
-            }
-            else {
-                newIndex = processes1[index].indexSimilarity;
-            }
-            return newIndex;
-        }
-
-        function getLibIndex(index) {  // order of process in column of the matrix
-            var newIndex;
-            if (orderOption == 0) {// default order of processes
-                newIndex = index;
-            }
-            else if (orderOption == 1) {// order by the total lib references
-                newIndex = libs[index].indexSumRefs;
-            }
-            else {
-                newIndex = libs[index].indexSimilarity;
-            }
-            return newIndex;
-        }
-
-    }
-
-    function sortArrayByLinkSize(inputData) {
-        return inputData.sort(function (a, b) {
-            return b.links.length - a.links.length;
-        })
-    }
-
-    function sortArrayByCountSize(inputData) {
-        return inputData.sort(function (a, b) {
-            var first_value = d3.max(a.links, function (d) {
-                return d.values.length;
-            });
-            var second_value = d3.max(b.links, function (d) {
-                return d.values.length;
-            });
-            return second_value - first_value;
-        })
-    }
-
-    function create2DMatrix(rows, cols, links) {
-        //Initialize 2D matrix with size rows x columns
-        var matrix = new Array(rows);
-        for (var i = 0; i < rows; i++) {
-            matrix[i] = new Array(cols);
-            //  matrix[i].fill(new Array(0));
-        }
-        links.forEach(function (link) {
-            matrix[link.source][link.target] = link.value;
-        });
-        return matrix;
-    }
-
-    function drawMatrix(rowLabel, colLabel, inputData, position) {
-        d3.select(position).selectAll("*").remove();
-        var margintop = 10;
-        var ColorScale = d3.scaleLinear()
-            .domain([0, Math.sqrt(250)])
-            .range([0, 1]);
-        var svg_height = rowLabel.length * (settings.MatrixArea.rect_height + settings.MatrixArea.padding) + 360;
-        var svg_width = colLabel.length * (settings.MatrixArea.rect_width + settings.MatrixArea.padding) + settings.MatrixArea.row_text_width + 20;
-        var svgMatrix = d3.select(position)
-            .append('svg')
-            .attr('height', svg_height)
-            .attr('width', svg_width);
-        var svg_g = svgMatrix.append('g').attr('transform', 'translate(0,10)');
-
-        //Draw x labels
-        var textGroup = svg_g.append('g').attr('transform', 'translate(' + (settings.MatrixArea.row_text_width + 10) + ',' + (rowLabel.length * (settings.MatrixArea.rect_height + settings.MatrixArea.padding) + 5) + ')')
-        var cols = textGroup.selectAll('text').data(colLabel)
-            .enter()
-            .append('text')
-            .attr('x', function (d, i) {
-                return (i) * (settings.MatrixArea.rect_width + settings.MatrixArea.padding);
-            })
-            .text(function (d) {
-                return d.name;
-            })
-            .attr("class", function (d, i) {
-                return "colLabel mono c" + i;
-            })
-            .attr('transform', function (d, i) {
-                return 'rotate(90 ' + i * (settings.MatrixArea.rect_width + settings.MatrixArea.padding) + ',0)';
-            });
-
-        //Draw y labels
-
-        var rows = svg_g.append('g');
-        var horitext = rows.selectAll('text')
-            .data(rowLabel).enter().append('text')
-            .text(function (d) {
-                return d.name + " (" + d.links.length + ")";
-            })
-            .attr("class", function (d, i) {
-                return "rowLabel mono r" + i;
-            })
-            .attr('x', settings.MatrixArea.row_text_width)
-            .attr('y', function (d, i) {
-                return i * (settings.MatrixArea.rect_height + settings.MatrixArea.padding) + settings.MatrixArea.rect_height / 2;
-            }).attr('text-anchor', 'end');
-
-        //Draw matrix
-        inputData.forEach(function (row, index) {
-            var group = svg_g.append('g') //draw container for cells
-                .attr('class', 'row')
-                .attr('height', settings.MatrixArea.rect_height + settings.MatrixArea.padding)
-                .attr('transform', 'translate(' + (settings.MatrixArea.row_text_width + 10) + ',' + (index * (settings.MatrixArea.rect_height + settings.MatrixArea.padding)) + ')')
-            //Draw cells
-
-            var cells = group.selectAll('rect')
-                .data(row)
-                .enter()
-                .append('rect')
-                .attr("class", 'mat_rect')
-                .attr('width', settings.MatrixArea.rect_width)
-                .attr('height', settings.MatrixArea.rect_height)
-                .attr('x', function (d, i) {
-                    return i * (settings.MatrixArea.rect_width + settings.MatrixArea.padding);
-                })
-                .attr('fill', function (d) {
-                    if (d == undefined) return 'white';
-                    else return d3.interpolateGreys(ColorScale(Math.sqrt(d.length)))
-                    // return d.length==0 ? 'white' : d3.interpolateGreys(ColorScale(Math.sqrt(d.length)));
-                }).on('mouseenter', function (d, i) {
-                    if (d == undefined) return;
-                    d3.selectAll('text.rowLabel').attr('opacity', 0.2);
-                    d3.selectAll('text.colLabel').attr('opacity', 0.2);
-                    d3.select('text.r' + index).attr('opacity', 1);
-                    d3.select('text.c' + i).attr('opacity', 1);
-
-                    let ttMatrix = d3.select("#ttMatrix");
-
-                    ttMatrix.transition()
-                        .duration(200)
-                        .style("opacity", 1);
-                    var text = "";
-                    d.forEach(function (value) {
-                        text += "Time: " + value.Timestamp + "&nbsp; Lib: " + value.library + "<br>"
-                    });
-
-                    ttMatrix.html("<b>Number of calls: " + d.length + "</b><p>" + text)
-                        .style("width", "300px")
-                        .style("left", (d3.event.pageX) + 20 + "px")
-                        .style("top", (d3.event.pageY) + "px");
-                }).on('mouseleave', function (d, i) {
-                    d3.selectAll('text.rowLabel').attr('opacity', 1);
-                    d3.selectAll('text.colLabel').attr('opacity', 1);
-                    ttMatrix.transition()
-                        .duration(200)
-                        .style("opacity", 0);
-                });
-        })
-    }
-
-    function createNodesFromLinks(links) {
-        var nodes = {sources: [], targets: []};
-        links.forEach(function (link) {
-            var sourceFlag = false, targetFlag = false;
-            nodes.sources.forEach(function (source) {
-                if (source.name == link.source) {
-                    sourceFlag = true; //Found
-                    source.links.push({target: link.target, values: link.value})
-                }
-
-            });
-            nodes.targets.forEach(function (target) {
-                if (target.name == link.target) {
-                    targetFlag = true;
-                    target.links.push({target: link.source, values: link.value});
-                }
-
-            })
-
-
-            if (!sourceFlag) {
-                var obj = {};
-                obj.name = link.source;
-                obj.links = [];
-                obj.links.push({target: link.target, values: link.value})
-                obj.default = nodes.sources.length;
-                nodes.sources.push(obj);
-            }
-            if (!targetFlag) {
-                var obj = {};
-                obj.name = link.target;
-                obj.links = [];
-                obj.links.push({target: link.source, values: link.value})
-                obj.default = nodes.targets.length;
-                nodes.targets.push(obj);
-            }
-        });
-        return nodes;
-    }
-
-    function loadMatrix(input_links) {
-
-        var ColorScale = d3.scaleLinear()
-            .domain([0, Math.sqrt(250)])
-            .range([0, 1]);
-
-
-        var local_links = JSON.parse(JSON.stringify(input_links));
-        var nodes = createNodesFromLinks(local_links);
-        local_links.forEach(function (link) {
-            link.source = getIndexByName(nodes.sources, link.source);
-            link.target = getIndexByName(nodes.targets, link.target);
-        });
-
-        // var matrix = create2DMatrix(nodes.sources.length, nodes.targets.length, local_links);
-        var margin = {
-            top: 400,
-            right: 0,
-            bottom: 0,
-            left: 250
-        };
-
-        var height = 250;
-        var width = sideWidth - 100;
-        var matrix = [];
-        var x_length = nodes.targets.length;
-        var y_length = nodes.sources.length;
-        var x_scale = d3.scaleBand().range([0, width - margin.left]).domain(d3.range(x_length));
-        var y_scale = d3.scaleBand().range([0, height]).domain(d3.range(y_length));
-
-        var svg = d3.select("#matrix2D").append("svg")
-        // .attr("width", width + margin.left + margin.right)
-            .attr("width", "100%")
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
-        nodes.targets.forEach(function (node) {
-            node.linkDiff = node.links.length;
-            node.linkSize = d3.max(node.links, function (d) {
-                return d.values.length;
-            })
-        });
-        nodes.sources.forEach(function (node, i) {
-            node.linkDiff = node.links.length;
-            node.linkSize = d3.max(node.links, function (d) {
-                return d.values.length;
-            })
-            matrix[i] = d3.range(x_length).map(function (j) {
-                return {x: j, y: i, z: []};
-            });
-        });
-
-
-        local_links.forEach(function (link) {
-            matrix[link.source][link.target].z = link.value;
-        });
-
-
-        //Tommy's code
-        var processes1 = [];
-        var processes2 = [];
-        var processes3 = [];
-        for (var i = 0; i < y_length; i++) {
-            var obj = {};
-            var obj2 = {};
-            var obj3 = {};
-            obj.name = nodes.sources[i].name;
-            obj.index = i;
-            obj2.index = i;
-            obj3.index = i;
-            obj.refs = matrix[i];
-            var sumRefs = 0;
-            var sumLibs = 0;
-            for (var j = 0; j < obj.refs.length; j++) {
-                if (obj.refs[j].z.length != 0) {
-                    sumRefs += obj.refs[j].z.length;
-                    sumLibs++;
-                }
-            }
-            obj.sumRefs = sumRefs;
-            obj.sumLibs = sumLibs;
-            obj2.sumRefs = sumRefs;
-            obj3.sumLibs = sumLibs;
-            processes1.push(obj);
-            processes2.push(obj2);
-            processes3.push(obj3);
-        }
-
-        // Order processes2 by the total of references
-        processes2.sort(function (a, b) {
-            if (a.sumRefs < b.sumRefs) {
-                return 1;
-            }
-            else
-                return -1;
-        });
-        // Order processes3 by the total of libs
-        processes3.sort(function (a, b) {
-            if (a.sumLibs < b.sumLibs) {
-                return 1;
-            }
-            else
-                return -1;
-        });
-
-
-        for (var i = 0; i < processes2.length; i++) {
-            var index = processes2[i].index;
-            processes1[index].indexSumRefs = i;
-        }
-        // Copy the order from processes3 to processes
-        for (var i = 0; i < processes3.length; i++) {
-            var index = processes3[i].index;
-            processes1[index].indexSumLibs = i;
-        }
-
-
-        function getRefCount(i, j) {
-            if (matrix[i][j].value != 0) {
-                return matrix[i][j].z.length;
-            }
-            else {
-                return 0;
-            }
-
-        }
-
-        function getDif(count1, count2) { // penalty function
-            if (count1 == 0 && count2 != 0)
-                return 1000;
-            else if (count1 != 0 && count2 == 0)
-                return 1000;
-            else
-                return Math.abs(count1 - count2);
-        }
-
-        function processDif(processArray, firstProcessIndex) {
-            processArray[firstProcessIndex].isUsed = true;
-            processArray[firstProcessIndex].indexSimilarity = 0;
-
-            var startIndex = firstProcessIndex
-            var count = 1;
-            while (count < processArray.length) {
-                var minDif = 100000000;
-                var minIndex = -1;
-                for (var i = 0; i < processArray.length; i++) {
-                    if (processArray[i].isUsed == undefined) { // process is not ordered
-                        // compute processes difference
-                        var dif = 0;
-                        for (var j = 0; j < nodes.targets.length; j++) {
-                            var count1 = getRefCount(startIndex, j);
-                            var count2 = getRefCount(i, j);
-                            dif += getDif(count1, count2); // Differential function *************
-                        }
-                        if (dif < minDif) {
-                            minDif = dif;
-                            minIndex = i;
-                        }
-                    }
-                }
-                if (minIndex >= 0) {
-                    // console.log(minIndex + " " + processArray[minIndex].name);
-                    processArray[minIndex].isUsed = true;
-                    processArray[minIndex].indexSimilarity = count;
-                    startIndex = minIndex;
-                }
-                count++;
-            }
-            return processArray;
-        }
-
-        function processLib(libArray, firstLibIndex) {
-            libArray[firstLibIndex].isUsed = true;
-            libArray[firstLibIndex].indexSimilarity = 0;
-
-            var startIndex = firstLibIndex
-            var count = 1;
-            while (count < libArray.length) {
-                var minDif = 100000000;
-                var minIndex = -1;
-                for (var l = 0; l < libArray.length; l++) {
-                    if (libArray[l].isUsed == undefined) { // process is not ordered
-                        // compute libs difference
-                        var dif = 0;
-                        for (var i = 0; i < processes1.length; i++) {
-                            var count1 = getRefCount(i, startIndex);
-                            var count2 = getRefCount(i, l);
-                            dif += getDif(count1, count2); // Differential function *************
-                        }
-                        if (dif < minDif) {
-                            minDif = dif;
-                            minIndex = l;
-                        }
-                    }
-                }
-                if (minIndex >= 0) {
-                    libArray[minIndex].isUsed = true;
-                    libArray[minIndex].indexSimilarity = count;
-                    startIndex = minIndex;
-                }
-                count++;
-            }
-            return libArray;
-        }
-
-
-        // Create a new array of libs
-        var libs = [];
-        var libs2 = [];
-        for (var l = 0; l < nodes.targets.length; l++) {
-            var obj = {};
-            var obj2 = {};
-            obj.name = nodes.targets[l];
-            obj.index = l;
-            obj2.index = l;
-            var sumRefs = 0;
-            for (var i = 0; i < processes1.length; i++) {
-                if (matrix[i][l].value != 0) {
-                    sumRefs += matrix[i][l].z.length;
-                }
-            }
-            obj.sumRefs = sumRefs;
-            obj2.sumRefs = sumRefs;
-            libs.push(obj);
-            libs2.push(obj2);
-        }
-        // Order libs2 by the total of references
-        libs2.sort(function (a, b) {
-            if (a.sumRefs < b.sumRefs) {
-                return 1;
-            }
-            else
-                return -1;
-        });
-        // Copy the order from libs2 to processes
-        for (var i = 0; i < libs2.length; i++) {
-            var index = libs2[i].index;
-            libs[index].indexSumRefs = i;
-        }
-        //var processes1 = processDif(processes1,processes3[0].index);
-        processes1 = processDif(processes1, 0);
-        libs = processLib(libs, 0);
-
-        // Order options
-
-        nodes.sources.forEach(function (node, i) {
-            node.similarity = processes1[i].indexSimilarity;
-        });
-        nodes.targets.forEach(function (node, i) {
-            node.similarity = libs[i].indexSimilarity;
-        });
-
-        var orders = {
-            process: d3.range(y_length).sort(function (a, b) {
-                return d3.ascending(nodes.sources[a].name, nodes.sources[b].name);
-            }),
-            library: d3.range(x_length).sort(function (a, b) {
-                return d3.ascending(nodes.targets[a].name, nodes.targets[b].name);
-            }),
-            y_count: d3.range(y_length).sort(function (a, b) {
-                return d3.descending(nodes.sources[a].linkSize, nodes.sources[b].linkSize);
-            }),
-            x_count: d3.range(x_length).sort(function (a, b) {
-                return d3.descending(nodes.targets[a].linkSize, nodes.targets[b].linkSize);
-            }),
-            y_diff: d3.range(y_length).sort(function (a, b) {
-                return d3.descending(nodes.sources[a].linkDiff, nodes.sources[b].linkDiff);
-            }),
-            x_diff: d3.range(x_length).sort(function (a, b) {
-                return d3.descending(nodes.targets[a].linkDiff, nodes.targets[b].linkDiff);
-            }),
-            y_similarity: d3.range(y_length).sort(function (a, b) {
-                return d3.descending(nodes.sources[a].similarity, nodes.sources[b].similarity);
-            }),
-            x_similarity: d3.range(x_length).sort(function (a, b) {
-                return d3.descending(nodes.targets[a].similarity, nodes.targets[b].similarity);
-            })
-        };
-
-        x_scale.domain(orders.x_similarity);
-        y_scale.domain(orders.y_similarity);
-        var rows = svg.selectAll(".row")
-            .data(matrix)
-            .enter().append("g")
-            .attr("class", "row")
-            .attr("transform", function (d, i) {
-                return "translate(0," + y_scale(i) + ")";
-            })
-            .each(row);
-        // rows.append("line")
-        //     .attr("x2", width);
-        rows.append("text")
-            .attr("class", "penguin")
-            .attr("x", -6)
-            .attr("y", y_scale.bandwidth() / 2)
-            .attr("dy", ".32em")
-            .attr("text-anchor", "end")
-            .text(function (d, i) {
-                return capitalize_Words(nodes.sources[i].name);
-            });
-        var column = svg.selectAll(".column")
-            .data(matrix[0])
-            .enter().append("g")
-            .attr("class", "column")
-            .attr("transform", function (d, i) {
-                return "translate(" + x_scale(i) + ")rotate(-90)";
-            });
-        // column.append("line")
-        //     .attr("x1", -width);
-        column.append("text")
-            .attr("x", 6)
-            .attr("y", x_scale.bandwidth() / 2)
-            .attr("dy", ".32em")
-            .attr("text-anchor", "start")
-            .text(function (d, i) {
-                return capitalize_Words(nodes.targets[i].name);
-            });
-        //drawMatrix(nodes.sources, nodes.targets, matrix, '#matrix2D');
-        d3.select("#order").on("change", function () {
-            clearTimeout(timeout);
-            order(this.value);
-        });
-        var timeout = setTimeout(function () {
-            order("group");
-            d3.select("#order").property("selectedIndex", 0).node();
-        }, 2000);
-
-        function order(value) {
-            if (value == "name") {
-                x_scale.domain(orders["library"]);
-                y_scale.domain(orders["process"]);
-            } else if (value == "frequency") {
-                x_scale.domain(orders["x_count"]);
-                y_scale.domain(orders["y_count"]);
-            }
-            else if (value == "linkDiff") {
-                x_scale.domain(orders["x_diff"]);
-                y_scale.domain(orders["y_diff"]);
-            }
-            else if (value == "similarity") {
-                x_scale.domain(orders["x_similarity"]);
-                y_scale.domain(orders["y_similarity"]);
-            }
-
-
-            // y_scale.domain(nodes.sources.sort(function (a, b) { return a.name -b.name }));
-            var t = svg.transition().duration(2500);
-
-            t.selectAll(".row")
-                .delay(function (d, i) {
-                    return y_scale(i) * 4;
-                })
-                .attr("transform", function (d, i) {
-                    return "translate(0," + y_scale(i) + ")";
-                })
-                .selectAll(".cell")
-                .delay(function (d) {
-                    return x_scale(d.x) * 4;
-                })
-                .attr("x", function (d) {
-                    return x_scale(d.x);
-                });
-
-
-            t.selectAll(".column")
-                .delay(function (d, i) {
-                    return x_scale(i) * 4;
-                })
-                .attr("transform", function (d, i) {
-                    return "translate(" + x_scale(i) + ")rotate(-90)";
-                });
-        }
-
-        function row(row) {
-            var cell = d3.select(this).selectAll(".cell")
-                .data(row.filter(function (d) {
-                    return d.z;
-                }))
-                .enter().append("rect")
-                .attr("class", "cell")
-                .attr("x", function (d) {
-                    return x_scale(d.x);
-                })
-                .attr("width", x_scale.bandwidth())
-                .attr("height", y_scale.bandwidth())
-                //.style("fill-opacity", function(d) { return z(d.z); })
-                .style("fill", function (d) {
-                    if (d == undefined) return 'white';
-                    else return d3.interpolateGreys(ColorScale(Math.sqrt(d.z.length)))
-                })
-                .on("mouseover", mouseover)
-                .on("mouseout", mouseout);
-        }
-
-        function capitalize_Words(str) {
-            return str.replace(/\w\S*/g, function (txt) {
-                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-            });
-        }
-
-        function mouseover(p) {
-            d3.selectAll(".row text").classed("active", function (d, i) {
-                return i == p.y;
-            });
-            d3.selectAll(".column text").classed("active", function (d, i) {
-                return i == p.x;
-            });
-            div.transition().duration(200).style("opacity", .9);
-            var text = "";
-            p.z.forEach(function (value) {
-                text += "Time: " + value.Timestamp + "&nbsp; Lib: " + value.library + "<br>"
-            })
-            div.html("<b>Number of calls: " + p.z.length + "</b><p>" + text)
-                .style("width", "300px")
-                .style("left", (d3.event.pageX) + 20 + "px")
-                .style("top", (d3.event.pageY) + "px");
-        }
-
-        function mouseout() {
-            d3.selectAll("text").classed("active", false);
-        }
-
-        d3.select('#loading').remove();
-    }
-
-    function drawMatrixOld(matrix, lib, group_by_process_name) {
-        var rect_width = 12,
-            rect_height = 11,
-            spacing = 2,
-            svgheight = (rect_height + spacing) * matrix.length;
-        var maxvalue = d3.max(matrix, function (d) {
-            return d3.max(d, function (e) {
-                return e.value.length;
-            });
-        });
-
-        // Tommy 2018 ******************************************
-        // Create a new array of process
-        var processes1 = [];
-        var processes2 = [];
-        var processes3 = [];
-        for (var i = 0; i < group_by_process_name.length; i++) {
-            var obj = {};
-            var obj2 = {};
-            var obj3 = {};
-            obj.name = group_by_process_name[i].key;
-            obj.index = i;
-            obj2.index = i;
-            obj3.index = i;
-            obj.refs = matrix[i];
-            var sumRefs = 0;
-            var sumLibs = 0;
-            for (var j = 0; j < obj.refs.length; j++) {
-                if (obj.refs[j].value != 0) {
-                    sumRefs += obj.refs[j].value.length;
-                    sumLibs++;
-                }
-            }
-            obj.sumRefs = sumRefs;
-            obj.sumLibs = sumLibs;
-            obj2.sumRefs = sumRefs;
-            obj3.sumLibs = sumLibs;
-            processes1.push(obj);
-            processes2.push(obj2);
-            processes3.push(obj3);
-        }
-
-        // Order processes2 by the total of references
-        processes2.sort(function (a, b) {
-            if (a.sumRefs < b.sumRefs) {
-                return 1;
-            }
-            else
-                return -1;
-        });
-        // Order processes3 by the total of libs
-        processes3.sort(function (a, b) {
-            if (a.sumLibs < b.sumLibs) {
-                return 1;
-            }
-            else
-                return -1;
-        });
-
-
-        // Copy the order from processes2 to processes
-        for (var i = 0; i < processes2.length; i++) {
-            var index = processes2[i].index;
-            processes1[index].indexSumRefs = i;
-        }
-        // Copy the order from processes3 to processes
-        for (var i = 0; i < processes3.length; i++) {
-            var index = processes3[i].index;
-            processes1[index].indexSumLibs = i;
-        }
-
-
-        function getRefCount(i, j) {
-            if (matrix[i][j].value != 0) {
-                return matrix[i][j].value.length;
-            }
-            else {
-                return 0;
-            }
-
-        }
-
-        function getDif(count1, count2) { // penalty function
-            if (count1 == 0 && count2 != 0)
-                return 1000;
-            else if (count1 != 0 && count2 == 0)
-                return 1000;
-            else
-                return Math.abs(count1 - count2);
-        }
-
-        function processDif(processArray, firstProcessIndex) {
-            processArray[firstProcessIndex].isUsed = true;
-            processArray[firstProcessIndex].indexSimilarity = 0;
-
-            var startIndex = firstProcessIndex
-            var count = 1;
-            while (count < processArray.length) {
-                var minDif = 100000000;
-                var minIndex = -1;
-                for (var i = 0; i < processArray.length; i++) {
-                    if (processArray[i].isUsed == undefined) { // process is not ordered
-                        // compute processes difference
-                        var dif = 0;
-                        for (var j = 0; j < lib.length; j++) {
-                            var count1 = getRefCount(startIndex, j);
-                            var count2 = getRefCount(i, j);
-                            dif += getDif(count1, count2); // Differential function *************
-                        }
-                        if (dif < minDif) {
-                            minDif = dif;
-                            minIndex = i;
-                        }
-                    }
-                }
-                if (minIndex >= 0) {
-                    processArray[minIndex].isUsed = true;
-                    processArray[minIndex].indexSimilarity = count;
-                    startIndex = minIndex;
-                }
-                count++;
-            }
-            return processArray;
-        }
-
-        function processLib(libArray, firstLibIndex) {
-            libArray[firstLibIndex].isUsed = true;
-            libArray[firstLibIndex].indexSimilarity = 0;
-
-            var startIndex = firstLibIndex
-            var count = 1;
-            while (count < libArray.length) {
-                var minDif = 100000000;
-                var minIndex = -1;
-                for (var l = 0; l < libArray.length; l++) {
-                    if (libArray[l].isUsed == undefined) { // process is not ordered
-                        // compute libs difference
-                        var dif = 0;
-                        for (var i = 0; i < processes1.length; i++) {
-                            var count1 = getRefCount(i, startIndex);
-                            var count2 = getRefCount(i, l);
-                            dif += getDif(count1, count2); // Differential function *************
-                        }
-                        if (dif < minDif) {
-                            minDif = dif;
-                            minIndex = l;
-                        }
-                    }
-                }
-                if (minIndex >= 0) {
-                    libArray[minIndex].isUsed = true;
-                    libArray[minIndex].indexSimilarity = count;
-                    startIndex = minIndex;
-                }
-                count++;
-            }
-            return libArray;
-        }
-
-
-        // Create a new array of libs
-        var libs = [];
-        var libs2 = [];
-        for (var l = 0; l < lib.length; l++) {
-            var obj = {};
-            var obj2 = {};
-            obj.name = lib[l];
-            obj.index = l;
-            obj2.index = l;
-            var sumRefs = 0;
-            for (var i = 0; i < processes1.length; i++) {
-                if (matrix[i][l].value != 0) {
-                    sumRefs += matrix[i][l].value.length;
-                }
-            }
-            obj.sumRefs = sumRefs;
-            obj2.sumRefs = sumRefs;
-            libs.push(obj);
-            libs2.push(obj2);
-        }
-        // Order libs2 by the total of references
-        libs2.sort(function (a, b) {
-            if (a.sumRefs < b.sumRefs) {
-                return 1;
-            }
-            else
-                return -1;
-        });
-        // Copy the order from libs2 to processes
-        for (var i = 0; i < libs2.length; i++) {
-            var index = libs2[i].index;
-            libs[index].indexSumRefs = i;
-        }
-        //var processes1 = processDif(processes1,processes3[0].index);
-        processes1 = processDif(processes1, 0);
-        libs = processLib(libs, 0);
-
-        // Order options
-        var orderOption = 2;
-
-        function getProcessIndex(index) {  // order of process in row of the matrix
-            var newIndex;
-            if (orderOption == 0) {// default order of processes
-                newIndex = index;
-            }
-            else if (orderOption == 1) {// order by the total lib references
-                newIndex = processes1[index].indexSumRefs;
-            }
-            else {
-                newIndex = processes1[index].indexSimilarity;
-            }
-            return newIndex;
-        }
-
-        function getLibIndex(index) {  // order of process in column of the matrix
-            var newIndex;
-            if (orderOption == 0) {// default order of processes
-                newIndex = index;
-            }
-            else if (orderOption == 1) {// order by the total lib references
-                newIndex = libs[index].indexSumRefs;
-            }
-            else {
-                newIndex = libs[index].indexSimilarity;
-            }
-            return newIndex;
-        }
-
-        var ColorScale = d3.scaleLinear()
-            .domain([0, Math.sqrt(maxvalue)])
-            .range([0, 1]);
-        var svgMatrix = d3.select('#matrix').append('svg').attr('height', svgheight + 300).attr('width', "100%").attr('margin-top', "15px");
-        matrix.forEach(function (row, index) {
-
-            var group = svgMatrix.append('g').attr('height', 12).attr('transform', 'translate(200,' + getProcessIndex(index) * (rect_height + spacing) + ')')
-            var rect = group.selectAll('rect')
-                .data(row)
-                .enter()
-                .append('rect')
-                .attr("class", 'mat_rect')
-                .attr('width', rect_width)
-                .attr('height', rect_height)
-                .attr('x', function (d, i) {
-                    return getLibIndex(i) * (rect_height + spacing);
-                })
-                .attr('fill', function (d) {
-                    return d.value == 0 ? 'white' : d3.interpolateOrRd(ColorScale(Math.sqrt(d.value.length)));
-                }).on('mouseenter', function (d, i) {
-                    if (d.source == undefined) return;
-                    // d3.selectAll('.mat_rect').classed('cell-hover',false);
-                    d3.select(this).classed("cell-hover", true);
-
-                    for (var r = 0; r < processes1.length; r++) {
-                        if (r == index)
-                            d3.selectAll(".rowLabel.mono.r" + r).style("opacity", 1);
-                        else
-                            d3.selectAll(".rowLabel.mono.r" + r).style("opacity", 0.2);
-                        //  d3.selectAll(".colLabel.mono.c"+i).style("opacity", 1);;
-                    }
-                    for (var c = 0; c < libs.length; c++) {
-                        if (c == i)
-                            d3.selectAll(".colLabel.mono.c" + c).style("opacity", 1);
-                        else
-                            d3.selectAll(".colLabel.mono.c" + c).style("opacity", 0.2);
-                    }
-
-
-                    div.transition()
-                    // .duration(200)
-                        .style("opacity", 1);
-                    var text = "";
-                    d.value.forEach(function (value) {
-                        text += "Time: " + value.Timestamp + "&nbsp; Lib: " + value.library + "<br>"
-                    })
-                    div.html("<b>Number of calls: " + d.value.length + "</b><p>" + text)
-                        .style("width", "300px")
-                        .style("left", (d3.event.pageX) + 20 + "px")
-                        .style("top", (d3.event.pageY) + "px");
-
-                })
-                .on('mouseleave', function (d, i) {
-                    d3.select(this).classed("cell-hover", false);
-                    for (var r = 0; r < processes1.length; r++) {
-                        d3.selectAll(".rowLabel.mono.r" + r).style("opacity", 1);
-                    }
-                    for (var c = 0; c < libs.length; c++) {
-                        d3.selectAll(".colLabel.mono.c" + c).style("opacity", 1);
-                    }
-                });
-
-        })
-        //Draw text
-        var textGroup = svgMatrix.append('g').attr('transform', 'translate(200,' + matrix.length * (rect_height + spacing) + ')')
-        var text = textGroup.selectAll('text').data(lib).enter().append('text').attr('x', function (d, i) {
-            return (i) * (rect_height + spacing);
-        }).text(function (d) {
-            return d;
-        }).attr("class", function (d, i) {
-            return "colLabel mono c" + i;
-        })
-            .attr('transform', function (d, i) {
-                return 'rotate(45 ' + i * (rect_height + spacing) + ',0)';
-            })
-
-        var horizontalText = svgMatrix.append('g').attr('width', 200);
-        var horitext = horizontalText.selectAll('text')
-            .data(group_by_process_name).enter().append('text').text(function (d) {
-                return d.key;
-            })
-            .attr("class", function (d, i) {
-                return "rowLabel mono r" + i;
-            })
-            .attr('x', 190)
-            .attr('y', function (d, i) {
-                return getProcessIndex(i) * (rect_height + spacing) + rect_height / 2;
-            }).attr('text-anchor', 'end');
-
-
-    }
-
     return {
         // data stats - overview
         drawStats: function (position) {
-            var allProcess = [];
             var margin_left = settings.ProcessArea.left;
             var bar_height = settings.ProcessArea.bar_height;
             var group_by_process = getData.getdatabyProcess;
@@ -1663,9 +423,7 @@ function applicationManager(globalData) {
             // ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿
             // ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ Huyen 2018-19 ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿ ✿
 
-            var global_data = JSON.parse(JSON.stringify(globalData));
-
-            global_data.sort(function (a, b) {
+            globalData.sort(function (a, b) {
                 return a.currenttimestamp - b.currenttimestamp;
             });
 
@@ -1727,9 +485,10 @@ function applicationManager(globalData) {
                 return x * timeInterval / maxProcessLength;
             };
 
+            d3.select('#loading').remove();
+
             // SVG declarations =======================================================
             // Slider -----------------------------------------------------------------
-
 
             // granularity ------------------------------------------------------------------
             // var graContainer = d3.select("#heatmap")
@@ -2794,7 +1553,7 @@ function applicationManager(globalData) {
                 var ops = svg0.append('g')
                     .attr("id", "cg" + keyOperation)
                     .attr('transform', 'translate(10,' + (30 + index * 28) + ')')
-                    .attr("class", "linkText commonAll");
+                    .attr("class", "linkText commonAll op1");
 
                 ops.append("rect")
                     .attr("x", 2)
@@ -3306,10 +2065,6 @@ function applicationManager(globalData) {
                             [removePosX, removePosY] =
                                 getCentroidFromHull(net.nodes.filter(v => v.group == d.group));
 
-                            // old centroid
-                            // removePosX = net.gcen.x;
-                            // removePosY = net.gcen.y;
-
                             expand[d.group] = false;
                             init();
                         })
@@ -3416,10 +2171,6 @@ function applicationManager(globalData) {
                                 // middle of cluster
                                 [removePosX, removePosY] =
                                     getCentroidFromHull(net.nodes.filter(v => v.group == d.group));
-
-                                // old centroid
-                                // removePosX = net.gcen.x;
-                                // removePosY = net.gcen.y;
 
                                 expand[d.group] = !expand[d.group];
                                 init();
@@ -3558,8 +2309,7 @@ function applicationManager(globalData) {
             loadMatrix(global_links);
 
         },
-        updateDomainBox: function () {
-            // d3.select(position).selectAll("*").remove();
+        connectedDomain: function () {
             var domainList = getData.getdatabyDomain;
 
             if (d3.keys(domainList).length === 0) {
@@ -3807,36 +2557,6 @@ function convexHulls(nodes, index, offset) {
     return hullset;
 }
 
-function adjustHeight(nodes, item, expand, height) {
-    let existHull = false;
-    let selection = d3.select("#svg" + item.replace(/[.]/g, ""));
-    let prevHeight = selection.attr("height");
-
-    console.log(nodes[item].length);
-
-    var expandHeight = scaleHeightAfter(nodes[item].length);
-    d3.keys(expand).some(d => {
-        if (expand[d]) {
-            existHull = true;
-        }
-        return expand[d];
-    });
-    if (!existHull) {
-        selection
-            .transition()
-            .duration(200)
-            .attr("height", height);
-        return true;
-    }
-    else if (prevHeight == height) {
-        selection
-            .transition()
-            .duration(200)
-            .attr("height", expandHeight);
-        return true;
-    }
-    else return false;
-}
 function getCentroidFromHull(array){
     let sumX = 0, sumY = 0;
     let len = array.length;
@@ -3845,4 +2565,143 @@ function getCentroidFromHull(array){
         sumY += d.y;
     });
     return [sumX/len, sumY/len]
+}
+// constructs the network to visualize
+// var gcen = {};
+function network(data, prev, getGroup, expand) {
+    expand = expand || {};
+    var groupMap = {},    // group map
+        nodeMap = {},    // node map
+        linkMap = {},    // link map
+        prevGroupNode = {},    // previous group nodes
+        prevGroupCentroid = {},    // previous group centroids
+        nodes = [], // output nodes
+        links = [], // output links
+        extra = [];
+
+    // process previous nodes for reuse or centroid calculation
+    if (prev) {
+        prev.nodes.forEach(function (n) {
+            let i = getGroup(n), o;
+            if (n.size > 0) {
+                prevGroupNode[i] = n;
+                n.size = 0;
+            } else {
+                o = prevGroupCentroid[i] || (prevGroupCentroid[i] = {x: 0, y: 0, count: 0});
+                o.x += n.x;
+                o.y += n.y;
+                o.count += 1;
+            }
+        });
+    }
+    // determine nodes
+    for (var k = 0; k < data.nodes.length; ++k) {
+        var n = data.nodes[k],
+            i = getGroup(n),    // i is the freaking group
+            g = groupMap[i] ||
+                (groupMap[i] = prevGroupNode[i]) ||
+                (groupMap[i] = {group: i, size: 0, nodes: []});
+        if (n.dummy){
+            g.dummy = true;
+        }
+
+        if (expand[i]) {
+            // the node should be directly visible
+            nodeMap[n.id] = nodes.length;
+            nodes.push(n);
+            if (prevGroupNode[i]) {
+                // place new nodes at cluster location (plus jitter)
+                n.x = prevGroupNode[i].x + 3 * Math.random();
+                n.y = prevGroupNode[i].y + 3 * Math.random();
+            }
+
+        } else {
+            // the node is part of a collapsed cluster
+            if (g.size == 0) {
+                // if new cluster, add to set and position at centroid of leaf nodes
+                nodeMap[i] = nodes.length;
+                nodes.push(g);
+                if (prevGroupCentroid[i]) {
+                    // gcen.x = prevGroupCentroid[i].x / prevGroupCentroid[i].count;
+                    // gcen.y = prevGroupCentroid[i].y / prevGroupCentroid[i].count;
+                    g.x =  prevGroupCentroid[i].x / prevGroupCentroid[i].count + 3 * Math.random();
+                    g.y = prevGroupCentroid[i].y / prevGroupCentroid[i].count + 3 * Math.random();
+                }
+            }
+            g.nodes.push(n);
+        }
+        // always count group size as w e also use it to tweak the force graph strengths/distances
+        g.size += 1;
+        n.group_data = g;       // circular data
+    }
+    for (i in groupMap) {
+        groupMap[i].link_count = 0;
+    }
+
+    // determine loop
+    data.extra.forEach((path, pIndex) => {
+        extra.push({
+            source: nodes.find(d => {
+                return ((d.size == 1) && (d.nodes[0].id === path.source.id))
+            }),
+            target: nodes.find(d => {
+                return ((d.size == 1) && (d.nodes[0].id === path.target.id))
+            }),
+            dummy1: nodes.find(d => {
+                return ((d.size == 1) && (d.nodes[0].id === path.dummy1.id))
+            }),
+            dummy2: nodes.find(d => {
+                return ((d.size == 1) && (d.nodes[0].id === path.dummy2.id))
+            }),
+            size: path.value,
+            pathid: pIndex
+        });
+    });
+
+    // determine links
+    for (k = 0; k < data.links.length; ++k) {
+        var e, u, v;        // u, v are group names
+        e = data.links[k];
+        if (e.source.group) {
+            u = getGroup(e.source);
+        }
+        else continue;
+        if (e.target.group) {
+            v = getGroup(e.target);
+        }
+        else continue;
+        if (u != v) {
+            // link_count is the number of links to that node
+            groupMap[u].link_count += e.value;
+            groupMap[v].link_count += e.value;
+        }
+
+        u = expand[u] ? nodeMap[e.source.id] : nodeMap[u];
+        v = expand[v] ? nodeMap[e.target.id] : nodeMap[v];
+        var index = (u < v ? u + "|" + v : v + "|" + u),
+            l = linkMap[index] || (linkMap[index] = {source: u, target: v, size: 0});
+
+        if ((e.img) || (e.self)) {
+            l.img = true;
+        }
+
+        if (e.self){
+            l.self = true;
+        }
+        l.size += e.value;
+
+    }
+    for (i in linkMap) {
+        // tranh thu tinh maxLink
+        if (maxLink < linkMap[i].size) {
+            maxLink = linkMap[i].size;
+        }
+
+        links.push(linkMap[i]);
+    }
+    return {nodes: nodes,
+        links: links,
+        extra: extra,
+        // gcen: gcen
+    };
 }

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!--<script src="lib/d3.v5.min.js"></script>-->
-<script src="lib/d3.v4.min.js"></script>
+<script src="lib/d3.v4.js"></script>
 <script src="https://d3js.org/d3-color.v1.min.js"></script>
 <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
@@ -28,27 +28,22 @@
 <body class="w3-light-grey">
 
 <!-- Overlay effect when opening sidebar on small screens -->
-<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
-     title="close side menu" id="myOverlay"></div>
 
 <div id="mySidenavRank" class="sidenav">
     <div class="tab">
-        <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Processes Ranked</button>
-        <button class="tablinks" onclick="openCity(event, 'Paris')">Libraries Called</button>
+        <button class="tablinks" onclick="openCity(event, 'rankTab')" id="defaultOpen">Processes Ranked</button>
+        <button class="tablinks" onclick="openCity(event, 'libTab')" id="libTabName">Libraries Called</button>
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     </div>
 
-    <div id="London" class="tabcontent">
-        <!--<h4 class="w3-container" id="rankedbydeg" style="position: absolute; padding-left: 20px"><b>Processes ranked by-->
-            <!--degree</b></h4>-->
+    <div id="rankTab" class="tabcontent">
         <div class="w3-container" style="padding-right: 0; padding-left: 0">
             <div id="ranked" class="contentRanked">
-
             </div>
         </div>
     </div>
 
-    <div id="Paris" class="tabcontent">
+    <div id="libTab" class="tabcontent">
         <div class="w3-container w3-padding-large w3-white">
             <h4 id="library"><b>Libraries Called</b></h4>
 
@@ -93,12 +88,11 @@
 <div class="w3-main" style="margin-left:0px" id="mainContent">
     <div class="overlaySide">
         <a class="openbtn btn-floating btn" id="sideNavbtn" onclick="openNav()">
-            <i class='fa fa-chevron-circle-right' style='font-size:40px'></i>
+            <i class='fa fa-chevron-circle-right chevron'></i>
         </a>
     </div>
     <!-- Header -->
     <header id="portfolio">
-        <!--        <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>-->
         <div class="w3-container">
             <h1><b>Malware Visualization</b></h1>
             <div class="w3-section w3-padding-8">
@@ -219,11 +213,10 @@
             <span id="operation"></span>
         </div>
 
-
         <div class="w3-threequarter w3-container w3-margin-bottom" style="width:20%">
             <h4 class="w3-container"><b>Operated objects</b></h4>
-
         </div>
+
         <div class="w3-quarter w3-container w3-margin-bottom" style="width:80%">
             <h4 class="w3-container"><b>Operations</b></h4>
         </div>
@@ -245,7 +238,7 @@
                         <p><b>Operations Overview</b>
                             <span style="float: right">
                             <input type="checkbox" id="opSelection"
-                                   onclick="selectAll()"> Select All
+                                   onclick="selectAll()" checked> Select All
                         </span>
                         </p>
                         <div id="stats" style="overflow-x: auto"></div>
@@ -256,9 +249,7 @@
                         <div id="commonOp"></div>
                     </div>
                 </div>
-
         </div>
-
     </div>
 
 
@@ -267,11 +258,8 @@
     <img id="loading-image" height="200" width="200" src="images/squareloader2.gif" alt="Loading..."/>
 </div>
 <script>
-    // var t0, t1;
-    // t0 = performance.now();
-    // const compression = require('compression');
     document.getElementById("mySidenavRank").style.height = $(window).height();
-    var calculateRank;
+    var rankEvent, libEvent;
     var sideWidth = 600;
 
     discovery("#sideNavbtn");
@@ -287,8 +275,8 @@
     }
 
     function openNav() {
-        if (!calculateRank) {
-            calculateRank = 1;
+        if (!rankEvent) {
+            rankEvent = 1;
         }
 
         document.getElementById("mySidenavRank").style.width = sideWidth + "px";
@@ -301,17 +289,6 @@
         document.getElementById("mySidenavRank").style.width = "0";
         document.getElementById("mainContent").style.marginLeft = "0";
         d3.select("#rankBtn").classed("w3-black", false);
-    }
-
-    // Script to open and close sidebar
-    function w3_open() {
-        document.getElementById("mySidebar").style.display = "block";
-        document.getElementById("myOverlay").style.display = "block";
-    }
-
-    function w3_close() {
-        document.getElementById("mySidebar").style.display = "none";
-        document.getElementById("myOverlay").style.display = "none";
     }
 
     function openCity(evt, cityName) {
@@ -327,14 +304,13 @@
         document.getElementById(cityName).style.display = "block";
         evt.currentTarget.className += " active";
     }
-
     // Get the element with id="defaultOpen" and click on it
     document.getElementById("defaultOpen").click();
 </script>
 <script src="js/ultility.js"></script>
-<script src="js/compute.js"></script>
 <script src="js/init.js"></script>
 <script src="js/main.js"></script>
+<script src="js/getLibData.js"></script>
 <script>
     let divOperation = d3.select("body").append("div")
         .attr("class", "tooltip")
@@ -352,6 +328,10 @@
         .attr("class", "tooltip3")
         .style("opacity", 0);
 
+    let div4 = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
     $('select#selectmalware').on('change', function (e) {
         let optionSelected = $("option:selected", this);
         let valueSelected = this.value;
@@ -362,11 +342,12 @@
             .attr("height", "200")
             .attr("height", "200");
         init(valueSelected);
-
     });
+
     let init = function (filePath) {
         lensingStatus = false;
-        calculateRank = 0;
+        rankEvent = 0;
+        libEvent = 0;
         closeNav();
         d3.queue()
             .defer(d3.csv, "data/" + filePath, function (d) {
@@ -380,7 +361,6 @@
                 }
             })
             .defer(d3.csv, "data/domain.csv")
-            // .defer(d3.csv, "metadata/infosec.csv")
             .await(function (error, original_data, domain) {
                 if (error) {
                     console.error(error);
@@ -389,66 +369,66 @@
                     let data = ProcessDataV2(original_data, domain);
                     let SiteManager = applicationManager(data); //Initialize application
                     SiteManager.drawStats('#stats'); //Draw statistic map
-                    // SiteManager.drawStats2('#OperationList'); //Draw statistic map
                     SiteManager.malist("#commonOp");
+                    SiteManager.drawMain('#heatmap');//Draw mainMap
+                    SiteManager.connectedDomain();
                     // for running --------------------
                     d3.select("#sideNavbtn")
                         .on("click", () => {
-                            if (calculateRank === 1) {
+                            if (rankEvent == 1) {
                                 SiteManager.highlight('#ranked'); // hightlight
-                                calculateRank = 2;
+                                rankEvent = 2;
                             }
                         });
-                    // -----------------------------
-                    SiteManager.drawMain('#heatmap');//Draw mainMap
-                    let maxcalls = SiteManager.getCallRange().maxcall;
-                    SiteManager.updateDomainBox();
 
                     // for testing --------------------
                     // openNav();
                     // SiteManager.highlight('#ranked');
                     // --------------------------------
 
-                    $("#btnName").click(function () {
-                            SiteManager.sort2DMatrix('similarity')
-                        }
-                    );
-                    $("#btnNum").click(function () {
-                            SiteManager.sort2DMatrix('numlinks')
-                        }
-                    );
-                    $("#btnCount").click(function () {
-                            SiteManager.sort2DMatrix('numcount')
-                        }
-                    );
+                    d3.select("#libTabName")
+                        .on("click", () => {
+                            if (!libEvent){
+                                libEvent = 1;
+                                console.log("first lib");
+                                loadLibData(data);
+                                let maxcalls = SiteManager.getCallRange().maxcall;
 
-                    $(function () {
-                        let handle = $("#custom-handle");
-                        $("#slider").slider({
-                            min: 0,
-                            value: 3,
-                            max: maxcalls,
-                            create: function () {
-                                handle.text($(this).slider("value"));
-                            },
-                            slide: function (event, ui) {
-                                $("#amount").val("Min: " + ui.value + " - Max: " + maxcalls);
-                                handle.text(ui.value);
-                                SiteManager.updateRangeFilter(ui.value, maxcalls)
+                                $("#btnName").click(function () {
+                                        SiteManager.sort2DMatrix('similarity')
+                                    }
+                                );
+                                $("#btnNum").click(function () {
+                                        SiteManager.sort2DMatrix('numlinks')
+                                    }
+                                );
+                                $("#btnCount").click(function () {
+                                        SiteManager.sort2DMatrix('numcount')
+                                    }
+                                );
+
+                                $(function () {
+                                    let handle = $("#custom-handle");
+                                    $("#slider").slider({
+                                        min: 0,
+                                        value: 3,
+                                        max: maxcalls,
+                                        create: function () {
+                                            handle.text($(this).slider("value"));
+                                        },
+                                        slide: function (event, ui) {
+                                            $("#amount").val("Min: " + ui.value + " - Max: " + maxcalls);
+                                            handle.text(ui.value);
+                                            SiteManager.updateRangeFilter(ui.value, maxcalls)
+                                        }
+                                    });
+                                    $("#amount").val("Min: " + 3 + " - Max: " + maxcalls);
+                                });
+                                SiteManager.updateRangeFilter(3, maxcalls);
+                                isready = true;
                             }
                         });
-                        $("#amount").val("Min: " + 3 + " - Max: " + maxcalls);
-
-
-                    });
-
-                    SiteManager.updateRangeFilter(3, maxcalls);
-                    isready = true;
-
-
                 }
-                // t1 = performance.now();
-                // console.log( "ready! takes " + ((t1-t0)/1000).toFixed(2) + " s" );
             });
     };
     init("Huyen-Ransomware-WannaPeace.csv");

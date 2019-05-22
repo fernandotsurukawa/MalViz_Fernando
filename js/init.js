@@ -1,3 +1,19 @@
+var settings = {
+    ProcessArea: {
+        svg_height: 220,
+        left: 150,
+        bar_height: 35,
+        scale_xMin: 10,
+        scale_xMax: 800
+    },
+    MatrixArea: {
+        padding: 1,
+        row_text_width: 250,
+        minValue: 5,
+        rect_width: 15,
+        rect_height: 15
+    }
+};
 
 var operationShown;
 var active = {};

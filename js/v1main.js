@@ -3198,7 +3198,7 @@ function applicationManager(globalData) {
             loadMatrix(global_links);
 
         },
-        updateDomainBox: function (position) {
+        connectedDomain: function (position) {
             d3.select(position).selectAll("*").remove();
             var domainList = getData.getdatabyDomain;
             var selection = document.querySelector(position);

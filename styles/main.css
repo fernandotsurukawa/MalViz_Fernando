@@ -586,6 +586,10 @@ line.link {
     cursor: pointer;
     vertical-align: middle;
 }
+.chevron {
+    margin-top: -4px;
+    font-size: 50px;
+}
 .pulse {
     overflow: visible;
     position: relative
@@ -599,7 +603,7 @@ line.link {
     height: 100%;
     top: 0;
     left: 0;
-    background-color: #9c27b0;
+    background-color: #03b095;
     border-radius: inherit;
     -webkit-transition: opacity .3s, -webkit-transform .3s;
     transition: opacity .3s, -webkit-transform .3s;

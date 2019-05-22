@@ -9,24 +9,6 @@ function make2Darray(rows, cols) {
     return arr;
 }
 
-function getObjectIndex(obj, property, value) {
-    var index;
-    obj.forEach(function (d, i) {
-        if (d[property] == value) index = i;
-    });
-    return index;
-}
-
-function convertToMilis(row) {
-    var time = row.Timestamp.split(':');
-    var hour = +time[0];
-    var minute = +time[1];
-    var second = +time[2].split('.')[0];
-    var milisecond = +time[2].split('.')[1].split(' ')[0].slice(0, 5);
-    var currentTimeStamp = (hour * 3600 + minute * 60 + second) * 100000 + milisecond;
-    return currentTimeStamp;
-}
-
 function ProcessDataV2(originalData, domain) {
     var processNameList = d3.nest().key(d => d.Process_Name)
         .entries(originalData)
@@ -182,13 +164,6 @@ function getProcessNameIndex(processlst, key) {
     return index;
 }
 
-function handleOperation(malist) {
-    var array = [];
-    malist.forEach(d => {
-        array.push(d.Name);
-    });
-    return array;
-}
 
 Array.prototype.groupBy = function (props) {
     var arr = this;
