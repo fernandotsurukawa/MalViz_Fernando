@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8b82504-1950-4318-aa3d-f800f494b894" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/js/bin.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/bin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -51,13 +50,13 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="html" value="8" />
+          <entry key="html" value="12" />
           <entry key="js" value="145" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="8" />
+          <entry key="HTML" value="12" />
           <entry key="JavaScript" value="145" />
         </counts>
       </usages-collector>
@@ -140,8 +139,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="142">
-              <caret line="441" column="16" lean-forward="true" selection-start-line="441" selection-start-column="16" selection-end-line="441" selection-end-column="16" />
+            <state relative-caret-position="168">
+              <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -254,9 +253,9 @@
         <option value="$PROJECT_DIR$/js/compute.js" />
         <option value="$PROJECT_DIR$/js/getLibData.js" />
         <option value="$PROJECT_DIR$/js/init.js" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/bin.js" />
         <option value="$PROJECT_DIR$/js/main.js" />
+        <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
   </component>
@@ -492,12 +491,12 @@
       <workItem from="1558468131096" duration="14215000" />
       <workItem from="1558490518220" duration="2743000" />
       <workItem from="1558549152806" duration="6621000" />
-      <workItem from="1558562202581" duration="2633000" />
+      <workItem from="1558562202581" duration="3681000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="717671000" />
+    <option name="totallyTimeSpent" value="718719000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1255" height="1417" extended-state="0" />
@@ -800,8 +799,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="441" column="16" lean-forward="true" selection-start-line="441" selection-start-column="16" selection-end-line="441" selection-end-column="16" />
+        <state relative-caret-position="168">
+          <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
