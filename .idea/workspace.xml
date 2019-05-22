@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8b82504-1950-4318-aa3d-f800f494b894" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Vung-Win7-Cryptowall.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Vung-Win7-Cryptowall.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/bin.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/bin.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -27,30 +26,10 @@
             <file pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/js/bin.js">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="92">
-                    <caret line="430" column="22" selection-start-line="430" selection-start-column="22" selection-end-line="430" selection-end-column="22" />
+                  <state relative-caret-position="8232">
+                    <caret line="341" column="36" lean-forward="true" selection-start-line="341" selection-start-column="36" selection-end-line="341" selection-end-column="36" />
                     <folding>
                       <element signature="e#6#12#0" expanded="true" />
-                    </folding>
-                  </state>
-                </provider>
-              </entry>
-            </file>
-          </leaf>
-        </state>
-      </content>
-    </window>
-    <window id="2">
-      <content type="file-editors">
-        <state>
-          <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-            <file pinned="false" current-in-tab="true">
-              <entry file="file://$PROJECT_DIR$/index.html">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="190">
-                    <caret line="443" selection-start-line="443" selection-end-line="444" />
-                    <folding>
-                      <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                     </folding>
                   </state>
                 </provider>
@@ -73,24 +52,24 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="html" value="8" />
-          <entry key="js" value="67" />
+          <entry key="js" value="145" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="8" />
-          <entry key="JavaScript" value="67" />
+          <entry key="JavaScript" value="145" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="html" value="2" />
+          <entry key="html" value="3" />
           <entry key="js" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="HTML" value="2" />
+          <entry key="HTML" value="3" />
           <entry key="JavaScript" value="2" />
         </counts>
       </usages-collector>
@@ -98,14 +77,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="793" column="24" selection-start-line="793" selection-start-column="20" selection-end-line="793" selection-end-column="24" />
+            <state relative-caret-position="674">
+              <caret line="1766" lean-forward="true" selection-start-line="1766" selection-end-line="1766" />
               <folding>
                 <element signature="n#!!block;n#DataRetrieval#0;n#!!block;n#applicationManager#0" />
                 <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
+                <element signature="e#96275#96994#0" />
                 <element signature="n#!!block;n#selectAll#0" />
                 <element signature="n#!!block;n#computeNodes#0" />
                 <element signature="n#!!block;n#getIndex#0" />
@@ -157,6 +137,18 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="142">
+              <caret line="441" column="16" lean-forward="true" selection-start-line="441" selection-start-column="16" selection-end-line="441" selection-end-column="16" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -170,9 +162,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>font</find>
-      <find>d3v5</find>
-      <find>none</find>
       <find>rectdr</find>
       <find>setAt</find>
       <find>setA</find>
@@ -200,6 +189,9 @@
       <find>orderedArray.</find>
       <find>orderedArray</find>
       <find>init</find>
+      <find>bins</find>
+      <find>svgstat</find>
+      <find>hull</find>
     </findStrings>
     <replaceStrings>
       <replace>op0</replace>
@@ -262,9 +254,9 @@
         <option value="$PROJECT_DIR$/js/compute.js" />
         <option value="$PROJECT_DIR$/js/getLibData.js" />
         <option value="$PROJECT_DIR$/js/init.js" />
+        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/bin.js" />
         <option value="$PROJECT_DIR$/js/main.js" />
-        <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
   </component>
@@ -276,8 +268,8 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="973" />
-    <option name="height" value="1040" />
+    <option name="width" value="1255" />
+    <option name="height" value="1417" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -500,19 +492,19 @@
       <workItem from="1558468131096" duration="14215000" />
       <workItem from="1558490518220" duration="2743000" />
       <workItem from="1558549152806" duration="6621000" />
-      <workItem from="1558562202581" duration="1773000" />
+      <workItem from="1558562202581" duration="2633000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="716811000" />
+    <option name="totallyTimeSpent" value="717671000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="973" height="1040" extended-state="0" />
+    <frame x="0" y="23" width="1255" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.31617647" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49961802" visible="true" weight="0.184765" />
+      <window_info id="Structure" order="1" sideWeight="0.50038195" side_tool="true" weight="0.31604537" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32849503" />
@@ -746,23 +738,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/images/robo_2.gif" />
     <entry file="file://$PROJECT_DIR$/images/robo.gif" />
-    <entry file="file://$PROJECT_DIR$/js/init.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="20" column="12" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/getLibData.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="1" column="9" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
-          <folding>
-            <element signature="n#!!block;n#ExtractGraph#0;n#!!block;n#libManager#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/styles/main.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="14160">
@@ -779,21 +754,39 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/bin.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="92">
-          <caret line="430" column="22" selection-start-line="430" selection-start-column="22" selection-end-line="430" selection-end-column="22" />
+        <state relative-caret-position="8232">
+          <caret line="341" column="36" lean-forward="true" selection-start-line="341" selection-start-column="36" selection-end-line="341" selection-end-column="36" />
           <folding>
             <element signature="e#6#12#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/getLibData.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="1" column="9" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
+          <folding>
+            <element signature="n#!!block;n#ExtractGraph#0;n#!!block;n#libManager#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/init.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="20" column="12" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="793" column="24" selection-start-line="793" selection-start-column="20" selection-end-line="793" selection-end-column="24" />
+        <state relative-caret-position="674">
+          <caret line="1766" lean-forward="true" selection-start-line="1766" selection-end-line="1766" />
           <folding>
             <element signature="n#!!block;n#DataRetrieval#0;n#!!block;n#applicationManager#0" />
             <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#96275#96994#0" />
             <element signature="n#!!block;n#selectAll#0" />
             <element signature="n#!!block;n#computeNodes#0" />
             <element signature="n#!!block;n#getIndex#0" />
@@ -807,8 +800,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="443" selection-start-line="443" selection-end-line="444" />
+        <state relative-caret-position="142">
+          <caret line="441" column="16" lean-forward="true" selection-start-line="441" selection-start-column="16" selection-end-line="441" selection-end-column="16" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>

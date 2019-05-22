@@ -1753,13 +1753,21 @@ function applicationManager(globalData) {
             var sortedList = list
                 .sort((a, b) => (links[b].length - links[a].length));
 
-            var strokeScale = d3.scaleSqrt()
+            var strokeScaling = d3.scaleSqrt()
                 .domain([1, 5000])
                 .range([1, 10]);
 
-            var radiusScale = d3.scaleSqrt()
+            var radiusScaling = d3.scaleSqrt()
                 .domain([dr, 1200])
                 .range([dr, 50]);
+
+            function radiusScale(x) {
+                return Math.min(radiusScaling(x), 60)
+            }
+
+            function strokeScale(x){
+                return Math.min(strokeScaling(x), 20)
+            }
 
             d3.select("#ranked").selectAll("*").remove();
 
@@ -2489,16 +2497,7 @@ function getCentroidFromHull(array){
     });
     return [sumX/len, sumY/len]
 }
-// get sum of distance of arcs
-function calculateDistance(orderedArray) {
-    var sum = 0;
-    orderedArray.forEach((parentProcess, pIndex) => {
-        d3.keys(parentProcess.childInfo).forEach(childProcess => {
-            sum += parentProcess.childInfo[childProcess].length * Math.abs(getProcessNameIndex(orderedArray, childProcess) - pIndex)
-        })
-    });
-    return sum;
-}
+
 // constructs the network to visualize
 // var gcen = {};
 function network(data, prev, getGroup, expand) {
