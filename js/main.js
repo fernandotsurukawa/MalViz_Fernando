@@ -338,12 +338,11 @@ function applicationManager(globalData) {
                 }
             });
 
-            var orderedArray = [];
+            orderedArray = [];
 
             for (var i = 0; i < updated_data.length; i++) {
                 dfs(updated_data[i], orderedArray);
             }
-
             orderedArray = updated_data;
 
             // DFS - convert tree to array using DFS
@@ -376,7 +375,6 @@ function applicationManager(globalData) {
             //     }
             //     return array;
             // }
-
             function getSuccessors(o, array, count) {
                 if (o.children != undefined) {
                     for (var i = 0; i < o.children.length; i++) {
@@ -389,6 +387,22 @@ function applicationManager(globalData) {
                 return array;
             }
 
+            // get sum of distance of arcs
+            function calculateDistance(orderedArray) {
+                var sum = 0;
+                orderedArray.forEach((parentProcess, pIndex) => {
+                    d3.keys(parentProcess.childInfo).forEach(childProcess => {
+                        sum += parentProcess.childInfo[childProcess].length * Math.abs(getProcessNameIndex(orderedArray, childProcess) - pIndex)
+                    })
+                });
+                return sum;
+            }
+
+            var margin_left = 30;  // min margin = 30
+            var rect_height = 30, rect_margin_top = 5, group_rect_height = rect_height;
+            var rect_normal_height = rect_height - 8;
+            var rectSpacing = 2.5;
+
             group_by_process_name.forEach(function (d) {
                 d.position = getProcessNameIndex(orderedArray, d.key);
             });
@@ -398,11 +412,6 @@ function applicationManager(globalData) {
             });
             // orderedArray is the topological ordering
             //  debugger;
-
-            var margin_left = 30;  // min margin = 30
-            var rect_height = 30, rect_margin_top = 5, group_rect_height = rect_height;
-            var rect_normal_height = rect_height - 8;
-            var rectSpacing = 2.5;
 
             var svgheight = group_by_process_name.length * (group_rect_height);
 
