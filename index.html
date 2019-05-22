@@ -124,12 +124,12 @@
                     <option value="faran-7-vs-backdoor-14.CSV">faran-7-vs-backdoor-14</option>
                     <option value="faran-7-vs-backdoor-15.CSV">faran-7-vs-backdoor-15</option>
                     <option value="Faran-win7-vs-7fa0ef3f22045c45c80885865d0d0942.CSV">
-                        Faran-win7-vs-7fa0ef3f22045c45c80885865d0d0942
+                        Faran-win7-vs-7fa0ef3f22045c45c80885865d0d0942  &nbsp;&nbsp;✔
                     </option>
                     <option value="Faran-win7-vs-13ef35e912a54739a27015eecc3fbbaeaf2ba2b7a2a49bfd11e26e099a330926.CSV">
-                        Faran-win7-vs-13ef35e912a54739a27015eecc3fbbaeaf2ba2b7a2a49bfd11e26e099a330926
+                        Faran-win7-vs-13ef35e912a54739a27015eecc3fbbae  &nbsp;&nbsp;✔
                     </option>
-                    <option value="Vung-Win7-Bladabindi.CSV">Vung-Win7-Bladabindi</option>
+                    <option value="Vung-Win7-Bladabindi.CSV">Vung-Win7-Bladabindi  &nbsp;&nbsp;✔</option>
                     <option value="Vung-Win7-Cryptowall.CSV">Vung-Win7-Cryptowall</option>
                     <option value="Vung-Win7-Locky.Gen.CSV">Vung-Win7-Locky.Gen</option>
                     <option value="Vung-Win7-Multinjector.CSV">Vung-Win7-Multinjector</option>
@@ -175,8 +175,7 @@
                     <option value="Vung-HackTool-Stealm1-Win10.CSV">Vung-HackTool-Stealm1-Win10 &nbsp;&nbsp;✔</option>
                     <option value="Vung-HackTool-Stealm-Win10.CSV">Vung-HackTool-Stealm-Win10 &nbsp;&nbsp;✔</option>
                     <option value="Logfile_V1.CSV">Cerber &nbsp;&nbsp;✔</option>
-
-
+                    
                 </select>
                 <div id="domainBox"
                      class="w3-bar w3-white domainBox">
@@ -187,7 +186,7 @@
                                 <tr>
                                     <td id="titleDomain">Connecting Domains:</td>
                                     <td style="width: 160px" id="firstCell">
-                                        <i id="downArrow" class='fas fa-angle-down'></i>
+                                        <i id="downArrow" class='fa fa-angle-down'></i>
                                     </td>
                                 </tr>
                             </table>
@@ -391,19 +390,19 @@
                             if (!libEvent){
                                 libEvent = 1;
                                 console.log("first lib");
-                                loadLibData(data);
-                                let maxcalls = SiteManager.getCallRange().maxcall;
+                                var lib = libManager(data);
+                                let maxcalls = lib.getCallRange().maxcall;
 
                                 $("#btnName").click(function () {
-                                        SiteManager.sort2DMatrix('similarity')
+                                        lib.sort2DMatrix('similarity')
                                     }
                                 );
                                 $("#btnNum").click(function () {
-                                        SiteManager.sort2DMatrix('numlinks')
+                                        lib.sort2DMatrix('numlinks')
                                     }
                                 );
                                 $("#btnCount").click(function () {
-                                        SiteManager.sort2DMatrix('numcount')
+                                        lib.sort2DMatrix('numcount')
                                     }
                                 );
 
@@ -419,12 +418,12 @@
                                         slide: function (event, ui) {
                                             $("#amount").val("Min: " + ui.value + " - Max: " + maxcalls);
                                             handle.text(ui.value);
-                                            SiteManager.updateRangeFilter(ui.value, maxcalls)
+                                            lib.updateRangeFilter(ui.value, maxcalls)
                                         }
                                     });
                                     $("#amount").val("Min: " + 3 + " - Max: " + maxcalls);
                                 });
-                                SiteManager.updateRangeFilter(3, maxcalls);
+                                lib.updateRangeFilter(3, maxcalls);
                                 isready = true;
                             }
                         });

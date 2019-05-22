@@ -2247,68 +2247,7 @@ function applicationManager(globalData) {
             });
 
         },
-        draw2DMatrix: function (position) {
-            var graphs = ExtractGraph(globalData);
-            graphs.links = graphs.links.filter(function (link) {
-                return link.value.length > settings.MatrixArea.minValue;
-            });
-            graphs.indexLinks = [];
-            var rect_width = (settings.MatrixArea.matrix_width - settings.MatrixArea.padding * (graphs.targets.length - 1)) / graphs.targets.length;
-            var svgMatrix = d3.select(position).append('svg').attr('height', settings.MatrixArea.svg_height).attr('width', settings.MatrixArea.svg_width).attr('margin-top', "15px");
-            var matrix = make2Darray(graphs.sources.length, graphs.targets.length);
 
-        },
-        sort2DMatrix: function (type) {
-            var nodes = createNodesFromLinks(global_links);
-            var sourcename = JSON.parse(JSON.stringify(nodes.sources));
-            var targetname = JSON.parse(JSON.stringify(nodes.targets));
-            var local_links = JSON.parse(JSON.stringify(global_links));
-            switch (type) {
-                case "name":
-                    sourcename = sortArrayByName(sourcename);
-                    targetname = sortArrayByName(targetname);
-                    break;
-                case "numlinks":
-                    sourcename = sortArrayByLinkSize(sourcename);
-                    targetname = sortArrayByLinkSize(targetname);
-                    break;
-                case "numcount":
-                    sourcename = sortArrayByCountSize(sourcename);
-                    targetname = sortArrayByCountSize(targetname);
-                    break;
-                case "similarity":
-                    sortArrayBySimilarity(sourcename, targetname, local_links);
-                    break;
-                default:
-                    break;
-            }
-            //convert link by name to link by id
-            local_links.forEach(function (link) {
-                link.source = getIndexByName(sourcename, link.source);
-                link.target = getIndexByName(targetname, link.target);
-            });
-            var matrix = create2DMatrix(sourcename.length, targetname.length, local_links);
-            drawMatrix(sourcename, targetname, matrix, '#matrix2D')
-
-        },
-        getCallRange: function () {
-            var graphs = ExtractGraph(globalData);//Extract Graph to get all data.
-            var min = d3.min(graphs.links, function (d) {
-                return d.value.length;
-            });
-            var max = d3.max(graphs.links, function (d) {
-                return d.value.length;
-            });
-            return {mincall: min, maxcall: max}
-        },
-        updateRangeFilter: function (min, max) {
-            global_links = ExtractGraph(globalData).links.filter(function (link) {
-                return link.value.length > min;
-            });
-            d3.select("#matrix2D").selectAll("*").remove();
-            loadMatrix(global_links);
-
-        },
         connectedDomain: function () {
             var domainList = getData.getdatabyDomain;
 

@@ -2,22 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8b82504-1950-4318-aa3d-f800f494b894" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/images/robo.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/js/bin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Moi-Win7-RemoteAccess_4.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Moi-Win7-RemoteAccess_4.CSV" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/indexV1-grey.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/indexV1-grey.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/indexV2-flat.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/indexV2-flat.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/indexV3-loop.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/indexV3-loop.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/compute.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/getLibData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/init.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/init.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/getLibData.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/getLibData.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/ultility.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/ultility.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/v1main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/v1main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/v2main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/v2main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/v3main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/v3main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/main.css" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -32,80 +19,16 @@
     <SUITE FILE_PATH="coverage/MalViz$demo_html.dat" NAME="demo.html Coverage Results" MODIFIED="1554917646393" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="WipCoverageRunner" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/MalViz$index_html.dat" NAME="index.html Coverage Results" MODIFIED="1554492078163" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="WipCoverageRunner" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
-  <component name="FUSProjectUsageTrigger">
-    <session id="618830696">
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="css" value="327" />
-          <entry key="html" value="1347" />
-          <entry key="js" value="10938" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="CSS" value="327" />
-          <entry key="HTML" value="1347" />
-          <entry key="JavaScript" value="10938" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.closed" value="10" />
-          <entry key="project.open.time.0" value="2" />
-          <entry key="project.open.time.1" value="4" />
-          <entry key="project.open.time.15" value="1" />
-          <entry key="project.open.time.16" value="2" />
-          <entry key="project.open.time.2" value="1" />
-          <entry key="project.open.time.37" value="1" />
-          <entry key="project.open.time.4" value="2" />
-          <entry key="project.open.time.5" value="1" />
-          <entry key="project.opened" value="14" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="css" value="4" />
-          <entry key="gif" value="3" />
-          <entry key="gitignore" value="1" />
-          <entry key="html" value="21" />
-          <entry key="js" value="23" />
-          <entry key="md" value="1" />
-          <entry key="svg" value="1" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="CSS" value="4" />
-          <entry key="HTML" value="21" />
-          <entry key="Image" value="3" />
-          <entry key="JavaScript" value="23" />
-          <entry key="Markdown" value="1" />
-          <entry key="PLAIN_TEXT" value="1" />
-          <entry key="SVG" value="1" />
-        </counts>
-      </usages-collector>
-    </session>
-  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="355">
-              <caret line="2304" column="39" selection-start-line="2304" selection-start-column="27" selection-end-line="2304" selection-end-column="39" />
+            <state relative-caret-position="227">
+              <caret line="20" column="23" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="23" />
               <folding>
                 <element signature="n#!!block;n#DataRetrieval#0;n#!!block;n#applicationManager#0" />
-                <element signature="e#47625#57589#0" />
-                <element signature="e#57671#58449#0" />
-                <element signature="e#58580#114525#0" />
                 <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
-                <element signature="e#109714#110016#0" />
-                <element signature="e#114563#120698#0" />
-                <element signature="e#120739#147474#0" />
-                <element signature="e#147518#148186#0" />
-                <element signature="e#148226#149733#0" />
-                <element signature="e#149769#150137#0" />
-                <element signature="e#150482#152647#0" />
                 <element signature="n#!!block;n#selectAll#0" />
                 <element signature="n#!!block;n#computeNodes#0" />
                 <element signature="n#!!block;n#getIndex#0" />
@@ -121,34 +44,31 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/init.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="16" selection-start-line="16" selection-end-line="16" />
+            <state relative-caret-position="401">
+              <caret line="32" selection-start-line="32" selection-end-line="32" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/getLibData.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="838" column="10" lean-forward="true" selection-start-line="838" selection-start-column="10" selection-end-line="838" selection-end-column="10" />
+            <state relative-caret-position="-1359">
+              <caret line="1" column="9" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
               <folding>
-                <element signature="e#97#317#0" />
-                <element signature="n#!!block;n#sortArrayByName#0;n#!!block;n#loadLibData#0" />
-                <element signature="n#!!block;n#sortArrayByValue#0;n#!!block;n#loadLibData#0" />
-                <element signature="e#574#631#0" />
-                <element signature="n#!!block;n#sortArrayBySimilarity#0;n#!!block;n#loadLibData#0" />
-                <element signature="n#!!block;n#processLib#0;n#!!block;n#sortArrayBySimilarity#0;n#!!block;n#loadLibData#0" />
-                <element signature="n#!!block;n#getProcessIndex#0;n#!!block;n#sortArrayBySimilarity#0;n#!!block;n#loadLibData#0" />
-                <element signature="n#!!block;n#getLibIndex#0;n#!!block;n#sortArrayBySimilarity#0;n#!!block;n#loadLibData#0" />
-                <element signature="n#!!block;n#sortArrayByLinkSize#0;n#!!block;n#loadLibData#0" />
-                <element signature="n#!!block;n#sortArrayByCountSize#0;n#!!block;n#loadLibData#0" />
-                <element signature="n#!!block;n#create2DMatrix#0;n#!!block;n#loadLibData#0" />
-                <element signature="n#!!block;n#drawMatrix#0;n#!!block;n#loadLibData#0" />
+                <element signature="n#!!block;n#function#0;n#getIndexByName#0;n#!!block;n#libManager#0" />
+                <element signature="n#!!block;n#function#0;n#sortArrayByName#0;n#!!block;n#libManager#0" />
+                <element signature="n#!!block;n#function#0;n#sortArrayByValue#0;n#!!block;n#libManager#0" />
+                <element signature="n#!!block;n#function#0;n#sortArrayBySimilarity#0;n#!!block;n#libManager#0" />
+                <element signature="n#!!block;n#function#0;n#sortArrayByLinkSize#0;n#!!block;n#libManager#0" />
+                <element signature="n#!!block;n#function#0;n#sortArrayByCountSize#0;n#!!block;n#libManager#0" />
+                <element signature="n#!!block;n#function#0;n#create2DMatrix#0;n#!!block;n#libManager#0" />
+                <element signature="n#!!block;n#function#0;n#drawMatrix#0;n#!!block;n#libManager#0" />
                 <element signature="e#6#12#0" expanded="true" />
-                <element signature="n#!!block;n#createNodesFromLinks#0;n#!!block;n#loadLibData#0" />
-                <element signature="n#!!block;n#loadMatrix#0;n#!!block;n#loadLibData#0" />
+                <element signature="n#!!block;n#function#0;n#createNodesFromLinks#0;n#!!block;n#libManager#0" />
+                <element signature="n#!!block;n#function#0;n#loadMatrix#0;n#!!block;n#libManager#0" />
                 <element signature="e#6#12#0" expanded="true" />
+                <element signature="n#!!block;n#ExtractGraph#0;n#!!block;n#libManager#0" />
               </folding>
             </state>
           </provider>
@@ -166,8 +86,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/ultility.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="404">
-              <caret line="165" selection-start-line="165" selection-end-line="165" />
+            <state>
+              <caret column="9" selection-start-column="9" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -175,20 +95,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/bin.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1196">
+            <state relative-caret-position="8272">
               <caret line="376" selection-start-line="376" selection-end-line="376" />
-              <folding>
-                <element signature="e#6#12#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="617">
-              <caret line="421" column="67" lean-forward="true" selection-start-line="421" selection-start-column="67" selection-end-line="421" selection-end-column="67" />
+            <state relative-caret-position="435">
+              <caret line="129" column="71" lean-forward="true" selection-start-line="129" selection-start-column="71" selection-end-line="129" selection-end-column="71" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -209,8 +126,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>arc</find>
-      <find>selectALL()</find>
       <find>arcdr</find>
       <find>rectD</find>
       <find>disco</find>
@@ -239,6 +154,8 @@
       <find>btn-floa</find>
       <find>chevron</find>
       <find>ops</find>
+      <find>: function</find>
+      <find>extractg</find>
     </findStrings>
     <replaceStrings>
       <replace>op0</replace>
@@ -302,18 +219,12 @@
         <option value="$PROJECT_DIR$/js/bin.js" />
         <option value="$PROJECT_DIR$/js/compute.js" />
         <option value="$PROJECT_DIR$/js/main.js" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/getLibData.js" />
+        <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
   </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsGulpfileManager">
-    <detection-done>true</detection-done>
-    <sorting>DEFINITION_ORDER</sorting>
-  </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
     <option name="width" value="973" />
     <option name="height" value="1417" />
@@ -340,7 +251,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -377,6 +287,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -417,26 +328,26 @@
     </option>
   </component>
   <component name="RunManager" selected="JavaScript Debug.index.html">
-    <configuration name="indexV2-flat.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/MalViz/html/indexV2-flat.html">
+    <configuration name="indexV2-flat.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/MalViz/html/indexV2-flat.html">
       <method v="2" />
     </configuration>
-    <configuration name="indexV3-loop.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/MalViz/html/indexV3-loop.html">
+    <configuration name="indexV3-loop.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/MalViz/html/indexV3-loop.html">
+      <method v="2" />
+    </configuration>
+    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/MalViz/index.html">
       <method v="2" />
     </configuration>
     <configuration name="index.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/MalViz/index.html">
       <method v="2" />
     </configuration>
-    <configuration name="index.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/MalViz/index.html">
-      <method v="2" />
-    </configuration>
-    <configuration name="main.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" nameIsGenerated="true" path-to-js-file="main.js" working-dir="$PROJECT_DIR$/js">
+    <configuration name="main.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="main.js" working-dir="$PROJECT_DIR$/js">
       <method v="2" />
     </configuration>
     <list>
       <item itemvalue="JavaScript Debug.indexV2-flat.html" />
-      <item itemvalue="Node.js.main.js" />
       <item itemvalue="JavaScript Debug.indexV3-loop.html" />
       <item itemvalue="JavaScript Debug.index.html" />
+      <item itemvalue="Node.js.main.js" />
     </list>
     <recent_temporary>
       <list>
@@ -526,23 +437,24 @@
       <workItem from="1558398121159" duration="956000" />
       <workItem from="1558399737964" duration="1104000" />
       <workItem from="1558468131096" duration="14215000" />
+      <workItem from="1558490518220" duration="1563000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="705674000" />
+    <option name="totallyTimeSpent" value="707237000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="973" height="1417" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="877" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.32983193" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14587738" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32849503" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32925898" />
-      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.1695951" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.1695951" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -568,9 +480,6 @@
         <option value="1" />
       </list>
     </option>
-  </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/data/Vung-Win7-Generic.CSV" />
@@ -769,26 +678,12 @@
     <entry file="file://$PROJECT_DIR$/images/robo.svg">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/images/robo_2.gif">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/images/robo.gif">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/init.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/images/robo_2.gif" />
+    <entry file="file://$PROJECT_DIR$/images/robo.gif" />
     <entry file="file://$PROJECT_DIR$/js/bin.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1196">
+        <state relative-caret-position="8272">
           <caret line="376" selection-start-line="376" selection-end-line="376" />
-          <folding>
-            <element signature="e#6#12#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -799,40 +694,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/ultility.js">
+    <entry file="file://$PROJECT_DIR$/js/init.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="165" selection-start-line="165" selection-end-line="165" />
+        <state relative-caret-position="401">
+          <caret line="32" selection-start-line="32" selection-end-line="32" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/js/ultility.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="617">
-          <caret line="421" column="67" lean-forward="true" selection-start-line="421" selection-start-column="67" selection-end-line="421" selection-end-column="67" />
+        <state>
+          <caret column="9" selection-start-column="9" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/getLibData.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1359">
+          <caret line="1" column="9" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#!!block;n#function#0;n#getIndexByName#0;n#!!block;n#libManager#0" />
+            <element signature="n#!!block;n#function#0;n#sortArrayByName#0;n#!!block;n#libManager#0" />
+            <element signature="n#!!block;n#function#0;n#sortArrayByValue#0;n#!!block;n#libManager#0" />
+            <element signature="n#!!block;n#function#0;n#sortArrayBySimilarity#0;n#!!block;n#libManager#0" />
+            <element signature="n#!!block;n#function#0;n#sortArrayByLinkSize#0;n#!!block;n#libManager#0" />
+            <element signature="n#!!block;n#function#0;n#sortArrayByCountSize#0;n#!!block;n#libManager#0" />
+            <element signature="n#!!block;n#function#0;n#create2DMatrix#0;n#!!block;n#libManager#0" />
+            <element signature="n#!!block;n#function#0;n#drawMatrix#0;n#!!block;n#libManager#0" />
+            <element signature="e#6#12#0" expanded="true" />
+            <element signature="n#!!block;n#function#0;n#createNodesFromLinks#0;n#!!block;n#libManager#0" />
+            <element signature="n#!!block;n#function#0;n#loadMatrix#0;n#!!block;n#libManager#0" />
+            <element signature="e#6#12#0" expanded="true" />
+            <element signature="n#!!block;n#ExtractGraph#0;n#!!block;n#libManager#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="2304" column="39" selection-start-line="2304" selection-start-column="27" selection-end-line="2304" selection-end-column="39" />
+        <state relative-caret-position="227">
+          <caret line="20" column="23" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="23" />
           <folding>
             <element signature="n#!!block;n#DataRetrieval#0;n#!!block;n#applicationManager#0" />
-            <element signature="e#47625#57589#0" />
-            <element signature="e#57671#58449#0" />
-            <element signature="e#58580#114525#0" />
             <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
-            <element signature="e#109714#110016#0" />
-            <element signature="e#114563#120698#0" />
-            <element signature="e#120739#147474#0" />
-            <element signature="e#147518#148186#0" />
-            <element signature="e#148226#149733#0" />
-            <element signature="e#149769#150137#0" />
-            <element signature="e#150482#152647#0" />
             <element signature="n#!!block;n#selectAll#0" />
             <element signature="n#!!block;n#computeNodes#0" />
             <element signature="n#!!block;n#getIndex#0" />
@@ -844,27 +748,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/getLibData.js">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="838" column="10" lean-forward="true" selection-start-line="838" selection-start-column="10" selection-end-line="838" selection-end-column="10" />
+        <state relative-caret-position="435">
+          <caret line="129" column="71" lean-forward="true" selection-start-line="129" selection-start-column="71" selection-end-line="129" selection-end-column="71" />
           <folding>
-            <element signature="e#97#317#0" />
-            <element signature="n#!!block;n#sortArrayByName#0;n#!!block;n#loadLibData#0" />
-            <element signature="n#!!block;n#sortArrayByValue#0;n#!!block;n#loadLibData#0" />
-            <element signature="e#574#631#0" />
-            <element signature="n#!!block;n#sortArrayBySimilarity#0;n#!!block;n#loadLibData#0" />
-            <element signature="n#!!block;n#processLib#0;n#!!block;n#sortArrayBySimilarity#0;n#!!block;n#loadLibData#0" />
-            <element signature="n#!!block;n#getProcessIndex#0;n#!!block;n#sortArrayBySimilarity#0;n#!!block;n#loadLibData#0" />
-            <element signature="n#!!block;n#getLibIndex#0;n#!!block;n#sortArrayBySimilarity#0;n#!!block;n#loadLibData#0" />
-            <element signature="n#!!block;n#sortArrayByLinkSize#0;n#!!block;n#loadLibData#0" />
-            <element signature="n#!!block;n#sortArrayByCountSize#0;n#!!block;n#loadLibData#0" />
-            <element signature="n#!!block;n#create2DMatrix#0;n#!!block;n#loadLibData#0" />
-            <element signature="n#!!block;n#drawMatrix#0;n#!!block;n#loadLibData#0" />
-            <element signature="e#6#12#0" expanded="true" />
-            <element signature="n#!!block;n#createNodesFromLinks#0;n#!!block;n#loadLibData#0" />
-            <element signature="n#!!block;n#loadMatrix#0;n#!!block;n#loadLibData#0" />
-            <element signature="e#6#12#0" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
