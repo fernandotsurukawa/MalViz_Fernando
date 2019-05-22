@@ -290,6 +290,7 @@ function applicationManager(globalData) {
                 }
             });
 
+            // mutual
             var updated_data = UpdateProcessNameWithChild(group_by_process_name, haveChild);
 
             for (var i = 0; i < updated_data.length; i++) {
@@ -320,10 +321,10 @@ function applicationManager(globalData) {
             }
 
             updated_data.sort(function (a, b) {
-                if (getSuccessors(a, [], 0).length < getSuccessors(b, [], 0).length) {
+                if (getSuccessors(a, []).length < getSuccessors(b, []).length) {
                     return 1;
                 }
-                else if (getSuccessors(a, [], 0).length > getSuccessors(b, [], 0).length) {
+                else if (getSuccessors(a, []).length > getSuccessors(b, []).length) {
                     return -1;
                 }
                 else {
@@ -343,14 +344,12 @@ function applicationManager(globalData) {
             for (var i = 0; i < updated_data.length; i++) {
                 dfs(updated_data[i], orderedArray);
             }
-            orderedArray = updated_data;
 
             // DFS - convert tree to array using DFS
             function dfs(o, array) {
                 if (o.isDone == undefined) {
                     array.push(o);
                     o.isDone = true;
-                    // set true
                     if (o.children != undefined) {
                         for (var i = 0; i < o.children.length; i++) {
                             dfs(o.children[i], array);
@@ -360,22 +359,7 @@ function applicationManager(globalData) {
             }
 
             // DFS
-            // function getSuccessors(o, array, count) {
-            //     if (o.children != undefined) {
-            //         for (var i = 0; i < o.children.length; i++) {
-            //             array.push(o.children[i]);
-            //         }
-            //         count += 1;
-            //         if (count < 3) {
-            //             for (var i = 0; i < o.children.length; i++) {
-            //                 getSuccessors(o.children[i], array)
-            //             }
-            //         }
-            //
-            //     }
-            //     return array;
-            // }
-            function getSuccessors(o, array, count) {
+            function getSuccessors(o, array) {
                 if (o.children != undefined) {
                     for (var i = 0; i < o.children.length; i++) {
                         array.push(o.children[i]);
@@ -385,17 +369,6 @@ function applicationManager(globalData) {
                     }
                 }
                 return array;
-            }
-
-            // get sum of distance of arcs
-            function calculateDistance(orderedArray) {
-                var sum = 0;
-                orderedArray.forEach((parentProcess, pIndex) => {
-                    d3.keys(parentProcess.childInfo).forEach(childProcess => {
-                        sum += parentProcess.childInfo[childProcess].length * Math.abs(getProcessNameIndex(orderedArray, childProcess) - pIndex)
-                    })
-                });
-                return sum;
             }
 
             var margin_left = 30;  // min margin = 30
@@ -2312,7 +2285,7 @@ function applicationManager(globalData) {
     }
 
 }
-
+var orderedArray;
 function getColor(type) {
     return stackColor[categories.indexOf(type)];
 }
@@ -2515,6 +2488,16 @@ function getCentroidFromHull(array){
         sumY += d.y;
     });
     return [sumX/len, sumY/len]
+}
+// get sum of distance of arcs
+function calculateDistance(orderedArray) {
+    var sum = 0;
+    orderedArray.forEach((parentProcess, pIndex) => {
+        d3.keys(parentProcess.childInfo).forEach(childProcess => {
+            sum += parentProcess.childInfo[childProcess].length * Math.abs(getProcessNameIndex(orderedArray, childProcess) - pIndex)
+        })
+    });
+    return sum;
 }
 // constructs the network to visualize
 // var gcen = {};
