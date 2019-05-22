@@ -374,3 +374,100 @@ function adjustHeight(nodes, item, expand, height) {
     }
     else return false;
 }
+
+d3.select(position).selectAll("*").remove();
+var lines = [];
+var group_by_process_name = getData.getdatabyProcessName;
+var group_by_process_create = getData.getdatabyOperation;
+group_by_process_create = group_by_process_create.filter(function (value) {
+    return value.key == 'Process Create'
+})[0].values;
+var updated_data = UpdateProcessNameWithChild(group_by_process_name, group_by_process_create);
+for (var i = 0; i < updated_data.length; i++) {
+    updated_data[i].children = [];
+    for (var j = 0; j < updated_data[i].childs.length; j++) {
+        var obj = updated_data[updated_data[i].childs[j]];
+        updated_data[i].children.push(obj);
+    }
+    // sort children
+    updated_data[i].children.sort(function (a, b) {
+        if (a.childs.length < b.childs.length) {
+            return -1;
+        }
+        else if (a.childs.length > b.childs.length) {
+            return 1;
+        }
+        else {
+            if (a.values[0].Step < b.values[0].Step) {
+                return 1;
+            }
+            else if (a.values[0].Step > b.values[0].Step) {
+                return -1;
+            }
+            else
+                return 0;
+        }
+    });
+}
+
+updated_data.sort(function (a, b) {
+    if (getSuccessors(a, []).length < getSuccessors(b, []).length) {
+        return 1;
+    }
+    else if (getSuccessors(a, []).length > getSuccessors(b, []).length) {
+        return -1;
+    }
+    else {
+        if (a.values[0].Step < b.values[0].Step) {
+            return -1;
+        }
+        else if (a.values[0].Step > b.values[0].Step) {
+            return 1;
+        }
+        else
+            return 0;
+    }
+});
+var orderedArray = [];
+var nextIndex = 0;
+
+for (var i = 0; i < updated_data.length; i++) {
+    dfs(updated_data[i], orderedArray);
+}
+
+// DFS
+function dfs(o, array) {
+    if (o.isDone == undefined) {
+        array.push(o);
+        o.isDone = true;
+        if (o.children != undefined) {
+            for (var i = 0; i < o.children.length; i++) {
+                dfs(o.children[i], array);
+            }
+        }
+    }
+}
+
+// DFS
+function getSuccessors(o, array) {
+    if (o.children != undefined) {
+        for (var i = 0; i < o.children.length; i++) {
+            array.push(o.children[i]);
+        }
+        for (var i = 0; i < o.children.length; i++) {
+            getSuccessors(o.children[i], array)
+        }
+    }
+    return array;
+}
+
+group_by_process_name.forEach(function (d) {
+    d.position = getProcessNameIndex(orderedArray, d.key);
+});
+group_by_process_name = group_by_process_name.sort(function (a, b) {
+    return a.position - b.position;
+});
+// orderedArray is the topological ordering
+//  debugger;
+
+var margin_left = 20;
