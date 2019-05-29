@@ -23,6 +23,12 @@ var lensingStatus = false;
 var orderedArray = [];
 var maxLink = 1;
 var availableCommon;
+var maxBin;
+var maxCall = 0, minCall = 0;
+var xScale, yScale;
+var streamHeightScale;
+var area;
+var streamEvent = false;
 const categories = ["Registry", "Network", "File", "exe", "dll"];
 const stackColor = ["#247b2b", "#a84553", "#c37e37", "#396bab", "#7e7e7e"];
 const scaleHeight = d3.scaleThreshold()
@@ -36,5 +42,9 @@ var scaleLimit = d3.scaleThreshold()
 const scaleHeightAfter = d3.scaleThreshold()
     .domain([10, 40, 120, 500, 1300, 2500])
     .range([80, 150, 300, 500, 600, 1000, 1500]);
+
+const stack = d3.stack().keys(categories)     // create stack function
+    .offset(d3.stackOffsetSilhouette)
+;
 
 // let halfLen = len % 2 === 0 ? len / 2 : (len - 1) / 2;

@@ -727,12 +727,13 @@ function applicationManager(globalData) {
                             }
                         });
 
-                        svg_process.selectAll(".stream")
-                        // .transition().duration(t)
-                            .attr("d", area.x(function (d, i) {
-                                return StepScale(xScale(i), true) + margin_left;
-                            }));
-
+                        if (streamEvent) {
+                            svg_process.selectAll(".stream")
+                            // .transition().duration(t)
+                                .attr("d", area.x(function (d, i) {
+                                    return StepScale(xScale(i), true) + margin_left;
+                                }));
+                        }
                         group_by_process_name.forEach(function (row, index) {
                             svg_process.selectAll(".malName" + index)
                             // .transition().duration(t)
@@ -776,11 +777,8 @@ function applicationManager(globalData) {
 
 
             // stream calculation ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～
-            // ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～ ～
 
-            var maxBin;
-            var maxCall = 0, minCall = 0;
-
+            var streamGroup = [];
             function stream(group_by_process_name, globalData) {
                 var group = group_by_process_name;
                 var global_data = globalData;
@@ -864,41 +862,69 @@ function applicationManager(globalData) {
                         calls: process.calls
                     }
                 });
-
                 return a;
             }
 
-            var streamData = stream(group_by_process_name, globalData);
+            function streamToggle() {
+                if (!streamEvent){
+                    var streamData = stream(group_by_process_name, globalData);
 
-            var xScale = d3.scaleLinear()
-                .domain([0, maxBin])
-                .range([0, maxStep]);
+                    xScale = d3.scaleLinear()
+                        .domain([0, maxBin])
+                        .range([0, maxStep]);
 
-            var yScale = d3.scalePoint()
-                .domain(d3.range(streamData.length))
-                .range([0, svgheight]);
+                    yScale = d3.scalePoint()
+                        .domain(d3.range(streamData.length))
+                        .range([0, svgheight]);
 
-            var streamHeightScale =
-                d3.scaleSqrt()
-                    .domain([minCall, maxCall])
-                    .range([-rect_normal_height / 2, rect_normal_height / 2]);
+                    streamHeightScale =
+                        d3.scaleSqrt()
+                            .domain([minCall, maxCall])
+                            .range([-rect_normal_height / 2, rect_normal_height / 2]);
 
-            const stack = d3.stack().keys(categories)     // create stack function
-                .offset(d3.stackOffsetSilhouette)
-            ;
+                    area = d3.area()
+                        .x(function (d, i) {
+                            return StepScale(xScale(i)) + margin_left;
+                        })
+                        .y0(function (d) {
+                            return streamHeightScale(d[0])
+                        })
+                        .y1(function (d) {
+                            return streamHeightScale(d[1])
+                        })
+                        .curve(d3.curveCatmullRom);
+                    group_by_process_name.forEach(function (row, index) {
+                        var stacks = stack(streamData[index].calls);
+                        streamGroup[index].selectAll("path")
+                            .data(stacks)
+                            .enter().append("path")
+                            .attr("transform", "translate(0" + "," + (rectSpacing + rect_normal_height) + ")")
+                            .attr("class", "stream")
+                            .attr("d", area)
+                            .attr("fill", (d, i) => stackColor[i])
+                        ;
+                    });
+                    console.log(undefined);
+                    streamEvent = 1;
+                    document.getElementById("streamCheck").checked = true;
+                    return true;
+                }
+                else if (streamEvent === 1){
+                    d3.selectAll(".stream")
+                        .attr("visibility", "hidden");
+                    streamEvent = 2;
+                    return false;
+                }
+                else if (streamEvent === 2){
+                    d3.selectAll(".stream")
+                        .attr("visibility", "visible");
+                    streamEvent = 1;
+                    return true;
+                }
 
-            var area = d3.area()
-                .x(function (d, i) {
-                    return StepScale(xScale(i)) + margin_left;
-                })
-                .y0(function (d) {
-                    return streamHeightScale(d[0])
-                })
-                .y1(function (d) {
-                    return streamHeightScale(d[1])
-                })
-                .curve(d3.curveCatmullRom);
 
+            }
+            d3.select("#streamCheck").on("click", streamToggle);
 
             group_by_process_name.forEach(function (row, index) {
                 var group = svg_process.append('g')
@@ -927,16 +953,12 @@ function applicationManager(globalData) {
                 });
 
                 // streamDraw =========================
-                var stacks = stack(streamData[index].calls);
-                group.selectAll("path")
-                    .data(stacks)
-                    .enter().append("path")
-                    .attr("transform", "translate(0" + "," + (rectSpacing + rect_normal_height) + ")")
-                    .attr("class", "stream")
-                    .attr("d", area)
-                    .attr("fill", (d, i) => stackColor[i])
-                ;
 
+                streamGroup[index] = group.append("g")
+                    .attr("id", "streamGroup" + index)
+
+
+                // streamDraw =========================
                 // textDraw
                 var arcActive, firstClick;
                 group.append('text')
@@ -1154,13 +1176,13 @@ function applicationManager(globalData) {
                         })
                     }
                 });
-
-                svg_process.selectAll(".stream")
-                // .transition().duration(200)
-                    .attr("d", area.x(function (d, i) {
-                        return StepScale(xScale(i)) + margin_left;
-                    }));
-
+                if (streamEvent) {
+                    svg_process.selectAll(".stream")
+                    // .transition().duration(200)
+                        .attr("d", area.x(function (d, i) {
+                            return StepScale(xScale(i)) + margin_left;
+                        }));
+                }
                 group_by_process_name.forEach(function (row, index) {
                     svg_process.selectAll(".malName" + index)
                     // .transition().duration(200)
@@ -1914,7 +1936,8 @@ function applicationManager(globalData) {
 
                 let initX = wPosition, initY = hPosition;
                 let removePosX = initX, removePosY = initY;
-
+                var lineGenerator = d3.line()
+                    .curve(d3.curveNatural);
                 init();
                 svg.attr("opacity", 1e-6)
                     .transition()
@@ -1955,7 +1978,7 @@ function applicationManager(globalData) {
                         .force("link", d3.forceLink()
                             .distance(function (l) {
                                 let n1 = l.source, n2 = l.target;
-                                let defaultValue = 40
+                                let defaultValue = 50
                                     + Math.min(20 * Math.min((n1.size || (n1.group != n2.group ? n1.group_data.size : 0)),
                                         (n2.size || (n1.group != n2.group ? n2.group_data.size : 0))),
                                         -30 +
@@ -2145,7 +2168,7 @@ function applicationManager(globalData) {
                             if (d.nodes) {
                                 div5.transition()
                                     .duration(100)
-                                    .style("opacity", 0.8);
+                                    .style("opacity", 1);
 
                                 div5.html('Type: ' +
                                     '<text class = "bold"> ' + d.nodes[0].type + "</text>" +
@@ -2155,7 +2178,7 @@ function applicationManager(globalData) {
                                     .style("left", (d3.event.pageX) + 10 + "px")
                                     .style("top", (d3.event.pageY - 20) + "px")
                                     .style("pointer-events", "none")
-                                    .style("background-color", () => {
+                                    .style("color", () => {
                                             return getColor(d.nodes[0].type)
                                         }
                                     )
@@ -2192,9 +2215,6 @@ function applicationManager(globalData) {
                         d.fx = null;
                         d.fy = null;
                     }
-
-                    var lineGenerator = d3.line()
-                        .curve(d3.curveNatural);
 
                     // Tick function
                     function ticked() {

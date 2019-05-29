@@ -232,7 +232,11 @@
             <div class="w3-half w3-container" style="width:20%">
                 <div class="w3-row">
                     <div class="w3-container w3-white">
-                        <p><b>Reference Types /<br> Underlay Stream</b></p>
+                        <p><b>Underlay Stream</b>
+                        <input type="checkbox" id="streamCheck"
+                               >
+                        </p>
+                        <p><b>Reference Types</b></p>
                         <div class="w3-container w3-white" style="padding-right: 0">
                             <div id="legend"></div>
                         </div>
@@ -356,9 +360,11 @@
 
     let init = function (filePath) {
         lensingStatus = false;
+        streamEvent = false;
         rankEvent = 0;
         libEvent = 0;
         closeNav();
+        document.getElementById("streamCheck").checked = false;
         d3.queue()
             .defer(d3.csv, "data/" + filePath, function (d) {
                 return {
@@ -383,17 +389,17 @@
                     SiteManager.drawMain('#heatmap');//Draw mainMap
                     SiteManager.connectedDomain();
                     // for running --------------------
-                    // d3.select("#sideNavbtn")
-                    //     .on("click", () => {
-                    //         if (rankEvent == 1) {
-                    //             SiteManager.highlight('#ranked'); // hightlight
-                    //             rankEvent = 2;
-                    //         }
-                    //     });
+                    d3.select("#sideNavbtn")
+                        .on("click", () => {
+                            if (rankEvent == 1) {
+                                SiteManager.highlight('#ranked'); // hightlight
+                                rankEvent = 2;
+                            }
+                        });
 
                     // for testing --------------------
-                    openNav();
-                    SiteManager.highlight('#ranked');
+                    // openNav();
+                    // SiteManager.highlight('#ranked');
                     // --------------------------------
 
                     d3.select("#libTabName")

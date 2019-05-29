@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8b82504-1950-4318-aa3d-f800f494b894" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/js/compute.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/bin.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/bin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/init.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/init.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/v3main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/v3main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/styles/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles/main.css" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -27,7 +25,7 @@
     <window id="1">
       <content type="file-editors">
         <state>
-          <leaf>
+          <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
             <file pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/js/v3main.js">
                 <provider selected="true" editor-type-id="text-editor">
@@ -46,37 +44,44 @@
     <session id="618830696">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
+          <entry key="project.closed" value="4" />
           <entry key="project.open.time.1" value="3" />
+          <entry key="project.open.time.15" value="1" />
           <entry key="project.open.time.20" value="1" />
           <entry key="project.open.time.33" value="1" />
-          <entry key="project.opened" value="5" />
+          <entry key="project.opened" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
+          <entry key="CSV" value="6" />
           <entry key="css" value="34" />
-          <entry key="html" value="18" />
-          <entry key="js" value="1442" />
+          <entry key="csv" value="6" />
+          <entry key="html" value="108" />
+          <entry key="js" value="2040" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="34" />
-          <entry key="HTML" value="18" />
-          <entry key="JavaScript" value="1442" />
+          <entry key="CSV" value="12" />
+          <entry key="HTML" value="108" />
+          <entry key="JavaScript" value="2040" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
+          <entry key="CSV" value="2" />
+          <entry key="csv" value="2" />
           <entry key="html" value="4" />
-          <entry key="js" value="10" />
+          <entry key="js" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
+          <entry key="CSV" value="4" />
           <entry key="HTML" value="4" />
-          <entry key="JavaScript" value="10" />
+          <entry key="JavaScript" value="11" />
         </counts>
       </usages-collector>
     </session>
@@ -86,8 +91,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="782">
-              <caret line="2155" column="52" selection-start-line="2155" selection-start-column="52" selection-end-line="2155" selection-end-column="52" />
+            <state relative-caret-position="6884">
+              <caret line="926" column="35" selection-start-line="926" selection-start-column="24" selection-end-line="926" selection-end-column="35" />
               <folding>
                 <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
               </folding>
@@ -96,19 +101,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/html/indexV3-loop.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="268" column="43" selection-start-line="268" selection-start-column="43" selection-end-line="268" selection-end-column="43" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/init.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="20" column="12" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="12" />
+            <state relative-caret-position="620">
+              <caret line="30" column="23" selection-start-line="30" selection-start-column="18" selection-end-line="30" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -116,9 +112,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/getLibData.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="24">
-              <caret line="1" column="9" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
+            <state relative-caret-position="72">
+              <caret line="3" column="18" lean-forward="true" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
               <folding>
+                <element signature="e#6#12#0" expanded="true" />
+                <element signature="e#6#12#0" expanded="true" />
                 <element signature="n#!!block;n#ExtractGraph#0;n#!!block;n#libManager#0" />
               </folding>
             </state>
@@ -137,8 +135,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/ultility.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4656">
-              <caret line="194" column="1" selection-start-line="194" selection-start-column="1" selection-end-line="194" selection-end-column="1" />
+            <state relative-caret-position="268">
+              <caret line="80" column="9" lean-forward="true" selection-start-line="80" selection-start-column="9" selection-end-line="80" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -146,10 +144,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="319" column="8" lean-forward="true" selection-start-line="319" selection-start-column="8" selection-end-line="319" selection-end-column="8" />
+            <state relative-caret-position="334">
+              <caret line="354" column="52" lean-forward="true" selection-start-line="354" selection-start-column="52" selection-end-line="354" selection-end-column="52" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="e#20051#22189#0" />
               </folding>
             </state>
           </provider>
@@ -168,14 +167,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>outlin</find>
-      <find>Number of</find>
-      <find>ttMatrix</find>
-      <find>Number of calls</find>
-      <find>global_links</find>
-      <find>loading</find>
-      <find>titleDomain</find>
-      <find>libraries called</find>
       <find>paris</find>
       <find>defaultOpen</find>
       <find>rankBtn</find>
@@ -198,6 +189,14 @@
       <find>main</find>
       <find>tool</find>
       <find>mouseover</find>
+      <find>Time_of_Day</find>
+      <find>xscale</find>
+      <find>selectAll(&quot;.stream&quot;)</find>
+      <find>lensing</find>
+      <find>streamev</find>
+      <find>stream</find>
+      <find>strea</find>
+      <find>refer</find>
     </findStrings>
     <replaceStrings>
       <replace>op0</replace>
@@ -212,7 +211,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/lib/d3.v5.min.js" />
         <option value="$PROJECT_DIR$/test/opioid_province.csv" />
         <option value="$PROJECT_DIR$/test/marker.html" />
         <option value="$PROJECT_DIR$/README.md" />
@@ -223,7 +221,6 @@
         <option value="$PROJECT_DIR$/lib/underscore.js" />
         <option value="$PROJECT_DIR$/main.css" />
         <option value="$PROJECT_DIR$/js/processData.html" />
-        <option value="$PROJECT_DIR$/data/Huyen-Ransomware-WannaPeace.csv" />
         <option value="$PROJECT_DIR$/processData.html" />
         <option value="$PROJECT_DIR$/test.html" />
         <option value="$PROJECT_DIR$/metadata/procmon" />
@@ -249,20 +246,22 @@
         <option value="$PROJECT_DIR$/styles/v2main.css" />
         <option value="$PROJECT_DIR$/html/indexV3.html" />
         <option value="$PROJECT_DIR$/js/computing.js" />
-        <option value="$PROJECT_DIR$/html/indexV3-loop.html" />
         <option value="$PROJECT_DIR$/html/preloop.html" />
         <option value="$PROJECT_DIR$/preloop.html" />
         <option value="$PROJECT_DIR$/index1.html" />
         <option value="$PROJECT_DIR$/js/preloop.js" />
         <option value="$PROJECT_DIR$/js/getLibData.js" />
-        <option value="$PROJECT_DIR$/js/init.js" />
         <option value="$PROJECT_DIR$/js/ultility.js" />
         <option value="$PROJECT_DIR$/js/compute.js" />
         <option value="$PROJECT_DIR$/js/v3main.js" />
         <option value="$PROJECT_DIR$/js/bin.js" />
-        <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/styles/main.css" />
+        <option value="$PROJECT_DIR$/html/indexV3-loop.html" />
         <option value="$PROJECT_DIR$/js/main.js" />
+        <option value="$PROJECT_DIR$/styles/main.css" />
+        <option value="$PROJECT_DIR$/data/9BackdoorTrojanGeneric.CSV" />
+        <option value="$PROJECT_DIR$/data/Huyen-Ransomware-WannaPeace.csv" />
+        <option value="$PROJECT_DIR$/js/init.js" />
+        <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
   </component>
@@ -274,7 +273,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="1232" />
+    <option name="width" value="1171" />
     <option name="height" value="1417" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -306,6 +305,11 @@
             <path>
               <item name="MalViz" type="b2602c69:ProjectViewProjectNode" />
               <item name="MalViz" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MalViz" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MalViz" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="MalViz" type="b2602c69:ProjectViewProjectNode" />
@@ -384,6 +388,9 @@
       <method v="2" />
     </configuration>
     <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/MalViz/index.html">
+      <method v="2" />
+    </configuration>
+    <configuration name="index.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/MalViz/index.html">
       <method v="2" />
     </configuration>
     <configuration name="index.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/MalViz/index.html">
@@ -500,18 +507,19 @@
       <workItem from="1558562202581" duration="4416000" />
       <workItem from="1558721541962" duration="10107000" />
       <workItem from="1559076565238" duration="8000" />
-      <workItem from="1559076602805" duration="9154000" />
+      <workItem from="1559076602805" duration="9525000" />
+      <workItem from="1559155434983" duration="9816000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="738723000" />
+    <option name="totallyTimeSpent" value="748910000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1232" height="1417" extended-state="0" />
+    <frame x="0" y="23" width="1171" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49961802" weight="0.18827416" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49961802" visible="true" weight="0.19478261" />
       <window_info id="Structure" order="1" sideWeight="0.50038195" side_tool="true" weight="0.31604537" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -548,24 +556,10 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/data/Moi-Win7-RemoteAccess_1.CSV">
-      <provider selected="true" editor-type-id="LargeFileEditor">
-        <state relative-caret-position="-1">
-          <caret column="6" selection-start-column="6" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/faran-7-vs-backdoor-9.CSV">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/data/csvMedium.csv" />
-    <entry file="file://$PROJECT_DIR$/data/Huyen-Ransomware-WannaPeace.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="3" column="233" selection-start-line="3" selection-start-column="233" selection-end-line="3" selection-end-column="233" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/faran-7-vs-backdoor-10.CSV">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -732,23 +726,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/getLibData.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="1" column="9" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
-          <folding>
-            <element signature="n#!!block;n#ExtractGraph#0;n#!!block;n#libManager#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/ultility.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4656">
-          <caret line="194" column="1" selection-start-line="194" selection-start-column="1" selection-end-line="194" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/compute.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2808">
@@ -763,17 +740,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/init.js">
+    <entry file="file://$PROJECT_DIR$/html/indexV3-loop.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="20" column="12" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="12" />
+        <state relative-caret-position="425">
+          <caret line="50" column="36" selection-start-line="50" selection-start-column="31" selection-end-line="50" selection-end-column="36" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/html/indexV3-loop.html">
+    <entry file="file://$PROJECT_DIR$/data/Huyen-Ransomware-WannaPeace.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="268" column="43" selection-start-line="268" selection-start-column="43" selection-end-line="268" selection-end-column="43" />
+        <state relative-caret-position="48">
+          <caret line="1" column="133" lean-forward="true" selection-start-line="1" selection-start-column="133" selection-end-line="1" selection-end-column="133" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/9BackdoorTrojanGeneric.CSV">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="23" selection-start-column="23" selection-end-column="23" />
         </state>
       </provider>
     </entry>
@@ -786,20 +770,47 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="782">
-          <caret line="2155" column="52" selection-start-line="2155" selection-start-column="52" selection-end-line="2155" selection-end-column="52" />
+        <state relative-caret-position="6884">
+          <caret line="926" column="35" selection-start-line="926" selection-start-column="24" selection-end-line="926" selection-end-column="35" />
           <folding>
             <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/ultility.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="80" column="9" lean-forward="true" selection-start-line="80" selection-start-column="9" selection-end-line="80" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/getLibData.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="3" column="18" lean-forward="true" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
+          <folding>
+            <element signature="e#6#12#0" expanded="true" />
+            <element signature="e#6#12#0" expanded="true" />
+            <element signature="n#!!block;n#ExtractGraph#0;n#!!block;n#libManager#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/init.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="620">
+          <caret line="30" column="23" selection-start-line="30" selection-start-column="18" selection-end-line="30" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="319" column="8" lean-forward="true" selection-start-line="319" selection-start-column="8" selection-end-line="319" selection-end-column="8" />
+        <state relative-caret-position="334">
+          <caret line="354" column="52" lean-forward="true" selection-start-line="354" selection-start-column="52" selection-end-line="354" selection-end-column="52" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#20051#22189#0" />
           </folding>
         </state>
       </provider>
