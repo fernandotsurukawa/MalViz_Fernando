@@ -251,6 +251,20 @@ div.tooltip3 {
 .tooltip3 .bold {
     font-weight: bold;
 }
+div.tooltip5 {
+    position: absolute;
+    text-align: center;
+    width: auto;
+    height: auto;
+    padding: 5px;
+    font: 12px sans-serif;
+    background: #bbb;
+    border: 1px;
+    border-color: black;
+    border-radius: 8px;
+    pointer-events: none;
+    z-index: 100;
+}
 /*.tooltip2 span {*/
 /*padding-top:7px;*/
 /*padding-bottom: 8px;*/

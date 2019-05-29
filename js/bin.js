@@ -385,3 +385,11 @@ function calculateDistance(orderedArray) {
     });
     return sum;
 }
+
+if (d.dummy){
+    return 100
+}
+else if ((d.size === 1) && (d.nodes[0].type === "exe")){
+    return 100
+}
+else return -200;

@@ -3012,10 +3012,7 @@ function applicationManager(globalData) {
                     .force("link", d3.forceLink()
                             .id(d => d.id)
                         .distance(d => {
-                            if (d.self === 1){
-                                return 15
-                            }
-                            else if (d.self === 2){
+                            if (d.self){
                                 return 15
                             }
                             else if ((list.indexOf(d.source.id) >=0)
@@ -3025,10 +3022,7 @@ function applicationManager(globalData) {
                             else return 30
                         })
                         .strength(d => {
-                            if (d.self === 1){
-                                return 1
-                            }
-                            else if (d.self === 2){
+                            if (d.self){
                                 return 1
                             }
                             else if ((list.indexOf(d.source.id) >=0)

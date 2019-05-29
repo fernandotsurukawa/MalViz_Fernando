@@ -338,6 +338,10 @@
         .attr("class", "tooltip")
         .style("opacity", 0);
 
+    let div5 = d3.select("body").append("div")
+        .attr("class", "tooltip5")
+        .style("opacity", 0);
+
     $('select#selectmalware').on('change', function (e) {
         let optionSelected = $("option:selected", this);
         let valueSelected = this.value;
@@ -379,17 +383,17 @@
                     SiteManager.drawMain('#heatmap');//Draw mainMap
                     SiteManager.connectedDomain();
                     // for running --------------------
-                    d3.select("#sideNavbtn")
-                        .on("click", () => {
-                            if (rankEvent == 1) {
-                                SiteManager.highlight('#ranked'); // hightlight
-                                rankEvent = 2;
-                            }
-                        });
+                    // d3.select("#sideNavbtn")
+                    //     .on("click", () => {
+                    //         if (rankEvent == 1) {
+                    //             SiteManager.highlight('#ranked'); // hightlight
+                    //             rankEvent = 2;
+                    //         }
+                    //     });
 
                     // for testing --------------------
-                    // openNav();
-                    // SiteManager.highlight('#ranked');
+                    openNav();
+                    SiteManager.highlight('#ranked');
                     // --------------------------------
 
                     d3.select("#libTabName")
