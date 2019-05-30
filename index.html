@@ -377,8 +377,8 @@
             document.getElementById("streamCheck").checked = false;
             d3.queue()
                 .defer(d3.csvParse, e.target.result, function (d) {
-                    console.log(d);
-                    return {
+                    // console.log(d);
+                    let b = {
                         Timestamp: d['Time_of_Day'],
                         PID: d['PID'],
                         Process_Name: d['Process_Name'],
@@ -386,9 +386,10 @@
                         Path: d["Path"],
                         Detail: d["Detail"]
                     }
+                    console.log(b);
+                    return b;
                 })
-                .defer(d3.csv, "data/domain.csv")
-                .await(function (error, original_data, domain) {
+                .await(function (error, original_data) {
                     console.log(original_data)
                 });
         };
