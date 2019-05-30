@@ -184,6 +184,9 @@
                     <option value="Logfile_V1.CSV">Cerber &nbsp;&nbsp;✔</option>
                     
                 </select>
+                <br><br>
+                or select a local file:
+                <input type="file" id="input" onchange="handleFiles">
                 <div id="domainBox"
                      class="w3-bar w3-white domainBox">
                     <a class="w3-bar-item" style="width: 0px; padding: 0"></a>
@@ -358,6 +361,40 @@
         init(valueSelected);
     });
 
+    const inputElement = document.getElementById("input");
+    inputElement.addEventListener("change", handleFiles, false);
+    function handleFiles() {
+        const fileList = this.files; /* now you can work with the file list */
+        var file = fileList[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            // The file's text will be printed here
+            lensingStatus = false;
+            streamEvent = false;
+            rankEvent = 0;
+            libEvent = 0;
+            closeNav();
+            document.getElementById("streamCheck").checked = false;
+            d3.queue()
+                .defer(d3.csvParse, e.target.result, function (d) {
+                    console.log(d);
+                    return {
+                        Timestamp: d['Time_of_Day'],
+                        PID: d['PID'],
+                        Process_Name: d['Process_Name'],
+                        Operation: d["Operation"],
+                        Path: d["Path"],
+                        Detail: d["Detail"]
+                    }
+                })
+                .defer(d3.csv, "data/domain.csv")
+                .await(function (error, original_data, domain) {
+                    console.log(original_data)
+                });
+        };
+        reader.readAsText(file);
+    }
+
     let init = function (filePath) {
         lensingStatus = false;
         streamEvent = false;
@@ -377,76 +414,79 @@
                 }
             })
             .defer(d3.csv, "data/domain.csv")
-            .await(function (error, original_data, domain) {
-                if (error) {
-                    console.error(error);
-                }
-                else {
-                    let data = ProcessDataV2(original_data, domain);
-                    let SiteManager = applicationManager(data); //Initialize application
-                    SiteManager.drawStats('#stats'); //Draw statistic map
-                    SiteManager.malist("#commonOp");
-                    SiteManager.drawMain('#heatmap');//Draw mainMap
-                    SiteManager.connectedDomain();
-                    // for running --------------------
-                    d3.select("#sideNavbtn")
-                        .on("click", () => {
-                            if (rankEvent == 1) {
-                                SiteManager.highlight('#ranked'); // hightlight
-                                rankEvent = 2;
-                            }
-                        });
-
-                    // for testing --------------------
-                    // openNav();
-                    // SiteManager.highlight('#ranked');
-                    // --------------------------------
-
-                    d3.select("#libTabName")
-                        .on("click", () => {
-                            if (!libEvent){
-                                libEvent = 1;
-                                console.log("first lib");
-                                var lib = libManager(data);
-                                let maxcalls = lib.getCallRange().maxcall;
-
-                                $("#btnName").click(function () {
-                                        lib.sort2DMatrix('similarity')
-                                    }
-                                );
-                                $("#btnNum").click(function () {
-                                        lib.sort2DMatrix('numlinks')
-                                    }
-                                );
-                                $("#btnCount").click(function () {
-                                        lib.sort2DMatrix('numcount')
-                                    }
-                                );
-
-                                $(function () {
-                                    let handle = $("#custom-handle");
-                                    $("#slider").slider({
-                                        min: 0,
-                                        value: 3,
-                                        max: maxcalls,
-                                        create: function () {
-                                            handle.text($(this).slider("value"));
-                                        },
-                                        slide: function (event, ui) {
-                                            $("#amount").val("Min: " + ui.value + " - Max: " + maxcalls);
-                                            handle.text(ui.value);
-                                            lib.updateRangeFilter(ui.value, maxcalls)
-                                        }
-                                    });
-                                    $("#amount").val("Min: " + 3 + " - Max: " + maxcalls);
-                                });
-                                lib.updateRangeFilter(3, maxcalls);
-                                isready = true;
-                            }
-                        });
-                }
-            });
+            .await(loadData);
     };
+    let loadData =
+        function (error, original_data, domain) {
+        if (error) {
+            console.error(error);
+        }
+        else {
+            console.log("hi");
+            let data = ProcessDataV2(original_data, domain);
+            let SiteManager = applicationManager(data); //Initialize application
+            SiteManager.drawStats('#stats'); //Draw statistic map
+            SiteManager.malist("#commonOp");
+            SiteManager.drawMain('#heatmap');//Draw mainMap
+            SiteManager.connectedDomain();
+            // for running --------------------
+            d3.select("#sideNavbtn")
+                .on("click", () => {
+                    if (rankEvent == 1) {
+                        SiteManager.highlight('#ranked'); // hightlight
+                        rankEvent = 2;
+                    }
+                });
+
+            // for testing --------------------
+            // openNav();
+            // SiteManager.highlight('#ranked');
+            // --------------------------------
+
+            d3.select("#libTabName")
+                .on("click", () => {
+                    if (!libEvent){
+                        libEvent = 1;
+                        console.log("first lib");
+                        var lib = libManager(data);
+                        let maxcalls = lib.getCallRange().maxcall;
+
+                        $("#btnName").click(function () {
+                                lib.sort2DMatrix('similarity')
+                            }
+                        );
+                        $("#btnNum").click(function () {
+                                lib.sort2DMatrix('numlinks')
+                            }
+                        );
+                        $("#btnCount").click(function () {
+                                lib.sort2DMatrix('numcount')
+                            }
+                        );
+
+                        $(function () {
+                            let handle = $("#custom-handle");
+                            $("#slider").slider({
+                                min: 0,
+                                value: 3,
+                                max: maxcalls,
+                                create: function () {
+                                    handle.text($(this).slider("value"));
+                                },
+                                slide: function (event, ui) {
+                                    $("#amount").val("Min: " + ui.value + " - Max: " + maxcalls);
+                                    handle.text(ui.value);
+                                    lib.updateRangeFilter(ui.value, maxcalls)
+                                }
+                            });
+                            $("#amount").val("Min: " + 3 + " - Max: " + maxcalls);
+                        });
+                        lib.updateRangeFilter(3, maxcalls);
+                        isready = true;
+                    }
+                });
+        }
+    }
     init("Huyen-Ransomware-WannaPeace.csv");
 
     var list = {
