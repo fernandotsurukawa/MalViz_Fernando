@@ -387,9 +387,9 @@
             document.getElementById("streamCheck").checked = false;
             let data = d3.csvParse(e.target.result).map(d => {
                 return {
-                                Timestamp: d['Time_of_Day'],
+                                Timestamp: d['Time of Day'],
                                 PID: d['PID'],
-                                Process_Name: d['Process_Name'],
+                                Process_Name: d['Process Name'],
                                 Operation: d["Operation"],
                                 Path: d["Path"],
                                 Detail: d["Detail"]
