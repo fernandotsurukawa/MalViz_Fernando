@@ -54,7 +54,7 @@
           <entry key="CSV" value="6" />
           <entry key="css" value="34" />
           <entry key="csv" value="6" />
-          <entry key="html" value="387" />
+          <entry key="html" value="555" />
           <entry key="js" value="2040" />
         </counts>
       </usages-collector>
@@ -62,7 +62,7 @@
         <counts>
           <entry key="CSS" value="34" />
           <entry key="CSV" value="12" />
-          <entry key="HTML" value="387" />
+          <entry key="HTML" value="555" />
           <entry key="JavaScript" value="2040" />
         </counts>
       </usages-collector>
@@ -88,8 +88,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="535">
-              <caret line="902" column="44" lean-forward="true" selection-start-line="902" selection-start-column="44" selection-end-line="902" selection-end-column="44" />
+            <state relative-caret-position="400">
+              <caret line="1582" column="68" selection-start-line="1582" selection-start-column="53" selection-end-line="1582" selection-end-column="68" />
             </state>
           </provider>
         </entry>
@@ -97,7 +97,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/init.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="720">
+            <state relative-caret-position="620">
               <caret line="30" column="23" selection-start-line="30" selection-start-column="18" selection-end-line="30" selection-end-column="23" />
             </state>
           </provider>
@@ -136,8 +136,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="456">
-              <caret line="380" column="29" lean-forward="true" selection-start-line="380" selection-start-column="29" selection-end-line="380" selection-end-column="29" />
+            <state relative-caret-position="427">
+              <caret line="422" column="17" lean-forward="true" selection-start-line="422" selection-start-column="17" selection-end-line="422" selection-end-column="17" />
               <folding>
                 <element signature="n#select#0;n#div#0;n#div#0;n#header#0;n#div#1;n#body#0;n#html#0;n#!!top" />
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -159,9 +159,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>paris</find>
-      <find>defaultOpen</find>
-      <find>rankBtn</find>
       <find>return</find>
       <find>selectAll</find>
       <find>btn-floa</find>
@@ -189,6 +186,9 @@
       <find>stream</find>
       <find>strea</find>
       <find>refer</find>
+      <find>3</find>
+      <find>common</find>
+      <find>commonSelection</find>
     </findStrings>
     <replaceStrings>
       <replace>op0</replace>
@@ -504,12 +504,12 @@
       <workItem from="1559076565238" duration="8000" />
       <workItem from="1559076602805" duration="9525000" />
       <workItem from="1559155434983" duration="10045000" />
-      <workItem from="1559169347549" duration="3707000" />
+      <workItem from="1559169347549" duration="7178000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="752846000" />
+    <option name="totallyTimeSpent" value="756317000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1171" height="1417" extended-state="0" />
@@ -747,13 +747,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/init.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="30" column="23" selection-start-line="30" selection-start-column="18" selection-end-line="30" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/getLibData.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
@@ -790,15 +783,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="535">
-          <caret line="902" column="44" lean-forward="true" selection-start-line="902" selection-start-column="44" selection-end-line="902" selection-end-column="44" />
+        <state relative-caret-position="400">
+          <caret line="1582" column="68" selection-start-line="1582" selection-start-column="53" selection-end-line="1582" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/init.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="620">
+          <caret line="30" column="23" selection-start-line="30" selection-start-column="18" selection-end-line="30" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="380" column="29" lean-forward="true" selection-start-line="380" selection-start-column="29" selection-end-line="380" selection-end-column="29" />
+        <state relative-caret-position="427">
+          <caret line="422" column="17" lean-forward="true" selection-start-line="422" selection-start-column="17" selection-end-line="422" selection-end-column="17" />
           <folding>
             <element signature="n#select#0;n#div#0;n#div#0;n#header#0;n#div#1;n#body#0;n#html#0;n#!!top" />
             <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />

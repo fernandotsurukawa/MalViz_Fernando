@@ -270,6 +270,10 @@
 <div id="loading">
     <img id="loading-image" height="200" width="200" src="images/squareloader2.gif" alt="Loading..."/>
 </div>
+<script src="js/ultility.js"></script>
+<script src="js/init.js"></script>
+<script src="js/main.js"></script>
+<script src="js/getLibData.js"></script>
 <script>
     document.getElementById("mySidenavRank").style.height = $(window).height();
     var rankEvent, libEvent;
@@ -283,8 +287,8 @@
             // .transition().delay(7000).duration(1000)
             // .style('left', null)
             .on('end', function () {
-            d3.select(d).classed("pulse", true);
-        });
+                d3.select(d).classed("pulse", true);
+            });
     }
 
     function openNav() {
@@ -319,12 +323,7 @@
     }
     // Get the element with id="defaultOpen" and click on it
     document.getElementById("defaultOpen").click();
-</script>
-<script src="js/ultility.js"></script>
-<script src="js/init.js"></script>
-<script src="js/main.js"></script>
-<script src="js/getLibData.js"></script>
-<script>
+
     let divOperation = d3.select("body").append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
@@ -349,6 +348,10 @@
         .attr("class", "tooltip5")
         .style("opacity", 0);
 
+    // load domain file
+
+
+    // load available file
     $('select#selectmalware').on('change', function (e) {
         let optionSelected = $("option:selected", this);
         let valueSelected = this.value;
@@ -361,6 +364,7 @@
         init(valueSelected);
     });
 
+    // load local file
     const inputElement = document.getElementById("input");
     inputElement.addEventListener("change", handleFiles, false);
     function handleFiles() {
@@ -368,6 +372,12 @@
         var file = fileList[0];
         var reader = new FileReader();
         reader.onload = function(e) {
+            let loading = d3.select('body').append('div').attr('id', 'loading');
+            loading.append('img')
+                .attr('id', 'loading-image')
+                .attr('src', 'images/squareloader2.gif')
+                .attr("height", "200")
+                .attr("height", "200");
             // The file's text will be printed here
             lensingStatus = false;
             streamEvent = false;
@@ -375,22 +385,21 @@
             libEvent = 0;
             closeNav();
             document.getElementById("streamCheck").checked = false;
+            let data = d3.csvParse(e.target.result).map(d => {
+                return {
+                                Timestamp: d['Time_of_Day'],
+                                PID: d['PID'],
+                                Process_Name: d['Process_Name'],
+                                Operation: d["Operation"],
+                                Path: d["Path"],
+                                Detail: d["Detail"]
+                            }
+            });
+
             d3.queue()
-                .defer(d3.csvParse, e.target.result, function (d) {
-                    // console.log(d);
-                    let b = {
-                        Timestamp: d['Time_of_Day'],
-                        PID: d['PID'],
-                        Process_Name: d['Process_Name'],
-                        Operation: d["Operation"],
-                        Path: d["Path"],
-                        Detail: d["Detail"]
-                    }
-                    console.log(b);
-                    return b;
-                })
-                .await(function (error, original_data) {
-                    console.log(original_data)
+                .defer(d3.csv, "data/domain.csv")
+                .await(function (error, domain) {
+                    loadData(error, data, domain)
                 });
         };
         reader.readAsText(file);
@@ -402,7 +411,6 @@
         rankEvent = 0;
         libEvent = 0;
         closeNav();
-        document.getElementById("streamCheck").checked = false;
         d3.queue()
             .defer(d3.csv, "data/" + filePath, function (d) {
                 return {
@@ -417,13 +425,17 @@
             .defer(d3.csv, "data/domain.csv")
             .await(loadData);
     };
+
     let loadData =
         function (error, original_data, domain) {
         if (error) {
             console.error(error);
         }
         else {
-            console.log("hi");
+            document.getElementById("commonSelection").checked = false;
+            document.getElementById("opSelection").checked = true;
+            document.getElementById("streamCheck").checked = false;
+
             let data = ProcessDataV2(original_data, domain);
             let SiteManager = applicationManager(data); //Initialize application
             SiteManager.drawStats('#stats'); //Draw statistic map
