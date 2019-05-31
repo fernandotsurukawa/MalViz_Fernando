@@ -1,4 +1,4 @@
-﻿"Time_of_Day","Process_Name","PID","Operation","Path","Result","Detail"
+﻿"Time of Day","Process Name","PID","Operation","Path","Result","Detail"
 "1:13:04.4735390 PM","svchost.exe","760","WriteFile","C:\Windows\System32\winevt\Logs\Microsoft-Windows-Store%4Operational.evtx","SUCCESS","Offset: 15,339,520, Length: 6,624"
 "1:13:04.4736475 PM","svchost.exe","760","WriteFile","C:\Windows\System32\winevt\Logs\Microsoft-Client-Licensing-Platform%4Admin.evtx","SUCCESS","Offset: 200,704, Length: 36,352"
 "1:13:04.4738096 PM","svchost.exe","760","WriteFile","C:\Windows\System32\winevt\Logs\Microsoft-Windows-AppXDeployment%4Operational.evtx","SUCCESS","Offset: 987,136, Length: 64,768"

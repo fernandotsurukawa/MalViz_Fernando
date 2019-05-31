@@ -271,7 +271,7 @@
     <img id="loading-image" height="200" width="200" src="images/squareloader2.gif" alt="Loading..."/>
 </div>
 <script src="js/ultility.js"></script>
-<script src="js/init.js"></script>
+<script src="js/variables.js"></script>
 <script src="js/main.js"></script>
 <script src="js/getLibData.js"></script>
 <script>
@@ -414,9 +414,9 @@
         d3.queue()
             .defer(d3.csv, "data/" + filePath, function (d) {
                 return {
-                    Timestamp: d['Time_of_Day'],
+                    Timestamp: d['Time of Day'],
                     PID: d['PID'],
-                    Process_Name: d['Process_Name'],
+                    Process_Name: d['Process Name'],
                     Operation: d["Operation"],
                     Path: d["Path"],
                     Detail: d["Detail"]

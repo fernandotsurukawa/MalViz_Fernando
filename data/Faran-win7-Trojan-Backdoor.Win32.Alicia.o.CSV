@@ -1,4 +1,4 @@
-﻿"Time_of_Day","Process_Name","PID","Operation","Path","Result","Detail"
+﻿"Time of Day","Process Name","PID","Operation","Path","Result","Detail"
 "1:40:31.7548567 PM","VBoxService.exe","632","CreateFile","C:\Windows\System32\advapi32.dll","SUCCESS","Desired Access: Read Attributes, Disposition: Open, Options: Open Reparse Point, Attributes: n/a, ShareMode: Read, Write, Delete, AllocationSize: n/a, OpenResult: Opened"
 "1:40:31.7549713 PM","VBoxService.exe","632","CreateFile","C:\Windows\System32\advapi32.dll","SUCCESS","Desired Access: Read Attributes, Disposition: Open, Options: Open Reparse Point, Attributes: n/a, ShareMode: Read, Write, Delete, AllocationSize: n/a, OpenResult: Opened"
 "1:40:31.7550439 PM","VBoxService.exe","632","CreateFile","C:\Windows\System32\advapi32.dll","SUCCESS","Desired Access: Read Data/List Directory, Execute/Traverse, Synchronize, Disposition: Open, Options: Synchronous IO Non-Alert, Non-Directory File, Attributes: n/a, ShareMode: Read, Delete, AllocationSize: n/a, OpenResult: Opened"

@@ -1,4 +1,4 @@
-﻿"Time_of_Day","Process_Name","PID","Operation","Path","Result","Detail"
+﻿"Time of Day","Process Name","PID","Operation","Path","Result","Detail"
 "12:39:30.2122032 PM","svchost.exe","260","TCP Send","MSEDGEWIN10.ttu.edu:56765 -> 52.173.26.181:https","SUCCESS","Length: 72, startime: 950334, endtime: 950334, seqnum: 0, connid: 0"
 "12:39:30.3485755 PM","svchost.exe","260","TCP Receive","MSEDGEWIN10.ttu.edu:56765 -> 52.173.26.181:https","SUCCESS","Length: 124, seqnum: 0, connid: 0"
 "12:39:30.5951405 PM","svchost.exe","1228","UDP Send","a00:20f::8821:b3d2:8ab7:ffff:55299 -> 8176:12f:::domain","SUCCESS","Length: 52, seqnum: 0, connid: 0"

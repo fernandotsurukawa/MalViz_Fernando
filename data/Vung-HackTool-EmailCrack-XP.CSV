@@ -1,4 +1,4 @@
-﻿"Time_of_Day","Process_Name","PID","Operation","Path","Result","Detail"
+﻿"Time of Day","Process Name","PID","Operation","Path","Result","Detail"
 "12:09:21.3604986 PM","explorer.exe","1568","CreateFile","C:\WINDOWS\system32\shell32.dll","SUCCESS","Desired Access: Generic Read, Write Attributes, Disposition: Open, Options: Synchronous IO Non-Alert, Non-Directory File, Random Access, Attributes: N, ShareMode: Read, Write, AllocationSize: n/a, OpenResult: Opened"
 "12:09:21.3612180 PM","explorer.exe","1568","CreateFile","C:\WINDOWS\system32\shell32.dll","SUCCESS","Desired Access: Generic Read, Write Attributes, Disposition: Open, Options: Synchronous IO Non-Alert, Non-Directory File, Random Access, Attributes: N, ShareMode: Read, Write, AllocationSize: n/a, OpenResult: Opened"
 "12:09:21.3618418 PM","explorer.exe","1568","CreateFile","C:\WINDOWS\system32\shell32.dll","SUCCESS","Desired Access: Generic Read, Write Attributes, Disposition: Open, Options: Synchronous IO Non-Alert, Non-Directory File, Random Access, Attributes: N, ShareMode: Read, Write, AllocationSize: n/a, OpenResult: Opened"

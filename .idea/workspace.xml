@@ -2,7 +2,69 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8b82504-1950-4318-aa3d-f800f494b894" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/10BackdoorRemcos.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/10BackdoorRemcos.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/11BackdoorBladabindi.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/11BackdoorBladabindi.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/12BackdoorRemcos.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/12BackdoorRemcos.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/13BackdoorAndrom.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/13BackdoorAndrom.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/14BackdoorSymmiGeneric.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/14BackdoorSymmiGeneric.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/15BackdoorTrojanGeneric.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/15BackdoorTrojanGeneric.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/9BackdoorTrojanGeneric.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/9BackdoorTrojanGeneric.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Example_Kovter1.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Example_Kovter1.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Faran-Trojan-Backdoor.Win32.CyberSpy.13.b.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Faran-Trojan-Backdoor.Win32.CyberSpy.13.b.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Faran-Trojan-Backdoor.win32.BlueIce.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Faran-Trojan-Backdoor.win32.BlueIce.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Faran-Trojan-Backdoor.win32.Death.25.i.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Faran-Trojan-Backdoor.win32.Death.25.i.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Faran-Trojan-Backdoor.win32.executor.a.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Faran-Trojan-Backdoor.win32.executor.a.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Faran-win7-Trojan-Backdoor.Win32.Alicia.o.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Faran-win7-Trojan-Backdoor.Win32.Alicia.o.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Faran-win7-Trojan-Backdoor.win32.Executor.a.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Faran-win7-Trojan-Backdoor.win32.Executor.a.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Faran-win7-vs-13ef35e912a54739a27015eecc3fbbaeaf2ba2b7a2a49bfd11e26e099a330926.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Faran-win7-vs-13ef35e912a54739a27015eecc3fbbaeaf2ba2b7a2a49bfd11e26e099a330926.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Faran-win7-vs-7fa0ef3f22045c45c80885865d0d0942.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Faran-win7-vs-7fa0ef3f22045c45c80885865d0d0942.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Huyen-Ransomware-WannaPeace.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/Huyen-Ransomware-WannaPeace.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Huyen-Trojan-Infostealer.Dexter.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/Huyen-Trojan-Infostealer.Dexter.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Logfile_V1.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Logfile_V1.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Moi-Win7-RemoteAccess_1.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Moi-Win7-RemoteAccess_1.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Moi-Win7-RemoteAccess_2.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Moi-Win7-RemoteAccess_2.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Moi-Win7-RemoteAccess_3.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Moi-Win7-RemoteAccess_3.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Moi-Win7-RemoteAccess_4.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Moi-Win7-RemoteAccess_4.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Moi-Win7-RemoteAccess_5.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Moi-Win7-RemoteAccess_5.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Moi-Win7-RemoteAccess_6.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Moi-Win7-RemoteAccess_6.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Moi-Win7-RemoteAccess_7.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Moi-Win7-RemoteAccess_7.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Moi-XP-RemoteAccess_1.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Moi-XP-RemoteAccess_1.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Moi-XP-RemoteAccess_2.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Moi-XP-RemoteAccess_2.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Moi-XP-RemoteAccess_3.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Moi-XP-RemoteAccess_3.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Moi-XP-RemoteAccess_4.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Moi-XP-RemoteAccess_4.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Moi-XP-RemoteAccess_5.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Moi-XP-RemoteAccess_5.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Moi-XP-RemoteAccess_6.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Moi-XP-RemoteAccess_6.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Moi-XP-RemoteAccess_7_exec.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Moi-XP-RemoteAccess_7_exec.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Moi-XP-RemoteAccess_7_install.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Moi-XP-RemoteAccess_7_install.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Vung-Behavior-XP-Payment copy.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Vung-Behavior-XP-Payment copy.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Vung-Behavior-XP-RemR.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Vung-Behavior-XP-RemR.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Vung-Behavior-XP-Scan copy (alloyanycut).CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Vung-Behavior-XP-Scan copy (alloyanycut).CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Vung-Email-Flooder-Absolut-XP.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Vung-Email-Flooder-Absolut-XP.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Vung-Email-Flooder-Achis-Win10.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Vung-Email-Flooder-Achis-Win10.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Vung-Email-Flooder-Achis-XP.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Vung-Email-Flooder-Achis-XP.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Vung-Email-Flooder-Archis-Win7.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Vung-Email-Flooder-Archis-Win7.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Vung-HackTool-BackSteal-Win10.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Vung-HackTool-BackSteal-Win10.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Vung-HackTool-EmailCrack-Win10.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Vung-HackTool-EmailCrack-Win10.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Vung-HackTool-EmailCrack-XP.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Vung-HackTool-EmailCrack-XP.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Vung-HackTool-EmailCrack1-Win10.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Vung-HackTool-EmailCrack1-Win10.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Vung-HackTool-Stealm-Win10.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Vung-HackTool-Stealm-Win10.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Vung-HackTool-Stealm1-Win10.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Vung-HackTool-Stealm1-Win10.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Vung-Win7-Bladabindi.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Vung-Win7-Bladabindi.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Vung-Win7-Cryptowall.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Vung-Win7-Cryptowall.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Vung-Win7-Locky.Gen.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Vung-Win7-Locky.Gen.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Vung-Win7-Multinjector.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Vung-Win7-Multinjector.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Vung-Win7-Teerac.B.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/Vung-Win7-Teerac.B.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/VungPham-Behavior-Bladabindi.gen-XP.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/VungPham-Behavior-Bladabindi.gen-XP.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/VungPham-Behavior-MultiInjector-XP.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/VungPham-Behavior-MultiInjector-XP.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/VungPham-Behavior-Vawtrak.A-XP.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/VungPham-Behavior-Vawtrak.A-XP.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/VungPham-Behavior-Winwebsec.I.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/VungPham-Behavior-Winwebsec.I.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/faran-7-vs-backdoor-10.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/faran-7-vs-backdoor-10.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/faran-7-vs-backdoor-11.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/faran-7-vs-backdoor-11.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/faran-7-vs-backdoor-12.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/faran-7-vs-backdoor-12.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/faran-7-vs-backdoor-13.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/faran-7-vs-backdoor-13.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/faran-7-vs-backdoor-14.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/faran-7-vs-backdoor-14.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/faran-7-vs-backdoor-15.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/faran-7-vs-backdoor-15.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/faran-7-vs-backdoor-9.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/data/faran-7-vs-backdoor-9.CSV" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.js" afterDir="false" />
     </list>
@@ -56,16 +118,16 @@
           <entry key="CSV" value="6" />
           <entry key="css" value="34" />
           <entry key="csv" value="6" />
-          <entry key="html" value="555" />
-          <entry key="js" value="2057" />
+          <entry key="html" value="558" />
+          <entry key="js" value="2069" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="34" />
           <entry key="CSV" value="12" />
-          <entry key="HTML" value="555" />
-          <entry key="JavaScript" value="2057" />
+          <entry key="HTML" value="558" />
+          <entry key="JavaScript" value="2069" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -87,11 +149,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="734">
-              <caret line="2011" column="61" lean-forward="true" selection-start-line="2011" selection-start-column="61" selection-end-line="2011" selection-end-column="61" />
+            <state relative-caret-position="772">
+              <caret line="2188" column="32" selection-start-line="2188" selection-start-column="32" selection-end-line="2188" selection-end-column="32" />
               <folding>
                 <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
               </folding>
@@ -112,7 +174,7 @@
         <entry file="file://$PROJECT_DIR$/js/getLibData.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="72">
-              <caret line="3" column="18" lean-forward="true" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
+              <caret line="3" column="18" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
               <folding>
                 <element signature="n#!!block;n#ExtractGraph#0;n#!!block;n#libManager#0" />
               </folding>
@@ -133,16 +195,16 @@
         <entry file="file://$PROJECT_DIR$/js/ultility.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1920">
-              <caret line="80" column="9" lean-forward="true" selection-start-line="80" selection-start-column="9" selection-end-line="80" selection-end-column="9" />
+              <caret line="80" column="9" selection-start-line="80" selection-start-column="9" selection-end-line="80" selection-end-column="9" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20">
-              <caret line="85" lean-forward="true" selection-start-line="85" selection-end-line="85" />
+            <state relative-caret-position="128">
+              <caret line="383" column="26" lean-forward="true" selection-start-line="383" selection-start-column="26" selection-end-line="383" selection-end-column="26" />
               <folding>
                 <element signature="n#select#0;n#div#0;n#div#0;n#header#0;n#div#1;n#body#0;n#html#0;n#!!top" />
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -509,18 +571,18 @@
       <workItem from="1559076565238" duration="8000" />
       <workItem from="1559076602805" duration="9525000" />
       <workItem from="1559155434983" duration="10045000" />
-      <workItem from="1559169347549" duration="8402000" />
+      <workItem from="1559169347549" duration="9209000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="757541000" />
+    <option name="totallyTimeSpent" value="758348000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1171" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49961802" visible="true" weight="0.19478261" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49961802" weight="0.19478261" />
       <window_info id="Structure" order="1" sideWeight="0.50038195" side_tool="true" weight="0.31604537" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -755,7 +817,7 @@
     <entry file="file://$PROJECT_DIR$/js/getLibData.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
-          <caret line="3" column="18" lean-forward="true" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
+          <caret line="3" column="18" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
           <folding>
             <element signature="n#!!block;n#ExtractGraph#0;n#!!block;n#libManager#0" />
           </folding>
@@ -772,7 +834,7 @@
     <entry file="file://$PROJECT_DIR$/js/ultility.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1920">
-          <caret line="80" column="9" lean-forward="true" selection-start-line="80" selection-start-column="9" selection-end-line="80" selection-end-column="9" />
+          <caret line="80" column="9" selection-start-line="80" selection-start-column="9" selection-end-line="80" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -793,23 +855,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="85" lean-forward="true" selection-start-line="85" selection-end-line="85" />
+        <state relative-caret-position="772">
+          <caret line="2188" column="32" selection-start-line="2188" selection-start-column="32" selection-end-line="2188" selection-end-column="32" />
           <folding>
-            <element signature="n#select#0;n#div#0;n#div#0;n#header#0;n#div#1;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/main.js">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="734">
-          <caret line="2011" column="61" lean-forward="true" selection-start-line="2011" selection-start-column="61" selection-end-line="2011" selection-end-column="61" />
+        <state relative-caret-position="128">
+          <caret line="383" column="26" lean-forward="true" selection-start-line="383" selection-start-column="26" selection-end-line="383" selection-end-column="26" />
           <folding>
-            <element signature="n#style#0;n#td#1;n#tr#1;n#table#0;n#!!top" expanded="true" />
+            <element signature="n#select#0;n#div#0;n#div#0;n#header#0;n#div#1;n#body#0;n#html#0;n#!!top" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>

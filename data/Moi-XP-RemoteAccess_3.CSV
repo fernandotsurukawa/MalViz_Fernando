@@ -1,4 +1,4 @@
-﻿"Time_of_Day","Process_Name","PID","Operation","Path","Result","Detail"
+﻿"Time of Day","Process Name","PID","Operation","Path","Result","Detail"
 "12:13:49.7041533 PM","lsass.exe","648","RegOpenKey","HKLM\SECURITY\Policy","SUCCESS","Desired Access: Read/Write"
 "12:13:49.7041706 PM","lsass.exe","648","RegOpenKey","HKLM\SECURITY\Policy\SecDesc","SUCCESS","Desired Access: Read"
 "12:13:49.7041868 PM","lsass.exe","648","RegQueryValue","HKLM\SECURITY\Policy\SecDesc\(Default)","BUFFER OVERFLOW","Length: 12"

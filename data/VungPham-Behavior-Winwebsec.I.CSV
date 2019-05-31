@@ -1,4 +1,4 @@
-﻿"Time_of_Day","Process_Name","PID","Operation","Path","Result","Detail"
+﻿"Time of Day","Process Name","PID","Operation","Path","Result","Detail"
 "12:23:25.8586211 PM","System","4","Thread Create","","SUCCESS","Thread ID: 2852"
 "12:23:25.8619975 PM","lsass.exe","672","RegOpenKey","HKLM\SECURITY\Policy","SUCCESS","Desired Access: Read/Write"
 "12:23:25.8620067 PM","lsass.exe","672","RegOpenKey","HKLM\SECURITY\Policy\SecDesc","SUCCESS","Desired Access: Read"

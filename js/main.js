@@ -1984,7 +1984,7 @@ function applicationManager(globalData) {
                                         -30 +
                                         30 * Math.min((n1.link_count || (n1.group != n2.group ? n1.group_data.link_count : 0)),
                                         (n2.link_count || (n1.group != n2.group ? n2.group_data.link_count : 0))),
-                                        80);
+                                        100);
                                 var procValue = 100;
                                 // distance between processes
                                 if (l.self) {
@@ -2017,7 +2017,7 @@ function applicationManager(globalData) {
                         .force("center", d3.forceCenter(wPosition, hPosition))
 
                         .force("charge", d3.forceManyBody()
-                            .strength(d => d.dummy ? -200 : -100)
+                            .strength(d => d.dummy ? -30 : -100)
                         )
                         .force("collide", d3.forceCollide()
                             .radius(10)
@@ -2187,8 +2187,6 @@ function applicationManager(globalData) {
 
                         .on("mouseout", function () {
                             div5
-                                .transition()
-                                .duration(100)
                                 .style("opacity", 0);
                         })
                     ;

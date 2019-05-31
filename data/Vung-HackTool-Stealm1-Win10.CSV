@@ -1,4 +1,4 @@
-﻿"Time_of_Day","Process_Name","PID","Operation","Path","Result","Detail"
+﻿"Time of Day","Process Name","PID","Operation","Path","Result","Detail"
 "11:48:01.4932535 AM","ctfmon.exe","3120","CreateFile","C:\Windows\System32\en-US\mssp7en-US.lex","NAME NOT FOUND","Desired Access: Read Attributes, Disposition: Open, Options: Open Reparse Point, Attributes: n/a, ShareMode: Read, Write, Delete, AllocationSize: n/a"
 "11:48:01.4934825 AM","ctfmon.exe","3120","CreateFile","C:\Windows\Globalization\ELS\SpellDictionaries\MsSp7en-US.lex","SUCCESS","Desired Access: Read Attributes, Disposition: Open, Options: Open Reparse Point, Attributes: n/a, ShareMode: Read, Write, Delete, AllocationSize: n/a, OpenResult: Opened"
 "11:48:01.5083694 AM","ctfmon.exe","3120","RegCreateKey","HKCU\Software\Microsoft\Input\Locales","SUCCESS","Desired Access: Read, Disposition: REG_OPENED_EXISTING_KEY"

@@ -1,4 +1,4 @@
-﻿"Time_of_Day","Process_Name","PID","Operation","Path","Result","Detail"
+﻿"Time of Day","Process Name","PID","Operation","Path","Result","Detail"
 "11:38:56.8328818 AM","ctfmon.exe","3120","CreateFile","C:\Windows\System32\en-US\mssp7en-US.lex","NAME NOT FOUND","Desired Access: Read Attributes, Disposition: Open, Options: Open Reparse Point, Attributes: n/a, ShareMode: Read, Write, Delete, AllocationSize: n/a"
 "11:38:56.8333189 AM","ctfmon.exe","3120","CreateFile","C:\Windows\Globalization\ELS\SpellDictionaries\MsSp7en-US.lex","SUCCESS","Desired Access: Read Attributes, Disposition: Open, Options: Open Reparse Point, Attributes: n/a, ShareMode: Read, Write, Delete, AllocationSize: n/a, OpenResult: Opened"
 "11:38:56.8413858 AM","svchost.exe","2408","WriteFile","C:\Users\IEUser\AppData\Local\ConnectedDevicesPlatform\L.IEUser\ActivitiesCache.db-wal","SUCCESS","Offset: 3,349,592, Length: 24"
