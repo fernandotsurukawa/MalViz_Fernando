@@ -1,4 +1,4 @@
-﻿"Time_of_Day","Process_Name","PID","Operation","Path","Result","Detail"
+﻿"Time of Day","Process Name","PID","Operation","Path","Result","Detail"
 "2:36:29.3810694 PM","Explorer.EXE","1608","CreateFile","C:\","SUCCESS","Desired Access: Synchronize, Disposition: Open, Options: Directory, Synchronous IO Non-Alert, Attributes: n/a, ShareMode: None, AllocationSize: n/a, OpenResult: Opened"
 "2:36:29.3812560 PM","Explorer.EXE","1608","CreateFile","C:\Users\IEUser\Desktop\Virus\Email-Flooder.Win32.Achis\Email-Flooder.Win32.Achis","SUCCESS","Desired Access: Read Attributes, Read Control, Disposition: Open, Options: Open Reparse Point, Attributes: n/a, ShareMode: Read, Write, Delete, AllocationSize: n/a, OpenResult: Opened"
 "2:36:29.3813845 PM","Explorer.EXE","1608","CreateFile","C:\Users\IEUser\Desktop\Virus\Email-Flooder.Win32.Achis\Email-Flooder.Win32.Achis","SUCCESS","Desired Access: Read Attributes, Disposition: Open, Options: Open Reparse Point, Attributes: n/a, ShareMode: Read, Write, Delete, AllocationSize: n/a, OpenResult: Opened"

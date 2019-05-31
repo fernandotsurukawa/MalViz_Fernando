@@ -1,4 +1,4 @@
-﻿"Time_of_Day","Process_Name","PID","Operation","Path","Result","Detail"
+﻿"Time of Day","Process Name","PID","Operation","Path","Result","Detail"
 "3:39:44.0278054 PM","svchost.exe","564","RegCreateKey","HKLM\System\CurrentControlSet\Control\DeviceClasses","REPARSE","Desired Access: All Access"
 "3:39:44.0278180 PM","svchost.exe","564","RegCreateKey","HKLM\System\CurrentControlSet\Control\DeviceClasses","SUCCESS","Desired Access: All Access, Disposition: REG_OPENED_EXISTING_KEY"
 "3:39:44.0278256 PM","svchost.exe","564","RegOpenKey","HKLM\System\CurrentControlSet\Control\DeviceClasses\{9527e630-d0ae-497b-adce-e80ab0175caf}","SUCCESS","Desired Access: All Access"

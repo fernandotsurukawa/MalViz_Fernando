@@ -1,4 +1,4 @@
-﻿"Time_of_Day","Process_Name","PID","Operation","Path","Result","Detail"
+﻿"Time of Day","Process Name","PID","Operation","Path","Result","Detail"
 "12:29:21.0740438 PM","explorer.exe","1568","CreateFile","C:\WINDOWS\system32\shell32.dll","SUCCESS","Desired Access: Generic Read, Write Attributes, Disposition: Open, Options: Synchronous IO Non-Alert, Non-Directory File, Random Access, Attributes: N, ShareMode: Read, Write, AllocationSize: n/a, OpenResult: Opened"
 "12:29:21.0753065 PM","explorer.exe","1568","CreateFile","C:\WINDOWS\system32\shell32.dll","SUCCESS","Desired Access: Generic Read, Write Attributes, Disposition: Open, Options: Synchronous IO Non-Alert, Non-Directory File, Random Access, Attributes: N, ShareMode: Read, Write, AllocationSize: n/a, OpenResult: Opened"
 "12:29:21.0760927 PM","explorer.exe","1568","CreateFile","C:\Documents and Settings\Administrator\Desktop\Virus\Email-Flooder.Win32.Achis\Email-Flooder.Win32.Achis\desktop.ini","NAME NOT FOUND","Desired Access: Generic Read, Disposition: Open, Options: Synchronous IO Non-Alert, Non-Directory File, Attributes: n/a, ShareMode: Read, Write, Delete, AllocationSize: n/a"

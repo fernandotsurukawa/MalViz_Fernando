@@ -2000,7 +2000,7 @@ function applicationManager(globalData) {
                             })
                             .strength(function (l) {
                                 let n1 = l.source, n2 = l.target;
-                                let defaultValue = 0.8, procValue = 0.4;
+                                let defaultValue = 0.9, procValue = 0.4;
                                 // distance between processes are loose
                                 if (l.self) {
                                     return 1;
@@ -2017,11 +2017,11 @@ function applicationManager(globalData) {
                         .force("center", d3.forceCenter(wPosition, hPosition))
 
                         .force("charge", d3.forceManyBody()
-                            .strength(d => d.dummy ? -200 : -100)
+                            .strength(d => d.dummy ? -30 : -100)
                         )
                         .force("collide", d3.forceCollide()
                             .radius(10)
-                            .strength(0.4)
+                            .strength(0.6)
                         )
                         .velocityDecay(0.5)     // friction
                         .on("tick", ticked)
@@ -2187,8 +2187,6 @@ function applicationManager(globalData) {
 
                         .on("mouseout", function () {
                             div5
-                                .transition()
-                                .duration(100)
                                 .style("opacity", 0);
                         })
                     ;

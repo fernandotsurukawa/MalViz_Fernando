@@ -184,6 +184,9 @@
                     <option value="Logfile_V1.CSV">Cerber &nbsp;&nbsp;✔</option>
                     
                 </select>
+                <br><br>
+                or a local file:
+                <input type="file" id="input" onchange="handleFiles">
                 <div id="domainBox"
                      class="w3-bar w3-white domainBox">
                     <a class="w3-bar-item" style="width: 0px; padding: 0"></a>
@@ -267,6 +270,10 @@
 <div id="loading">
     <img id="loading-image" height="200" width="200" src="images/squareloader2.gif" alt="Loading..."/>
 </div>
+<script src="js/ultility.js"></script>
+<script src="js/variables.js"></script>
+<script src="js/main.js"></script>
+<script src="js/getLibData.js"></script>
 <script>
     document.getElementById("mySidenavRank").style.height = $(window).height();
     var rankEvent, libEvent;
@@ -280,8 +287,8 @@
             // .transition().delay(7000).duration(1000)
             // .style('left', null)
             .on('end', function () {
-            d3.select(d).classed("pulse", true);
-        });
+                d3.select(d).classed("pulse", true);
+            });
     }
 
     function openNav() {
@@ -316,12 +323,7 @@
     }
     // Get the element with id="defaultOpen" and click on it
     document.getElementById("defaultOpen").click();
-</script>
-<script src="js/ultility.js"></script>
-<script src="js/init.js"></script>
-<script src="js/main.js"></script>
-<script src="js/getLibData.js"></script>
-<script>
+
     let divOperation = d3.select("body").append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
@@ -346,6 +348,10 @@
         .attr("class", "tooltip5")
         .style("opacity", 0);
 
+    // load domain file
+
+
+    // load available file
     $('select#selectmalware').on('change', function (e) {
         let optionSelected = $("option:selected", this);
         let valueSelected = this.value;
@@ -358,95 +364,142 @@
         init(valueSelected);
     });
 
+    // load local file
+    const inputElement = document.getElementById("input");
+    inputElement.addEventListener("change", handleFiles, false);
+    function handleFiles() {
+        const fileList = this.files; /* now you can work with the file list */
+        var file = fileList[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            let loading = d3.select('body').append('div').attr('id', 'loading');
+            loading.append('img')
+                .attr('id', 'loading-image')
+                .attr('src', 'images/squareloader2.gif')
+                .attr("height", "200")
+                .attr("height", "200");
+            // The file's text will be printed here
+            lensingStatus = false;
+            streamEvent = false;
+            rankEvent = 0;
+            libEvent = 0;
+            closeNav();
+            document.getElementById("streamCheck").checked = false;
+            let data = d3.csvParse(e.target.result).map(d => {
+                return {
+                                Timestamp: d['Time_of_Day'],
+                                PID: d['PID'],
+                                Process_Name: d['Process_Name'],
+                                Operation: d["Operation"],
+                                Path: d["Path"],
+                                Detail: d["Detail"]
+                            }
+            });
+
+            d3.queue()
+                .defer(d3.csv, "data/domain.csv")
+                .await(function (error, domain) {
+                    loadData(error, data, domain)
+                });
+        };
+        reader.readAsText(file);
+    }
+
     let init = function (filePath) {
         lensingStatus = false;
         streamEvent = false;
         rankEvent = 0;
         libEvent = 0;
         closeNav();
-        document.getElementById("streamCheck").checked = false;
         d3.queue()
             .defer(d3.csv, "data/" + filePath, function (d) {
                 return {
-                    Timestamp: d['Time_of_Day'],
+                    Timestamp: d['Time of Day'],
                     PID: d['PID'],
-                    Process_Name: d['Process_Name'],
+                    Process_Name: d['Process Name'],
                     Operation: d["Operation"],
                     Path: d["Path"],
                     Detail: d["Detail"]
                 }
             })
             .defer(d3.csv, "data/domain.csv")
-            .await(function (error, original_data, domain) {
-                if (error) {
-                    console.error(error);
-                }
-                else {
-                    let data = ProcessDataV2(original_data, domain);
-                    let SiteManager = applicationManager(data); //Initialize application
-                    SiteManager.drawStats('#stats'); //Draw statistic map
-                    SiteManager.malist("#commonOp");
-                    SiteManager.drawMain('#heatmap');//Draw mainMap
-                    SiteManager.connectedDomain();
-                    // for running --------------------
-                    d3.select("#sideNavbtn")
-                        .on("click", () => {
-                            if (rankEvent == 1) {
-                                SiteManager.highlight('#ranked'); // hightlight
-                                rankEvent = 2;
-                            }
-                        });
-
-                    // for testing --------------------
-                    // openNav();
-                    // SiteManager.highlight('#ranked');
-                    // --------------------------------
-
-                    d3.select("#libTabName")
-                        .on("click", () => {
-                            if (!libEvent){
-                                libEvent = 1;
-                                console.log("first lib");
-                                var lib = libManager(data);
-                                let maxcalls = lib.getCallRange().maxcall;
-
-                                $("#btnName").click(function () {
-                                        lib.sort2DMatrix('similarity')
-                                    }
-                                );
-                                $("#btnNum").click(function () {
-                                        lib.sort2DMatrix('numlinks')
-                                    }
-                                );
-                                $("#btnCount").click(function () {
-                                        lib.sort2DMatrix('numcount')
-                                    }
-                                );
-
-                                $(function () {
-                                    let handle = $("#custom-handle");
-                                    $("#slider").slider({
-                                        min: 0,
-                                        value: 3,
-                                        max: maxcalls,
-                                        create: function () {
-                                            handle.text($(this).slider("value"));
-                                        },
-                                        slide: function (event, ui) {
-                                            $("#amount").val("Min: " + ui.value + " - Max: " + maxcalls);
-                                            handle.text(ui.value);
-                                            lib.updateRangeFilter(ui.value, maxcalls)
-                                        }
-                                    });
-                                    $("#amount").val("Min: " + 3 + " - Max: " + maxcalls);
-                                });
-                                lib.updateRangeFilter(3, maxcalls);
-                                isready = true;
-                            }
-                        });
-                }
-            });
+            .await(loadData);
     };
+
+    let loadData =
+        function (error, original_data, domain) {
+        if (error) {
+            console.error(error);
+        }
+        else {
+            document.getElementById("commonSelection").checked = false;
+            document.getElementById("opSelection").checked = true;
+            document.getElementById("streamCheck").checked = false;
+
+            let data = ProcessDataV2(original_data, domain);
+            let SiteManager = applicationManager(data); //Initialize application
+            SiteManager.drawStats('#stats'); //Draw statistic map
+            SiteManager.malist("#commonOp");
+            SiteManager.drawMain('#heatmap');//Draw mainMap
+            SiteManager.connectedDomain();
+            // for running --------------------
+            d3.select("#sideNavbtn")
+                .on("click", () => {
+                    if (rankEvent == 1) {
+                        SiteManager.highlight('#ranked'); // hightlight
+                        rankEvent = 2;
+                    }
+                });
+
+            // for testing --------------------
+            // openNav();
+            // SiteManager.highlight('#ranked');
+            // --------------------------------
+
+            d3.select("#libTabName")
+                .on("click", () => {
+                    if (!libEvent){
+                        libEvent = 1;
+                        console.log("first lib");
+                        var lib = libManager(data);
+                        let maxcalls = lib.getCallRange().maxcall;
+
+                        $("#btnName").click(function () {
+                                lib.sort2DMatrix('similarity')
+                            }
+                        );
+                        $("#btnNum").click(function () {
+                                lib.sort2DMatrix('numlinks')
+                            }
+                        );
+                        $("#btnCount").click(function () {
+                                lib.sort2DMatrix('numcount')
+                            }
+                        );
+
+                        $(function () {
+                            let handle = $("#custom-handle");
+                            $("#slider").slider({
+                                min: 0,
+                                value: 3,
+                                max: maxcalls,
+                                create: function () {
+                                    handle.text($(this).slider("value"));
+                                },
+                                slide: function (event, ui) {
+                                    $("#amount").val("Min: " + ui.value + " - Max: " + maxcalls);
+                                    handle.text(ui.value);
+                                    lib.updateRangeFilter(ui.value, maxcalls)
+                                }
+                            });
+                            $("#amount").val("Min: " + 3 + " - Max: " + maxcalls);
+                        });
+                        lib.updateRangeFilter(3, maxcalls);
+                        isready = true;
+                    }
+                });
+        }
+    }
     init("Huyen-Ransomware-WannaPeace.csv");
 
     var list = {

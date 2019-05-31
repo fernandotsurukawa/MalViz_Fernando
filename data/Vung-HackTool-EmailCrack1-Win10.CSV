@@ -1,4 +1,4 @@
-﻿"Time_of_Day","Process_Name","PID","Operation","Path","Result","Detail"
+﻿"Time of Day","Process Name","PID","Operation","Path","Result","Detail"
 "10:57:50.7972801 AM","svchost.exe","760","WriteFile","C:\Windows\System32\winevt\Logs\Microsoft-Windows-Store%4Operational.evtx","SUCCESS","Offset: 15,339,520, Length: 512"
 "10:57:50.7973099 AM","svchost.exe","760","WriteFile","C:\Windows\System32\winevt\Logs\Microsoft-Windows-Store%4Operational.evtx","SUCCESS","Offset: 15,382,688, Length: 2,976"
 "10:57:50.8283437 AM","svchost.exe","1228","UDP Send","a00:20f::8821:b3d2:8ab7:ffff:53424 -> 8176:12f:::domain","SUCCESS","Length: 34, seqnum: 0, connid: 0"
