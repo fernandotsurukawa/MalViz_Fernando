@@ -2165,9 +2165,43 @@ function applicationManager(globalData) {
                             }
                         })
                         .on("mouseover", function (d) {
-                            if (d.nodes) {
+                            console.log(d);
+                            if (d.id) {
                                 div5.transition()
-                                    .duration(100)
+                                    .style("opacity", 1);
+
+                                div5.html('Node: ' +
+                                    '<text class = "bold"> ' + d.id + "</text>" +
+                                    "<br/> Type: " +
+                                    '<text class = "bold">' + d.type + "</text>"
+                                )
+                                    .style("left", (d3.event.pageX) + 10 + "px")
+                                    .style("top", (d3.event.pageY - 20) + "px")
+                                    .style("pointer-events", "none")
+                                    .style("color", () => {
+                                            return getColor(d.type)
+                                        }
+                                    )
+                            }
+                            else if (d.size == 1) {
+                                div5.transition()
+                                    .style("opacity", 1);
+
+                                div5.html('Node: ' +
+                                    '<text class = "bold"> ' + d.nodes[0].id + "</text>" +
+                                    "<br/> Type: " +
+                                    '<text class = "bold">' + d.nodes[0].type + "</text>"
+                                )
+                                    .style("left", (d3.event.pageX) + 10 + "px")
+                                    .style("top", (d3.event.pageY - 20) + "px")
+                                    .style("pointer-events", "none")
+                                    .style("color", () => {
+                                            return getColor(d.nodes[0].type)
+                                        }
+                                    )
+                            }
+                            else {
+                                div5.transition()
                                     .style("opacity", 1);
 
                                 div5.html('Type: ' +
