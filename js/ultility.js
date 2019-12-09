@@ -46,6 +46,8 @@ function ProcessDataV2(originalData, domain) {
         obj.currenttimestamp = currentTimeStamp;
         obj.Step = currentStep;
         obj.Process = getOperationType(row.Operation);
+        obj.index = index; //globalData.index refers to the index on the CSV
+        obj.order = index; //globalData.order is further manipulated to represent the order of the operation within a process only
 
         for (var i = 0; i < processNameList.length; i++) {
             if (row.Path.toLowerCase().endsWith("\\" + processNameList[i])) {
@@ -89,6 +91,25 @@ function ProcessDataV2(originalData, domain) {
         previoustime = currentTimeStamp;
         previoustep = currentStep;
     });
+
+    //distinct is an array formed by the distinct processes throughout the globalData
+    var distinctProcesses = Array.from(new Set(globalData.map(s => s.Process_Name)));
+
+    //the following loop searches globalData for the minimum index of each process in distinct and stores it into distinctIndex
+    let distinctIndices = [];
+    distinctProcesses.forEach((element, index) => {
+        distinctIndices[index] = globalData.filter(data => {
+            return data.Process_Name == element;
+        })[0].order;
+    });
+
+    //the following loop iterates through globalData subtracting each order with its distinctIndex
+    globalData.forEach(element => {
+        let process = element.Process_Name;
+        let processNumber = distinctProcesses.indexOf(process);
+        element.order = element.order - distinctIndices[processNumber];
+    });
+
     return globalData;
 }
 

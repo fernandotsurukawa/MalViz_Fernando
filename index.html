@@ -182,8 +182,27 @@
                     <option value="Vung-HackTool-Stealm1-Win10.CSV">Vung-HackTool-Stealm1-Win10 &nbsp;&nbsp;✔</option>
                     <option value="Vung-HackTool-Stealm-Win10.CSV">Vung-HackTool-Stealm-Win10 &nbsp;&nbsp;✔</option>
                     <option value="Logfile_V1.CSV">Cerber &nbsp;&nbsp;✔</option>
-                    
+                    <option value="resultingData.CSV">resultingData &nbsp;&nbsp;✔</option>
+
                 </select>
+
+                <div id = "otherInputs" style="width: 100%; overflow: hidden;">
+                    <!-- Rounded switch -->
+                    <div style="width: 100px; float: left;">
+                        <label class="switch">
+                            <p><b id = "buttonText">Toggle Display Mode</b>
+                                <input type="checkbox" id="isOrderedCheck">
+                                <span class="slider round"></span>
+                            </p>
+                        </label>
+                    </div>
+
+                    <div style="margin-left: 120px;">
+                        <div class="col-sm-2"><p id="value-width"></p></div>
+                        <div class="col-sm"><div id="slider-width"></div></div>
+                    </div>
+                </div>
+
                 <br><br>
                 or a local file:
                 <input type="file" id="input" onchange="handleFiles">
@@ -263,9 +282,13 @@
                     </div>
                 </div>
         </div>
+
+        <h4 class="w3-spirals"><b>Processes in spirals</b></h4>
+        <div class="w3-threequarter w3-container w3-margin-bottom" style="width:100%">
+            <div class="w3-container w3-white" id="spiralMap" style="overflow-x: auto"></div>
+        </div>
+
     </div>
-
-
 </div>
 <div id="loading">
     <img id="loading-image" height="200" width="200" src="images/squareloader2.gif" alt="Loading..."/>
@@ -274,6 +297,7 @@
 <script src="js/variables.js"></script>
 <script src="js/main.js"></script>
 <script src="js/getLibData.js"></script>
+<script src="https://unpkg.com/d3-simple-slider"></script>
 <script>
     document.getElementById("mySidenavRank").style.height = $(window).height();
     var rankEvent, libEvent;
@@ -381,6 +405,7 @@
             // The file's text will be printed here
             lensingStatus = false;
             streamEvent = false;
+            isOrderedEvent = false;
             rankEvent = 0;
             libEvent = 0;
             closeNav();
@@ -408,6 +433,7 @@
     let init = function (filePath) {
         lensingStatus = false;
         streamEvent = false;
+        isOrderedEvent = false;
         rankEvent = 0;
         libEvent = 0;
         closeNav();
@@ -435,6 +461,7 @@
             document.getElementById("commonSelection").checked = false;
             document.getElementById("opSelection").checked = true;
             document.getElementById("streamCheck").checked = false;
+            document.getElementById("isOrderedCheck").checked = false;
 
             let data = ProcessDataV2(original_data, domain);
             let SiteManager = applicationManager(data); //Initialize application
@@ -500,7 +527,7 @@
                 });
         }
     }
-    init("Huyen-Ransomware-WannaPeace.csv");
+    init("resultingData.CSV");
 
     var list = {
         "CloseFile": {"operation": "FileSystem", "index": 0},
